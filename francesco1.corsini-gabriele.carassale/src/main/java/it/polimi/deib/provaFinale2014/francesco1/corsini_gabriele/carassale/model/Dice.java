@@ -1,4 +1,4 @@
-package model;
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 
 public class Dice {

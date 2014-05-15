@@ -1,4 +1,4 @@
-package model;
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
  
 public class Road {
@@ -9,13 +9,13 @@ public class Road {
     private boolean shepard;
     private final int roadNumber;
 
-//inizializzo con il numero di strada. I territori confinanti saranno collegati solo quando tutti gli oggetti Terrain saranno costruiti
+    //inizializzo con il numero di strada. I territori confinanti saranno collegati solo quando tutti gli oggetti Terrain saranno costruiti
     public Road (int number) {
         roadNumber = number;
         adjacentTerrain[0] = null;
         adjacentTerrain[1] = null;
     }
-
+    
     public Terrain getAdjacentTerrain1 () {
         return adjacentTerrain[0];
     }
@@ -44,14 +44,17 @@ public class Road {
     public int getRoadNumber () {
         return roadNumber;
     }
-    //serve per collegare il terreno alla strada una volta creato il terreno
-    public void connectTerrainRoad (Terrain terrain) {
+    //serve per collegare il terreno alla strada una volta creato il terreno. La exeption viene sollevata se si prova a mettere il 3° territorio
+    public void connectTerrainRoad (Terrain terrain) throws TerrainBoundariesExeption{
+        
         if(adjacentTerrain[0] == null)
             adjacentTerrain[0] = terrain;
-        else
+        else if(adjacentTerrain[1] == null)
             adjacentTerrain[1] = terrain;
+        else 
+            throw new TerrainBoundariesExeption();
     }
-
+  
 
 }
 
