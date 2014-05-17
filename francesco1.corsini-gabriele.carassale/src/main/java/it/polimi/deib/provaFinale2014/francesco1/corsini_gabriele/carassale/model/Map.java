@@ -3,13 +3,19 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 import java.util.ArrayList; 
 import java.util.Iterator;
 
-
+/**
+ * Classe Mappa che serve ad inizializzare e collegare tra loro i territori e le strade
+ * @author Francesco Corsini
+ */
 public class Map {
 
     private ArrayList<Road> roads;
     private ArrayList<Terrain> terrain;
 
-    //in questo costruttore viene creata la mappa da codice(hard coded)
+   /**
+    * In questo costruttore viene creata la mappa vera e propria inizializzando creando i terreni, poi creado le strade e connettendole ai terreni, 
+    * poi connettendo i terreni alle strade, poi connettendo le strade con le strade. La mappa di default è inserita direttamente nel codice
+    */
     public Map () {
         for(int i=0;i<17;i++){
             terrain.add(generateTerrain(i));    
@@ -40,6 +46,11 @@ public class Map {
         return terrain;
     }
     
+    /**
+     * crea i terreni
+     * @param i : id del terreno, da 0 a 17
+     * @return ritorna i terreno generato che sarà aggiunto all'ArrayList
+     */
     private Terrain generateTerrain(int i){
         
             Terrain ter = new Terrain();
@@ -64,6 +75,12 @@ public class Map {
             return ter;
     }
     
+    /**
+     * crea le strade e le connette ai terreni confinanti
+     * @param id : id della strada, da 0 a 42
+     * @return ritorna la strada generata che sarà aggiunta all'ArrayList
+     * @throws TerrainBoundariesExeption viene sollevato nel caso di aggiunta di un 3° territorio(una strada può averne massimo due)
+     */
     private Road generateRoad(int id) throws TerrainBoundariesExeption{
         Road road = new Road(id);
         road.setId(id);
@@ -281,6 +298,10 @@ public class Map {
         return road;   
     }
     
+    /**
+     * connette le strade ai terreni, facendo il confronto tra terreno confinante a strada e terreno i-esimo
+     * @param id : id del terreno da confrontare 
+     */
     private void connectRoadsToTerrains(int id){
 
         Iterator<Road> itr = roads.iterator();
@@ -289,7 +310,7 @@ public class Map {
             if(ele.getAdjacentTerrain1().equals(terrain.get(id))){
                 terrain.get(id).getAdjacentRoads().add(ele);
             }
-            else if(ele.getAdjacentTerrain1().equals(terrain.get(id))){
+            else if(ele.getAdjacentTerrain2().equals(terrain.get(id))){
                 terrain.get(id).getAdjacentRoads().add(ele);
             }
             
@@ -298,6 +319,10 @@ public class Map {
         }
     }
     
+    /**
+     * collega le strade : ogni strada saprà quale è la propria confinante
+     * @param id la strada i-esima
+     */
     private void connectRoadsToRoads(int id){
         
         if(id == 0){

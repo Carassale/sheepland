@@ -1,7 +1,10 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 
-
+/**
+ * Carte Terreno. Utile avere classe per poter gestire il loro scambio tra giocatori
+ * @author Francesco Corsini
+ */
 public class TerrainCard {
 
 

@@ -2,10 +2,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 
 import java.util.ArrayList; 
 
-
+/**
+ * Classe che modelizza il territorio singolo
+ * @author Francesco Corsini
+ */
 public class Terrain {
-
-
+    
     private ArrayList<Road> adjacentRoads;    
     private boolean sheepsbourg;
     private String terrainType;

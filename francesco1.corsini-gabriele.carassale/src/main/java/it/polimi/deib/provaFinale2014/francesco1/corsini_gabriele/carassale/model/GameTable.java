@@ -3,10 +3,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 import java.util.ArrayList;
 
 
-
+/**
+ * Classe che unisce tutti i componenti della plancia di gioco. Utile poichè minimizza le connessioni con il controllore
+ * @author Francesco Corsini
+ */
 public class GameTable {
-
-
+    
     private int fenceNumber;
     private ArrayList<Sheep> sheeps;
     private final BlackSheep blacksheep;
@@ -14,8 +16,12 @@ public class GameTable {
     private final Map map;
     private ArrayList<TerrainCard> terrainCardPool;
     private ArrayList<Shepard> shepards;
-    private Dice dice;
+
     
+    
+    /**
+     * inizializzazione che genera tutti gli elementi sulla tavola
+     */
     public GameTable () {
         fenceNumber = 20;
         map = new Map();
@@ -29,10 +35,7 @@ public class GameTable {
     public BlackSheep getBlacksheep () {
         return blacksheep;
     }
- 
-    public Dice getDiceNumber () {
-        return dice;
-    }
+
 
     public void decreaseFenceNumber () {
         fenceNumber--;
@@ -69,6 +72,10 @@ public class GameTable {
         return wolf;
     }
 
+
+    /**
+     * crea una pecora per terreno
+     */
     public void  initializeSheeps(  ){
         for(int i=0;i<17;i++){
             Sheep sheep = new Sheep(map.getTerrain().get(i), true);
@@ -78,6 +85,9 @@ public class GameTable {
             
     }
     
+    /**
+     * crea le carte terreno(non le distribuisce)
+     */
     public void  initializeTerrainCards(  ){
         for(int i=0;i<29;i++){
             TerrainCard terCar = new TerrainCard();
