@@ -8,7 +8,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 public abstract class Animal {
 
      
-    Terrain position;
+    Terrain position = new Terrain();
 
 
     public Animal () {

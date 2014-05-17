@@ -8,10 +8,10 @@ import java.util.ArrayList;
  */
 public class Terrain {
     
-    private ArrayList<Road> adjacentRoads;    
+    private ArrayList<Road> adjacentRoads = new ArrayList<Road>();    
     private boolean sheepsbourg;
     private String terrainType;
-    private ArrayList<Animal> animals;
+    private ArrayList<Animal> animals = new ArrayList<Animal>();
     private int ID;
 
     public Terrain () {
