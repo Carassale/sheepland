@@ -1,34 +1,39 @@
-package model;
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
+
+import java.util.Iterator;
 
 
-// <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-// #[regen=yes,id=DCE.CD62C96A-2A52-A05D-CA1E-0CAE633F68C7]
-// </editor-fold> 
+
 public class Shepard {
 
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.B2A1AEAC-3735-8BE5-9A7C-B265588F2057]
-    // </editor-fold> 
     private Road position;
 
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,id=DCE.62A9A892-1A3E-DF25-E237-0C0A00B3EEA3]
-    // </editor-fold> 
-    public Shepard () {
+    public Shepard (Road road) {
+        position = road;
+        position.setShepard(true);
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,regenBody=yes,id=DCE.D36FBA7A-8F81-682C-8EB5-5860BC5D9CCE]
-    // </editor-fold> 
     public Road getPosition () {
         return position;
     }
 
-    // <editor-fold defaultstate="collapsed" desc=" UML Marker "> 
-    // #[regen=yes,regenBody=yes,id=DCE.254F9A66-7478-CE13-0CEC-2E81110920F4]
-    // </editor-fold> 
-    public void setPosition (Road val) {
-        this.position = val;
+    //Muove il pastore verso una nuova posizione. Piazza la fence cambiando posizione
+    public void setPosition (Road destination) {
+        position.setFence(true);
+        position.setShepard(false);
+        destination.setShepard(true);
+    }
+    
+    //ritorna true se la mossa che si sta per compiere costa un denaro. Devo vederlo dal Player
+    public boolean  isExpensiveMove( Road destination ){
+        
+        Iterator<Road> itr = position.getAdjacentRoad().iterator();
+        while(itr.hasNext()) {
+            Road ele = itr.next();
+            if(ele.equals(destination))
+                return false;            
+        }
+        return true;
     }
 
 }

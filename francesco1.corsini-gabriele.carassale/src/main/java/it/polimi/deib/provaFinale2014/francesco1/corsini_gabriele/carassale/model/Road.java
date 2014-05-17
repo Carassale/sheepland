@@ -1,13 +1,17 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import java.util.ArrayList;
+
  
 public class Road {
 
 
     private Terrain[] adjacentTerrain = new Terrain[2];
+    private ArrayList<Road> adjacentRoad;
     private boolean fence;
     private boolean shepard;
-    private final int roadNumber;
+    private int roadNumber;
+    private int id;
 
     //inizializzo con il numero di strada. I territori confinanti saranno collegati solo quando tutti gli oggetti Terrain saranno costruiti
     public Road (int number) {
@@ -55,6 +59,20 @@ public class Road {
             throw new TerrainBoundariesExeption();
     }
   
-
+    public int  getId(  ){
+        return id;
+    }
+    
+    public void  setId( int val ){
+        id = val;
+    }
+    
+    public void  setRoadNumber( int val ){
+        roadNumber = val;
+    }
+    
+    public ArrayList<Road>  getAdjacentRoad(  ){
+        return adjacentRoad;
+    }
 }
 

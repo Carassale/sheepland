@@ -7,7 +7,8 @@ import java.util.Iterator;
 public class BlackSheep extends Animal {
 
 
-    public BlackSheep () {
+    public BlackSheep (Terrain terr) {
+        position = terr;
     }
 
     //lancia il dado e controlla se c'è una strada confinante con quel valore

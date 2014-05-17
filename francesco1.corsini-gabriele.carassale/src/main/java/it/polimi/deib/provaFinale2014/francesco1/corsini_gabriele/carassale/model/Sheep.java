@@ -63,7 +63,10 @@ public class Sheep extends Animal {
 
 
     public boolean isWhiteSheep () {
-        return true;
+        if(old == false && "Female".equals(sex))
+            return true;
+        else
+            return false;
     }
 
 
@@ -82,12 +85,12 @@ public class Sheep extends Animal {
             return false;
     }
 
-    public boolean  getOld(  ){
+    public boolean  isOld(  ){
         return old;
     }
     
     public void  setOld( boolean val ){
-        
+        old = val;
     }
 }
 

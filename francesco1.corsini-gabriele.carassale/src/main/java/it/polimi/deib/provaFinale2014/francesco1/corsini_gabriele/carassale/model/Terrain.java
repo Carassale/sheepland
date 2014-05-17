@@ -5,18 +5,12 @@ import java.util.ArrayList;
 
 public class Terrain {
 
-    //TODO make adjacentRoads Final
-    private ArrayList<Road> adjacentRoads;
 
-    
+    private ArrayList<Road> adjacentRoads;    
     private boolean sheepsbourg;
-
-
     private String terrainType;
-
-
     private ArrayList<Animal> animals;
-
+    private int ID;
 
     public Terrain () {
     }
@@ -50,7 +44,9 @@ public class Terrain {
         return sheepsbourg;
     }
 
-
+    public void  setSheepsbourg( boolean val ){
+        sheepsbourg = val;
+    }
     public String getTerrainType () {
         return terrainType;
     }
@@ -60,5 +56,12 @@ public class Terrain {
         this.terrainType = val;
     }
 
+    public int  getID(  ){
+        return ID;
+    }
+    
+    public void  setID( int val ){
+        ID = val;
+    }
 }
 
