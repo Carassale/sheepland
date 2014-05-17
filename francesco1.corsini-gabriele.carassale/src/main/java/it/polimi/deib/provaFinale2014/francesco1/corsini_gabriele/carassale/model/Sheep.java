@@ -1,16 +1,23 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 
-
+/**
+ * Classe Percora che include pecore, agnelli e montoni
+ * @author Francesco Corsini
+ */
 public class Sheep extends Animal {
 
-    //da questi due attributi poi possiamo capire se una Sheep è un Lamb o Ram
+    // questi attributi bastano per capire se una Sheep è un Lamb o Ram
     private int age;
     private String sex;
     private boolean old;
 
-    //il boolean serve a distinguere se sto creando la pecora per inizializzare il gioco(tipologia randomica)
-    //o se nasce da accoppiamento(tipologia Lamb)
+
+    /**
+     * 
+     * @param terrain : dove viene posizionato
+     * @param initialization : serve a capire se sto creando pecore per inizializzazione gioco(tipologia randomica) o se nasce da accoppiamento(agnello)
+     */
     public Sheep (Terrain terrain, boolean initialization) {
         position = terrain;
         if(initialization == false){
@@ -26,8 +33,13 @@ public class Sheep extends Animal {
             else
                 old = true;
         }
+        position.addAnimal(this);
     }
     
+    /**
+     * 
+     * @return Stringa con maschi o femmina
+     */
     private String randomSex(){
         if(Math.random() < 0.5)
             return "female";
