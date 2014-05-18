@@ -9,18 +9,18 @@ import java.util.Iterator;
  */
 public class Map {
 
-    private ArrayList<Road> roads;
-    private ArrayList<Terrain> terrain;
+    private ArrayList<Road> roads = new ArrayList<Road>();
+    private ArrayList<Terrain> terrain = new ArrayList<Terrain>();
 
    /**
     * In questo costruttore viene creata la mappa vera e propria inizializzando creando i terreni, poi creado le strade e connettendole ai terreni, 
     * poi connettendo i terreni alle strade, poi connettendo le strade con le strade. La mappa di default è inserita direttamente nel codice
     */
     public Map () {
-        for(int i=0;i<17;i++){
+        for(int i=0;i<=18;i++){
             terrain.add(generateTerrain(i));    
         }
-        for(int i=0;i<41;i++){
+        for(int i=0;i<=41;i++){
             try{
             roads.add(generateRoad(i));                
             }

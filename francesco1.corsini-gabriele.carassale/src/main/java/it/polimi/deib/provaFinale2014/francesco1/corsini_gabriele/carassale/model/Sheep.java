@@ -30,8 +30,10 @@ public class Sheep extends Animal {
                 age = 0;
                 old = false;
             }    
-            else
+            else{
+                age = 4;
                 old = true;
+            }
         }
         position.addAnimal(this);
     }
@@ -75,7 +77,7 @@ public class Sheep extends Animal {
 
 
     public boolean isWhiteSheep () {
-        if(old == false && "Female".equals(sex))
+        if(old == true && "Female".equals(sex))
             return true;
         else
             return false;

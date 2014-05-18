@@ -6,25 +6,22 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
-import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author Fefa
  */
-public class BlackSheepTest {
-
+public class WolfTest {
+    
     private static Terrain terrain0,terrain1,terrain2,terrain3,terrain4,terrain5,terrain6;
     private static Road road1,road2,road3,road4,road5,road6;
-    private static BlackSheep bsheep;
+    private static Wolf wolf;
     
     @Before
-    public void setUpClass() {
+    public void setUp() {
         terrain0 = new Terrain();
         terrain1 = new Terrain();
         terrain2 = new Terrain();
@@ -78,35 +75,17 @@ public class BlackSheepTest {
         terrain5.getAdjacentRoads().add(road5);
         terrain6.getAdjacentRoads().add(road6);
         
-        bsheep = new BlackSheep(terrain0);
-        
+        wolf = new Wolf(terrain0);
     }
-   
+
     /**
-     * Test per vedere se è dove inizializzata
+     * inizialmente è in terreno 0, poi lo faccio muovere e vedo se è in un altro terreno
      */
-  
-    
-    
-    /**
-     * Test per vedere se si muove quando si chiama funzione hasToMove
-     */
-    
     @Test
     public void testHasToMove() {
-        
-        bsheep.hasToMove();
-        assertNotSame(terrain0,bsheep.getPosition());
-    }
-    
-      @Test
-    public void stayWhereInizialized() {
-        assertSame(terrain0,bsheep.getPosition());
+        assertSame(terrain0,wolf.getPosition());
+        wolf.hasToMove();
+        assertNotSame(terrain0,wolf.getPosition());
     }
     
 }
-  
-
-    
-    
-  

@@ -45,10 +45,11 @@ public class BlackSheep extends Animal {
             position = terrain2;
             position.addAnimal(this);            
         }
-        else if(position == terrain2)
+        else if(position == terrain2) {
             position.deleteAnimal(this);
             position = terrain1;
             position.addAnimal(this);  
+        }    
     }
     
 }

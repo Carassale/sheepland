@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Road {
 
     private Terrain[] adjacentTerrain = new Terrain[2];
-    private ArrayList<Road> adjacentRoad;
+    private ArrayList<Road> adjacentRoad = new ArrayList<Road>();
     private boolean fence;
     private boolean shepard;
     private int roadNumber;
@@ -24,6 +24,8 @@ public class Road {
         roadNumber = number;
         adjacentTerrain[0] = null;
         adjacentTerrain[1] = null;
+        fence = false;
+        shepard = false;
     }
     
     public Terrain getAdjacentTerrain1 () {

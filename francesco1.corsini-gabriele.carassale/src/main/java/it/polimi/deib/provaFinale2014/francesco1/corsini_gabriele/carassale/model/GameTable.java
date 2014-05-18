@@ -10,12 +10,12 @@ import java.util.ArrayList;
 public class GameTable {
     
     private int fenceNumber;
-    private ArrayList<Sheep> sheeps;
+    private ArrayList<Sheep> sheeps = new ArrayList<Sheep>();
     private final BlackSheep blacksheep;
     private final Wolf wolf;
     private final Map map;
-    private ArrayList<TerrainCard> terrainCardPool;
-    private ArrayList<Shepard> shepards;
+    private ArrayList<TerrainCard> terrainCardPool = new ArrayList<TerrainCard>();
+    private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
 
     
     
@@ -42,7 +42,7 @@ public class GameTable {
     }
 
     public int getFenceNumber () {
-        return 0;
+        return fenceNumber;
     }
         
     public Map getMap () {

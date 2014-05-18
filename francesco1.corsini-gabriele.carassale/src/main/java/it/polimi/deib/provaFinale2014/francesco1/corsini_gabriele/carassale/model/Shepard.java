@@ -33,6 +33,7 @@ public class Shepard {
         position.setFence(true);
         position.setShepard(false);
         destination.setShepard(true);
+        position = destination;
     }
     
     //ritorna true se la mossa che si sta per compiere costa un denaro. Devo vederlo dal Player
