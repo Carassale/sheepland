@@ -7,11 +7,17 @@ import java.util.ArrayList;
 public class GameController {
 
     private PlayerPool playerPool;
-
     private GameTable gameTable;
 
+    /**
+     * Controllore di gioco che controlla che le mosse siano corrette e che le esegue in parte
+     * //TODO ricordarsi il controllo sulle mosse giuste
+     * //TODO posizionamento Shepards
+     * @param playerConnections 
+     */
     public GameController(ArrayList<? extends PlayerConnection> playerConnections) {
     }
+
 
     public void playRound() {
     }

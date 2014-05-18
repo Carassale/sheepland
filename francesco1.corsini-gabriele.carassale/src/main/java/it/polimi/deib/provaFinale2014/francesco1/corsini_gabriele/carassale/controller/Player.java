@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Map;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -9,15 +10,38 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+
+/**
+ * Classe che modellizza il Giocatore come controllore, rendendo disponibili le varie mosse.
+ * @author Francesco Corsini
+ */
 public class Player {
 
-    private ArrayList<Shepard> shepards;
-    private TerrainCard terrainCardsOwned;
+    private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
+    private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
     private int coins;
     private String nickName;
 
+    //TODO posizionamento shepards
+    
+    /**
+     * solo usato per i test
+     * @param playerConnection 
+     */
+    public Player() {
+        coins = 20;
+        
+        //serve per inizializzare la lista di liste dell TerrainCardPool
+        for(int i=0;i<6;i++){
+            ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
+            terrainCardsOwned.add(list);
+        }
+    }
+    
     public Player(PlayerConnection playerConnection) {
+        
     }
 
 //    public Player(RMI rmi) {
@@ -26,24 +50,116 @@ public class Player {
         return shepards;
     }
 
-    public TerrainCard getTerrainCardsOwned() {
-        return terrainCardsOwned;
+    /**
+     * Ritorna la lista di carte possedute della tipologia desiderata
+     * @param string tipologia territorio
+     * @return lista dei territori di quella tipologia
+     */
+    public ArrayList<TerrainCard> getTerrainCardsOwned(String string) {
+        if("Plain".equals(string))
+            return terrainCardsOwned.get(0);
+        else if("Forest".equals(string))
+            return terrainCardsOwned.get(1);
+        else if("River".equals(string))
+            return terrainCardsOwned.get(2);
+        else if("Desert".equals(string))
+            return terrainCardsOwned.get(3);
+        else if("Mountain".equals(string))
+            return terrainCardsOwned.get(4);
+        else 
+            return terrainCardsOwned.get(5);
     }
 
-    public boolean buyTerrainCard(String terrainKind, ArrayList<Integer> terrainCardPool) {
-        return true;
+    /**
+     * Metodo che permette al giocatore di comprare una carta terreno
+     * @param terrainKind la tipologia di terreno che si intende comprare
+     * @param game il gameTable su cui si sta giocando 
+     * @throws CoinException se i soldi non sono sufficenti a comprare la carta
+     */
+    public void buyTerrainCard(String terrainKind, GameTable game) throws CoinException{
+        int cardLeft = game.getTerrainCardPool(terrainKind).size();
+        int cost = 5-cardLeft;
+        if(this.coins >= cost){
+            coins = coins - cost;
+            TerrainCard newTerrCard = new TerrainCard(terrainKind);
+            this.getTerrainCardsOwned(terrainKind).add(newTerrCard);
+            game.getTerrainCardPool(terrainKind).remove(0);
+        }
+        else
+            throw new CoinException();
     }
 
-    public boolean moveShepard(Map map, Road destination, Shepard shepard, int fenceNumber) {
-        return true;
+    /**
+     * Metodo che muove un pastore da una strada ad un altra
+     * @param destination strada destinazione
+     * @param shepard pastore da muovere
+     * @param game gioco su cui si sta giocando
+     * @throws CoinException lanciata nel caso soldi insufficenti
+     * @throws MoveException lanciata nel caso mossa illegale
+     */
+    public void moveShepard(Road destination, Shepard shepard, GameTable game) throws CoinException,MoveException{
+    
+        boolean canMove = canMoveShepard(destination);
+        
+        if(canMove == true){
+            Road shepPos = shepard.getPosition();
+            if(!(shepPos.isAdjacentRoad(destination))){
+                if(coins == 0)
+                    throw new CoinException();
+                else
+                    coins--;
+            }
+            shepPos.setFence(true);
+            shepPos.setHasShepard(false);
+            shepard.setPosition(destination);
+            shepard.getPosition().setHasShepard(true);
+        }
+        else
+            throw new MoveException();
     }
 
-    public boolean moveSheep(Map map, Animal animal, Terrain destination) {
-        return true;
+    /**
+     * Metodo per muove pecora tra due territori con in mezzo un pastore
+     * @param sheep pecora da muovere
+     * @param destination dove si vuole muovere
+     * @param game gioco su cui si sta giocando
+     * @throws MoveException lanciata nel caso mossa illegale
+     */
+    public void moveSheep(Sheep sheep, Terrain destination, GameTable game) throws MoveException{
+        
+        Road shepPos;
+        
+        shepPos = moveSheepOnRoad(sheep.getPosition(),destination);
+        if(playerHasShepardOnRoad(shepPos)){
+            sheep.getPosition().getAnimals().remove(sheep);
+            sheep.setPosition(destination);
+            sheep.getPosition().getAnimals().add(sheep);
+        }
+        else
+            throw new MoveException("Non c'è Shepard sulla strada");
     }
 
-    public boolean joinSheeps(Map map, Terrain terrain, ArrayList<Sheep> sheeps) {
-        return true;
+    
+    
+    //TODO lancio dado per vedere se si accoppiano
+    /**
+     * Metodo per fare accoppiare una pecora ed un montone e generare un agnello
+     * @param terrain terreno dove sono gli animali
+     * @param game gioco su cui si sta giocando
+     * @throws MoveException lanciata nel caso mossa illegale
+     */
+    public void joinSheeps(Terrain terrain, GameTable game) throws MoveException{
+        
+        if(isSheepAndRam(terrain)){
+            if(isShepardNear(terrain)){
+                Sheep sheep = new Sheep(terrain,false);
+            }
+            else
+                throw new MoveException("Non c'è vicino un pastore");
+                
+        }
+        else
+            throw new MoveException("Non ci sono una pecora ed un montone nel territorio");
     }
 
     public int getCoins() {
@@ -54,8 +170,27 @@ public class Player {
         this.coins = val;
     }
 
-    public boolean killAnimal(Map map, ArrayList<Sheep> sheeps, Sheep sheepToKill) {
-        return true;
+    public void killAnimal(Sheep sheepToKill, GameTable game) throws CoinException,MoveException,WrongDiceNumberException{
+        int shepardNearNumber = countShepardNear(sheepToKill.getPosition());
+        Terrain sheepPosition = sheepToKill.getPosition();
+        
+        if(coins >= shepardNearNumber*2){
+            if(isShepardNear(sheepPosition)){
+                int random = game.getDice().getRandom();
+                if(randomNumberForShepard(sheepPosition,random)){
+                    sheepPosition.deleteAnimal(sheepToKill);
+                    game.getSheeps().remove(sheepToKill);
+                    int payment = payShepards(sheepPosition);
+                }
+                else
+                    throw new WrongDiceNumberException(random);
+            }
+            else
+                throw new MoveException("Non c'è vicino un pastore");
+            }
+        else
+            throw new CoinException("Non abbastanza soldi per comprare silenzio di tutti i pastori");
+            
     }
 
     public String getNickName() {
@@ -65,5 +200,186 @@ public class Player {
     public void setNickName(String val) {
         this.nickName = val;
     }
+    
+    /**
+     * Metodo di servizio utilizzato da moveShepard che serve a vedere se la destinazione è valida
+     * @param destination
+     * @param game
+     * @return 
+     */
+    private boolean canMoveShepard(Road destination){
+        if(destination.hasFence() == true)
+            return false;
+        else if(destination.hasShepard() == true)
+            return false;
+        else
+            return true;         
+    }
+    
+    
+    /**
+     * Metodo di servizio utilizzato da moveSheep che serve a vedere se la mossa è valida
+     * @param terrainSheep terreno dove è la sheep
+     * @param terrainDestination terreno dove deve essere mossa
+     * @return la strada in mezzo tra i terreni dove ci deve essere lo shepard
+     * @throws MoveException viene lanciata se non c'è una strada tra i due territori
+     */
+    private Road moveSheepOnRoad(Terrain terrainSheep, Terrain terrainDestination) throws MoveException{
+        boolean isShepard = false;
+        Road shepPos = null;
+        
+        ArrayList<Road> roadsTerrainSheep = terrainSheep.getAdjacentRoads();
+        ArrayList<Road> roadsTerrainDestination = terrainDestination.getAdjacentRoads();
+        
+        Iterator<Road> itr = roadsTerrainSheep.iterator();
+        while(itr.hasNext()) {
+            Road ele = itr.next();
+            Iterator<Road> itr2 = roadsTerrainDestination.iterator();
+            while(itr2.hasNext()){
+                Road ele2 = itr2.next();
+                if(ele == ele2){
+                    shepPos = ele;
+                    isShepard = true;
+                }
+            }
+                        
+        }
+        if(isShepard == false)
+            throw new MoveException("Non esiste strada che comunica tra questi due territori");
+        
+        
+        return shepPos;
+    }
+    
+    /**
+     * Metodo di servizio utilizzato da moveSheepOnRoad per vedere se sulla strada dove devono trasitare le pecore 
+ c'è un pastore del giocatore che ha richiesto la mossa
+     * @param road strada dove devono passare le pecore
+     * @return true se c'è pastore del giocatore
+     */
+    private boolean playerHasShepardOnRoad(Road road){
+        boolean thereIsShepard = false;
+        
+        Iterator<Shepard> itr = shepards.iterator();
+        while(itr.hasNext()) {
+            Shepard ele = itr.next();
+            if(ele.getPosition().equals(road))
+                thereIsShepard = true;
+        }
+        return thereIsShepard;
+    }
+    
+    /**
+     * Metodo di servizio utilizzato da joinSheeps e per controllare se c'è una pecora ed un montone sul terreno
+     * @param terrain terreno da controllare
+     * @return true se ci sono entrambi
+     */
+    private boolean isSheepAndRam(Terrain terrain){
+        boolean thereIsSheep = false;
+        boolean thereIsRam = false;
+        
+        Iterator<Animal> itr = terrain.getAnimals().iterator();
+        while(itr.hasNext()){
+            Animal ele = itr.next();
+            if(ele instanceof Sheep){
+                Sheep sheep = (Sheep)ele;
+                if(sheep.isWhiteSheep())
+                    thereIsSheep = true;
+                else if(sheep.isRam())
+                    thereIsRam = true;
+            }
+                
+        }
+        return thereIsSheep&&thereIsRam;
+    }
 
+    /**
+     * Metodo di servizio utilizzato da joinSheeps e da killAnimal per controllare se c'è un pastore in una strada confinante
+     * @param terrain terreno su cui cercheremo
+     * @return true se c'è pastore vicino
+     */
+    private boolean isShepardNear(Terrain terrain){
+        
+        boolean thereIsShepard = false;
+        
+        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
+        Iterator<Shepard> itrShep = shepards.iterator();
+        
+        while(itr.hasNext()){
+            Road road = itr.next();
+            while(itrShep.hasNext()){
+                Shepard shep = itrShep.next();
+                if(shep.getPosition() == road)
+                    thereIsShepard = true;
+            }
+        }    
+        return thereIsShepard;
+    }
+    
+    /**
+     * Metodo di servizio utilizzato da killAnimal per contare pastori
+     * @param terrain dove contare
+     * @return num pastori
+     */
+    private int countShepardNear(Terrain terrain){
+        int number = 0;
+        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
+        while(itr.hasNext()){
+            Road road = itr.next();
+            if(road.hasShepard())
+                number++;
+        }
+        return number;
+    }
+    
+    /**
+     * Metodo di servizio utilizzato da joinSheeps e da killAnimal per vedere se un tiro di dado corrisponde
+     * alla strada su cui è il pastore
+     * @param terrain terreno dove si trova la pecora/e in questione
+     * @return true se dal dado esce il numero giusto
+     */
+    private boolean randomNumberForShepard(Terrain terrain, int random){
+        
+        boolean gotRightNumber = false;
+        
+        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
+        Iterator<Shepard> itrShep = shepards.iterator();
+        
+        while(itr.hasNext()){
+            Road road = itr.next();
+            while(itrShep.hasNext()){
+                Shepard shep = itrShep.next();
+                if(shep.getPosition() == road){
+                    if(random == road.getRoadNumber())
+                        gotRightNumber = true;
+                }
+            }
+        }
+        return gotRightNumber;
+    }
+    
+    private int payShepards(Terrain terrain){
+        
+        boolean isOwnedByPlayer = true;
+        int totalCost = 0;
+        
+        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
+        Iterator<Shepard> itrShep = shepards.iterator();
+
+        
+        while(itr.hasNext()){
+            Road road = itr.next();
+            while(itrShep.hasNext()){
+                Shepard shep = itrShep.next();
+                if(!(shep.equals(road.getShepard())))
+                    isOwnedByPlayer = false;   
+            }
+            if(isOwnedByPlayer = false)
+                totalCost = totalCost + 2;
+                //CONTINUA DA QUI devo comunicare all'altro player che ha guadagnato 2 denari
+                
+        }
+        return totalCost;
+    }
+    
 }

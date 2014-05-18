@@ -14,8 +14,9 @@ public class GameTable {
     private final BlackSheep blacksheep;
     private final Wolf wolf;
     private final Map map;
-    private ArrayList<TerrainCard> terrainCardPool = new ArrayList<TerrainCard>();
+    private ArrayList<ArrayList<TerrainCard>> terrainCardPool = new ArrayList<ArrayList<TerrainCard>>();
     private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
+    private Dice dice;
 
     
     
@@ -24,6 +25,7 @@ public class GameTable {
      */
     public GameTable () {
         fenceNumber = 20;
+        dice = new Dice();
         map = new Map();
         wolf = new Wolf(map.getTerrain().get(18));
         blacksheep = new BlackSheep(map.getTerrain().get(18));
@@ -48,6 +50,10 @@ public class GameTable {
     public Map getMap () {
         return map;
     }
+    
+    public Dice getDice () {
+        return dice;
+    }
 
     public ArrayList<Sheep> getSheeps () {
         return sheeps;
@@ -58,14 +64,22 @@ public class GameTable {
     }
 
 
-    public ArrayList<TerrainCard> getTerrainCardPool () {
-        return terrainCardPool;
+    public ArrayList<TerrainCard> getTerrainCardPool (String string) {
+        if("Plain".equals(string))
+            return terrainCardPool.get(0);
+        else if("Forest".equals(string))
+            return terrainCardPool.get(1);
+        else if("River".equals(string))
+            return terrainCardPool.get(2);
+        else if("Desert".equals(string))
+            return terrainCardPool.get(3);
+        else if("Mountain".equals(string))
+            return terrainCardPool.get(4);
+        else 
+            return terrainCardPool.get(5);
     }
 
 
-    public void addTerrainCardPool (TerrainCard val) {
-        this.terrainCardPool.add(val);
-    }
 
 
     public Wolf getWolf () {
@@ -79,7 +93,6 @@ public class GameTable {
     public void  initializeSheeps(  ){
         for(int i=0;i<17;i++){
             Sheep sheep = new Sheep(map.getTerrain().get(i), true);
-            map.getTerrain().get(i).addAnimal(sheep);
             sheeps.add(sheep);
         }
             
@@ -89,23 +102,40 @@ public class GameTable {
      * crea le carte terreno(non le distribuisce)
      */
     public void  initializeTerrainCards(  ){
+        
+        for(int i=0;i<6;i++){
+            ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
+            terrainCardPool.add(list);
+        }
+        
         for(int i=0;i<29;i++){
             TerrainCard terCar = new TerrainCard();
             terCar.setId(i);
             if(i<=4){
                 terCar.setTerrainType("Plain");
+                terrainCardPool.get(0).add(terCar);
             }
-            if(i<=9)
+            if(i>=5 && i<=9){
                 terCar.setTerrainType("Forest");
-            if(i<=14)
+                terrainCardPool.get(1).add(terCar);
+            }
+            if(i>=10 && i<=14){
                 terCar.setTerrainType("River");
-            if(i<=19)
+                terrainCardPool.get(2).add(terCar);
+            }
+            if(i>=15 && i<=19){
                 terCar.setTerrainType("Desert");
-            if(i<=24)
+                terrainCardPool.get(3).add(terCar);
+            }
+            if(i>= 20 && i<=24){
                 terCar.setTerrainType("Mountain");
-            if(i<=29)
+                terrainCardPool.get(4).add(terCar);
+            }
+            if(i>= 25 && i<=29){
                 terCar.setTerrainType("Field");
-            terrainCardPool.add(terCar);
+                terrainCardPool.get(5).add(terCar);
+            }
+
         }
     }
 

@@ -17,7 +17,8 @@ public class Shepard {
      */
     public Shepard (Road road) {
         position = road;
-        position.setShepard(true);
+        position.setHasShepard(true);
+        position.setShepard(this);
     }
 
     public Road getPosition () {
@@ -30,10 +31,11 @@ public class Shepard {
      * @param destination dove verrà messo
      */
     public void setPosition (Road destination) {
-        position.setFence(true);
-        position.setShepard(false);
-        destination.setShepard(true);
+        position.setHasShepard(false);
+        position.setShepard(null);
         position = destination;
+        position.setHasShepard(true);
+        position.setShepard(this);
     }
     
     //ritorna true se la mossa che si sta per compiere costa un denaro. Devo vederlo dal Player

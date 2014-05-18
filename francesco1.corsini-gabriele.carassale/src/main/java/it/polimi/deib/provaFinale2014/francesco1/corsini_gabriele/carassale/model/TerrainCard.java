@@ -11,11 +11,20 @@ public class TerrainCard {
     private String terrainType;
     private int id;
 
-
-    public TerrainCard () {
-
+    /**
+     * costruttore di default utilizzato nella creazione iniziale del GameTable
+     */
+    public TerrainCard(){  
     }
 
+    /**
+     * costruttore usato dal Giocatore quando compra una carta terra
+     * @param territoryType tipologia territorio che si vuole comprare
+     */
+    public TerrainCard (String territoryType) {
+        terrainType = territoryType;
+    }
+    
 
     public String getTerrainType () {
         return terrainType;

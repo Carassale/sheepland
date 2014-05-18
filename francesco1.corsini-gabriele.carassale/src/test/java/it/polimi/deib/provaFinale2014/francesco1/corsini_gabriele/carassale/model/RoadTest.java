@@ -81,11 +81,11 @@ public class RoadTest {
     }
 
     /**
-     * Test of setShepard method, of class Road.
+     * Test of setHasShepard method, of class Road.
      */
     @Test
     public void testSetShepard() {
-        road.setShepard(true);
+        road.setHasShepard(true);
         assertTrue(road.hasShepard());
     }
 
