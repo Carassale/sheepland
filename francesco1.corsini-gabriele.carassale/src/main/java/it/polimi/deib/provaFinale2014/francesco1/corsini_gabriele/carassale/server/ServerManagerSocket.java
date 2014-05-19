@@ -66,10 +66,14 @@ public class ServerManagerSocket implements ServerManager {
             Socket socket = serverSocket.accept();
             playerConnection.add(new PlayerConnectionSocket(socket));
             if (playerConnection.size() == PLAYER4GAME) {
-                games.add(new ConnectionManagerSockets(playerConnection));
-                playerConnection = new ArrayList<PlayerConnectionSocket>();
+                runNewGame();
             }
         }
+    }
+    
+    public synchronized void runNewGame() {
+        games.add(new ConnectionManagerSockets(playerConnection));
+        playerConnection = new ArrayList<PlayerConnectionSocket>();
     }
 
     /**
@@ -88,9 +92,8 @@ public class ServerManagerSocket implements ServerManager {
         public void run() {
             while (true) {
                 for (PlayerConnectionSocket playerConnection1 : playerConnection) {
-                    if (playerConnection1.getScanner().nextLine() == "ForceGame" && playerConnection.size() >= 2) {
-                        games.add(new ConnectionManagerSockets(playerConnection));
-                        playerConnection = new ArrayList<PlayerConnectionSocket>();
+                    if ("ForceGame".equals(playerConnection1.getScanner().nextLine()) && playerConnection.size() >= 2) {
+                        runNewGame();
                     }
                 }
             }
