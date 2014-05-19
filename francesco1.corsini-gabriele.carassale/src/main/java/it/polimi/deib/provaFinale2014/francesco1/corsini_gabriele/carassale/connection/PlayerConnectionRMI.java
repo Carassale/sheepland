@@ -1,5 +1,11 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
-public class PlayerConnectionRMI extends PlayerConnection{
+/**
+ * Questa classe serve a mantenere la connessione con il singolo client nel caso
+ * sia stato scelto il metodo Socket
+ *
+ * @author Carassale Gabriele
+ */
+public class PlayerConnectionRMI extends PlayerConnection {
 
 }
