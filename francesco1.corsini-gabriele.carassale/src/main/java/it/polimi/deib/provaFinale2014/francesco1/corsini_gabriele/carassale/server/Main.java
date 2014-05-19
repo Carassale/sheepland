@@ -8,7 +8,7 @@ import java.util.Scanner;
  * far scegliere al gestore del server il tipo di connessione Client-Server che
  * vuole utilizzare.
  *
- * @author Gabriele Carassale
+ * @author Carassale Gabriele
  */
 public class Main {
 

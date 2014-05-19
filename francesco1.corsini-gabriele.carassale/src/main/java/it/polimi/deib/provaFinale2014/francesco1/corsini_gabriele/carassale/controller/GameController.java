@@ -12,33 +12,36 @@ public class GameController {
     private GameTable gameTable;
 
     /**
-     * Controllore di gioco che controlla che le mosse siano corrette e che le esegue in parte
-     * //TODO ricordarsi il controllo sulle mosse giuste
-     * @param playerConnections 
+     * Controllore di gioco che controlla che le mosse siano corrette e che le
+     * esegue in parte //TODO ricordarsi il controllo sulle mosse giuste
+     *
+     * @param playerConnections
      */
     public GameController(ArrayList<? extends PlayerConnection> playerConnections) {
-        
+
         inizializeGame();
         placeShepards();
         playGame();
         declareWinner();
     }
 
-
     /**
-     * Metodo che crea e chiama i vari Turn dei singoli giocatori nel singolo Round.(se 4 giocatori ==> 4 Turns = 1 Round )
-     * Il isGameOver serve sia come costruttore del Turn(serve per sapere se utilizzare Fence Finali) sia come ritorno
-     * al PlayGame che così smetterà di richiamare questo metodo
+     * Metodo che crea e chiama i vari Turn dei singoli giocatori nel singolo
+     * Round.(se 4 giocatori ==> 4 Turns = 1 Round ) Il isGameOver serve sia
+     * come costruttore del Turn(serve per sapere se utilizzare Fence Finali)
+     * sia come ritorno al PlayGame che così smetterà di richiamare questo
+     * metodo
+     *
      * @return true se il gioco è finito
      */
     public boolean playRounds() {
         boolean isGameOver = false;
-        
-        do{
-        Turn round = new Turn(isGameOver,gameTable);
-        isGameOver = round.playTurn();
-        }while(!(playerPool.nextPlayer()));
-        
+
+        do {
+            Turn round = new Turn(isGameOver, gameTable);
+            isGameOver = round.playTurn();
+        } while (!(playerPool.nextPlayer()));
+
         return isGameOver;
     }
 
@@ -51,9 +54,10 @@ public class GameController {
      */
     public void playGame() {
         boolean isGameOver = false;
-        while(!(isGameOver))
+        while (!(isGameOver)) {
             isGameOver = playRounds();
-        
+        }
+
     }
 
     public GameTable getGameTable() {
@@ -67,24 +71,23 @@ public class GameController {
     private void declareWinner() {
     }
 
-    private void placeShepards(){
-        
+    private void placeShepards() {
+
         //TODO aggiorna la view
-        
-        do{
+        do {
             Player currentPlayer = playerPool.getFirstPlayer();
-            
+
             //TODOprende la posizione dello shepard piazzato dalla view e la immette qui sotto
             Road roadChoosen = new Road(545);
-            
-            Shepard shep = new Shepard(roadChoosen,currentPlayer);
+
+            Shepard shep = new Shepard(roadChoosen, currentPlayer);
             currentPlayer.getShepards().add(shep);
             gameTable.getShepards().add(shep);
-        }while(!(playerPool.nextPlayer()));
+        } while (!(playerPool.nextPlayer()));
     }
-    
-    private void playLastTurns(ArrayList<Player> lastPlayers){
-        
+
+    private void playLastTurns(ArrayList<Player> lastPlayers) {
+
     }
 
 }

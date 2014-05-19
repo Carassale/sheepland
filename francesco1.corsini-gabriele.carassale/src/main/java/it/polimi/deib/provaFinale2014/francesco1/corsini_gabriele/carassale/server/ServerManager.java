@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * È un'interfaccia, serve a definire i metodi guida da utilizzare nei due casi
  * Socket o RMI
  *
- * @author Lelino
+ * @author Carassale Gabriele
  */
 public interface ServerManager {
 

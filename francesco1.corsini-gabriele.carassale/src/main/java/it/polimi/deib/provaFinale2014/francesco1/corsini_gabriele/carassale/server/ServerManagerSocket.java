@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSockets;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,7 +10,8 @@ import java.util.ArrayList;
 /**
  * Questa classe viene inizializzata direttamente dal main, ha il compito di
  * restare in attesa dei vari socket e ad ogni PAYER4GAME, o meno, avvia una
- * nuova partita.
+ * nuova partita. Questa classe viene creata nel sia stato scelto il metodo
+ * Socket
  *
  * @author Carassale Gabriele
  */
@@ -35,11 +36,11 @@ public class ServerManagerSocket implements ServerManager {
     /**
      * È la lista delle parite avviate
      */
-    private ArrayList<ConnectionManagerSockets> games;
+    private ArrayList<ConnectionManagerSocket> games;
     private ServerSocket serverSocket;
 
     public ServerManagerSocket() {
-        games = new ArrayList<ConnectionManagerSockets>();
+        games = new ArrayList<ConnectionManagerSocket>();
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException ex) {
@@ -70,10 +71,12 @@ public class ServerManagerSocket implements ServerManager {
             }
         }
     }
-    
+
     public synchronized void runNewGame() {
-        games.add(new ConnectionManagerSockets(playerConnection));
-        playerConnection = new ArrayList<PlayerConnectionSocket>();
+        if (playerConnection.size() >= 2) {
+            games.add(new ConnectionManagerSocket(playerConnection));
+            playerConnection = new ArrayList<PlayerConnectionSocket>();
+        }
     }
 
     /**
