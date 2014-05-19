@@ -15,9 +15,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
 import java.util.ArrayList;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -34,7 +34,7 @@ public class PlayerTest {
     public void setUp() {
         game = new GameTable();
         player = new Player();
-        shepard = new Shepard(game.getMap().getRoads().get(0));
+        shepard = new Shepard(game.getMap().getRoads().get(0), player);
         player.getShepards().add(shepard);
         sheep = new Sheep(game.getMap().getTerrain().get(0), true);
         
@@ -189,6 +189,8 @@ public class PlayerTest {
         Sheep sheep1 = new Sheep(terrain, true);
         sheep2.setSex("Male");
         sheep1.setSex("Female");
+        sheep2.setOld(true);
+        sheep1.setOld(true);
         
         assertEquals(2,terrain.getAnimals().size());
         player.joinSheeps(terrain, game);
@@ -207,6 +209,8 @@ public class PlayerTest {
         Sheep sheep1 = new Sheep(terrain, true);
         sheep2.setSex("Male");
         sheep1.setSex("Male");
+        sheep2.setOld(true);
+        sheep1.setOld(true);
        
         player.joinSheeps(terrain, game);
     }
@@ -222,28 +226,76 @@ public class PlayerTest {
         Sheep sheep1 = new Sheep(terrain, true);
         sheep2.setSex("Male");
         sheep1.setSex("Female");
+        sheep2.setOld(true);
+        sheep1.setOld(true);
        
         player.joinSheeps(terrain, game);   
     }
 
-/*
-    @Test
-    public void testGetCoins() {
+    /**
+     * Test di abbattimento che viene eseguito correttamente
+     * @throws CoinException
+     * @throws MoveException
+     * @throws WrongDiceNumberException 
+     */
+    @Test 
+    public void testKillAnimal() throws CoinException, MoveException, WrongDiceNumberException {
+        
+        Player player2 = new Player();
+        player.setCoins(20);
+        player2.setCoins(20);
+        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2);
+        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2);
+        
+        Terrain terrain = game.getMap().getTerrain().get(0);
+        Sheep sheepToKill = (Sheep) terrain.getAnimals().get(0);
+      
+        try{
+        player.killAnimal(sheep, game);
+        assertEquals(0,terrain.getAnimals().size());
+        }
+        catch(WrongDiceNumberException e){
+            assertTrue(true);
+        }
         
     }
-
-
-    @Test
-    public void testSetCoins() {
+    
+    /**
+     * Test di abbattimento che lancia eccezione perchè non abbastanza soldi
+     * @throws CoinException
+     * @throws MoveException
+     * @throws WrongDiceNumberException 
+     */
+    @Test (expected = CoinException.class)
+    public void testKillAnimal1() throws CoinException, MoveException, WrongDiceNumberException {
         
+        Player player2 = new Player();
+        player.setCoins(3);
+        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2);
+        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2);
+        
+        Sheep sheepToKill = (Sheep) game.getMap().getTerrain().get(0).getAnimals().get(0);
+      
+        player.killAnimal(sheep, game);
+    }
+    
+    /**
+     * Test di abbattimento che lancia eccezione perchè non c'è pastore posseduto vicino
+     * (elimino i pastori del giocatore prima)
+     * @throws CoinException
+     * @throws MoveException
+     * @throws WrongDiceNumberException 
+     */
+    @Test (expected = MoveException.class)
+    public void testKillAnimal2() throws CoinException, MoveException, WrongDiceNumberException {
+        player.getShepards().clear();
+                
+        Sheep sheepToKill = (Sheep) game.getMap().getTerrain().get(0).getAnimals().get(0);
+        
+        player.killAnimal(sheep, game);
     }
 
- 
-    @Test
-    public void testKillAnimal() {
-        
-    }
+    
 
-*/
     
 }

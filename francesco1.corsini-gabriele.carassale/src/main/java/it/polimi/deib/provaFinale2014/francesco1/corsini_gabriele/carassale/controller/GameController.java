@@ -1,8 +1,12 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameController {
 
@@ -16,6 +20,11 @@ public class GameController {
      * @param playerConnections 
      */
     public GameController(ArrayList<? extends PlayerConnection> playerConnections) {
+        
+        inizializeGame();
+        placeShepards();
+        playGame();
+        declareWinner();
     }
 
 
@@ -27,32 +36,34 @@ public class GameController {
     }
 
     public void playGame() {
+        
     }
 
     public GameTable getGameTable() {
         return gameTable;
     }
 
-    public void setGameTable(GameTable val) {
-        this.gameTable = val;
-    }
-
-    private void createMap() {
-    }
-
-    private void InitializeAnimals() {
-    }
-
-    private void InizializeTerrainCards() {
-    }
-
-    private void InizializeShepards() {
+    private void inizializeGame() {
+        gameTable = new GameTable();
     }
 
     private void declareWinner() {
     }
 
-    private void initializePlayers() {
+    private void placeShepards(){
+        
+        //TODO aggiorna la view
+        
+        do{
+            Player currentPlayer = playerPool.getFirstPlayer();
+            
+            //TODOprende la posizione dello shepard piazzato dalla view e la immette qui sotto
+            Road roadChoosen = new Road(545);
+            
+            Shepard shep = new Shepard(roadChoosen,currentPlayer);
+            currentPlayer.getShepards().add(shep);
+            gameTable.getShepards().add(shep);
+        }while(!(playerPool.nextPlayer()));
     }
 
 }

@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
 import java.util.Iterator;
 
 
@@ -9,10 +10,23 @@ import java.util.Iterator;
  */
 public class Shepard {
 
+    private Player owner;
     private Road position;
-
+    
     /**
      * inizializza lo shepard e lo posiziona sulla plancia
+     * @param road posizione
+     * @param player giocatore che possiede il pastore
+     */
+    public Shepard (Road road, Player player) {
+        position = road;
+        position.setHasShepard(true);
+        position.setShepard(this);
+        owner = player;
+    }
+    
+    /**
+     * inizializza lo shepard e lo posiziona sulla plancia(costruttore utilizzato nei test)
      * @param road posizione
      */
     public Shepard (Road road) {
@@ -20,6 +34,8 @@ public class Shepard {
         position.setHasShepard(true);
         position.setShepard(this);
     }
+    
+    
 
     public Road getPosition () {
         return position;
@@ -54,6 +70,14 @@ public class Shepard {
         }
         return true;
     }
-
+    
+    public void setOwner(Player player){
+        owner = player;
+    }
+    
+    public Player getOwner(){
+        return owner;
+    }
+    
 }
 

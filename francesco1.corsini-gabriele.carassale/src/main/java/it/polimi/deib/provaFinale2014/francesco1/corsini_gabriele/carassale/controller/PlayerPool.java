@@ -9,11 +9,27 @@ public class PlayerPool {
     public PlayerPool() {
     }
 
-    public ArrayList<Player> getFirstPlayers() {
-        return players;
+    public Player getFirstPlayer() {
+        return players.get(0);
     }
 
-    public void nextPlayer() {
+    
+    /**
+     * 
+     * @return true se è finito il turno(sono scorsi tutti i giocatori) 
+     */
+    public boolean nextPlayer() {
+        
+        boolean newTurn = false;
+        
+        Player temp = players.get(0);
+        players.remove(temp);
+        players.add(temp);
+        
+        if(players.get(0).isFirstPlayer())
+            newTurn = true;
+        
+        return newTurn;
     }
 
 }
