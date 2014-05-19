@@ -17,9 +17,9 @@ public class Wolf extends Animal {
     /**
      * prima controlla se tutte le strade sono chiuse da cancello, poi controlla se c'è una strada uguale al tiro dado. Esegue poi il move()
      */
-    public void hasToMove () {
-        Dice dice = new Dice();
-        int movement = dice.getRandom();
+    public Road hasToMove (int num) throws NullPointerException{
+
+        int movement = num;
         boolean hasRoad = false;
         boolean allFence = true;
         
@@ -36,19 +36,18 @@ public class Wolf extends Animal {
         while(itr2.hasNext()) {
          Road element = itr2.next();
          if(element.getRoadNumber() == movement && element.hasFence() == false)
-             move(element);
+             return element;
          if(element.getRoadNumber() == movement && allFence == true)
-             move(element);
+             return element;
         }
-
-
+        throw new NullPointerException();
     }
     
     /**
      * muove realmente il lupo
      * @param roadToMove strada dove si deve muovere
      */
-    private void move (Road roadToMove) {
+    public void move (Road roadToMove) {
         Terrain terrain1 = roadToMove.getAdjacentTerrain1();
         Terrain terrain2 = roadToMove.getAdjacentTerrain2();
         

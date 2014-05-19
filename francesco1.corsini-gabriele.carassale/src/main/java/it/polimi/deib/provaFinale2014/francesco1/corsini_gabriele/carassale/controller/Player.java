@@ -18,19 +18,19 @@ import java.util.Iterator;
  * @author Francesco Corsini
  */
 public class Player {
-
+    
     private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
     private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
     private int coins;
     private String nickName;
     private boolean isFirstPlayer;
 
-    //TODO posizionamento shepards
     
     /**
      *costruttore solo usato per i test
      */
     public Player() {
+       //TODO settare isFirstPlayer
         coins = 20;
 
         //serve per inizializzare la lista di liste dell TerrainCardPool

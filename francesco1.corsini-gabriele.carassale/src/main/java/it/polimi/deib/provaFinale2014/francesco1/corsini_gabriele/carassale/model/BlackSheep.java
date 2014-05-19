@@ -17,26 +17,28 @@ public class BlackSheep extends Animal {
 
     /**
      * metodo che lancia un dado e controlla se bisogna muoversi, nel caso poi chiama il move()
+     * @param num
+     * @return 
      */
-    public void hasToMove () {
-        Dice dice = new Dice();
-        int movement = dice.getRandom();
+    public Road hasToMove (int num) throws NullPointerException{
+        int movement = num;
         boolean hasRoad = false;
+        
         
         Iterator<Road> itr = position.getAdjacentRoads().iterator();
         while(itr.hasNext()) {
          Road element = itr.next();
          if(element.getRoadNumber() == movement && element.hasFence() == false)
-             move(element);
+             return element;
         }
-
+        throw new NullPointerException();
     }
     
     /**
      * metodo che muove la pecora alla destinazione uscita dal tiro dado
      * @param moveToRoad è la strada di cui è uscito il valore dal dato
      */
-    private void move(Road moveToRoad) {
+    public void move(Road moveToRoad) {
         Terrain terrain1 = moveToRoad.getAdjacentTerrain1();
         Terrain terrain2 = moveToRoad.getAdjacentTerrain2();
         
