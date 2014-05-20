@@ -15,6 +15,4 @@ public interface ServerManager {
     public static final ArrayList<ConnectionManager> games = null;
 
     public void waitForPlayer() throws IOException;
-
-    public void runNewGame();
 }

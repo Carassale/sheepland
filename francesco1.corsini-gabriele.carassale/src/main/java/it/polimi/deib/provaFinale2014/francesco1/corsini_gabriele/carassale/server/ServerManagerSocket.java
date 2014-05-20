@@ -26,7 +26,7 @@ public class ServerManagerSocket implements ServerManager {
      * numero di connessioni viene avviata una nuova partita tramite
      * ConnectionManagerSocket
      */
-    private final static int PLAYER4GAME = 6;
+    private final static int PLAYER4GAME = 4;
     /**
      * È la lista dei giocatori in attesa (sempre minore di PLAYER4GAME), è
      * static perchè condivisa con il thread parallelo per l'avvio forzato della
@@ -37,6 +37,11 @@ public class ServerManagerSocket implements ServerManager {
      * È la lista delle parite avviate
      */
     private ArrayList<ConnectionManagerSocket> games;
+    /**
+     * È il tempo di attesa massimo che il thread SocketWaitingTimer aspetta
+     * prima di avviare forzatamente una partita
+     */
+    private final static int TIMEOUT = 2000;
     private ServerSocket serverSocket;
 
     public ServerManagerSocket() {
@@ -63,9 +68,12 @@ public class ServerManagerSocket implements ServerManager {
     @Override
     public void waitForPlayer() throws IOException {
         playerConnection = new ArrayList<PlayerConnectionSocket>();
-        SocketWaitingForce sw = new SocketWaitingForce();
+        SocketWaitingForce swf = new SocketWaitingForce();
         while (true) {
             Socket socket = serverSocket.accept();
+            if (playerConnection.size() == 0) {
+                SocketWaitingTimer swt = new SocketWaitingTimer();
+            }
             playerConnection.add(new PlayerConnectionSocket(socket));
             if (playerConnection.size() == PLAYER4GAME) {
                 runNewGame();
@@ -73,7 +81,6 @@ public class ServerManagerSocket implements ServerManager {
         }
     }
 
-    @Override
     public synchronized void runNewGame() {
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
@@ -106,4 +113,28 @@ public class ServerManagerSocket implements ServerManager {
 
     }
 
+    /**
+     * È un thread, viene avviato dal metodo waitForPlayer e ha lo scopo di far
+     * partire una partita nel caso sia scaduto un timout
+     */
+    private class SocketWaitingTimer implements Runnable {
+
+        private Thread thread;
+
+        public SocketWaitingTimer() {
+            thread = new Thread(this);
+            thread.start();
+        }
+
+        public void run() {
+            while (true) {
+                for (PlayerConnectionSocket playerConnection1 : playerConnection) {
+                    if ("ForceGame".equals(playerConnection1.getScanner().nextLine()) && playerConnection.size() >= 2) {
+                        runNewGame();
+                    }
+                }
+            }
+        }
+
+    }
 }

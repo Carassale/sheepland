@@ -34,7 +34,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     @Override
     public void startThread() {
-        gameController = new GameController(this);
+        gameController = new GameController(playerConnections.size(),this);
         setNickName();
         refreshGame4AllPlayer();
     }

@@ -20,10 +20,4 @@ public class ServerManagerRMI implements ServerManager {
     @Override
     public void waitForPlayer() {
     }
-
-    @Override
-    public void runNewGame() {
-
-    }
-
 }

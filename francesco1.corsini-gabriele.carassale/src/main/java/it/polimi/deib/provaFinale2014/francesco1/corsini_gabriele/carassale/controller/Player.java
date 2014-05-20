@@ -452,7 +452,7 @@ public class Player {
 
     public void cleanActionDone() {
         for (String action : actionDone) {
-            action = "";
+            action = new String();
         }
     }
 
