@@ -43,7 +43,7 @@ public class ConnectionClientSocket {
         while (true) {
             String s = inSocket.readLine();
             if (s.equals("wakeUp")) {
-                doMove();
+                doAction();
             } else if (s.equals("setNikcnam")) {
                 setNickname();
             } else if (s.equals("refresh")) {
@@ -58,7 +58,7 @@ public class ConnectionClientSocket {
         }
     }
 
-    private void doMove() throws IOException {
+    private void doAction() throws IOException {
         outVideo.println("Fai la tua mossa");
         String s = inKeyboard.readLine();
         if (s.equals("1")) {

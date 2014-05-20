@@ -34,7 +34,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     @Override
     public void startThread() {
-        gameController = new GameController(playerConnections);
+        gameController = new GameController();
         setNickName();
         refreshGame4AllPlayer();
         startGame();
@@ -141,45 +141,60 @@ public class ConnectionManagerSocket extends ConnectionManager {
     }
 
     private void moveShepard() throws MoveException, CoinException {
+        //Riceve via socket l'ID dello shepard
         String shepard = playerConnections.get(0).getScanner().nextLine();
+        Integer id = new Integer(shepard);
         //Converte shepard nell'oggetto Shepard associato
-        String road = playerConnections.get(0).getScanner().nextLine();
-        //Converte road nell'oggetto Road associato
+        Shepard s = gameController.getGameTable().idToShepard(id);
 
-        Shepard s = null;
-        Road r = null;
+        //Riceve via socket l'ID della strada
+        String road = playerConnections.get(0).getScanner().nextLine();
+        id = new Integer(road);
+        //Converte road nell'oggetto Road associato
+        Road r = gameController.getGameTable().idToRoad(id);
+
         gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
     }
 
     private void moveSheep() throws MoveException {
+        //Riceve via socket l'ID della sheep
         String sheep = playerConnections.get(0).getScanner().nextLine();
+        Integer id = new Integer(sheep);
         //Converte sheep nell'oggetto Sheep associato
-        String terrain = playerConnections.get(0).getScanner().nextLine();
-        //Converte terrain nell'oggetto Terrain associato
+        Sheep s = gameController.getGameTable().idToSheep(id);
 
-        Sheep s = null;
-        Terrain t = null;
+        //Riceve via socket l'ID del Terrain
+        String terrain = playerConnections.get(0).getScanner().nextLine();
+        id = new Integer(terrain);
+        //Converte terrain nell'oggetto Terrain associato
+        Terrain t = gameController.getGameTable().idToTerrain(id);
+
         gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
     }
 
     private void buyCard() throws CoinException {
+        //Riceve via socket il tipo di TerrainCard
         String kind = playerConnections.get(0).getScanner().nextLine();
         gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
     }
 
     private void killSheep() throws CoinException, MoveException, WrongDiceNumberException {
+        //Riceve via socket l'ID della sheep
         String sheep = playerConnections.get(0).getScanner().nextLine();
+        Integer id = new Integer(sheep);
         //Converte sheep nell'oggetto Sheep associato
+        Sheep s = gameController.getGameTable().idToSheep(id);
 
-        Sheep s = null;
         gameController.getPlayerPool().getFirstPlayer().killAnimal(s, gameController.getGameTable());
     }
 
     private void joinSheep() throws MoveException {
+        //Riceve via socket l'ID del Terrain
         String terrain = playerConnections.get(0).getScanner().nextLine();
+        Integer id = new Integer(terrain);
         //Converte terrain nell'oggetto Terrain associato
+        Terrain t = gameController.getGameTable().idToTerrain(id);
 
-        Terrain t = null;
         gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
     }
 
