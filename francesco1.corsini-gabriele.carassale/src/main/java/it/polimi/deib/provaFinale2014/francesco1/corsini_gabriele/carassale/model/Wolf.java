@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import java.util.Iterator;
 
  /**
@@ -11,13 +12,12 @@ public class Wolf extends Animal {
  
     public Wolf (Terrain terrain) {
         position = terrain;
-        position.addAnimal(this);
     }
     
     /**
      * prima controlla se tutte le strade sono chiuse da cancello, poi controlla se c'è una strada uguale al tiro dado. Esegue poi il move()
      */
-    public Road hasToMove (int num) throws NullPointerException{
+    public Road hasToMove (int num) throws WrongDiceNumberException{
 
         int movement = num;
         boolean hasRoad = false;
@@ -40,7 +40,7 @@ public class Wolf extends Animal {
          if(element.getRoadNumber() == movement && allFence == true)
              return element;
         }
-        throw new NullPointerException();
+        throw new WrongDiceNumberException(num);
     }
     
     /**
@@ -52,15 +52,27 @@ public class Wolf extends Animal {
         Terrain terrain2 = roadToMove.getAdjacentTerrain2();
         
         if(position == terrain1){
-            position.deleteAnimal(this);
-            position = terrain2;
-            position.addAnimal(this);            
+            position = terrain2;           
         }
         else if(position == terrain2){
-            position.deleteAnimal(this);
             position = terrain1;
-            position.addAnimal(this);
         }
+    }
+
+    /**
+     * Metodo che controlla se il lupo può mangiare delle pecore nel suo stesso territorio e nel 
+     * caso ne prende una a caso
+     * @return Animal da mangiare o null se non ci sono
+     */
+    public Animal isAbleToEat() {
+        int sheepNumber = position.getAnimals().size();
+        if(sheepNumber > 0){
+            //scegli casualmente pecora da mangiare
+            int sheepToEat = (int)(Math.random() * (sheepNumber));
+            return position.getAnimals().get(sheepToEat);
+        }
+        else
+            return null;
     }
     
 }

@@ -6,6 +6,9 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -94,9 +97,16 @@ public class BlackSheepTest {
     
     @Test
     public void testHasToMove() {
+        road1.setRoadNumber(2);
+        Road road;
+        try {
+            road = bsheep.hasToMove(2);
+            assertSame(road1,road);
+        } catch (WrongDiceNumberException ex) {
+            Logger.getLogger(BlackSheepTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        bsheep.hasToMove();
-        assertNotSame(terrain0,bsheep.getPosition());
+        
     }
     
       @Test

@@ -28,7 +28,7 @@ public class Map {
                 System.out.println("Errore nella creazione delle strade");
             }
         }
-        for(int i=0;i<17;i++){
+        for(int i=0;i<19;i++){
             connectRoadsToTerrains(i);
         }
         for(int i=0;i<41;i++){

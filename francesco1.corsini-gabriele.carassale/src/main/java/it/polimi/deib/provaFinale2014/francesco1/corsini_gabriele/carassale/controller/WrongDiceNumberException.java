@@ -16,4 +16,8 @@ public class WrongDiceNumberException extends Exception{
     public WrongDiceNumberException(int diceNumber){
         
     }
+
+    public WrongDiceNumberException() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

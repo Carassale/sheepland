@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import java.util.Iterator;
 
 
@@ -16,11 +17,12 @@ public class BlackSheep extends Animal {
     }
 
     /**
-     * metodo che lancia un dado e controlla se bisogna muoversi, nel caso poi chiama il move()
-     * @param num
-     * @return 
+     * Metodo che controlla se bisogna muoversi, viene invocato dal Turn
+     * @param num numero uscito dal lancio del dado
+     * @return Road la ritorna se ne trova una con il num sopra
+     * @throws WrongDiceNumberException se non esiste strada con num sopra
      */
-    public Road hasToMove (int num) throws NullPointerException{
+    public Road hasToMove (int num) throws WrongDiceNumberException{
         int movement = num;
         boolean hasRoad = false;
         
@@ -31,12 +33,12 @@ public class BlackSheep extends Animal {
          if(element.getRoadNumber() == movement && element.hasFence() == false)
              return element;
         }
-        throw new NullPointerException();
+        throw new WrongDiceNumberException(num);
     }
     
     /**
-     * metodo che muove la pecora alla destinazione uscita dal tiro dado
-     * @param moveToRoad è la strada di cui è uscito il valore dal dato
+     * Metodo che muove la pecora alla destinazione
+     * @param moveToRoad è la strada dove deve andare
      */
     public void move(Road moveToRoad) {
         Terrain terrain1 = moveToRoad.getAdjacentTerrain1();

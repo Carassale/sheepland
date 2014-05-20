@@ -6,6 +6,7 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -82,10 +83,12 @@ public class WolfTest {
      * inizialmente è in terreno 0, poi lo faccio muovere e vedo se è in un altro terreno
      */
     @Test
-    public void testHasToMove() {
+    public void testHasToMove() throws WrongDiceNumberException {
+        road1.setRoadNumber(2);
+        
         assertSame(terrain0,wolf.getPosition());
-        wolf.hasToMove();
-        assertNotSame(terrain0,wolf.getPosition());
+        Road road = wolf.hasToMove(2);
+        assertSame(road1,road);
     }
     
 }
