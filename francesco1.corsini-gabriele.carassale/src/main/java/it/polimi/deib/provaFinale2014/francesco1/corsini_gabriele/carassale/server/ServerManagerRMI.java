@@ -17,10 +17,13 @@ public class ServerManagerRMI implements ServerManager {
     public ServerManagerRMI() {
     }
 
+    @Override
     public void waitForPlayer() {
     }
 
-    public void waitForForcedStart() {
+    @Override
+    public void runNewGame() {
+
     }
 
 }
