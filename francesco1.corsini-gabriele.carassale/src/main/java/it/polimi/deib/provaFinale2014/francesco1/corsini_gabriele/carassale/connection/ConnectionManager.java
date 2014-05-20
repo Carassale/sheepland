@@ -4,7 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
 
 /**
  * 
- * È un'interfaccia, serve a definire i metodi guida da utilizzare nei due casi
+ * È unclasse abstract, serve a definire i metodi guida da utilizzare nei due casi
  * Socket o RMI
  *
  * @author Carassale Gabriele
@@ -21,7 +21,8 @@ public abstract class ConnectionManager implements Runnable {
         startThread();
     }
 
-    public void startThread() {
-    }
+    public void startThread() {}
+    
+    public void startAction() {}
 
 }

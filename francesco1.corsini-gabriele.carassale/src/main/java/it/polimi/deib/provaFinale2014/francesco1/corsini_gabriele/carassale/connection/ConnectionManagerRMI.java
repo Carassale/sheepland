@@ -11,4 +11,9 @@ public class ConnectionManagerRMI extends ConnectionManager {
     public ConnectionManagerRMI() {
     }
 
+    @Override
+    public void startAction() {
+
+    }
+
 }

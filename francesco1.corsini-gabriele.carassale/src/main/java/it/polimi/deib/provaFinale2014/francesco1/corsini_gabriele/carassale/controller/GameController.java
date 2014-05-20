@@ -1,17 +1,16 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
-import java.util.ArrayList;
+
 
 public class GameController {
 
     private PlayerPool playerPool;
     private GameTable gameTable;
+    private ConnectionManager connectionManager;
 
     /**
      * Controllore di gioco che controlla che le mosse siano corrette e che le
@@ -19,7 +18,15 @@ public class GameController {
      *
      */
     public GameController() {
+        this.connectionManager = null;
+        inizializeGame();
+        placeShepards();
+        playGame();
+        declareWinner();
+    }
 
+    public GameController(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
         inizializeGame();
         placeShepards();
         playGame();
@@ -39,7 +46,7 @@ public class GameController {
         boolean isGameOver = false;
 
         do {
-            Turn round = new Turn(isGameOver, gameTable);
+            Turn round = new Turn(isGameOver, gameTable, connectionManager);
             isGameOver = round.playTurn();
         } while (!(playerPool.nextPlayer()));
 
