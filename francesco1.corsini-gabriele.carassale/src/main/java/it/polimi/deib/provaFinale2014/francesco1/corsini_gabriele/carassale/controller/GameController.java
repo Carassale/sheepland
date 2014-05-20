@@ -7,6 +7,8 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameController {
 
@@ -65,11 +67,18 @@ public class GameController {
         return gameTable;
     }
 
+    /**
+     * Metodo che serve a creare la Plancia di gioco con tutti i suoi
+     * componenti(Mappa, Animali, Shepards, ecc...) e a distribuire le carte
+     * iniziali
+     */
     private void inizializeGame() {
         gameTable = new GameTable();
+        distributeCard();
     }
 
     private void declareWinner() {
+        //TODO declare
     }
 
     private void placeShepards() {
@@ -87,6 +96,54 @@ public class GameController {
             gameTable.getShepards().add(shep);
             i++;
         } while (!(playerPool.nextPlayer()));
+    }
+
+    /**
+     * Metodo che serve a fare la distribuzione iniziale delle carte ai vari
+     * giocatori
+     */
+    private void distributeCard() {
+        String terrainKind = null;
+        boolean[] alredyPicked = new boolean[6];
+        for (int i = 0; i < 6; i++) {
+            alredyPicked[i] = false;
+        }
+
+        do {
+            Player playerThatPicks = playerPool.getFirstPlayer();
+            int random = (int) (Math.random() * 6 + 1);
+            if (random == 0) {
+                terrainKind = "Plain";
+                alredyPicked[0] = true;
+            } else if (random == 1) {
+                terrainKind = "Forest";
+                alredyPicked[1] = true;
+            } else if (random == 2) {
+                terrainKind = "River";
+                alredyPicked[2] = true;
+            } else if (random == 3) {
+                terrainKind = "Desert";
+                alredyPicked[3] = true;
+            } else if (random == 4) {
+                terrainKind = "Mountain";
+                alredyPicked[4] = true;
+            } else if (random == 5) {
+                terrainKind = "Field";
+                alredyPicked[5] = true;
+            }
+            if (alredyPicked[random] == false) {
+                try {
+                    if (terrainKind != null) {
+                        playerThatPicks.buyTerrainCard(terrainKind, gameTable);
+                    } else {
+                        throw new NullPointerException("errore distribuzione carte");
+                    }
+                } catch (CoinException ex) {
+                    Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } while (!(playerPool.nextPlayer()));
+
     }
 
 }

@@ -98,10 +98,10 @@ public class Player {
     public void moveShepard(Road destination, Shepard shepard, GameTable game) throws CoinException, MoveException {
 
         boolean canMove = canMoveShepard(destination);
-
+        Road shepPos = shepard.getPosition();
+        
         if (canMove == true) {
-            Road shepPos = shepard.getPosition();
-            if (!(shepPos.isAdjacentRoad(destination))) {
+            if (shepard.isExpensiveMove(destination)) {
                 if (coins == 0) {
                     throw new CoinException();
                 } else {

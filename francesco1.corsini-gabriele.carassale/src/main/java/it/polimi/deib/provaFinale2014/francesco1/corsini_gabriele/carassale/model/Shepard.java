@@ -42,7 +42,7 @@ public class Shepard {
 
     /**
      * Metodo per prendere la posizione
-     * @return 
+     * @return posizione shepard
      */
     public Road getPosition () {
         return position;
@@ -61,7 +61,7 @@ public class Shepard {
         position.setShepard(this);
     }
     
-    //ritorna true se la mossa che si sta per compiere costa un denaro. Devo vederlo dal Player
+    
     /**
      * ritorna true se la mossa che si sta per compiere costa un denaro. Serve al Player per capire se può fare la mossa
      * @param destination strada dove andare

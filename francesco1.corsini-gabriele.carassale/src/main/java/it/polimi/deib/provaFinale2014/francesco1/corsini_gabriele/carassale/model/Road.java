@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Classe Strada, contiene i terreni adiacenti e le strade adiacenti
- *
+ * Classe Strada, contiene i terreni adiacenti e le strade adiacenti, 
+ * rappresenta presenza di Shepards, Fences , il numero proprio e ha un id
  * @author Francesco Corsini
  */
 public class Road {
@@ -57,18 +57,34 @@ public class Road {
         return fence;
     }
 
+    /**
+     * Metodo per mettere una Fence sulla Road
+     * @param val true se si vuole la fence
+     */
     public void setFence(boolean val) {
         this.fence = val;
     }
 
+    /**
+     * Metodo per vedere se la strada è occupata da uno Shepard
+     * @return true se c'è shepard
+     */
     public boolean hasShepard() {
         return isShepard;
     }
 
+    /**
+     * Metodo per settare la presenza dello Shepard
+     * @param val true se si vuole shepard
+     */
     public void setHasShepard(boolean val) {
         this.isShepard = val;
     }
 
+    /**
+     * Metodo per prendere il numero presente sulla strada(quello che si vede nella plancia, non l'id)
+     * @return int
+     */
     public int getRoadNumber() {
         return roadNumber;
     }
@@ -91,10 +107,18 @@ public class Road {
         }
     }
 
+    /**
+     * Metodo per prendere l'id proprio della strada
+     * @return int id strada
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Metodo per settare l'id strada
+     * @param val id che si vuole settare
+     */
     public void setId(int val) {
         id = val;
     }
@@ -107,7 +131,7 @@ public class Road {
         return adjacentRoad;
     }
 
-    public boolean isAdjacentRoad(Road road) {
+    /*public boolean isAdjacentRoad(Road road) {
         boolean isAdjacent = false;
         Iterator<Road> itr = this.getAdjacentRoad().iterator();
         while (itr.hasNext()) {
@@ -117,7 +141,7 @@ public class Road {
             }
         }
         return isAdjacent;
-    }
+    }*/
     
     public Shepard getShepard(){
         return shepard;

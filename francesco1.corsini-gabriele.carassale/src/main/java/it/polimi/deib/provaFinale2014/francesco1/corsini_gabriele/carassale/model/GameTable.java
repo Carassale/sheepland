@@ -20,7 +20,7 @@ public class GameTable {
     private Dice dice;
 
     /**
-     * inizializzazione che genera tutti gli elementi sulla tavola
+     * Costruttore che genera tutti gli elementi sulla tavola
      */
     public GameTable() {
         fenceNumber = 20;
@@ -60,6 +60,11 @@ public class GameTable {
         return shepards;
     }
 
+    /**
+     * Metodo che ritorna l'array della tipologia di TerrainCard desiderata
+     * @param string tipologia terreno della carta
+     * @return ArrayList<TerrainCard> che si desidera
+     */
     public ArrayList<TerrainCard> getTerrainCardPool(String string) {
         if ("Plain".equals(string)) {
             return terrainCardPool.get(0);
