@@ -16,4 +16,5 @@ public interface ServerManager {
 
     public void waitForPlayer() throws IOException;
 
+    public void runNewGame();
 }

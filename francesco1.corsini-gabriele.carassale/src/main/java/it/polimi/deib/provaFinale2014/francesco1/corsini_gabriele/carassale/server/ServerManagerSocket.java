@@ -60,6 +60,7 @@ public class ServerManagerSocket implements ServerManager {
      *
      * @throws java.io.IOException
      */
+    @Override
     public void waitForPlayer() throws IOException {
         playerConnection = new ArrayList<PlayerConnectionSocket>();
         SocketWaitingForce sw = new SocketWaitingForce();
@@ -72,6 +73,7 @@ public class ServerManagerSocket implements ServerManager {
         }
     }
 
+    @Override
     public synchronized void runNewGame() {
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
