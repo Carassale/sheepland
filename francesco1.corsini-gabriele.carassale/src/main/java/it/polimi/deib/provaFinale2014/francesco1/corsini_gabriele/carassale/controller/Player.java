@@ -24,16 +24,16 @@ public class Player {
     private String nickName;
     private boolean isFirstPlayer;
 
-    private String[] actionDone;
+    private String[] actionDone = new String[3];
 
     /**
      * costruttore solo usato per i test
      */
     public Player(boolean firstPlayer) {
-        
+
         coins = 20;
         isFirstPlayer = firstPlayer;
-        
+
         cleanActionDone();
         //serve per inizializzare la lista di liste dell TerrainCardPool
         for (int i = 0; i < 6; i++) {
@@ -101,7 +101,7 @@ public class Player {
 
         boolean canMove = canMoveShepard(destination);
         Road shepPos = shepard.getPosition();
-        
+
         if (canMove == true) {
             if (shepard.isExpensiveMove(destination)) {
                 if (coins == 0) {
