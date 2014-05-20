@@ -32,15 +32,27 @@ public class Road {
         isShepard = false;
     }
 
+    /**
+     * Metodo per ritornare il 1° territorio annesso
+     * @return Terrain adiacente
+     */
     public Terrain getAdjacentTerrain1() {
         return adjacentTerrain[0];
     }
 
+    /**
+     * Metodo per ritornare il 2° territorio annesso
+     * @return Terrain adiacente
+     */
     public Terrain getAdjacentTerrain2() {
         return adjacentTerrain[1];
 
     }
 
+    /**
+     * Metodo per vedere se strada è coperta da Fence
+     * @return true se c'è fence
+     */
     public boolean hasFence() {
         return fence;
     }

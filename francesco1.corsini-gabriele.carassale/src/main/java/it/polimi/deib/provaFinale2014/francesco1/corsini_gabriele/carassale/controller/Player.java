@@ -151,7 +151,8 @@ public class Player {
 
         if (isSheepAndRam(terrain)) {
             if (isShepardNear(terrain)) {
-                Sheep sheep = new Sheep(terrain, false);
+                int i = game.getSheeps().get(game.getSheeps().size()-1).getId();//prende l'id dell'ultima pecora(che è quella con id più alto
+                Sheep sheep = new Sheep(terrain, false,i+1);//e inizializza la nuova pecora con l'id successivo
             } else {
                 throw new MoveException("Non c'è vicino un pastore");
             }

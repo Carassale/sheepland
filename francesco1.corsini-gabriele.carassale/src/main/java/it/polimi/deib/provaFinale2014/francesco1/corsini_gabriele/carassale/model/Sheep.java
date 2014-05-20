@@ -11,6 +11,7 @@ public class Sheep extends Animal {
     private int age;
     private String sex;
     private boolean old;
+    private int id;
 
 
     /**
@@ -18,8 +19,9 @@ public class Sheep extends Animal {
      * @param terrain : dove viene posizionato
      * @param initialization : serve a capire se sto creando pecore per inizializzazione gioco(tipologia randomica) o se nasce da accoppiamento(agnello)
      */
-    public Sheep (Terrain terrain, boolean initialization) {
+    public Sheep (Terrain terrain, boolean initialization, int num) {
         position = terrain;
+        id = num;
         if(initialization == false){
             age = 0;
             sex = randomSex();
@@ -105,6 +107,14 @@ public class Sheep extends Animal {
     
     public void  setOld( boolean val ){
         old = val;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public void setId(int num){
+        id = num;
     }
 }
 

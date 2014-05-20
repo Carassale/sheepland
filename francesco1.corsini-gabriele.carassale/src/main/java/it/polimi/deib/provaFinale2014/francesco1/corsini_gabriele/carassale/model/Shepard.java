@@ -12,17 +12,20 @@ public class Shepard {
 
     private Player owner;
     private Road position;
+    private int id;
     
     /**
      * inizializza lo shepard e lo posiziona sulla plancia
      * @param road posizione
      * @param player giocatore che possiede il pastore
+     * @param num
      */
-    public Shepard (Road road, Player player) {
+    public Shepard (Road road, Player player, int num) {
         position = road;
         position.setHasShepard(true);
         position.setShepard(this);
         owner = player;
+        id = num;
     }
     
     /**
@@ -77,6 +80,14 @@ public class Shepard {
     
     public Player getOwner(){
         return owner;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
+    public void setId(int num){
+        id = num;
     }
     
 }

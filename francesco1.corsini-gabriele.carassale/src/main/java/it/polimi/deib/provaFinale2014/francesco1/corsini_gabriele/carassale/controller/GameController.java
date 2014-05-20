@@ -3,7 +3,9 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import java.util.ArrayList;
 
 public class GameController {
@@ -72,6 +74,7 @@ public class GameController {
 
     private void placeShepards() {
 
+        int i = 0;
         //TODO aggiorna la view
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
@@ -79,14 +82,11 @@ public class GameController {
             //TODOprende la posizione dello shepard piazzato dalla view e la immette qui sotto
             Road roadChoosen = new Road(545);
 
-            Shepard shep = new Shepard(roadChoosen, currentPlayer);
+            Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
             currentPlayer.getShepards().add(shep);
             gameTable.getShepards().add(shep);
+            i++;
         } while (!(playerPool.nextPlayer()));
-    }
-
-    private void playLastTurns(ArrayList<Player> lastPlayers) {
-
     }
 
 }
