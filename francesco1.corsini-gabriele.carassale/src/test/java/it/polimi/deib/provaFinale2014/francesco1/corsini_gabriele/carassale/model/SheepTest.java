@@ -6,8 +6,6 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,7 +28,7 @@ public class SheepTest {
     @Before
     public void setUp() {
         terrain0 = new Terrain();
-        sheep = new Sheep(terrain0, false);
+        sheep = new Sheep(terrain0, false,0);
         for(int i=0;i<4;i++)
             sheep.growUpOneTurn();
         
