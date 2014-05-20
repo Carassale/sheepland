@@ -34,9 +34,9 @@ public class PlayerTest {
     public void setUp() {
         game = new GameTable();
         player = new Player();
-        shepard = new Shepard(game.getMap().getRoads().get(0), player);
+        shepard = new Shepard(game.getMap().getRoads().get(0), player,0);
         player.getShepards().add(shepard);
-        sheep = new Sheep(game.getMap().getTerrain().get(0), true);
+        sheep = new Sheep(game.getMap().getTerrain().get(0), true,0);
         
     }
 
@@ -185,8 +185,8 @@ public class PlayerTest {
     public void testJoinSheeps() throws MoveException{
         Terrain terrain = game.getMap().getTerrain().get(0);
         terrain.getAnimals().clear();
-        Sheep sheep2 = new Sheep(terrain, true);
-        Sheep sheep1 = new Sheep(terrain, true);
+        Sheep sheep2 = new Sheep(terrain, true,1);
+        Sheep sheep1 = new Sheep(terrain, true,2);
         sheep2.setSex("Male");
         sheep1.setSex("Female");
         sheep2.setOld(true);
@@ -205,8 +205,8 @@ public class PlayerTest {
     @Test(expected = MoveException.class)
     public void testJoinSheeps2() throws MoveException{
         Terrain terrain = game.getMap().getTerrain().get(16);
-        Sheep sheep2 = new Sheep(terrain, true);
-        Sheep sheep1 = new Sheep(terrain, true);
+        Sheep sheep2 = new Sheep(terrain, true,1);
+        Sheep sheep1 = new Sheep(terrain, true,2);
         sheep2.setSex("Male");
         sheep1.setSex("Male");
         sheep2.setOld(true);
@@ -222,8 +222,8 @@ public class PlayerTest {
     @Test(expected = MoveException.class)
     public void testJoinSheeps3() throws MoveException{
         Terrain terrain = game.getMap().getTerrain().get(10);
-        Sheep sheep2 = new Sheep(terrain, true);
-        Sheep sheep1 = new Sheep(terrain, true);
+        Sheep sheep2 = new Sheep(terrain, true,1);
+        Sheep sheep1 = new Sheep(terrain, true,2);
         sheep2.setSex("Male");
         sheep1.setSex("Female");
         sheep2.setOld(true);
@@ -244,8 +244,8 @@ public class PlayerTest {
         Player player2 = new Player();
         player.setCoins(20);
         player2.setCoins(20);
-        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2);
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2);
+        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2,1);
+        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2,2);
         
         Terrain terrain = game.getMap().getTerrain().get(0);
         Sheep sheepToKill = (Sheep) terrain.getAnimals().get(0);
@@ -271,8 +271,8 @@ public class PlayerTest {
         
         Player player2 = new Player();
         player.setCoins(3);
-        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2);
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2);
+        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2,1);
+        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2,2);
         
         Sheep sheepToKill = (Sheep) game.getMap().getTerrain().get(0).getAnimals().get(0);
       

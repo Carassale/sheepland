@@ -18,7 +18,7 @@ public class Shepard {
      * inizializza lo shepard e lo posiziona sulla plancia
      * @param road posizione
      * @param player giocatore che possiede il pastore
-     * @param num
+     * @param num id del pastore(serve per serializzazione)
      */
     public Shepard (Road road, Player player, int num) {
         position = road;
@@ -40,6 +40,10 @@ public class Shepard {
     
     
 
+    /**
+     * Metodo per prendere la posizione
+     * @return 
+     */
     public Road getPosition () {
         return position;
     }
