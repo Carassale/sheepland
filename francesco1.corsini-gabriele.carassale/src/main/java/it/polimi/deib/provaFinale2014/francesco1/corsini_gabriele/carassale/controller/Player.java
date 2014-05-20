@@ -40,13 +40,6 @@ public class Player {
         }
     }
     
-    //TODO definire il costruttore
-    public Player(PlayerConnection playerConnection) {
-
-    }
-
-//    public Player(RMI rmi) {
-//    }
     public ArrayList<Shepard> getShepards() {
         return shepards;
     }

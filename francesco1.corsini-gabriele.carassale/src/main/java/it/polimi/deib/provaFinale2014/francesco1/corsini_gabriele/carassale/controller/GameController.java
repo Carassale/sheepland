@@ -15,9 +15,8 @@ public class GameController {
      * Controllore di gioco che controlla che le mosse siano corrette e che le
      * esegue in parte //TODO ricordarsi il controllo sulle mosse giuste
      *
-     * @param playerConnections
      */
-    public GameController(ArrayList<? extends PlayerConnection> playerConnections) {
+    public GameController() {
 
         inizializeGame();
         placeShepards();
