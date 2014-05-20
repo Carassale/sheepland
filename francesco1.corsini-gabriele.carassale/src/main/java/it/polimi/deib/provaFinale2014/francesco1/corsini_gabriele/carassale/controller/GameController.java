@@ -4,10 +4,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.conn
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GameController {
 
@@ -16,21 +12,25 @@ public class GameController {
     private ConnectionManager connectionManager;
 
     /**
-     * Controllore di gioco che controlla che le mosse siano corrette e che le
-     * esegue in parte //TODO ricordarsi il controllo sulle mosse giuste
-     *
+     * Controllore di gioco che serve a inizializzare e far giocare la partita
+     * Costruttore per i test
      */
     public GameController() {
         this.connectionManager = null;
-        inizializeGame();
+        inizializeGame(4);
         placeShepards();
         playGame();
         declareWinner();
     }
-
-    public GameController(ConnectionManager connectionManager) {
+    
+    /**
+     * Controllore di gioco che serve a inizializzare e far giocare la partita
+     * Costruttore reale
+     * @param connectionManager connessione per poter chiamare azioni del client
+     */
+    public GameController(int numberOfPlayers, ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-        inizializeGame();
+        inizializeGame(numberOfPlayers);
         placeShepards();
         playGame();
         declareWinner();
@@ -80,23 +80,28 @@ public class GameController {
      * componenti(Mappa, Animali, Shepards, ecc...) e a distribuire le carte
      * iniziali
      */
-    private void inizializeGame() {
+    private void inizializeGame(int numberOfPlayers) {
         gameTable = new GameTable();
+        createPlayerPool(numberOfPlayers);
         distributeCard();
+        
     }
 
     private void declareWinner() {
         //TODO declare
     }
 
+    /**
+     * Metodo per inizializzare gli shepard: viene chiamato al primo turno e tutti i giocatori posizioneranno gli shepard
+     */
     private void placeShepards() {
 
         int i = 0;
-        //TODO aggiorna la view
+        //TODO caso solo 2 giocatori
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
 
-            //TODOprende la posizione dello shepard piazzato dalla view e la immette qui sotto
+            //TODO prende la posizione dello shepard piazzato dalla view e la immette qui sotto
             Road roadChoosen = new Road(545);
 
             Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
@@ -147,11 +152,22 @@ public class GameController {
                         throw new NullPointerException("errore distribuzione carte");
                     }
                 } catch (CoinException ex) {
-                    Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                    //non possibile nella prima distribuzione
                 }
             }
         } while (!(playerPool.nextPlayer()));
 
     }
-
+    
+    private void createPlayerPool(int numberOfPlayers){
+        Player player;
+        playerPool = new PlayerPool(); 
+        for(int i = 0; i < numberOfPlayers; i++){
+            if(i == 0)
+                player = new Player(true);
+            else
+                player = new Player(false);
+            playerPool.addPlayer(player);
+        }
+    }
 }

@@ -24,16 +24,17 @@ public class Player {
     private String nickName;
     private boolean isFirstPlayer;
 
-    private String actionDo[];
+    private String[] actionDone;
 
     /**
      * costruttore solo usato per i test
      */
-    public Player() {
-        cleanActionDo();
-        //TODO settare isFirstPlayer
+    public Player(boolean firstPlayer) {
+        
         coins = 20;
-
+        isFirstPlayer = firstPlayer;
+        
+        cleanActionDone();
         //serve per inizializzare la lista di liste dell TerrainCardPool
         for (int i = 0; i < 6; i++) {
             ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
@@ -420,28 +421,28 @@ public class Player {
     }
 
     public boolean isPossibleAction(String action) {
-        if (actionDo[0].equals("")) {
-            actionDo[0] = action;
+        if (actionDone[0].equals("")) {
+            actionDone[0] = action;
             return true;
         }
 
-        if (actionDo[1].equals("")) {
-            if ((actionDo[0].equals(action) && action.equals("moveShepard"))
-                    || (!actionDo[0].equals(action))) {
-                actionDo[1] = action;
+        if (actionDone[1].equals("")) {
+            if ((actionDone[0].equals(action) && action.equals("moveShepard"))
+                    || (!actionDone[0].equals(action))) {
+                actionDone[1] = action;
                 return true;
             }
         }
 
-        if (actionDo[2].equals("")) {
-            if (actionDo[1].equals(action) && action.equals("moveShepard")) {
-                cleanActionDo();
+        if (actionDone[2].equals("")) {
+            if (actionDone[1].equals(action) && action.equals("moveShepard")) {
+                cleanActionDone();
                 return true;
             }
 
             if (action.equals("moveShepard")
-                    || (actionDo[0].equals("moveShepard") && !actionDo[1].equals(action))) {
-                cleanActionDo();
+                    || (actionDone[0].equals("moveShepard") && !actionDone[1].equals(action))) {
+                cleanActionDone();
                 return true;
             }
         }
@@ -449,8 +450,8 @@ public class Player {
         return false;
     }
 
-    public void cleanActionDo() {
-        for (String action : actionDo) {
+    public void cleanActionDone() {
+        for (String action : actionDone) {
             action = "";
         }
     }

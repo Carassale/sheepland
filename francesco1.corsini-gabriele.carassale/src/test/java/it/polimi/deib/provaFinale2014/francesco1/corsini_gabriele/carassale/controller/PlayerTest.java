@@ -33,7 +33,7 @@ public class PlayerTest {
     @Before
     public void setUp() {
         game = new GameTable();
-        player = new Player();
+        player = new Player(false);
         shepard = new Shepard(game.getMap().getRoads().get(0), player,0);
         player.getShepards().add(shepard);
         sheep = new Sheep(game.getMap().getTerrain().get(0), true,0);
@@ -241,7 +241,7 @@ public class PlayerTest {
     @Test 
     public void testKillAnimal() throws CoinException, MoveException, WrongDiceNumberException {
         
-        Player player2 = new Player();
+        Player player2 = new Player(false);
         player.setCoins(20);
         player2.setCoins(20);
         Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2,1);
@@ -269,7 +269,7 @@ public class PlayerTest {
     @Test (expected = CoinException.class)
     public void testKillAnimal1() throws CoinException, MoveException, WrongDiceNumberException {
         
-        Player player2 = new Player();
+        Player player2 = new Player(false);
         player.setCoins(3);
         Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player2,1);
         Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2,2);

@@ -13,6 +13,9 @@ public class PlayerPool {
         return players.get(0);
     }
 
+    public void addPlayer(Player newPlayer){
+        players.add(newPlayer);
+    }
     
     /**
      * 
