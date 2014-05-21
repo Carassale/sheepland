@@ -15,7 +15,6 @@ public class GameController {
     private ConnectionManager connectionManager;
     private Dice dice;
 
-    
     /**
      * Controllore di gioco che serve a inizializzare e far giocare la partita
      * Costruttore SOLO per TESTs
@@ -36,7 +35,11 @@ public class GameController {
     public GameController(int numberOfPlayers, ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
         inizializeGame(numberOfPlayers);
-        placeShepards();
+        if (numberOfPlayers != 2) {
+            placeShepards(false);
+        } else {
+            placeShepards(true);
+        }
     }
 
     /**
@@ -75,7 +78,7 @@ public class GameController {
         }
 
     }
-    
+
     public void playGame(int numTurns) {
         boolean isGameOver = false;
         int i = numTurns;
@@ -113,20 +116,29 @@ public class GameController {
     private void placeShepards() {
 
         int i = 0;
+        int id;
+        Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
         //TODO caso solo 2 giocatori
         do {
+            boolean playerHasPlacedShepard = false;
             Player currentPlayer = playerPool.getFirstPlayer();
 
-            //TODO prende la posizione dello shepard piazzato dalla view e la immette qui sotto
-            Road roadChoosen = new Road(545);
+            do {
+                roadChoosen = connectionManager.getPlacedShepard();
+                if (!roadChoosen.hasShepard()) {
+                    playerHasPlacedShepard = true;
+                }
+            } while (!playerHasPlacedShepard);
 
             Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
+
             currentPlayer.getShepards().add(shep);
             gameTable.getShepards().add(shep);
             i++;
+
         } while (!(playerPool.nextPlayer()));
     }
-    
+
     /**
      * SOLO PER TEST
      */
@@ -143,10 +155,38 @@ public class GameController {
         } while (!(playerPool.nextPlayer()));
     }
 
+    private void placeShepards(boolean isGameTwoPlayers) {
+        int i = 0;
+        int id;
+        int shepardsPerPlayer = 1;//questo fa che il ciclo for venga eseguito una sola volta
+        if(isGameTwoPlayers)
+            shepardsPerPlayer = 0;//in questo caso farà il ciclo for per 2 volte
+        Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
+        do {
+            for ( shepardsPerPlayer = 0; shepardsPerPlayer < 2; shepardsPerPlayer++) {
+                boolean playerHasPlacedShepard = false;
+                Player currentPlayer = playerPool.getFirstPlayer();
+
+                do {
+                    roadChoosen = connectionManager.getPlacedShepard();
+                    if (!roadChoosen.hasShepard()) {
+                        playerHasPlacedShepard = true;
+                    }
+                } while (!playerHasPlacedShepard);
+
+                Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
+
+                currentPlayer.getShepards().add(shep);
+                gameTable.getShepards().add(shep);
+                i++;
+            }
+
+        } while (!(playerPool.nextPlayer()));
+    }
+
     /**
      * Metodo che serve a fare la distribuzione iniziale delle carte ai vari
-     * giocatori
-     * E' protected perchè così posso testarlo
+     * giocatori E' protected perchè così posso testarlo
      */
     protected void distributeCard() {
         String terrainKind = null;
@@ -210,14 +250,13 @@ public class GameController {
         }
         return terrainKind;
     }
-    
-    
+
     /**
-     *gestisce il movimento pecora nera. E' protected e non private poichè lo
-     *devo chiamare per far fare il test su di lui
+     * gestisce il movimento pecora nera. E' protected e non private poichè lo
+     * devo chiamare per far fare il test su di lui
      *
      * @return true se il Wolf è stato mosso
-    */
+     */
     protected boolean moveWolf() {
 
         Wolf wolf = gameTable.getWolf();
@@ -237,14 +276,14 @@ public class GameController {
             //nel caso qui devo comunicare il risultato uscito
             return wolfHasEaten;
         }
-        
+
     }
-    
-    private void market(){
+
+    private void market() {
         //TODO market
     }
-    
-    public void start(){
+
+    public void start() {
         playGame();
         declareWinner();
     }

@@ -56,6 +56,8 @@ public class ConnectionClientSocket {
                 errorMove();
             } else if (s.equals("errorDice")) {
                 errorDice();
+            } else if (s.equals("PlaceShepard")) {
+                placeShepard();
             } else if (s.equals("messageText")) {
                 messageText();
             }
@@ -174,6 +176,10 @@ public class ConnectionClientSocket {
 
     private void messageText() throws IOException {
         outVideo.println(inSocket.readLine());
+    }
+    
+    private void placeShepard(){
+        
     }
 
 }

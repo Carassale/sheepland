@@ -254,4 +254,20 @@ public class ConnectionManagerSocket extends ConnectionManager {
         currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
 
     }
+    
+    /**
+     * Metodo chiamato dal gameController per serializzare la comunicazione iniziale degli Shepard dei vari giocatori
+     * @return Road dove posizionare lo Shepard
+     */
+    @Override
+    public Road getPlacedShepard(){
+        //dice al client di piazzare Shepard
+        currentPlayer.printLn("PlaceShepard");
+        //attende risposta 
+        String road = currentPlayer.getNextLine();
+        Integer id = new Integer(road);
+        //ricava l'oggetto
+        Road roadChoosen = gameController.getGameTable().idToRoad(id);
+        return roadChoosen;
+    }
 }
