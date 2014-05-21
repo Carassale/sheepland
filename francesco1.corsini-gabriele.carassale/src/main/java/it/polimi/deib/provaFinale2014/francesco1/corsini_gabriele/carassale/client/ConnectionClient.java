@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
+ * È il main per il Client, ha il compito di provare a collegarsi con uno dei
+ * metodi, Socket o RMI, e avviare il ConnectionClient corrispondente
  *
  * @author Carassale Gabriele
  */
@@ -14,10 +16,19 @@ public class ConnectionClient {
 
     private boolean connected;
 
+    /**
+     * Fa partire il programma del Client
+     *
+     * @param arg
+     */
     public static void main(String arg[]) {
         ConnectionClient cc = new ConnectionClient();
     }
 
+    /**
+     * Prova "all'infinito" a stabilire una connessione con i metodi
+     * tryConnectionSocket e tryConnectionRMI
+     */
     public ConnectionClient() {
         connected = false;
         while (!connected) {

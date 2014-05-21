@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,7 +11,15 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String arg[]) throws IOException {
+    /**
+     * Rimane in ascolto da tastiera di un numero per scegliere quale tipo di
+     * connessione aviare tra Client e Server. Viene creato un ServerManager,
+     * interfaccia implementata dalle due classe ServerManagerSocket e
+     * ServerManagerRMI
+     *
+     * @param arg
+     */
+    public static void main(String arg[]) {
         Scanner keyboard = new Scanner(System.in);
 
         int n = 0;

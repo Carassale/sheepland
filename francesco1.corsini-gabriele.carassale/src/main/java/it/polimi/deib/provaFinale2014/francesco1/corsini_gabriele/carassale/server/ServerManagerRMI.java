@@ -14,10 +14,9 @@ public class ServerManagerRMI implements ServerManager {
 
     private ArrayList<ConnectionManagerRMI> games;
 
+    /**
+     * Crea un ServerManager di tipo RMI, ancora da implementare
+     */
     public ServerManagerRMI() {
-    }
-
-    @Override
-    public void waitPlayer() {
     }
 }

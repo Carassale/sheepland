@@ -28,6 +28,16 @@ public class ConnectionClientSocket {
 
     private TableView tableView;
 
+    /**
+     * Imposta il socket passato come parametro e lo rende pubblico alla classe,
+     * inizializza le due printWriter e i due bufferReader, associa una
+     * TableView, fa partire il metodo waitLine
+     *
+     * @param socket È il socket associato alla connessione con il Server, li
+     * viene passato direttamente dal ConnectionClient
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public ConnectionClientSocket(Socket socket) throws IOException, ClassNotFoundException {
         this.socket = socket;
 

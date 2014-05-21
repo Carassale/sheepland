@@ -21,17 +21,29 @@ import java.util.ArrayList;
  */
 public class ConnectionManagerSocket extends ConnectionManager {
 
+    private final static int NUMACTION = 3;
     private final ArrayList<PlayerConnectionSocket> playerConnections;
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
     private Thread thread;
 
+    /**
+     * Inizializza il Thread passandoli come parametro This (Runnable) e lo
+     * avvia col la chiamata al metodo .start()
+     *
+     * @param playerConnection ArrayList contenente i player associati a questa
+     * partita
+     */
     public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection) {
         this.playerConnections = playerConnection;
         thread = new Thread(this);
         thread.start();
     }
 
+    /**
+     * Memorizza il currentPlayer prelevandolo dal primo elemento dell'Array,
+     * crea il GameController e successivamente lo avvia
+     */
     @Override
     public void startThread() {
         currentPlayer = playerConnections.get(0);
@@ -42,9 +54,15 @@ public class ConnectionManagerSocket extends ConnectionManager {
         //refreshGame4AllPlayer();
     }
 
+    /**
+     * Cicla per il numero di azioni massime consentite il metodo doAction, in
+     * caso di ritorno false dal doAction fa ripetere il metodo finchè non
+     * vengono effettuate un numero corretto di azioni, alla fine chiama il
+     * metodo nextPlayerConnection
+     */
     @Override
     public void startAction() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < NUMACTION; i++) {
             if (!doAction()) {
                 i--;
             }
@@ -52,6 +70,13 @@ public class ConnectionManagerSocket extends ConnectionManager {
         nextPlayerConnections();
     }
 
+    /**
+     * Risveglia il currentPlayer, riceve una string contenente l'azione
+     * richiesta e chiama quindi il metodo associato. Nel caso l'azione sollevi
+     * un'eccezione viene inviata al client
+     *
+     * @return True se l'azione è andata a buon fine
+     */
     public boolean doAction() {
         wakeUpPlayer(currentPlayer);
         String actionToDo = currentPlayer.getNextLine();
@@ -64,60 +89,64 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 actionDo = moveShepard();
             } catch (CoinException ex) {
                 currentPlayer.printLn("errorCoin");
-                doAction();
             } catch (MoveException ex) {
                 currentPlayer.printLn("errorMove");
-                doAction();
             }
         } else if (actionToDo.equals("moveSheep")) {
             try {
                 actionDo = moveSheep();
             } catch (MoveException ex) {
                 currentPlayer.printLn("errorMove");
-                doAction();
             }
         } else if (actionToDo.equals("buyCard")) {
             try {
                 actionDo = buyCard();
             } catch (CoinException ex) {
                 currentPlayer.printLn("errorCoin");
-                doAction();
             }
         } else if (actionToDo.equals("killSheep")) {
             try {
                 actionDo = killSheep();
             } catch (CoinException ex) {
                 currentPlayer.printLn("errorCoin");
-                doAction();
             } catch (MoveException ex) {
                 currentPlayer.printLn("errorMove");
-                doAction();
             } catch (WrongDiceNumberException ex) {
                 currentPlayer.printLn("errorDice");
-                doAction();
             }
         } else if (actionToDo.equals("joinSheep")) {
             try {
                 actionDo = joinSheep();
             } catch (MoveException ex) {
                 currentPlayer.printLn("errorMove");
-                doAction();
             }
         }
-
         //TODO
         //refreshGame4AllPlayer();
         return actionDo;
     }
 
+    /**
+     * Ritorna l'arrey contenente i Player connessi alla partita tramite Socket
+     *
+     * @return ArrayList di PlayerConnectionSocket
+     */
     public ArrayList<PlayerConnectionSocket> getPlayerConnections() {
         return playerConnections;
     }
 
+    /**
+     * Risveglia un player inviando una stringa, serve per il metodo doAction
+     *
+     * @param pcs Player da svegliare
+     */
     public void wakeUpPlayer(PlayerConnectionSocket pcs) {
         pcs.printLn("wakeUp");
     }
 
+    /**
+     * Serializza e invia ad ogni Player il gameTable
+     */
     public void refreshGame4AllPlayer() {
         System.out.println("Invio la mappa ai giocatori");
         for (PlayerConnectionSocket playerConnection : playerConnections) {
@@ -137,6 +166,9 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /*
+     * Imposta il nickName del Player
+     */
     public void setNickName() {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("setNickname");
@@ -144,13 +176,16 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Scorre la lista dei Player, sposta il primo in ultima posizione
+     */
     public void nextPlayerConnections() {
         playerConnections.add(playerConnections.get(0));
         playerConnections.remove(0);
         currentPlayer = playerConnections.get(0);
     }
 
-    public boolean moveShepard() throws MoveException, CoinException {
+    private boolean moveShepard() throws MoveException, CoinException {
         //Riceve via socket l'ID dello shepard
         String shepard = currentPlayer.getNextLine();
         Integer id = new Integer(shepard);
@@ -173,7 +208,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public boolean moveSheep() throws MoveException {
+    private boolean moveSheep() throws MoveException {
         //Riceve via socket l'ID della sheep
         Integer id = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
@@ -194,7 +229,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public boolean buyCard() throws CoinException {
+    private boolean buyCard() throws CoinException {
         //Riceve via socket il tipo di TerrainCard
         String kind = currentPlayer.getNextLine();
 
@@ -208,7 +243,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public boolean killSheep() throws CoinException, MoveException, WrongDiceNumberException {
+    private boolean killSheep() throws CoinException, MoveException, WrongDiceNumberException {
         //Riceve via socket l'ID della sheep
         Integer id = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
@@ -224,7 +259,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public boolean joinSheep() throws MoveException {
+    private boolean joinSheep() throws MoveException {
         //Riceve via socket l'ID del Terrain
         Integer id = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
@@ -240,12 +275,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public void PrintCorrectAction() {
+    private void PrintCorrectAction() {
         currentPlayer.printLn("messageText");
         currentPlayer.printLn("Mossa effettua");
     }
 
-    public void PrintUncorectAction() {
+    private void PrintUncorectAction() {
         currentPlayer.printLn("messageText");
         currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
 
@@ -265,7 +300,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         Integer id = currentPlayer.getNextInt();
         //ricava l'oggetto
         Road roadChoosen = gameController.getGameTable().idToRoad(id);
-        
+
         if (hasToScroll) {
             nextPlayerConnections();
         }

@@ -47,6 +47,13 @@ public class ServerManagerSocket implements ServerManager {
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
 
+    /**
+     * Crea un serverManager di tipo Socket, inizializza l'array contente il
+     * numero di ConnctionManager di tipo Socket (rappresentano il numero di
+     * partite avviate). Crea un serverSocket in grado di ricevere connessioni
+     * in ingresso da parte dei socket dei Client e avvia il metodo waitPlayer
+     * (@override) che aspetta i socket.
+     */
     public ServerManagerSocket() {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
@@ -65,7 +72,6 @@ public class ServerManagerSocket implements ServerManager {
      *
      * @throws java.io.IOException
      */
-    @Override
     public void waitPlayer() throws IOException {
         playerConnection = new ArrayList<PlayerConnectionSocket>();
         while (canAcceptSocket) {
@@ -98,15 +104,19 @@ public class ServerManagerSocket implements ServerManager {
     }
 
     /**
-     * Questa classe implementa un Runnable e ha come attributo un Thread, nel
-     * costruttore della classe al Thread viene passato this (Runnable) e si
-     * auto-avvia (.start()). Viene creato dal metodo waitPlayer e ha lo scopo
-     * di avviare la partita nel caso scadi un TIMEOUT
+     * Viene creato dal metodo waitPlayer e ha lo scopo di avviare la partita
+     * nel caso scadi il TIMEOUT
      */
     private class SocketWaitingTimer implements Runnable {
 
         private Thread thread;
 
+        /**
+         * Implementa un Runnable, ha come attributo un Thread, qui nel
+         * costruttore viene inizializzato il Thread passandoli come parametro
+         * This (Runnable) e viene effettuato lo start sul Thread, in questo
+         * modo alla creazione della classe viene anche avviata.
+         */
         public SocketWaitingTimer() {
             this.thread = new Thread(this);
             this.thread.start();
