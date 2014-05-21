@@ -36,8 +36,8 @@ public class ConnectionManagerSocket extends ConnectionManager {
     public void startThread() {
         currentPlayer = playerConnections.get(0);
         //gameController = null;
-        gameController = new GameController(playerConnections.size(), this);
-        gameController.start();
+        gameController = new GameController(this);
+        gameController.start(playerConnections.size());
         //setNickName();
         //refreshGame4AllPlayer();
     }
@@ -175,14 +175,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     public boolean moveSheep() throws MoveException {
         //Riceve via socket l'ID della sheep
-        String sheep = currentPlayer.getNextLine();
-        Integer id = new Integer(sheep);
+        Integer id = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
         Sheep s = gameController.getGameTable().idToSheep(id);
 
         //Riceve via socket l'ID del Terrain
-        String terrain = currentPlayer.getNextLine();
-        id = new Integer(terrain);
+        id = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(id);
 
@@ -212,8 +210,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     public boolean killSheep() throws CoinException, MoveException, WrongDiceNumberException {
         //Riceve via socket l'ID della sheep
-        String sheep = currentPlayer.getNextLine();
-        Integer id = new Integer(sheep);
+        Integer id = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
         Sheep s = gameController.getGameTable().idToSheep(id);
 
@@ -229,8 +226,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     public boolean joinSheep() throws MoveException {
         //Riceve via socket l'ID del Terrain
-        String terrain = currentPlayer.getNextLine();
-        Integer id = new Integer(terrain);
+        Integer id = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(id);
 
@@ -254,18 +250,19 @@ public class ConnectionManagerSocket extends ConnectionManager {
         currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
 
     }
-    
+
     /**
-     * Metodo chiamato dal gameController per serializzare la comunicazione iniziale degli Shepard dei vari giocatori
+     * Metodo chiamato dal gameController per serializzare la comunicazione
+     * iniziale degli Shepard dei vari giocatori
+     *
      * @return Road dove posizionare lo Shepard
      */
     @Override
-    public Road getPlacedShepard(){
+    public Road getPlacedShepard() {
         //dice al client di piazzare Shepard
         currentPlayer.printLn("PlaceShepard");
         //attende risposta 
-        String road = currentPlayer.getNextLine();
-        Integer id = new Integer(road);
+        Integer id = currentPlayer.getNextInt();
         //ricava l'oggetto
         Road roadChoosen = gameController.getGameTable().idToRoad(id);
         return roadChoosen;

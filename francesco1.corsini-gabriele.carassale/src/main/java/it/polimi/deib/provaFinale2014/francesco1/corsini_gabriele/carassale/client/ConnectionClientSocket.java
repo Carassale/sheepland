@@ -177,9 +177,11 @@ public class ConnectionClientSocket {
     private void messageText() throws IOException {
         outVideo.println(inSocket.readLine());
     }
-    
-    private void placeShepard(){
-        
+
+    private void placeShepard() throws IOException {
+        outVideo.println("Seleziona una strada dove posizionare il Pastore.");
+        outSocket.println(inKeyboard.readLine());
+        outSocket.flush();
     }
 
 }

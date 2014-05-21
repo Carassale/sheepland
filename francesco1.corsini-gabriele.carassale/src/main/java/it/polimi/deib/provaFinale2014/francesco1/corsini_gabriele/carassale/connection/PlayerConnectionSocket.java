@@ -39,6 +39,10 @@ public class PlayerConnectionSocket extends PlayerConnection {
         return inSocket.nextLine();
     }
 
+    public int getNextInt() {
+        return new Integer(inSocket.nextLine());
+    }
+
     public void printLn(String string) {
         outSocket.println(string);
         outSocket.flush();

@@ -32,14 +32,8 @@ public class GameController {
      *
      * @param connectionManager connessione per poter chiamare azioni del client
      */
-    public GameController(int numberOfPlayers, ConnectionManager connectionManager) {
+    public GameController(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-        inizializeGame(numberOfPlayers);
-        if (numberOfPlayers != 2) {
-            placeShepards(false);
-        } else {
-            placeShepards(true);
-        }
     }
 
     /**
@@ -159,11 +153,12 @@ public class GameController {
         int i = 0;
         int id;
         int shepardsPerPlayer = 1;//questo fa che il ciclo for venga eseguito una sola volta
-        if(isGameTwoPlayers)
+        if (isGameTwoPlayers) {
             shepardsPerPlayer = 0;//in questo caso farà il ciclo for per 2 volte
+        }
         Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
         do {
-            for ( shepardsPerPlayer = 0; shepardsPerPlayer < 2; shepardsPerPlayer++) {
+            for (shepardsPerPlayer = 0; shepardsPerPlayer < 2; shepardsPerPlayer++) {
                 boolean playerHasPlacedShepard = false;
                 Player currentPlayer = playerPool.getFirstPlayer();
 
@@ -283,7 +278,13 @@ public class GameController {
         //TODO market
     }
 
-    public void start() {
+    public void start(int numberOfPlayers) {
+        inizializeGame(numberOfPlayers);
+        if (numberOfPlayers != 2) {
+            placeShepards(false);
+        } else {
+            placeShepards(true);
+        }
         playGame();
         declareWinner();
     }

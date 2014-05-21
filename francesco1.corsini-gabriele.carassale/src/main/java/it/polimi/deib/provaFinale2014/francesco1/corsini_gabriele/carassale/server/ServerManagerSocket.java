@@ -42,7 +42,7 @@ public class ServerManagerSocket implements ServerManager {
      * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
      * millisec
      */
-    private final static int TIMEOUT = 5000;
+    private final static int TIMEOUT = 10000;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
@@ -85,12 +85,13 @@ public class ServerManagerSocket implements ServerManager {
      * È un metodo Synchronized per non permettere che sia uno o entrambi dei
      * thread e il metodo waitPlayer lo chiamino nello stesso istante, creando
      * quindi più partite con lo stesso Array di playerConnection (un client
-     * gioca più partite). All'interno vengono killati anche i due thread
+     * gioca più partite).
      */
     public synchronized void runNewGame() {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
+            System.out.println("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
         canAcceptSocket = true;
@@ -117,8 +118,9 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void run() {
             try {
+                System.out.println("Timer avviato");
                 this.thread.sleep(TIMEOUT);
-                System.out.println("Timer Scaduto");
+                System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
             }
@@ -130,6 +132,7 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void stop() {
             this.thread.interrupt();
+            System.out.println("Timer fermato");
         }
 
     }
