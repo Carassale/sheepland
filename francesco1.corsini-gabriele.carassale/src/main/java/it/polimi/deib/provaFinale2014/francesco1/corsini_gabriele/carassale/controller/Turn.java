@@ -48,6 +48,7 @@ public class Turn {
 
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
         if (connectionManager != null) {
+            
             connectionManager.startAction();
         }
 

@@ -1,8 +1,8 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
-
 /**
  * Classe Percora che include pecore, agnelli e montoni
+ *
  * @author Francesco Corsini
  */
 public class Sheep extends Animal {
@@ -13,108 +13,104 @@ public class Sheep extends Animal {
     private boolean old;
     private int id;
 
-
     /**
-     * 
+     *
      * @param terrain : dove viene posizionato
-     * @param initialization : serve a capire se sto creando pecore per inizializzazione gioco(tipologia randomica) o se nasce da accoppiamento(agnello)
+     * @param initialization : serve a capire se sto creando pecore per
+     * inizializzazione gioco(tipologia randomica) o se nasce da
+     * accoppiamento(agnello)
      */
-    public Sheep (Terrain terrain, boolean initialization, int num) {
+    public Sheep(Terrain terrain, boolean initialization, int num) {
         position = terrain;
         id = num;
-        if(initialization == false){
+        if (initialization == false) {
             age = 0;
             sex = randomSex();
-        }
-        else{
+        } else {
             sex = randomSex();
-            if(Math.random() < 0.3){
+            if (Math.random() < 0.3) {
                 age = 0;
                 old = false;
-            }    
-            else{
+            } else {
                 age = 4;
                 old = true;
             }
         }
         position.addAnimal(this);
     }
-    
+
     /**
-     * 
+     *
      * @return Stringa con maschi o femmina
      */
-    private String randomSex(){
-        if(Math.random() < 0.5)
+    private String randomSex() {
+        if (Math.random() < 0.5) {
             return "female";
-        else       
+        } else {
             return "male";
+        }
     }
-    
-    public int getAge () {
+
+    public int getAge() {
         return age;
     }
 
-
-    public void setAge (int val) {
+    public void setAge(int val) {
         this.age = val;
     }
 
-
-    public String getSex () {
+    public String getSex() {
         return sex;
     }
 
-
-    public void setSex (String val) {
+    public void setSex(String val) {
         this.sex = val;
     }
 
-
-    public void growUpOneTurn () {
+    public void growUpOneTurn() {
         age++;
-        if(age == 4)
-            old= true;
+        if (age == 4) {
+            old = true;
+        }
     }
 
-
-    public boolean isWhiteSheep () {
-        if(old == true && "Female".equals(sex))
+    public boolean isWhiteSheep() {
+        if (old == true && "Female".equals(sex)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
-
-    public boolean isLamb () {
-        if(old == false)
+    public boolean isLamb() {
+        if (old == false) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
-
-    public boolean isRam () {
-        if(old == true && "Male".equals(sex))
+    public boolean isRam() {
+        if (old == true && "Male".equals(sex)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
-    public boolean  isOld(  ){
+    public boolean isOld() {
         return old;
     }
-    
-    public void  setOld( boolean val ){
+
+    public void setOld(boolean val) {
         old = val;
     }
-    
-    public int getId(){
+
+    public int getId() {
         return id;
     }
-    
-    public void setId(int num){
+
+    public void setId(int num) {
         id = num;
     }
 }
-

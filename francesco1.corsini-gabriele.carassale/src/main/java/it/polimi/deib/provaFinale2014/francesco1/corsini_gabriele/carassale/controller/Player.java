@@ -339,10 +339,11 @@ public class Player {
         boolean thereIsShepard = false;
 
         Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-        Iterator<Shepard> itrShep = shepards.iterator();
+        //Iterator<Shepard> itrShep = shepards.iterator();
 
         while (itr.hasNext()) {
             Road road = itr.next();
+            Iterator<Shepard> itrShep = shepards.iterator();
             while (itrShep.hasNext()) {
                 Shepard shep = itrShep.next();
                 if (shep.getPosition() == road) {
@@ -383,10 +384,10 @@ public class Player {
         boolean gotRightNumber = false;
 
         Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-        Iterator<Shepard> itrShep = shepards.iterator();
 
         while (itr.hasNext()) {
             Road road = itr.next();
+            Iterator<Shepard> itrShep = shepards.iterator();
             while (itrShep.hasNext()) {
                 Shepard shep = itrShep.next();
                 if (shep.getPosition() == road) {
@@ -465,6 +466,30 @@ public class Player {
             action = new String();
             action = "";
         }
+    }
+
+    public void killAnimal(Sheep sheepToKill, GameTable game, int num) throws CoinException, MoveException, WrongDiceNumberException {
+
+        int shepardNearNumber = countShepardNear(sheepToKill.getPosition());
+        Terrain sheepPosition = sheepToKill.getPosition();
+
+        if (coins >= shepardNearNumber * 2) {
+            if (isShepardNear(sheepPosition)) {
+                if (randomNumberForShepard(sheepPosition, num)) {
+                    sheepPosition.deleteAnimal(sheepToKill);
+                    game.getSheeps().remove(sheepToKill);
+                    int payment = payShepards(sheepPosition);
+                    coins = coins - payment;
+                } else {
+                    throw new WrongDiceNumberException(num);
+                }
+            } else {
+                throw new MoveException("Non c'è vicino un pastore");
+            }
+        } else {
+            throw new CoinException("Non abbastanza soldi per comprare il silenzio di tutti i pastori");
+        }
+
     }
 
 }
