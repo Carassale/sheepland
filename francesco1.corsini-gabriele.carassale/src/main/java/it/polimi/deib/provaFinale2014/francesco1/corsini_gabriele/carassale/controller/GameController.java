@@ -34,6 +34,7 @@ public class GameController {
      */
     public GameController(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+        dice = new Dice();
     }
 
     /**
@@ -51,9 +52,9 @@ public class GameController {
         do {
             Turn round = new Turn(isGameOver, gameTable, connectionManager);
             isGameOver = round.playTurn();
-            moveWolf();
-            market();
         } while (!(playerPool.nextPlayer()));
+        moveWolf();
+        market();
 
         return isGameOver;
     }
@@ -73,6 +74,11 @@ public class GameController {
 
     }
 
+    /**
+     * Metodo per effettuare test
+     *
+     * @param numTurns
+     */
     public void playGame(int numTurns) {
         boolean isGameOver = false;
         int i = numTurns;
