@@ -28,7 +28,7 @@ public abstract class ConnectionManager implements Runnable {
     public void startAction() {
     }
 
-    public Road getPlacedShepard() {
+    public Road getPlacedShepard(boolean hasToScroll) {
         Road road = new Road(100);
         return road;
     }

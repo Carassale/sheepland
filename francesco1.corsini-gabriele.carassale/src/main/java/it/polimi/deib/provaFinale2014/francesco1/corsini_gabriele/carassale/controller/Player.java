@@ -450,7 +450,8 @@ public class Player {
             }
 
             if (action.equals("moveShepard")
-                    || (actionDone[0].equals("moveShepard") && !actionDone[1].equals(action))) {
+                    || (actionDone[0].equals("moveShepard") && !actionDone[1].equals(action))
+                    || (actionDone[1].equals("moveShepard"))) {
                 cleanActionDone();
                 return true;
             }

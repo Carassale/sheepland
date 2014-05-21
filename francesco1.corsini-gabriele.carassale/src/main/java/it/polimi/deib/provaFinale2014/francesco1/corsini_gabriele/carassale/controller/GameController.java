@@ -104,42 +104,11 @@ public class GameController {
     }
 
     /**
-     * Metodo per inizializzare gli shepard: viene chiamato al primo turno e
-     * tutti i giocatori posizioneranno gli shepard
-     */
-    private void placeShepards() {
-
-        int i = 0;
-        int id;
-        Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
-        //TODO caso solo 2 giocatori
-        do {
-            boolean playerHasPlacedShepard = false;
-            Player currentPlayer = playerPool.getFirstPlayer();
-
-            do {
-                roadChoosen = connectionManager.getPlacedShepard();
-                if (!roadChoosen.hasShepard()) {
-                    playerHasPlacedShepard = true;
-                }
-            } while (!playerHasPlacedShepard);
-
-            Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
-
-            currentPlayer.getShepards().add(shep);
-            gameTable.getShepards().add(shep);
-            i++;
-
-        } while (!(playerPool.nextPlayer()));
-    }
-
-    /**
      * SOLO PER TEST
      */
     protected void placeShepards(int numPlayer) {
 
         int i = 0;
-        //TODO caso solo 2 giocatori
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
             Shepard shep = new Shepard(gameTable.getMap().getRoads().get(i), currentPlayer, i);
@@ -152,18 +121,22 @@ public class GameController {
     private void placeShepards(boolean isGameTwoPlayers) {
         int i = 0;
         int id;
-        int shepardsPerPlayer = 1;//questo fa che il ciclo for venga eseguito una sola volta
-        if (isGameTwoPlayers) {
-            shepardsPerPlayer = 0;//in questo caso farà il ciclo for per 2 volte
-        }
         Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
         do {
-            for (shepardsPerPlayer = 0; shepardsPerPlayer < 2; shepardsPerPlayer++) {
+            int shepardsPerPlayer = 1;//questo fa che il ciclo for venga eseguito una sola volta
+            if (isGameTwoPlayers) {
+                shepardsPerPlayer = 0;//in questo caso farà il ciclo for per 2 volte
+            }
+            for (; shepardsPerPlayer < 2; shepardsPerPlayer++) {
                 boolean playerHasPlacedShepard = false;
                 Player currentPlayer = playerPool.getFirstPlayer();
 
                 do {
-                    roadChoosen = connectionManager.getPlacedShepard();
+                    boolean hasToScroll = false;
+                    if (shepardsPerPlayer == 1) {
+                        hasToScroll = true;
+                    }
+                    roadChoosen = connectionManager.getPlacedShepard(hasToScroll);
                     if (!roadChoosen.hasShepard()) {
                         playerHasPlacedShepard = true;
                     }

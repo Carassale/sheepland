@@ -165,7 +165,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
             gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
-
+            PrintCorrectAction();
             return true;
         } else {
             PrintUncorectAction();
@@ -258,13 +258,17 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @return Road dove posizionare lo Shepard
      */
     @Override
-    public Road getPlacedShepard() {
+    public Road getPlacedShepard(boolean hasToScroll) {
         //dice al client di piazzare Shepard
         currentPlayer.printLn("PlaceShepard");
         //attende risposta 
         Integer id = currentPlayer.getNextInt();
         //ricava l'oggetto
         Road roadChoosen = gameController.getGameTable().idToRoad(id);
+        
+        if (hasToScroll) {
+            nextPlayerConnections();
+        }
         return roadChoosen;
     }
 }
