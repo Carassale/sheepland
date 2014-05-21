@@ -18,23 +18,31 @@ import java.util.Iterator;
  */
 public class Player {
 
-    private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
-    private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
+    private ArrayList<Shepard> shepards;
+    private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned;
     private int coins;
     private String nickName;
     private boolean isFirstPlayer;
 
-    private String[] actionDone = new String[3];
+    private String actionDone[];
 
     /**
      * costruttore solo usato per i test
+     *
+     * @param firstPlayer
      */
     public Player(boolean firstPlayer) {
+        shepards = new ArrayList<Shepard>();
+        terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
+
+        actionDone = new String[3];
+        for (int i = 0; i < 3; i++) {
+            actionDone[i] = new String("");
+        }
 
         coins = 20;
         isFirstPlayer = firstPlayer;
 
-        cleanActionDone();
         //serve per inizializzare la lista di liste dell TerrainCardPool
         for (int i = 0; i < 6; i++) {
             ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
@@ -454,6 +462,7 @@ public class Player {
     public void cleanActionDone() {
         for (String action : actionDone) {
             action = new String();
+            action = "";
         }
     }
 

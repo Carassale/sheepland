@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Questa classe viene inizializzata direttamente dal main, ha il compito di
@@ -44,7 +42,7 @@ public class ServerManagerSocket implements ServerManager {
      * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
      * millisec
      */
-    private final static int TIMEOUT = 10000;
+    private final static int TIMEOUT = 5000;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;

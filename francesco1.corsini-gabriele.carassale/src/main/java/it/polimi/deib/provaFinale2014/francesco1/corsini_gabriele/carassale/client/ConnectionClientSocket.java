@@ -48,15 +48,16 @@ public class ConnectionClientSocket {
             } else if (s.equals("setNikcnam")) {
                 setNickname();
             } else if (s.equals("refresh")) {
-                refresh();
+                //TODO
+                //refresh();
             } else if (s.equals("errorCoin")) {
                 errorCoin();
             } else if (s.equals("errorMove")) {
                 errorMove();
             } else if (s.equals("errorDice")) {
                 errorDice();
-            } else {
-                outVideo.println(s);
+            } else if (s.equals("messageText")) {
+                messageText();
             }
         }
     }
@@ -77,67 +78,67 @@ public class ConnectionClientSocket {
         }
     }
 
-    private void moveShepard() {
+    private void moveShepard() throws IOException {
         String s = "";
         outSocket.println("moveShepard");
         outSocket.flush();
 
         outVideo.println("Quale pastore vuoi muovere?");
-        //Seleziona il pastore e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
 
         outVideo.println("In quale terreno?");
-        //Seleziona il terreno e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
     }
 
-    private void moveSheep() {
+    private void moveSheep() throws IOException {
         String s = "";
         outSocket.println("moveSheep");
         outSocket.flush();
 
         outVideo.println("Quale pecora vuoi muovere?");
-        //Seleziona la pecora e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
 
         outVideo.println("In quale terreno?");
-        //Seleziona il terreno e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
     }
 
-    private void buyCard() {
+    private void buyCard() throws IOException {
         String s = "";
         outSocket.println("buyCard");
         outSocket.flush();
 
         outVideo.println("Quale tipo di carta vuoi acquistare?");
-        //Seleziona il tipo di carta con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
     }
 
-    private void killSheep() {
+    private void killSheep() throws IOException {
         String s = "";
         outSocket.println("killSheep");
         outSocket.flush();
 
         outVideo.println("Quale pecora vuoi ammazzare?");
-        //Seleziona la pecora e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
     }
 
-    private void joinSheep() {
+    private void joinSheep() throws IOException {
         String s = "";
         outSocket.println("joinShepard");
         outSocket.flush();
 
         outVideo.println("In quale terreno si trovano gli ovini?");
-        //Seleziona il terreno e con toString viene generata la String s
+        s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();
     }
@@ -169,6 +170,10 @@ public class ConnectionClientSocket {
     //??????
     private void errorDice() {
         outVideo.println("Impossibile fare la mossa! Errore dado.");
+    }
+
+    private void messageText() throws IOException {
+        outVideo.println(inSocket.readLine());
     }
 
 }

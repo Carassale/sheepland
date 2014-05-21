@@ -105,7 +105,8 @@ public class ConnectionManagerSocket extends ConnectionManager {
             }
         }
 
-        refreshGame4AllPlayer();
+        //TODO
+        //refreshGame4AllPlayer();
         return actionDo;
     }
 
@@ -164,8 +165,10 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
             gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
+
             return true;
         } else {
+            PrintUncorectAction();
             return false;
         }
     }
@@ -185,8 +188,10 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveSheep")) {
             gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
+            PrintCorrectAction();
             return true;
         } else {
+            PrintUncorectAction();
             return false;
         }
     }
@@ -197,9 +202,10 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("buyCard")) {
             gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
-            currentPlayer.printLn(gameController.getGameTable().getTerrainCardPool(kind).size());
+            PrintCorrectAction();
             return true;
         } else {
+            PrintUncorectAction();
             return false;
         }
     }
@@ -213,8 +219,10 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("killSheep")) {
             gameController.getPlayerPool().getFirstPlayer().killAnimal(s, gameController.getGameTable());
+            PrintCorrectAction();
             return true;
         } else {
+            PrintUncorectAction();
             return false;
         }
     }
@@ -228,10 +236,22 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("joinSheep")) {
             gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
+            PrintCorrectAction();
             return true;
         } else {
+            PrintUncorectAction();
             return false;
         }
     }
 
+    public void PrintCorrectAction() {
+        currentPlayer.printLn("messageText");
+        currentPlayer.printLn("Mossa effettua");
+    }
+
+    public void PrintUncorectAction() {
+        currentPlayer.printLn("messageText");
+        currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
+
+    }
 }
