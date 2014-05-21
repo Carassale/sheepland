@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public class GameControllerTest {
     
     
     private GameController gameController;
-    
+
     @Before
     public void setUp() {
         gameController = new GameController(6);
@@ -36,27 +35,30 @@ public class GameControllerTest {
        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Plain").size());
     }
     /*
-    @Test
-    public void testPlayRounds() {
+     @Test
+     public void testDistributeCard() {
+
+     }
+     @Test
+     public void testPlayRounds() {
         
-    }
+     }
 
 
-    @Test
-    public void testGetPlayerPool() {
+     @Test
+     public void testGetPlayerPool() {
         
-    }
+     }
 
 
-    @Test
-    public void testPlayGame() {
+     @Test
+     public void testPlayGame() {
         
-    }
+     }
 
 
-    @Test
-    public void testGetGameTable() {
+     @Test
+     public void testGetGameTable() {
         
-    }*/
-    
+     }*/
 }
