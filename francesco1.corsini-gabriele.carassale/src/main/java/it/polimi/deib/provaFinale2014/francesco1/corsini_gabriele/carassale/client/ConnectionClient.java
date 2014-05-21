@@ -9,7 +9,7 @@ import java.net.Socket;
  */
 public class ConnectionClient {
 
-    private final static int PORT = 3000;
+    private final static int PORT = 3002;
     private final static String address = "localhost";
 
     private boolean connected;

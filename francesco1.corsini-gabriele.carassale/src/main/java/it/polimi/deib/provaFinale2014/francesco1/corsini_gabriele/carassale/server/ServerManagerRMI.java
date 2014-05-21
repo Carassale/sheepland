@@ -18,6 +18,6 @@ public class ServerManagerRMI implements ServerManager {
     }
 
     @Override
-    public void waitForPlayer() {
+    public void waitPlayer() {
     }
 }
