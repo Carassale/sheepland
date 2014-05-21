@@ -17,7 +17,7 @@ public class Turn {
      * Costruttore solo per eseguire i Test(non ha il connectionManager)
      */
     public Turn(boolean isLastTurn, GameTable gameTable) {
-        this.connectionManager = null;
+        connectionManager = null;
 
         forceLastRound = isLastTurn;
         //TODO vedere come questo isLastTurn si immette per le Fence Finali
@@ -33,6 +33,7 @@ public class Turn {
      * Fence finali)
      * @param gameTable gioco su cui si sta giocando
      * @param connectionManager dove sono tutte le connessioni
+     * @param playerPool
      */
     public Turn(boolean isLastTurn, GameTable gameTable, ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
