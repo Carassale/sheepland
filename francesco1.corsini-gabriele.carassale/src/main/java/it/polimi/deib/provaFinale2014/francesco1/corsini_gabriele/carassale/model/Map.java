@@ -97,7 +97,7 @@ public class Map {
         }
         else if(id == 2){
             road.connectTerrainRoad(terrain.get(0));
-            road.connectTerrainRoad(terrain.get(17)); 
+            road.connectTerrainRoad(terrain.get(1)); 
             road.setRoadNumber(1);            
         }
         else if(id == 3){

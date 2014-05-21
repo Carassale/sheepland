@@ -15,17 +15,18 @@ public class GameController {
      * Controllore di gioco che serve a inizializzare e far giocare la partita
      * Costruttore per i test
      */
-    public GameController() {
+    public GameController(int numberOfPlayers) {
         this.connectionManager = null;
-        inizializeGame(4);
+        inizializeGame(numberOfPlayers);
         placeShepards();
         playGame();
         declareWinner();
     }
-    
+
     /**
      * Controllore di gioco che serve a inizializzare e far giocare la partita
      * Costruttore reale
+     *
      * @param connectionManager connessione per poter chiamare azioni del client
      */
     public GameController(int numberOfPlayers, ConnectionManager connectionManager) {
@@ -84,7 +85,7 @@ public class GameController {
         gameTable = new GameTable();
         createPlayerPool(numberOfPlayers);
         distributeCard();
-        
+
     }
 
     private void declareWinner() {
@@ -92,7 +93,8 @@ public class GameController {
     }
 
     /**
-     * Metodo per inizializzare gli shepard: viene chiamato al primo turno e tutti i giocatori posizioneranno gli shepard
+     * Metodo per inizializzare gli shepard: viene chiamato al primo turno e
+     * tutti i giocatori posizioneranno gli shepard
      */
     private void placeShepards() {
 
@@ -124,50 +126,57 @@ public class GameController {
 
         do {
             Player playerThatPicks = playerPool.getFirstPlayer();
-            int random = (int) (Math.random() * 6 + 1);
-            if (random == 0) {
-                terrainKind = "Plain";
-                alredyPicked[0] = true;
-            } else if (random == 1) {
-                terrainKind = "Forest";
-                alredyPicked[1] = true;
-            } else if (random == 2) {
-                terrainKind = "River";
-                alredyPicked[2] = true;
-            } else if (random == 3) {
-                terrainKind = "Desert";
-                alredyPicked[3] = true;
-            } else if (random == 4) {
-                terrainKind = "Mountain";
-                alredyPicked[4] = true;
-            } else if (random == 5) {
-                terrainKind = "Field";
-                alredyPicked[5] = true;
-            }
-            if (alredyPicked[random] == false) {
-                try {
-                    if (terrainKind != null) {
-                        playerThatPicks.buyTerrainCard(terrainKind, gameTable);
-                    } else {
-                        throw new NullPointerException("errore distribuzione carte");
+            boolean playerHasPicked = false;
+
+            while (!playerHasPicked) {
+                int random = (int) (Math.random() * 6);
+                if (alredyPicked[random] == false) {
+                    try {
+                        terrainKind = matchNumToTerrainKind(random);
+                        if (terrainKind != null) {
+                            playerThatPicks.buyTerrainCard(terrainKind, gameTable);
+                            alredyPicked[random] = true;
+                            playerHasPicked = true;
+                        } else {
+                            throw new NullPointerException("errore distribuzione carte");
+                        }
+                    } catch (CoinException ex) {
+                        //non possibile nella prima distribuzione
                     }
-                } catch (CoinException ex) {
-                    //non possibile nella prima distribuzione
                 }
             }
         } while (!(playerPool.nextPlayer()));
 
     }
-    
-    private void createPlayerPool(int numberOfPlayers){
+
+    private void createPlayerPool(int numberOfPlayers) {
         Player player;
-        playerPool = new PlayerPool(); 
-        for(int i = 0; i < numberOfPlayers; i++){
-            if(i == 0)
+        playerPool = new PlayerPool();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            if (i == 0) {
                 player = new Player(true);
-            else
+            } else {
                 player = new Player(false);
+            }
             playerPool.addPlayer(player);
         }
+    }
+
+    private String matchNumToTerrainKind(int random) {
+        String terrainKind = null;
+        if (random == 0) {
+            terrainKind = "Plain";
+        } else if (random == 1) {
+            terrainKind = "Forest";
+        } else if (random == 2) {
+            terrainKind = "River";
+        } else if (random == 3) {
+            terrainKind = "Desert";
+        } else if (random == 4) {
+            terrainKind = "Mountain";
+        } else if (random == 5) {
+            terrainKind = "Field";
+        }
+        return terrainKind;
     }
 }

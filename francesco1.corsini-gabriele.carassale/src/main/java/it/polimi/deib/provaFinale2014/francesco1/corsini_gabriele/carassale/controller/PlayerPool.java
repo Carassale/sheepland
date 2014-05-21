@@ -7,6 +7,7 @@ public class PlayerPool {
     private ArrayList<Player> players;
 
     public PlayerPool() {
+        players = new ArrayList<Player>();
     }
 
     public Player getFirstPlayer() {
@@ -33,6 +34,10 @@ public class PlayerPool {
             newTurn = true;
         
         return newTurn;
+    }
+    
+    public ArrayList<Player> getPlayers(){
+        return players;
     }
 
 }

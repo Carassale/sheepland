@@ -15,8 +15,12 @@ public class Turn {
     private final Dice dice;
     private ConnectionManager connectionManager;
 
+    /**
+     * Costruttore solo per eseguire i Test(non ha il connectionManager)
+     */
     public Turn(boolean isLastTurn, GameTable gameTable) {
         this.connectionManager = null;
+        
         forceLastRound = isLastTurn;
         //TODO vedere come questo isLastTurn si immette per le Fence Finali
 
@@ -24,6 +28,12 @@ public class Turn {
         game = gameTable;
     }
 
+    /**
+     * Costruttore 
+     * @param isLastTurn true se è un turno dell'ultimo giro(verranno messe le Fence finali)
+     * @param gameTable gioco su cui si sta giocando
+     * @param connectionManager dove sono tutte le connessioni
+     */
     public Turn(boolean isLastTurn, GameTable gameTable, ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
         forceLastRound = isLastTurn;
@@ -35,13 +45,13 @@ public class Turn {
 
     public boolean playTurn() {
         moveBlackSheep();
-
-        connectionManager.startAction();
-
+        
+        //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
+        if(connectionManager != null)
+            connectionManager.startAction();
+        
         market();
         moveWolf();
-
-        //------
         if (game.getFenceNumber() <= 0) {
             forceLastRound = true;
         }
@@ -60,7 +70,7 @@ public class Turn {
         int diceNumber = dice.getRandom();
 
         try {
-            Road road = blackSheep.hasToMove(diceNumber);
+             Road road = blackSheep.hasToMove(diceNumber);
             blackSheep.move(road);
             return true;
         } catch (WrongDiceNumberException e) {
@@ -89,7 +99,7 @@ public class Turn {
             //nel caso qui devo comunicare il risultato uscito
             return wolfHasEaten;
         }
-        //TODO ora mangia le pecore
+        
     }
 
     private void market() {

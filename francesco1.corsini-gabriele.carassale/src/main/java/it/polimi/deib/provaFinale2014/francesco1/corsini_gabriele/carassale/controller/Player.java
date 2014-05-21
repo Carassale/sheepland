@@ -114,6 +114,7 @@ public class Player {
             shepPos.setHasShepard(false);
             shepard.setPosition(destination);
             shepard.getPosition().setHasShepard(true);
+            game.decreaseFenceNumber();
         } else {
             throw new MoveException();
         }
