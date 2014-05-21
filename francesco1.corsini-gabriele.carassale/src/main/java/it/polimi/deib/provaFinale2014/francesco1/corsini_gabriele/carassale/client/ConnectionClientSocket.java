@@ -30,6 +30,7 @@ public class ConnectionClientSocket {
 
     public ConnectionClientSocket(Socket socket) throws IOException, ClassNotFoundException {
         this.socket = socket;
+
         inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
@@ -54,6 +55,8 @@ public class ConnectionClientSocket {
                 errorMove();
             } else if (s.equals("errorDice")) {
                 errorDice();
+            } else {
+                outVideo.println(s);
             }
         }
     }
@@ -61,15 +64,15 @@ public class ConnectionClientSocket {
     private void doAction() throws IOException {
         outVideo.println("Fai la tua mossa");
         String s = inKeyboard.readLine();
-        if (s.equals("1")) {
+        if (s.equals("moveShepard")) {
             moveShepard();
-        } else if (s.equals("2")) {
+        } else if (s.equals("moveSheep")) {
             moveSheep();
-        } else if (s.equals("3")) {
+        } else if (s.equals("buyCard")) {
             buyCard();
-        } else if (s.equals("4")) {
+        } else if (s.equals("killSheep")) {
             killSheep();
-        } else if (s.equals("5")) {
+        } else if (s.equals("joinSheep")) {
             joinSheep();
         }
     }

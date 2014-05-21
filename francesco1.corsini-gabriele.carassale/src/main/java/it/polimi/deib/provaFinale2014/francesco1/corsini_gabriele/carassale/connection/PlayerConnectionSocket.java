@@ -35,12 +35,19 @@ public class PlayerConnectionSocket extends PlayerConnection {
         return socket;
     }
 
-    public Scanner getScanner() {
-        return inSocket;
+    public String getNextLine() {
+        return inSocket.nextLine();
     }
 
-    public PrintWriter getOutSocket() {
-        return outSocket;
+    public void printLn(String string) {
+        outSocket.println(string);
+        outSocket.flush();
+    }
+
+    public void printLn(int i) {
+        Integer integer = i;
+        outSocket.println(integer.toString());
+        outSocket.flush();
     }
 
 }

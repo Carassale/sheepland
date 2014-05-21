@@ -50,8 +50,6 @@ public class GameController {
         this.connectionManager = connectionManager;
         inizializeGame(numberOfPlayers);
         placeShepards();
-        playGame();
-        declareWinner();
     }
 
     /**
@@ -263,5 +261,10 @@ public class GameController {
             
             
         } while (!(playerPool.nextPlayer()));
+    }
+    
+    public void start(){
+        playGame();
+        declareWinner();
     }
 }
