@@ -38,7 +38,12 @@ public class Terrain {
     }
 
     public void  deleteAnimal( Animal animal ){
+        try{
         this.animals.remove(this.animals.indexOf(animal));
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+            System.out.print("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali "); 
+        }
     }
 
     

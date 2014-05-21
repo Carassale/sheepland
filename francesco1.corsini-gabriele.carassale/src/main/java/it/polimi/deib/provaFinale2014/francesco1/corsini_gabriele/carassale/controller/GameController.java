@@ -15,18 +15,6 @@ public class GameController {
     private ConnectionManager connectionManager;
     private Dice dice;
 
-    /**
-     * Controllore di gioco che serve a inizializzare e far giocare la partita
-     * Costruttore SOLO per TESTs
-     */
-    public GameController(int numberOfPlayers, int numTurns) {
-        dice = new Dice();
-        this.connectionManager = null;
-        inizializeGame(numberOfPlayers);
-        placeShepards();
-        playGame(numTurns);
-        declareWinner();
-    }
     
     /**
      * Controllore di gioco che serve a inizializzare e far giocare la partita
@@ -37,7 +25,6 @@ public class GameController {
         this.connectionManager = null;
         inizializeGame(numberOfPlayers);
         placeShepards(numberOfPlayers);
-        declareWinner();
     }
 
     /**
@@ -254,13 +241,7 @@ public class GameController {
     }
     
     private void market(){
-        do {
-            Player currentPlayer = playerPool.getFirstPlayer();
-            
-            
-            
-            
-        } while (!(playerPool.nextPlayer()));
+        //TODO market
     }
     
     public void start(){
