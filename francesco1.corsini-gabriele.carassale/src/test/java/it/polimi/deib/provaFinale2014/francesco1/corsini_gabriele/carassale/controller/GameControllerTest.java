@@ -6,6 +6,8 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
+import java.util.ArrayList;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,18 +17,23 @@ import org.junit.Test;
  */
 public class GameControllerTest {
     
-    private PlayerPool playerPool;
+    
     private GameController gameController;
     
     @Before
     public void setUp() {
-        gameController = new GameController();
-        playerPool = new PlayerPool();
+        gameController = new GameController(6);
+        
     }
 
     @Test
+    public void testCreateGameController() {
+        assertEquals(4,gameController.getPlayerPool().getPlayers().size());
+    }
+    
+    @Test
     public void testDistributeCard() {
-        
+       assertEquals(4,gameController.getGameTable().getTerrainCardPool("Plain").size());
     }
     /*
     @Test

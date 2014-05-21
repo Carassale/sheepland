@@ -6,15 +6,10 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Map;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
-import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
