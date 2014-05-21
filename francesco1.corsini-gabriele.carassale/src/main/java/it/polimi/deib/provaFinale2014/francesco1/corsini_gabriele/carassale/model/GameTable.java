@@ -106,7 +106,7 @@ public class GameTable {
             terrainCardPool.add(list);
         }
 
-        for (int i = 0; i < 29; i++) {
+        for (int i = 0; i < 30; i++) {
             TerrainCard terCar = new TerrainCard();
             terCar.setId(i);
             if (i <= 4) {
@@ -129,7 +129,7 @@ public class GameTable {
                 terCar.setTerrainType("Mountain");
                 terrainCardPool.get(4).add(terCar);
             }
-            if (i >= 25 && i <= 29) {
+            if (i >= 25 && i <= 30) {
                 terCar.setTerrainType("Field");
                 terrainCardPool.get(5).add(terCar);
             }
@@ -137,6 +137,11 @@ public class GameTable {
         }
     }
 
+    /**
+     * Metodo per trasformare un id in un oggetto pastore
+     * @param id intero univoco per l'identificazione
+     * @return oggetto identificato
+     */
     public Shepard idToShepard(int id) {
         for (Shepard shepard : shepards) {
             if (shepard.getId() == id) {
@@ -146,6 +151,11 @@ public class GameTable {
         return null;
     }
 
+    /**
+     * Metodo per trasformare un id in un oggetto Sheep
+     * @param id intero univoco per l'identificazione
+     * @return oggetto identificato
+     */
     public Sheep idToSheep(int id) {
         for (Sheep sheep : sheeps) {
             if (sheep.getId() == id) {
@@ -156,6 +166,11 @@ public class GameTable {
 
     }
 
+    /**
+     * Metodo per trasformare un id in un oggetto Road
+     * @param id intero univoco per l'identificazione
+     * @return oggetto identificato
+     */
     public Road idToRoad(int id) {
         for (int i = 0; i < map.getRoads().size(); i++) {
             if (map.getRoads().get(i).getId() == id) {
@@ -165,6 +180,11 @@ public class GameTable {
         return null;
     }
 
+    /**
+     * Metodo per trasformare un id in un oggetto Terrain
+     * @param id intero univoco per l'identificazione
+     * @return oggetto identificato
+     */
     public Terrain idToTerrain(int id) {
         for (int i = 0; i < map.getTerrain().size(); i++) {
             if (map.getTerrain().get(i).getID() == id) {

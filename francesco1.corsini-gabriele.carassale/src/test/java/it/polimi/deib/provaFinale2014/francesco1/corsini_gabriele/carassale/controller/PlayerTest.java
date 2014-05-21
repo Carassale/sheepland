@@ -236,14 +236,14 @@ public class PlayerTest {
     @Test 
     public void testKillAnimal() throws CoinException, MoveException, WrongDiceNumberException {
         
+        Terrain terrain = game.getMap().getTerrain().get(0);
         Player player2 = new Player(false);
         player.setCoins(20);
         player2.setCoins(20);
         Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1),player,1);
         Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2),player2,2);
-        
-        Terrain terrain = game.getMap().getTerrain().get(0);
-        Sheep sheepToKill = (Sheep) terrain.getAnimals().get(0);
+        terrain.getAnimals().clear();
+        Sheep sheepToKill = new Sheep(terrain,true,5);
       
         try{
         player.killAnimal(sheep, game);

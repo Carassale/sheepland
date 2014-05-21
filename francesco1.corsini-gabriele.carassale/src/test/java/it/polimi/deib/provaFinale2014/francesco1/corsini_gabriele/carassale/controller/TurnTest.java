@@ -65,42 +65,5 @@ public class TurnTest {
         }
     }
 
-    /**
-     * Test che chiama prova a muovere la Wolf: si muove per forza perchè
-     * all'inizio è a SheepSbourg è ci sono 6 strade collegate. Poi deve
-     * mangiare per forza poichè c'è per forza una pecora ovunque si muova
-     */
-    @Test
-    public void testWolfEatsSheep() {
-        Wolf wolf = game.getWolf();
-        Terrain terrainWherePlaced = wolf.getPosition();
-
-        turn.moveWolf();
-        assertNotSame(terrainWherePlaced, wolf.getPosition());
-        assertEquals(0, wolf.getPosition().getAnimals().size());//ci sono zero animali(il lupo non conta) quindi è stata mangiata la pecora
-    }
-
-    /**
-     * Test che chiama prova a muovere il Wolf: se si muove torna true e mangia
-     * pecora. Altrimenti false
-     *
-     */
-    @Test
-    public void testWolfEatsSheep2() {
-        Wolf wolf = game.getWolf();
-        Terrain terrainToPlace = game.getMap().getTerrain().get(0); //la metto in un angolo della mappa così ha più possibilità di lanciare eccezione
-        wolf.setPosition(terrainToPlace);
-        boolean wolfHasMoved;
-
-        wolfHasMoved = turn.moveWolf();
-        if (wolfHasMoved) {
-            assertNotSame(terrainToPlace, wolf.getPosition());
-            assertEquals(0, wolf.getPosition().getAnimals().size());
-        } else {
-            assertSame(terrainToPlace, wolf.getPosition());
-            assertEquals(1, wolf.getPosition().getAnimals().size());
-        }
-
-    }
 
 }

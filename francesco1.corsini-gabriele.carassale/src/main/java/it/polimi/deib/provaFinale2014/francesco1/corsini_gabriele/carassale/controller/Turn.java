@@ -1,12 +1,10 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
 
 public class Turn {
 
@@ -50,8 +48,8 @@ public class Turn {
         if(connectionManager != null)
             connectionManager.startAction();
         
-        market();
-        moveWolf();
+
+
         if (game.getFenceNumber() <= 0) {
             forceLastRound = true;
         }
@@ -78,31 +76,6 @@ public class Turn {
             return false;
         }
 
-    }
-
-    protected boolean moveWolf() {
-
-        Wolf wolf = game.getWolf();
-        int diceNumber = dice.getRandom();
-        boolean wolfHasEaten = false;
-
-        try {
-            Road road = wolf.hasToMove(diceNumber);
-            wolf.move(road);
-            Animal sheepDead = wolf.isAbleToEat();
-            if (sheepDead != null) {
-                wolf.getPosition().getAnimals().remove(sheepDead);
-                wolfHasEaten = true;
-            }
-            return wolfHasEaten;
-        } catch (WrongDiceNumberException e) {
-            //nel caso qui devo comunicare il risultato uscito
-            return wolfHasEaten;
-        }
-        
-    }
-
-    private void market() {
     }
 
 }

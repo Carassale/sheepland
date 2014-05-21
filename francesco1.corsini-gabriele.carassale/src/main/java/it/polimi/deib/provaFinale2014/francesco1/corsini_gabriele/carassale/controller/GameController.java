@@ -1,25 +1,42 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
 
 public class GameController {
 
     private PlayerPool playerPool;
     private GameTable gameTable;
     private ConnectionManager connectionManager;
+    private Dice dice;
 
     /**
      * Controllore di gioco che serve a inizializzare e far giocare la partita
-     * Costruttore per i test
+     * Costruttore SOLO per TESTs
      */
-    public GameController(int numberOfPlayers) {
+    public GameController(int numberOfPlayers, int numTurns) {
+        dice = new Dice();
         this.connectionManager = null;
         inizializeGame(numberOfPlayers);
         placeShepards();
-        playGame();
+        playGame(numTurns);
+        declareWinner();
+    }
+    
+    /**
+     * Controllore di gioco che serve a inizializzare e far giocare la partita
+     * Costruttore SOLO per TESTs
+     */
+    public GameController(int numberOfPlayers) {
+        dice = new Dice();
+        this.connectionManager = null;
+        inizializeGame(numberOfPlayers);
+        placeShepards(numberOfPlayers);
         declareWinner();
     }
 
@@ -52,6 +69,8 @@ public class GameController {
         do {
             Turn round = new Turn(isGameOver, gameTable, connectionManager);
             isGameOver = round.playTurn();
+            moveWolf();
+            market();
         } while (!(playerPool.nextPlayer()));
 
         return isGameOver;
@@ -68,6 +87,16 @@ public class GameController {
         boolean isGameOver = false;
         while (!(isGameOver)) {
             isGameOver = playRounds();
+        }
+
+    }
+    
+    public void playGame(int numTurns) {
+        boolean isGameOver = false;
+        int i = numTurns;
+        while (!(isGameOver) && i != 0) {
+            isGameOver = playRounds();
+            i--;
         }
 
     }
@@ -112,12 +141,29 @@ public class GameController {
             i++;
         } while (!(playerPool.nextPlayer()));
     }
+    
+    /**
+     * SOLO PER TEST
+     */
+    protected void placeShepards(int numPlayer) {
+
+        int i = 0;
+        //TODO caso solo 2 giocatori
+        do {
+            Player currentPlayer = playerPool.getFirstPlayer();
+            Shepard shep = new Shepard(gameTable.getMap().getRoads().get(i), currentPlayer, i);
+            currentPlayer.getShepards().add(shep);
+            gameTable.getShepards().add(shep);
+            i++;
+        } while (!(playerPool.nextPlayer()));
+    }
 
     /**
      * Metodo che serve a fare la distribuzione iniziale delle carte ai vari
      * giocatori
+     * E' protected perchè così posso testarlo
      */
-    private void distributeCard() {
+    protected void distributeCard() {
         String terrainKind = null;
         boolean[] alredyPicked = new boolean[6];
         for (int i = 0; i < 6; i++) {
@@ -178,5 +224,44 @@ public class GameController {
             terrainKind = "Field";
         }
         return terrainKind;
+    }
+    
+    
+    /**
+     *gestisce il movimento pecora nera. E' protected e non private poichè lo
+     *devo chiamare per far fare il test su di lui
+     *
+     * @return true se il Wolf è stato mosso
+    */
+    protected boolean moveWolf() {
+
+        Wolf wolf = gameTable.getWolf();
+        int diceNumber = dice.getRandom();
+        boolean wolfHasEaten = false;
+
+        try {
+            Road road = wolf.hasToMove(diceNumber);
+            wolf.move(road);
+            Animal sheepDead = wolf.isAbleToEat();
+            if (sheepDead != null) {
+                wolf.getPosition().getAnimals().remove(sheepDead);
+                wolfHasEaten = true;
+            }
+            return wolfHasEaten;
+        } catch (WrongDiceNumberException e) {
+            //nel caso qui devo comunicare il risultato uscito
+            return wolfHasEaten;
+        }
+        
+    }
+    
+    private void market(){
+        do {
+            Player currentPlayer = playerPool.getFirstPlayer();
+            
+            
+            
+            
+        } while (!(playerPool.nextPlayer()));
     }
 }
