@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Classe che modelizza il territorio singolo
@@ -38,7 +39,7 @@ public class Terrain {
         try {
             this.animals.remove(this.animals.indexOf(animal));
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.print("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali ");
+            Logger.getLogger(Terrain.class.getName()).fine("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali");
         }
     }
 

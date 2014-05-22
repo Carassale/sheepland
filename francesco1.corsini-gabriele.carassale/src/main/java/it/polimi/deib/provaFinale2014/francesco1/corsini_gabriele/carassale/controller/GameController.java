@@ -7,6 +7,8 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameController {
 
@@ -182,6 +184,7 @@ public class GameController {
             while (!playerHasPicked) {
                 int random = (int) (Math.random() * 6);
                 if (alredyPicked[random] == false) {
+
                     try {
                         terrainKind = matchNumToTerrainKind(random);
                         if (terrainKind != null) {
@@ -192,8 +195,9 @@ public class GameController {
                             throw new NullPointerException("errore distribuzione carte");
                         }
                     } catch (CoinException ex) {
-                        //non possibile nella prima distribuzione
+                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
             }
         } while (!(playerPool.nextPlayer()));
@@ -241,11 +245,13 @@ public class GameController {
         Wolf wolf = gameTable.getWolf();
         int diceNumber = dice.getRandom();
         Road road;
+
         try {
             road = wolf.hasToMove(diceNumber);
             wolf.move(road);
             return true;
         } catch (WrongDiceNumberException ex) {
+            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
