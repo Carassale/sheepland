@@ -50,6 +50,11 @@ public class Player {
         }
     }
 
+    /**
+     * Restituisce l'Arrey dei pastori
+     *
+     * @return Arrey di pastori
+     */
     public ArrayList<Shepard> getShepards() {
         return shepards;
     }
@@ -159,7 +164,6 @@ public class Player {
      * @throws MoveException lanciata nel caso mossa illegale
      */
     public void joinSheeps(Terrain terrain, GameTable game) throws MoveException {
-
         if (isSheepAndRam(terrain)) {
             if (isShepardNear(terrain)) {
                 int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();//prende l'id dell'ultima pecora(che è quella con id più alto
@@ -173,12 +177,22 @@ public class Player {
         }
     }
 
+    /**
+     * Restituisce il numero di coin del player
+     *
+     * @return int valore di coin
+     */
     public int getCoins() {
         return coins;
     }
 
-    public void setCoins(int val) {
-        this.coins = val;
+    /**
+     * Setta il numero di coin del player
+     *
+     * @param coins valore da settare
+     */
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
     /**
@@ -216,12 +230,22 @@ public class Player {
 
     }
 
+    /**
+     * Restituisce il nickName del player
+     *
+     * @return String nickName
+     */
     public String getNickName() {
         return nickName;
     }
 
-    public void setNickName(String val) {
-        this.nickName = val;
+    /**
+     * Setta il nickName del player
+     *
+     * @param nickName valore da settare
+     */
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     /**
@@ -421,14 +445,31 @@ public class Player {
         return totalCost;
     }
 
+    /**
+     * Imposta il player come primo giocatore del round
+     *
+     * @param val valore da settare
+     */
     public void setFirstPlayer(boolean val) {
         isFirstPlayer = val;
     }
 
+    /**
+     * Controlla se è il primo player del round
+     *
+     * @return True se è il primo
+     */
     public boolean isFirstPlayer() {
         return isFirstPlayer;
     }
 
+    /**
+     * Controlla se è possibile effettuare l'azione in base a quelle già fatte
+     * (3 azioni massime da verificare)
+     *
+     * @param action Azione da effettuare
+     * @return True se può effettuare la mossa
+     */
     public boolean isPossibleAction(String action) {
         if (actionDone[0].equals("")) {
             actionDone[0] = action;
@@ -460,6 +501,9 @@ public class Player {
         return false;
     }
 
+    /**
+     * Svuota la lista delle azioni fatte
+     */
     public void cleanActionDone() {
         for (String action : actionDone) {
             action = new String();
@@ -467,8 +511,17 @@ public class Player {
         }
     }
 
+    /**
+     * Metodo solo per TEST
+     *
+     * @param sheepToKill pecora da uccidere
+     * @param game gameTable del gioco
+     * @param num valore del dado
+     * @throws CoinException
+     * @throws MoveException
+     * @throws WrongDiceNumberException
+     */
     public void killAnimal(Sheep sheepToKill, GameTable game, int num) throws CoinException, MoveException, WrongDiceNumberException {
-
         int shepardNearNumber = countShepardNear(sheepToKill.getPosition());
         Terrain sheepPosition = sheepToKill.getPosition();
 

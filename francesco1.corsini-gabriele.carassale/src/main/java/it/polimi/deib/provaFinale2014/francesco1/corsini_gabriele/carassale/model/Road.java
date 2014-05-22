@@ -168,8 +168,4 @@ public class Road {
     public void setShepard(Shepard shepard) {
         this.shepard = shepard;
     }
-    
-    public boolean equals(Road roadToCheck) {
-        return this.id == roadToCheck.getId();
-    }
 }

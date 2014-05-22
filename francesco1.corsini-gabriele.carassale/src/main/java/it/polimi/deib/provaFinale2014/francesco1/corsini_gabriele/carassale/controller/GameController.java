@@ -10,6 +10,12 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Crea un oggetto contente la lista dei giocatori, il gameTable, il dado e il
+ * connectionManager. Gestisce l'intera partita
+ *
+ * @author Francesco Corsini
+ */
 public class GameController {
 
     private PlayerPool playerPool;
@@ -256,9 +262,32 @@ public class GameController {
         }
     }
 
+    /**
+     * Prova a far mangiare al lupo una pecora
+     *
+     * @return True se ha mangiato
+     */
     public boolean tryEatSheep() {
         Wolf wolf = gameTable.getWolf();
-        Animal sheepDead = wolf.isAbleToEat();
+        Animal sheepDead = null;
+
+        boolean repetWhile = false;
+        do {
+            sheepDead = wolf.isAbleToEat();
+
+            // Se l'animale è la pecora nera ed è anche l'unico animale delterreno allora imposta a null l'animale ed esce dal while
+            if (sheepDead == gameTable.getBlacksheep()
+                    && wolf.getPosition().getAnimals().size() == 1) {
+                repetWhile = false;
+                sheepDead = null;
+            }
+
+            // Se l'animale è la pecora nera ma nn è l'unico animale del terreno allora ripete il while
+            if (sheepDead == gameTable.getBlacksheep()
+                    && wolf.getPosition().getAnimals().size() > 1) {
+                repetWhile = true;
+            }
+        } while (repetWhile);
 
         if (sheepDead != null) {
             wolf.getPosition().getAnimals().remove(sheepDead);
@@ -271,9 +300,14 @@ public class GameController {
         //TODO market
     }
 
+    /**
+     * Avvia la partita
+     *
+     * @param numberOfPlayers numero di giocatori
+     */
     public void start(int numberOfPlayers) {
         inizializeGame(numberOfPlayers);
-        if (numberOfPlayers != 2) {
+        if (numberOfPlayers > 2) {
             placeShepards(false);
         } else {
             placeShepards(true);

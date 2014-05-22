@@ -287,11 +287,19 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia al current player un messaggio dicendo che la mossa è andata a buon
+     * fine
+     */
     private void PrintCorrectAction() {
         currentPlayer.printLn("messageText");
         currentPlayer.printLn("Mossa effettua");
     }
 
+    /**
+     * Invia al current player un messaggio dicendo che la mossa NON è andata a
+     * buon fine
+     */
     private void PrintUncorectAction() {
         currentPlayer.printLn("messageText");
         currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");

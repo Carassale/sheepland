@@ -8,6 +8,11 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Questa classe rappresenta il turno di un giocatore
+ *
+ * @author Carassale Gabriele
+ */
 public class Turn {
 
     private boolean forceLastRound;
@@ -46,12 +51,17 @@ public class Turn {
         game = gameTable;
     }
 
+    /**
+     * Avvia il turno
+     *
+     * @return True se i cancelli sono finiti e il round che ha avviato il turno
+     * deve diventare l'ultimo round
+     */
     public boolean playTurn() {
         moveBlackSheep();
 
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
         if (connectionManager != null) {
-
             connectionManager.startAction();
         }
 

@@ -26,20 +26,40 @@ public class TerrainCard {
         terrainType = territoryType;
     }
 
+    /**
+     * Restituisce il tipo di carta terreno
+     *
+     * @return Stringa contenente il tipo di terreno
+     */
     public String getTerrainType() {
         return terrainType;
     }
 
-    public void setTerrainType(String val) {
-        this.terrainType = val;
+    /**
+     * Setta il tipo di terreno
+     *
+     * @param terrainType Tipo terreno da settare
+     */
+    public void setTerrainType(String terrainType) {
+        this.terrainType = terrainType;
     }
 
+    /**
+     * Restituisce l'id della carta
+     *
+     * @return int ID della carta
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int val) {
-        id = val;
+    /**
+     * Setta l'Id della carta
+     *
+     * @param id int da settare
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

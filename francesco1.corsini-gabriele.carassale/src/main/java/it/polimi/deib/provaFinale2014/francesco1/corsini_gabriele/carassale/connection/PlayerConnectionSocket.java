@@ -31,23 +31,48 @@ public class PlayerConnectionSocket extends PlayerConnection {
         outSocket = new PrintWriter(socket.getOutputStream());
     }
 
+    /**
+     * Restituisce il socket del player
+     *
+     * @return Socket
+     */
     public Socket getSocket() {
         return socket;
     }
 
+    /**
+     * Restituisce la prossima line ricevuta dal client via socket
+     *
+     * @return String
+     */
     public String getNextLine() {
         return inSocket.nextLine();
     }
 
+    /**
+     * Restituisce il prossimo numero ricevuto dal client via socket
+     *
+     * @return int
+     */
     public int getNextInt() {
         return new Integer(inSocket.nextLine());
     }
 
+    /**
+     * Invia una line al client via sokcet
+     *
+     * @param string la string da inviare
+     */
     public void printLn(String string) {
         outSocket.println(string);
         outSocket.flush();
     }
 
+    /**
+     * Invia un numero al client via socket
+     *
+     * @param i il numero da inviare
+     */
     public void printLn(int i) {
         Integer integer = i;
         outSocket.println(integer.toString());

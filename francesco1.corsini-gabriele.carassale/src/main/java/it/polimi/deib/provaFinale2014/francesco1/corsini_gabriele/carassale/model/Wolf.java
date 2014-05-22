@@ -9,6 +9,11 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
  */
 public class Wolf extends Animal {
 
+    /**
+     * Crea un lupo e setta il terreno
+     *
+     * @param terrain terreno da settare
+     */
     public Wolf(Terrain terrain) {
         position = terrain;
     }

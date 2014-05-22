@@ -41,10 +41,20 @@ public class Map {
         }
     }
 
+    /**
+     * Restituisce l'Array conenente le strade della mappa
+     *
+     * @return ArrayList conenente le strade della mappa
+     */
     public ArrayList<Road> getRoads() {
         return roads;
     }
 
+    /**
+     * Restituisce l'Array conenente i terreni della mappa
+     *
+     * @return ArrayList conenente i terreni della mappa
+     */
     public ArrayList<Terrain> getTerrain() {
         return terrain;
     }

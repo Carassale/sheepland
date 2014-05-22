@@ -32,30 +32,63 @@ public class GameTable {
         initializeTerrainCards();
     }
 
+    /**
+     * Restituisce la pecora nera
+     *
+     * @return BlackSheep
+     */
     public BlackSheep getBlacksheep() {
         return blacksheep;
     }
 
+    /**
+     * Abbassa il numero di cancelli
+     */
     public void decreaseFenceNumber() {
         fenceNumber--;
     }
 
+    /**
+     * Restituisce il numero di cancelli
+     *
+     * @return numero di cancelli
+     */
     public int getFenceNumber() {
         return fenceNumber;
     }
 
+    /**
+     * Restituisce la mappa
+     *
+     * @return Mappa del gioco
+     */
     public Map getMap() {
         return map;
     }
 
+    /**
+     * Restituisce il dado
+     *
+     * @return Dice
+     */
     public Dice getDice() {
         return dice;
     }
 
+    /**
+     * Restituisce l'arreyList contenente le pecore del gioco
+     *
+     * @return ArrayList contenente pecore
+     */
     public ArrayList<Sheep> getSheeps() {
         return sheeps;
     }
 
+    /**
+     * Restituisce l'arreyList contenente i pastori del gioco
+     *
+     * @return ArrayList contenente pastori
+     */
     public ArrayList<Shepard> getShepards() {
         return shepards;
     }
@@ -82,6 +115,11 @@ public class GameTable {
         }
     }
 
+    /**
+     * Restituisce il lupo del gioco
+     *
+     * @return Wolf
+     */
     public Wolf getWolf() {
         return wolf;
     }

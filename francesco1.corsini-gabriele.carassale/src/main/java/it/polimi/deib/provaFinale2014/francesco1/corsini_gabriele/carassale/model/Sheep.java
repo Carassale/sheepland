@@ -13,6 +13,9 @@ public class Sheep extends Animal {
     private boolean old;
     private int id;
 
+    //Età (numero di round) per far diventare vecchia la pecora
+    private final static int AGETOBECOMEOLD = 4;
+
     /**
      *
      * @param terrain : dove viene posizionato
@@ -51,66 +54,112 @@ public class Sheep extends Animal {
         }
     }
 
+    /**
+     * Restituisce l'età della pecora
+     *
+     * @return int contenente l'età
+     */
     public int getAge() {
         return age;
     }
 
-    public void setAge(int val) {
-        this.age = val;
+    /**
+     * Setta l'età della pecora
+     *
+     * @param age età da settare
+     */
+    public void setAge(int age) {
+        this.age = age;
     }
 
+    /**
+     * Restituisce il sesso della pecora
+     *
+     * @return Sesso in forma di String
+     */
     public String getSex() {
         return sex;
     }
 
-    public void setSex(String val) {
-        this.sex = val;
+    /**
+     * Setta il sesso della pecora
+     *
+     * @param sex sesso da settare
+     */
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
+    /**
+     * Fa crescere di un anno la pecora
+     */
     public void growUpOneTurn() {
         age++;
-        if (age == 4) {
+        if (age == AGETOBECOMEOLD) {
             old = true;
         }
     }
 
+    /**
+     * Controlla se è una semplce pecora bianca
+     *
+     * @return True se è pecora bianca
+     */
     public boolean isWhiteSheep() {
-        if (old == true && "Female".equals(sex)) {
-            return true;
-        } else {
-            return false;
-        }
+        return old && "Female".equals(sex);
     }
 
+    /**
+     * Controlla se è un agnello
+     *
+     * @return True se è agnello
+     */
     public boolean isLamb() {
-        if (old == false) {
-            return true;
-        } else {
-            return false;
-        }
+        return !old;
     }
 
+    /**
+     * Controlla se è un montone
+     *
+     * @return True se è montone
+     */
     public boolean isRam() {
-        if (old == true && "Male".equals(sex)) {
-            return true;
-        } else {
-            return false;
-        }
+        return old == true && "Male".equals(sex);
     }
 
+    /**
+     * Controlla se è vecchio
+     *
+     * @return True se è vecchio
+     */
     public boolean isOld() {
         return old;
     }
 
-    public void setOld(boolean val) {
-        old = val;
+    /**
+     * Setta se è vecchio o no
+     *
+     * @param isOld True se è vecchio
+     */
+    public void setOld(boolean isOld) {
+        old = isOld;
     }
 
+    /**
+     * Restituisce l'id della pecora
+     *
+     * @return int id della pecora
+     */
     public int getId() {
         return id;
     }
 
-    public void setId(int num) {
-        id = num;
+    /**
+     * Setta l'id alla pecora
+     *
+     * @param id valore da settare all'id della pecora
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 }
