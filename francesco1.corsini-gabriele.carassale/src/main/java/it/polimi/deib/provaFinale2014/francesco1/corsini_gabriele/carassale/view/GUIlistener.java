@@ -10,6 +10,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.clie
 import static it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIconnection.connectionClient;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,28 +21,52 @@ import java.awt.event.ActionListener;
 public class GUIlistener implements ActionListener{
     
     ConnectionClient connection;
+    GUImain GUI;
     
-    public GUIlistener(ConnectionClient connectionClient){
+    public GUIlistener(ConnectionClient connectionClient, GUImain gui){
         connection = connectionClient;
+        GUI = gui;
     }
 
     public void actionPerformed(ActionEvent e) {
         String string = e.getActionCommand();
         
         if ("MoveShepard".equals(string)) {
+            try{
+                connection.moveSheep();
                 
+            }
+            catch(IOException ex){
+                Logger.getLogger(GUIlistener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         else if ("MoveSheep".equals(string)) {
-                
+            try {
+                connection.moveSheep();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIlistener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         else if ("BuyCard".equals(string)) {
-                
+            try {
+                connection.buyCard();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIlistener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         else if ("JoinSheeps".equals(string)) {
-                
+            try {
+                connection.joinSheep();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIlistener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
         else if ("KillSheep".equals(string)) {
-                
+            try {
+                connection.killSheep();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIlistener.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
     }
 

@@ -49,6 +49,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
 
         mainGUI = new GUImain(this);
+        
         waitLine();
         
         tableView = new TableView();
@@ -94,7 +95,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         }
     }
 
-    private void moveShepard() throws IOException {
+    public void moveShepard() throws IOException {
         String s = "";
         outSocket.println("moveShepard");
         outSocket.flush();
@@ -110,7 +111,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outSocket.flush();
     }
 
-    private void moveSheep() throws IOException {
+    public void moveSheep() throws IOException {
         String s = "";
         outSocket.println("moveSheep");
         outSocket.flush();
@@ -126,7 +127,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outSocket.flush();
     }
 
-    private void buyCard() throws IOException {
+    public void buyCard() throws IOException {
         String s = "";
         outSocket.println("buyCard");
         outSocket.flush();
@@ -137,7 +138,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outSocket.flush();
     }
 
-    private void killSheep() throws IOException {
+    public void killSheep() throws IOException {
         String s = "";
         outSocket.println("killSheep");
         outSocket.flush();
@@ -148,7 +149,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outSocket.flush();
     }
 
-    private void joinSheep() throws IOException {
+    public void joinSheep() throws IOException {
         String s = "";
         outSocket.println("joinShepard");
         outSocket.flush();
@@ -159,7 +160,7 @@ public class ConnectionClientSocket implements ConnectionClient{
         outSocket.flush();
     }
 
-    private void setNickname() throws IOException {
+    public void setNickname() throws IOException {
         outVideo.println("Impostare il proprio Nickname\n");
         outSocket.println(inKeyboard.readLine());
         outSocket.flush();

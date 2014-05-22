@@ -29,12 +29,9 @@ public class GUImain {
         
         connection = connectionSocket;
         mainJFrame = new JFrame("SheepLand");
-        SwingUtilities.invokeLater(
-                new Runnable() {
-                    public void run() {
+   
                         createAndShowGUI();
-                    }
-                });
+                
     }
     
     public GUImain(ConnectionClientRMI connectionRMI){
@@ -61,8 +58,8 @@ public class GUImain {
         
         createLabels();
         
-        createButtons();
-        
+        createButtons(c);
+        mainJFrame.pack();
         //completare
         
         mainJFrame.setVisible(true);
@@ -72,26 +69,31 @@ public class GUImain {
         
     }
     
-    private void createButtons(){
+    private void createButtons(Container c){
         JButton b1 = new JButton("Muovi Pastore");
-        b1.addActionListener(new GUIlistener(connection));
+        b1.addActionListener(new GUIlistener(connection,this));
         b1.setActionCommand("MoveShepard");
+        c.add(b1);
         
         JButton b2 = new JButton("Muovi Pecora");
-        b2.addActionListener(new GUIlistener(connection));
+        b2.addActionListener(new GUIlistener(connection,this));
         b2.setActionCommand("MoveSheep");
+        c.add(b2);
         
         JButton b3 = new JButton("Compra Carta");
-        b3.addActionListener(new GUIlistener(connection));
+        b3.addActionListener(new GUIlistener(connection,this));
         b3.setActionCommand("BuyCard");
+        c.add(b3);
         
         JButton b4 = new JButton("Accoppia Ovini");
-        b4.addActionListener(new GUIlistener(connection));
+        b4.addActionListener(new GUIlistener(connection,this));
         b4.setActionCommand("JoinSheeps");
+        c.add(b4);
         
         JButton b5 = new JButton("Abbatti Ovino");
-        b5.addActionListener(new GUIlistener(connection));
+        b5.addActionListener(new GUIlistener(connection,this));
         b5.setActionCommand("KillSheep");
+        c.add(b5);
     }
 
 }

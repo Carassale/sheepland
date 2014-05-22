@@ -13,5 +13,15 @@ import java.util.logging.Logger;
  */
 public interface ConnectionClient {
 
-   
+    void moveShepard() throws IOException;
+    
+    void moveSheep() throws IOException;
+    
+    void buyCard() throws IOException;
+    
+    void killSheep() throws IOException;
+    
+    void joinSheep() throws IOException;
+    
+    void setNickname() throws IOException;
 }
