@@ -317,7 +317,7 @@ public class Player {
         Iterator<Shepard> itr = shepards.iterator();
         while (itr.hasNext()) {
             Shepard ele = itr.next();
-            if (ele.getPosition().equals(road)) {
+            if (ele.getPosition().getId() == road.getId()) {
                 thereIsShepard = true;
             }
         }
@@ -435,7 +435,7 @@ public class Player {
             while (itrShep.hasNext()) {
                 Shepard shep = itrShep.next();
                 if (road.hasShepard()) {
-                    if (!(shep.equals(road.getShepard()))) {
+                    if (shep.getId() != road.getShepard().getId()) {
                         totalCost = totalCost + 2;
                         shep.getOwner().setCoins(shep.getOwner().getCoins() + 2);
                     }

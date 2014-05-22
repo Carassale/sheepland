@@ -1,8 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -280,16 +278,12 @@ public class Map {
      * @param id : id del terreno da confrontare
      */
     private void connectRoadsToTerrains(int id) {
-
-        Iterator<Road> itr = roads.iterator();
-        while (itr.hasNext()) {
-            Road ele = itr.next();
-            if (ele.getAdjacentTerrain1().equals(terrain.get(id))) {
-                terrain.get(id).getAdjacentRoads().add(ele);
-            } else if (ele.getAdjacentTerrain2().equals(terrain.get(id))) {
-                terrain.get(id).getAdjacentRoads().add(ele);
+        for (Road road : roads) {
+            if (road.getAdjacentTerrain1().getID() == terrain.get(id).getID()) {
+                terrain.get(id).getAdjacentRoads().add(road);
+            } else if (road.getAdjacentTerrain2().getID() == terrain.get(id).getID()) {
+                terrain.get(id).getAdjacentRoads().add(road);
             }
-
         }
     }
 

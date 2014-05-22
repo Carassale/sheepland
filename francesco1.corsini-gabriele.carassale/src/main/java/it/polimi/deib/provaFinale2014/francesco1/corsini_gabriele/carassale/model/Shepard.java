@@ -72,7 +72,7 @@ public class Shepard {
      */
     public boolean isExpensiveMove(Road destination) {
         for (Road adjacentRoad : position.getAdjacentRoad()) {
-            if (adjacentRoad.equals(destination)) {
+            if (adjacentRoad.getId() == destination.getId()) {
                 return false;
             }
         }

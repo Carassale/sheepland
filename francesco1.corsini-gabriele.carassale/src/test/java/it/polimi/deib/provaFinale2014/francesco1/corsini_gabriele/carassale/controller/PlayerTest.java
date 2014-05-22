@@ -41,11 +41,11 @@ public class PlayerTest {
      */
     @Test
     public void testBuyTerrainCard() throws CoinException {
-
         assertEquals(0, player.getTerrainCardsOwned("Plain").size());
         assertEquals(5, game.getTerrainCardPool("Plain").size());
 
         player.buyTerrainCard("Plain", game);
+
         assertEquals(1, player.getTerrainCardsOwned("Plain").size());
         assertEquals(4, game.getTerrainCardPool("Plain").size());
     }
@@ -251,7 +251,7 @@ public class PlayerTest {
         Terrain terrain = game.getMap().getTerrain().get(0);
         terrain.getAnimals().clear();
         Sheep sheepToKill = new Sheep(terrain, true, 5);
-        
+
         Player player2 = new Player(false);
         player.setCoins(20);
         player2.setCoins(20);
