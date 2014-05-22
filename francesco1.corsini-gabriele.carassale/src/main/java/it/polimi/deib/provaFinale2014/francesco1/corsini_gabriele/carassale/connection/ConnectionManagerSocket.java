@@ -8,10 +8,13 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe crea il collegamento diretto tra il GameController e il Client
@@ -87,37 +90,45 @@ public class ConnectionManagerSocket extends ConnectionManager {
         if (actionToDo.equals("moveShepard")) {
             try {
                 actionDo = moveShepard();
-            } catch (CoinException ex) {
-                currentPlayer.printLn("errorCoin");
             } catch (MoveException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorMove");
+            } catch (CoinException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
+                currentPlayer.printLn("errorCoin");
             }
         } else if (actionToDo.equals("moveSheep")) {
             try {
                 actionDo = moveSheep();
             } catch (MoveException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorMove");
             }
         } else if (actionToDo.equals("buyCard")) {
             try {
                 actionDo = buyCard();
             } catch (CoinException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorCoin");
             }
         } else if (actionToDo.equals("killSheep")) {
             try {
                 actionDo = killSheep();
             } catch (CoinException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorCoin");
             } catch (MoveException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorMove");
             } catch (WrongDiceNumberException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorDice");
             }
         } else if (actionToDo.equals("joinSheep")) {
             try {
                 actionDo = joinSheep();
             } catch (MoveException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 currentPlayer.printLn("errorMove");
             }
         }
@@ -155,14 +166,17 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
             FileOutputStream out;
             ObjectOutputStream oos;
+
             try {
                 out = new FileOutputStream("save.ser");
                 oos = new ObjectOutputStream(out);
                 oos.writeObject(gameController.getGameTable());
                 oos.close();
             } catch (IOException ex) {
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("Errore: " + ex.getMessage());
             }
+
         }
     }
 

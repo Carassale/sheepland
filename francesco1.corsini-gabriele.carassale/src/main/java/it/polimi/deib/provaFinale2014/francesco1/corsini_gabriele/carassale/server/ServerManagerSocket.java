@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe viene inizializzata direttamente dal main, ha il compito di
@@ -61,7 +63,7 @@ public class ServerManagerSocket implements ServerManager {
             serverSocket = new ServerSocket(PORT);
             waitPlayer();
         } catch (IOException ex) {
-            System.out.println(ex.toString());
+            Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -133,6 +135,7 @@ public class ServerManagerSocket implements ServerManager {
                 System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
+                Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
