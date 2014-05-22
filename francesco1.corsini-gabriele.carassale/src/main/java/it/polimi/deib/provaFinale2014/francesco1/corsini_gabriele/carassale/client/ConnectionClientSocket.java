@@ -53,22 +53,22 @@ public class ConnectionClientSocket {
     private void waitLine() throws IOException, ClassNotFoundException {
         while (true) {
             String s = inSocket.readLine();
-            if (s.equals("wakeUp")) {
+            if ("wakeUp".equals(s)) {
                 doAction();
-            } else if (s.equals("setNikcnam")) {
+            } else if ("setNikcnam".equals(s)) {
                 setNickname();
-            } else if (s.equals("refresh")) {
+            } else if ("refresh".equals(s)) {
                 //TODO
                 //refresh();
-            } else if (s.equals("errorCoin")) {
+            } else if ("errorCoin".equals(s)) {
                 errorCoin();
-            } else if (s.equals("errorMove")) {
+            } else if ("errorMove".equals(s)) {
                 errorMove();
-            } else if (s.equals("errorDice")) {
+            } else if ("errorDice".equals(s)) {
                 errorDice();
-            } else if (s.equals("PlaceShepard")) {
+            } else if ("PlaceShepard".equals(s)) {
                 placeShepard();
-            } else if (s.equals("messageText")) {
+            } else if ("messageText".equals(s)) {
                 messageText();
             }
         }
@@ -77,15 +77,15 @@ public class ConnectionClientSocket {
     private void doAction() throws IOException {
         outVideo.println("Fai la tua mossa");
         String s = inKeyboard.readLine();
-        if (s.equals("moveShepard")) {
+        if ("moveShepard".equals(s)) {
             moveShepard();
-        } else if (s.equals("moveSheep")) {
+        } else if ("moveSheep".equals(s)) {
             moveSheep();
-        } else if (s.equals("buyCard")) {
+        } else if ("buyCard".equals(s)) {
             buyCard();
-        } else if (s.equals("killSheep")) {
+        } else if ("killSheep".equals(s)) {
             killSheep();
-        } else if (s.equals("joinSheep")) {
+        } else if ("joinSheep".equals(s)) {
             joinSheep();
         }
     }
@@ -100,7 +100,7 @@ public class ConnectionClientSocket {
         outSocket.println(s);
         outSocket.flush();
 
-        outVideo.println("In quale terreno?");
+        outVideo.println("In quale strada?");
         s = inKeyboard.readLine();
         outSocket.println(s);
         outSocket.flush();

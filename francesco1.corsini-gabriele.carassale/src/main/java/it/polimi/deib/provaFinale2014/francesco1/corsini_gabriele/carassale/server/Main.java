@@ -21,9 +21,9 @@ public class Main {
      */
     public static void main(String arg[]) {
         Scanner keyboard = new Scanner(System.in);
+        ServerManager serverManager;
 
         int n = 0;
-        ServerManager sm;
         do {
             System.out.println("Messaggio di Benvenuto\n");
             System.out.println("Scegliere il modello di connessione Client-Server:\n");
@@ -33,9 +33,9 @@ public class Main {
         } while (n < 1 || n > 2);
 
         if (n == 1) {
-            sm = new ServerManagerSocket();
+            serverManager = new ServerManagerSocket();
         } else {
-            sm = new ServerManagerRMI();
+            serverManager = new ServerManagerRMI();
         }
     }
 

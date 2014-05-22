@@ -8,9 +8,15 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
  */
 public class ConnectionManagerRMI extends ConnectionManager {
 
+    /**
+     * Da implementare con RMI
+     */
     public ConnectionManagerRMI() {
     }
 
+    /**
+     * Da implementare con RMI
+     */
     @Override
     public void startAction() {
 

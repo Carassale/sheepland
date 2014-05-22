@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 
 /**
@@ -10,8 +9,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
  * @author Carassale Gabriele
  */
 public abstract class ConnectionManager implements Runnable {
-
-    private GameController gameController;
 
     /**
      * È il costruttore di default, non viene implementato perchè le due
@@ -55,8 +52,7 @@ public abstract class ConnectionManager implements Runnable {
      * @return Road nella quale è stato posizionato il pastore
      */
     public Road getPlacedShepard(boolean hasToScroll) {
-        Road road = new Road(100);
-        return road;
+        return null;
     }
 
 }
