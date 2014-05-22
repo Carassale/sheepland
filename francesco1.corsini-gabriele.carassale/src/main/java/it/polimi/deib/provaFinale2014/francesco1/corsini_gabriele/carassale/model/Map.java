@@ -2,6 +2,8 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Classe Mappa che serve ad inizializzare e collegare tra loro i territori e le
@@ -27,8 +29,8 @@ public class Map {
         for (int i = 0; i <= 41; i++) {
             try {
                 roads.add(generateRoad(i));
-            } catch (TerrainBoundariesExeption e) {
-                System.out.println("Errore nella creazione delle strade");
+            } catch (TerrainBoundariesExeption ex) {
+                Logger.getLogger(Map.class.getName()).fine("Errore nella creazione delle strade");
             }
         }
         for (int i = 0; i < 19; i++) {

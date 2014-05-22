@@ -5,6 +5,8 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Turn {
 
@@ -49,7 +51,7 @@ public class Turn {
 
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
         if (connectionManager != null) {
-            
+
             connectionManager.startAction();
         }
 
@@ -75,7 +77,7 @@ public class Turn {
             blackSheep.move(road);
             return true;
         } catch (WrongDiceNumberException e) {
-            //nel caso qui devo comunicare il risultato uscito
+            Logger.getLogger(Turn.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
 
