@@ -1,74 +1,68 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
 /**
  * Classe che modelizza il territorio singolo
+ *
  * @author Francesco Corsini
  */
 public class Terrain {
-    
-    private ArrayList<Road> adjacentRoads = new ArrayList<Road>();    
+
+    private ArrayList<Road> adjacentRoads = new ArrayList<Road>();
     private boolean sheepsbourg;
     private String terrainType;
     private ArrayList<Animal> animals = new ArrayList<Animal>();
     private int ID;
 
-    public Terrain () {
+    public Terrain() {
     }
 
-
-    public ArrayList<Road> getAdjacentRoads () {
+    public ArrayList<Road> getAdjacentRoads() {
         return adjacentRoads;
     }
 
-
-    public boolean isAdjacent (Terrain terrain) {
+    public boolean isAdjacent(Terrain terrain) {
         return true;
     }
 
- 
-    public ArrayList<Animal> getAnimals () {
+    public ArrayList<Animal> getAnimals() {
         return animals;
     }
 
-
-    public void addAnimal ( Animal animal) {
+    public void addAnimal(Animal animal) {
         this.animals.add(animal);
     }
 
-    public void  deleteAnimal( Animal animal ){
-        try{
-        this.animals.remove(this.animals.indexOf(animal));
-        }
-        catch(ArrayIndexOutOfBoundsException e){
-            System.out.print("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali "); 
+    public void deleteAnimal(Animal animal) {
+        try {
+            this.animals.remove(this.animals.indexOf(animal));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.print("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali ");
         }
     }
 
-    
-    public boolean isSheepsbourg () {
+    public boolean isSheepsbourg() {
         return sheepsbourg;
     }
 
-    public void  setSheepsbourg( boolean val ){
+    public void setSheepsbourg(boolean val) {
         sheepsbourg = val;
     }
-    public String getTerrainType () {
+
+    public String getTerrainType() {
         return terrainType;
     }
 
-
-    public void setTerrainType (String val) {
+    public void setTerrainType(String val) {
         this.terrainType = val;
     }
 
-    public int  getID(  ){
+    public int getID() {
         return ID;
     }
-    
-    public void  setID( int val ){
+
+    public void setID(int val) {
         ID = val;
     }
 }
-

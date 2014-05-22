@@ -62,6 +62,7 @@ public class GameTable {
 
     /**
      * Metodo che ritorna l'array della tipologia di TerrainCard desiderata
+     *
      * @param string tipologia terreno della carta
      * @return ArrayList<TerrainCard> che si desidera
      */
@@ -89,7 +90,7 @@ public class GameTable {
      * crea una pecora per terreno
      */
     public void initializeSheeps() {
-        for (int i = 0; i < 17; i++) {
+        for (int i = 0; i < 18; i++) {
             Sheep sheep = new Sheep(map.getTerrain().get(i), true, i);
             sheeps.add(sheep);
         }
@@ -139,6 +140,7 @@ public class GameTable {
 
     /**
      * Metodo per trasformare un id in un oggetto pastore
+     *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
      */
@@ -153,6 +155,7 @@ public class GameTable {
 
     /**
      * Metodo per trasformare un id in un oggetto Sheep
+     *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
      */
@@ -168,6 +171,7 @@ public class GameTable {
 
     /**
      * Metodo per trasformare un id in un oggetto Road
+     *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
      */
@@ -182,6 +186,7 @@ public class GameTable {
 
     /**
      * Metodo per trasformare un id in un oggetto Terrain
+     *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
      */

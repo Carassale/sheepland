@@ -18,6 +18,8 @@ public class GameController {
     /**
      * Controllore di gioco che serve a inizializzare e far giocare la partita
      * Costruttore SOLO per TESTs
+     *
+     * @param numberOfPlayers
      */
     public GameController(int numberOfPlayers) {
         dice = new Dice();
@@ -53,7 +55,9 @@ public class GameController {
             Turn round = new Turn(isGameOver, gameTable, connectionManager);
             isGameOver = round.playTurn();
         } while (!(playerPool.nextPlayer()));
-        moveWolf();
+        if (moveWolf()) {
+            tryEatSheep();
+        }
         market();
 
         return isGameOver;
@@ -111,6 +115,8 @@ public class GameController {
 
     /**
      * SOLO PER TEST
+     *
+     * @param numPlayer
      */
     protected void placeShepards(int numPlayer) {
 
@@ -232,25 +238,27 @@ public class GameController {
      * @return true se il Wolf è stato mosso
      */
     protected boolean moveWolf() {
-
         Wolf wolf = gameTable.getWolf();
         int diceNumber = dice.getRandom();
-        boolean wolfHasEaten = false;
-
+        Road road;
         try {
-            Road road = wolf.hasToMove(diceNumber);
+            road = wolf.hasToMove(diceNumber);
             wolf.move(road);
-            Animal sheepDead = wolf.isAbleToEat();
-            if (sheepDead != null) {
-                wolf.getPosition().getAnimals().remove(sheepDead);
-                wolfHasEaten = true;
-            }
-            return wolfHasEaten;
-        } catch (WrongDiceNumberException e) {
-            //nel caso qui devo comunicare il risultato uscito
-            return wolfHasEaten;
+            return true;
+        } catch (WrongDiceNumberException ex) {
+            return false;
         }
+    }
 
+    public boolean tryEatSheep() {
+        Wolf wolf = gameTable.getWolf();
+        Animal sheepDead = wolf.isAbleToEat();
+
+        if (sheepDead != null) {
+            wolf.getPosition().getAnimals().remove(sheepDead);
+            return true;
+        }
+        return false;
     }
 
     private void market() {

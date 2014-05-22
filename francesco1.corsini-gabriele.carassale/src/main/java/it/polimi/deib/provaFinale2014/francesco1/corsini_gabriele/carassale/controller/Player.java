@@ -339,7 +339,6 @@ public class Player {
         boolean thereIsShepard = false;
 
         Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-        //Iterator<Shepard> itrShep = shepards.iterator();
 
         while (itr.hasNext()) {
             Road road = itr.next();
@@ -405,10 +404,10 @@ public class Player {
         int totalCost = 0;
 
         Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-        Iterator<Shepard> itrShep = shepards.iterator();
 
         while (itr.hasNext()) {
             Road road = itr.next();
+            Iterator<Shepard> itrShep = shepards.iterator();
             while (itrShep.hasNext()) {
                 Shepard shep = itrShep.next();
                 if (road.hasShepard()) {

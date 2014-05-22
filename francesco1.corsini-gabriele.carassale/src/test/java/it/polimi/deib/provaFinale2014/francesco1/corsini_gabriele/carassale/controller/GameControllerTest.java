@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
@@ -15,22 +9,19 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Fefa
+ * @author Francesco Corsini
  */
 public class GameControllerTest {
-    
+
     private GameController gameController;
-    private GameTable game;
-    
+    private GameTable gameTable;
+
     @Before
     public void setUp() {
         gameController = new GameController(4);
-        game = gameController.getGameTable();
-        
+        gameTable = gameController.getGameTable();
     }
 
-    
-    
     /**
      * Test che chiama prova a muovere la Wolf: si muove per forza perchè
      * all'inizio è a SheepSbourg è ci sono 6 strade collegate. Poi deve
@@ -38,12 +29,22 @@ public class GameControllerTest {
      */
     @Test
     public void testWolfEatsSheep() {
-        Wolf wolf = game.getWolf();
+        Wolf wolf = gameTable.getWolf();
         Terrain terrainWherePlaced = wolf.getPosition();
 
-        gameController.moveWolf();
-        assertNotSame(terrainWherePlaced, wolf.getPosition());
-        assertEquals(0, wolf.getPosition().getAnimals().size());//ci sono zero animali(il lupo non conta) quindi è stata mangiata la pecora
+        boolean wolfHasMoved = gameController.moveWolf();
+        if (wolfHasMoved) {
+            assertNotSame(terrainWherePlaced, wolf.getPosition());
+        } else {
+            assertSame(terrainWherePlaced, wolf.getPosition());
+        }
+        
+        boolean wolfHasEat = gameController.tryEatSheep();
+        if (wolfHasEat) {
+            assertEquals(0, wolf.getPosition().getAnimals().size());
+        } else {
+            assertEquals(1, wolf.getPosition().getAnimals().size());
+        }
     }
 
     /**
@@ -53,35 +54,47 @@ public class GameControllerTest {
      */
     @Test
     public void testWolfEatsSheep2() {
-        Wolf wolf = game.getWolf();
-        Terrain terrainToPlace = game.getMap().getTerrain().get(0); //la metto in un angolo della mappa così ha più possibilità di lanciare eccezione
-        wolf.setPosition(terrainToPlace);
-        boolean wolfHasMoved;
+        //la metto in un angolo della mappa così ha più possibilità di lanciare eccezione
+        Terrain terrainToPlace = gameTable.getMap().getTerrain().get(0);
 
-        wolfHasMoved = gameController.moveWolf();
+        Wolf wolf = gameTable.getWolf();
+        wolf.setPosition(terrainToPlace);
+
+        boolean wolfHasMoved = gameController.moveWolf();
         if (wolfHasMoved) {
             assertNotSame(terrainToPlace, wolf.getPosition());
-            assertEquals(0, wolf.getPosition().getAnimals().size());
         } else {
             assertSame(terrainToPlace, wolf.getPosition());
+        }
+
+        boolean wolfHasEat = gameController.tryEatSheep();
+        if (wolfHasEat) {
+            assertEquals(0, wolf.getPosition().getAnimals().size());
+        } else {
             assertEquals(1, wolf.getPosition().getAnimals().size());
         }
     }
-    
+
+    /**
+     * Test per distribuzione delle carte
+     */
     @Test
     public void testDistributeCards() {
         //6 giocatori implica che tutte le tipologie di Card sono state distribuite quindi ce ne saranno solo 4 in ogni pool
         gameController = new GameController(6);
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Plain").size());
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Forest").size());
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("River").size());
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Desert").size());
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Mountain").size());
-        assertEquals(4,gameController.getGameTable().getTerrainCardPool("Field").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Plain").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Forest").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("River").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Desert").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Mountain").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Field").size());
     }
-    
+
+    /**
+     * Test per il piazzamento degli Shepard
+     */
     @Test
-    public void testPlaceShepards(){
+    public void testPlaceShepards() {
         assertTrue(gameController.getGameTable().getMap().getRoads().get(0).hasShepard());
         assertTrue(gameController.getGameTable().getMap().getRoads().get(1).hasShepard());
         assertTrue(gameController.getGameTable().getMap().getRoads().get(2).hasShepard());
