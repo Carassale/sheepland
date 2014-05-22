@@ -6,6 +6,6 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientRMI {
+public class ConnectionClientRMI implements ConnectionClient{
 
 }

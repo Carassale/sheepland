@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUImain;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -18,7 +19,7 @@ import java.net.Socket;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientSocket {
+public class ConnectionClientSocket implements ConnectionClient{
 
     private Socket socket;
     private BufferedReader inSocket;
@@ -26,6 +27,7 @@ public class ConnectionClientSocket {
     private BufferedReader inKeyboard;
     private PrintWriter outVideo;
 
+    private GUImain mainGUI;
     private TableView tableView;
 
     /**
@@ -46,8 +48,10 @@ public class ConnectionClientSocket {
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
 
-        tableView = new TableView();
+        mainGUI = new GUImain(this);
         waitLine();
+        
+        tableView = new TableView();
     }
 
     private void waitLine() throws IOException, ClassNotFoundException {
