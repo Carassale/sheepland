@@ -44,7 +44,7 @@ public class ServerManagerRMI implements ServerManager {
             //StubRMI stubRMI = new StubRMIImpl();
             //StubRMI stub = (StubRMI) UnicastRemoteObject.exportObject(stubRMI, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
-            registry.rebind(SERVER_NAME, stub);
+            //registry.rebind(SERVER_NAME, stub);
 
             //waitPlayer();
         } catch (RemoteException ex) {
