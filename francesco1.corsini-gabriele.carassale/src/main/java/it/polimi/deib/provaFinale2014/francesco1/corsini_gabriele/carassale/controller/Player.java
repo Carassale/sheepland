@@ -310,7 +310,7 @@ public class Player {
         boolean thereIsShepard = false;
 
         for (Shepard shepard : shepards) {
-            if (shepard.getId() == road.getId()) {
+            if (shepard.getPosition().getId() == road.getId()) {
                 thereIsShepard = true;
             }
         }
