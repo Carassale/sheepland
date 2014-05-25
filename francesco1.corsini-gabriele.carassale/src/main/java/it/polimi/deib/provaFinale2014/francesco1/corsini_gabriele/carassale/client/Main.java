@@ -92,7 +92,8 @@ public class Main {
             socket = new Socket(address, PORT_SOCKET);
             //Client connesso
             connected = true;
-        } catch (IOException e) {
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             //Connessione tramite Socket non riuscita
         }
 

@@ -89,45 +89,45 @@ public class ConnectionManagerSocket extends ConnectionManager {
             try {
                 actionDo = moveShepard();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
-            } catch (CoinException ex) {
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (CoinException ex) {
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("moveSheep".equals(actionToDo)) {
             try {
                 actionDo = moveSheep();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("buyCard".equals(actionToDo)) {
             try {
                 actionDo = buyCard();
             } catch (CoinException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("killSheep".equals(actionToDo)) {
             try {
                 actionDo = killSheep();
             } catch (CoinException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
-            } catch (WrongDiceNumberException ex) {
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (WrongDiceNumberException ex) {
                 currentPlayer.printLn("errorDice");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("joinSheep".equals(actionToDo)) {
             try {
                 actionDo = joinSheep();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         }
         //TODO
