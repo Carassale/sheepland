@@ -45,6 +45,7 @@ public class ConnectionManagerRMI extends ConnectionManager {
 
     @Override
     public void startAction() {
+        //TODO
     }
 
     @Override
@@ -54,6 +55,7 @@ public class ConnectionManagerRMI extends ConnectionManager {
 
     @Override
     public void allertToMoveBlackSheep() {
+        //TODO
     }
 
 }

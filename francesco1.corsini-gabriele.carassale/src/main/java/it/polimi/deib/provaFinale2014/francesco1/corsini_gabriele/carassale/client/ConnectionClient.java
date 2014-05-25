@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import java.io.IOException;
-
 /**
  * È il main per il Client, ha il compito di provare a collegarsi con uno dei
  * metodi, Socket o RMI, e avviare il ConnectionClient corrispondente
@@ -12,17 +10,17 @@ public interface ConnectionClient {
 
     void setTypeOfInteraction(TypeOfInteraction typeOfInteraction);
 
-    void moveShepard() throws IOException;
+    void moveShepard();
 
-    void moveSheep() throws IOException;
+    void moveSheep();
 
-    void buyCard() throws IOException;
+    void buyCard();
 
-    void killSheep() throws IOException;
+    void killSheep();
 
-    void joinSheep() throws IOException;
+    void joinSheep();
 
-    void setNickname() throws IOException;
+    void setNickname();
 
     void waitLine();
 }
