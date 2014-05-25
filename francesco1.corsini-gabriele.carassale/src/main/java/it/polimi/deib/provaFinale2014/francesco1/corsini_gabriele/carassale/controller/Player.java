@@ -8,7 +8,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Classe che modellizza il Giocatore come controllore, rendendo disponibili le
@@ -280,23 +279,19 @@ public class Player {
         boolean isShepard = false;
         Road shepPos = null;
 
-        ArrayList<Road> roadsTerrainSheep = terrainSheep.getAdjacentRoads();
-        ArrayList<Road> roadsTerrainDestination = terrainDestination.getAdjacentRoads();
+        ArrayList<Road> roadsTerrainSheeps = terrainSheep.getAdjacentRoads();
+        ArrayList<Road> roadsTerrainDestinations = terrainDestination.getAdjacentRoads();
 
-        Iterator<Road> itr = roadsTerrainSheep.iterator();
-        while (itr.hasNext()) {
-            Road ele = itr.next();
-            Iterator<Road> itr2 = roadsTerrainDestination.iterator();
-            while (itr2.hasNext()) {
-                Road ele2 = itr2.next();
-                if (ele == ele2) {
-                    shepPos = ele;
+        for (Road roadsTerrainSheep : roadsTerrainSheeps) {
+            for (Road roadsTerrainDestination : roadsTerrainDestinations) {
+                if (roadsTerrainSheep == roadsTerrainDestination) {
+                    shepPos = roadsTerrainDestination;
                     isShepard = true;
                 }
             }
-
         }
-        if (isShepard == false) {
+
+        if (!isShepard) {
             throw new MoveException("Non esiste strada che comunica tra questi due territori");
         }
 
@@ -314,13 +309,12 @@ public class Player {
     private boolean playerHasShepardOnRoad(Road road) {
         boolean thereIsShepard = false;
 
-        Iterator<Shepard> itr = shepards.iterator();
-        while (itr.hasNext()) {
-            Shepard ele = itr.next();
-            if (ele.getPosition().getId() == road.getId()) {
+        for (Shepard shepard : shepards) {
+            if (shepard.getId() == road.getId()) {
                 thereIsShepard = true;
             }
         }
+
         return thereIsShepard;
     }
 
@@ -335,19 +329,17 @@ public class Player {
         boolean thereIsSheep = false;
         boolean thereIsRam = false;
 
-        Iterator<Animal> itr = terrain.getAnimals().iterator();
-        while (itr.hasNext()) {
-            Animal ele = itr.next();
-            if (ele instanceof Sheep) {
-                Sheep sheep = (Sheep) ele;
+        for (Animal animal : terrain.getAnimals()) {
+            if (animal instanceof Sheep) {
+                Sheep sheep = (Sheep) animal;
                 if (sheep.isWhiteSheep()) {
                     thereIsSheep = true;
                 } else if (sheep.isRam()) {
                     thereIsRam = true;
                 }
             }
-
         }
+
         return thereIsSheep && thereIsRam;
     }
 
@@ -359,21 +351,16 @@ public class Player {
      * @return true se c'è pastore vicino
      */
     private boolean isShepardNear(Terrain terrain) {
-
         boolean thereIsShepard = false;
 
-        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-
-        while (itr.hasNext()) {
-            Road road = itr.next();
-            Iterator<Shepard> itrShep = shepards.iterator();
-            while (itrShep.hasNext()) {
-                Shepard shep = itrShep.next();
-                if (shep.getPosition() == road) {
+        for (Road road : terrain.getAdjacentRoads()) {
+            for (Shepard shepard : shepards) {
+                if (shepard.getPosition() == road) {
                     thereIsShepard = true;
                 }
             }
         }
+
         return thereIsShepard;
     }
 
@@ -385,13 +372,12 @@ public class Player {
      */
     private int countShepardNear(Terrain terrain) {
         int number = 0;
-        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-        while (itr.hasNext()) {
-            Road road = itr.next();
+        for (Road road : terrain.getAdjacentRoads()) {
             if (road.hasShepard()) {
                 number++;
             }
         }
+
         return number - 1;
     }
 
@@ -403,45 +389,35 @@ public class Player {
      * @return true se dal dado esce il numero giusto
      */
     private boolean randomNumberForShepard(Terrain terrain, int random) {
-
         boolean gotRightNumber = false;
 
-        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-
-        while (itr.hasNext()) {
-            Road road = itr.next();
-            Iterator<Shepard> itrShep = shepards.iterator();
-            while (itrShep.hasNext()) {
-                Shepard shep = itrShep.next();
-                if (shep.getPosition() == road) {
+        for (Road road : terrain.getAdjacentRoads()) {
+            for (Shepard shepard : shepards) {
+                if (shepard.getPosition() == road) {
                     if (random == road.getRoadNumber()) {
                         gotRightNumber = true;
                     }
                 }
             }
         }
+
         return gotRightNumber;
     }
 
     private int payShepards(Terrain terrain) {
-
         int totalCost = 0;
 
-        Iterator<Road> itr = terrain.getAdjacentRoads().iterator();
-
-        while (itr.hasNext()) {
-            Road road = itr.next();
-            Iterator<Shepard> itrShep = shepards.iterator();
-            while (itrShep.hasNext()) {
-                Shepard shep = itrShep.next();
+        for (Road road : terrain.getAdjacentRoads()) {
+            for (Shepard shepard : shepards) {
                 if (road.hasShepard()) {
-                    if (shep.getId() != road.getShepard().getId()) {
+                    if (shepard.getId() != road.getShepard().getId()) {
                         totalCost = totalCost + 2;
-                        shep.getOwner().setCoins(shep.getOwner().getCoins() + 2);
+                        shepard.getOwner().setCoins(shepard.getOwner().getCoins() + 2);
                     }
                 }
             }
         }
+
         return totalCost;
     }
 
@@ -471,28 +447,28 @@ public class Player {
      * @return True se può effettuare la mossa
      */
     public boolean isPossibleAction(String action) {
-        if (actionDone[0].equals("")) {
+        if ("".equals(actionDone[0])) {
             actionDone[0] = action;
             return true;
         }
 
-        if (actionDone[1].equals("")) {
-            if ((actionDone[0].equals(action) && action.equals("moveShepard"))
-                    || (!actionDone[0].equals(action))) {
+        if ("".equals(actionDone[1])) {
+            if ((action.equals(actionDone[0]) && "moveShepard".equals(action))
+                    || (!action.equals(actionDone[0]))) {
                 actionDone[1] = action;
                 return true;
             }
         }
 
-        if (actionDone[2].equals("")) {
-            if (actionDone[1].equals(action) && action.equals("moveShepard")) {
+        if ("".equals(actionDone[2])) {
+            if (action.equals(actionDone[1]) && "moveShepard".equals(action)) {
                 cleanActionDone();
                 return true;
             }
 
-            if (action.equals("moveShepard")
-                    || (actionDone[0].equals("moveShepard") && !actionDone[1].equals(action))
-                    || (actionDone[1].equals("moveShepard"))) {
+            if ("moveShepard".equals(action)
+                    || ("moveShepard".equals(actionDone[0]) && !action.equals(actionDone[1]))
+                    || ("moveShepard".equals(actionDone[1]))) {
                 cleanActionDone();
                 return true;
             }

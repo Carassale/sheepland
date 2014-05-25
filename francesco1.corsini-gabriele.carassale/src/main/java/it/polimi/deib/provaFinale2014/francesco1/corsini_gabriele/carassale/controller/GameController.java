@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
@@ -44,7 +45,6 @@ public class GameController {
      */
     public GameController(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
-        dice = new Dice();
     }
 
     /**
@@ -63,9 +63,11 @@ public class GameController {
             Turn round = new Turn(isGameOver, gameTable, connectionManager);
             isGameOver = round.playTurn();
         } while (!(playerPool.nextPlayer()));
+
         if (moveWolf()) {
             tryEatSheep();
         }
+
         market();
 
         return isGameOver;
@@ -114,7 +116,6 @@ public class GameController {
         gameTable = new GameTable();
         createPlayerPool(numberOfPlayers);
         distributeCard();
-
     }
 
     private void declareWinner() {
@@ -306,6 +307,7 @@ public class GameController {
      * @param numberOfPlayers numero di giocatori
      */
     public void start(int numberOfPlayers) {
+        dice = new Dice();
         inizializeGame(numberOfPlayers);
         if (numberOfPlayers > 2) {
             placeShepards(false);

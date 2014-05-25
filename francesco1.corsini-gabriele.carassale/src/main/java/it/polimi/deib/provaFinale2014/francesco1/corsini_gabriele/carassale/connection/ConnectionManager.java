@@ -55,4 +55,10 @@ public abstract class ConnectionManager implements Runnable {
         return null;
     }
 
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract, dice
+     * al client di tirare un dado per far muovere la pecora nera
+     */
+    public void allertToMoveBlackSheep() {
+    }
 }

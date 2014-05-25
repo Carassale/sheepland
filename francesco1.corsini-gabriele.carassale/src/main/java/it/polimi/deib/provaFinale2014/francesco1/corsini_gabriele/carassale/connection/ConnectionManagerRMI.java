@@ -1,5 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import java.util.ArrayList;
+
 /**
  * Questa classe crea il collegamento diretto tra il GameController e il Client
  * gestito da un ConnectionClient di tipo RMI
@@ -8,18 +12,48 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
  */
 public class ConnectionManagerRMI extends ConnectionManager {
 
+    private final ArrayList<PlayerConnectionRMI> playerConnections;
+    private PlayerConnectionRMI currentPlayer;
+    private GameController gameController;
+    private Thread thread;
+
     /**
-     * Da implementare con RMI
+     * Inizializza il Thread passandoli come parametro This (Runnable) e lo
+     * avvia col la chiamata al metodo .start()
+     *
+     * @param playerConnections ArrayList contenente i player associati a questa
+     * partita
      */
-    public ConnectionManagerRMI() {
+    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) {
+        this.playerConnections = playerConnections;
+        thread = new Thread(this);
+        thread.start();
     }
 
     /**
-     * Da implementare con RMI
+     * Memorizza il currentPlayer prelevandolo dal primo elemento dell'Array,
+     * crea il GameController e successivamente lo avvia
      */
     @Override
-    public void startAction() {
+    public void startThread() {
+        currentPlayer = playerConnections.get(0);
+        gameController = new GameController(this);
+        gameController.start(playerConnections.size());
+        //setNickName();
+        //refreshGame4AllPlayer();
+    }
 
+    @Override
+    public void startAction() {
+    }
+
+    @Override
+    public Road getPlacedShepard(boolean hasToScroll) {
+        return null;
+    }
+
+    @Override
+    public void allertToMoveBlackSheep() {
     }
 
 }

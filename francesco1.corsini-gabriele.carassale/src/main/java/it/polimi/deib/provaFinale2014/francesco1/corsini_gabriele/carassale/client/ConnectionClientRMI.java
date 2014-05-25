@@ -8,30 +8,33 @@ import java.io.IOException;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientRMI implements ConnectionClient{
+public class ConnectionClientRMI implements ConnectionClient {
+
+    public ConnectionClientRMI() {
+    }
 
     public void moveShepard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void moveSheep() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void buyCard() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void killSheep() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void joinSheep() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setNickname() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
+    }
+
+    public void waitLine() {
     }
 
 }

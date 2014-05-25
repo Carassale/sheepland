@@ -24,12 +24,6 @@ public class ServerManagerSocket implements ServerManager {
      */
     private final static int PORT = 3002;
     /**
-     * È il numero massimo di giocatori per partita, una volta raggiunto tale
-     * numero di connessioni viene avviata una nuova partita tramite
-     * ConnectionManagerSocket
-     */
-    private final static int PLAYER4GAME = 4;
-    /**
      * È la lista dei giocatori in attesa (sempre minore di PLAYER4GAME), è
      * static perchè condivisa con il thread parallelo per l'avvio forzato della
      * partita
@@ -39,24 +33,26 @@ public class ServerManagerSocket implements ServerManager {
      * È la lista delle parite avviate
      */
     private ArrayList<ConnectionManagerSocket> games;
-    /**
-     * È il tempo di attesa massimo che il thread SocketWaitingTimer aspetta
-     * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
-     * millisec
-     */
-    private final static int TIMEOUT = 10000;
+    private Thread thread;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
 
     /**
-     * Crea un serverManager di tipo Socket, inizializza l'array contente il
-     * numero di ConnctionManager di tipo Socket (rappresentano il numero di
-     * partite avviate). Crea un serverSocket in grado di ricevere connessioni
-     * in ingresso da parte dei socket dei Client e avvia il metodo waitPlayer
-     * (@override) che aspetta i socket.
+     * Crea un serverManager di tipo Socket e avvia il thread
      */
     public ServerManagerSocket() {
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    /**
+     * Inizializza l'array contente il numero di ConnctionManager di tipo Socket
+     * (rappresentano il numero di partite avviate). Crea un serverSocket in
+     * grado di ricevere connessioni in ingresso da parte dei socket dei Client
+     * e avvia il metodo waitPlayer (@override) che aspetta i socket.
+     */
+    public void run() {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
         try {
@@ -147,6 +143,5 @@ public class ServerManagerSocket implements ServerManager {
             this.thread.interrupt();
             System.out.println("Timer fermato");
         }
-
     }
 }

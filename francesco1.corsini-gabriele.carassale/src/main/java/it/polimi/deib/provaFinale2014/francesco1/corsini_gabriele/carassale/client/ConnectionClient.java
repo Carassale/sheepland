@@ -1,9 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * È il main per il Client, ha il compito di provare a collegarsi con uno dei
@@ -13,15 +10,19 @@ import java.util.logging.Logger;
  */
 public interface ConnectionClient {
 
+    void setTypeOfInteraction(TypeOfInteraction typeOfInteraction);
+
     void moveShepard() throws IOException;
-    
+
     void moveSheep() throws IOException;
-    
+
     void buyCard() throws IOException;
-    
+
     void killSheep() throws IOException;
-    
+
     void joinSheep() throws IOException;
-    
+
     void setNickname() throws IOException;
+
+    void waitLine();
 }

@@ -40,10 +40,10 @@ public class Turn {
      * Fence finali)
      * @param gameTable gioco su cui si sta giocando
      * @param connectionManager dove sono tutte le connessioni
-     * @param playerPool
      */
     public Turn(boolean isLastTurn, GameTable gameTable, ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
+
         forceLastRound = isLastTurn;
         //TODO vedere come questo isLastTurn si immette per le Fence Finali
 
@@ -68,6 +68,7 @@ public class Turn {
         if (game.getFenceNumber() <= 0) {
             forceLastRound = true;
         }
+
         return forceLastRound;
     }
 
@@ -78,6 +79,9 @@ public class Turn {
      * @return true se la BlackSheep è stata mossa
      */
     protected boolean moveBlackSheep() {
+        if (connectionManager != null) {
+            connectionManager.allertToMoveBlackSheep();
+        }
 
         BlackSheep blackSheep = game.getBlacksheep();
         int diceNumber = dice.getRandom();

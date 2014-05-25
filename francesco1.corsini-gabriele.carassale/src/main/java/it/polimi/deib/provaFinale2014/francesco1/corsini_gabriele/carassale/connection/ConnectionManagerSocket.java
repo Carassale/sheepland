@@ -33,11 +33,11 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
      * avvia col la chiamata al metodo .start()
      *
-     * @param playerConnectionSockets ArrayList contenente i player associati a
-     * questa partita
+     * @param playerConnection ArrayList contenente i player associati a questa
+     * partita
      */
-    public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnectionSockets) {
-        this.playerConnections = playerConnectionSockets;
+    public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection) {
+        this.playerConnections = playerConnection;
         thread = new Thread(this);
         thread.start();
     }
@@ -49,7 +49,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
     @Override
     public void startThread() {
         currentPlayer = playerConnections.get(0);
-        //gameController = null;
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
         //setNickName();
@@ -325,5 +324,16 @@ public class ConnectionManagerSocket extends ConnectionManager {
             nextPlayerConnections();
         }
         return roadChoosen;
+    }
+
+    /**
+     * Avvisa il Client che verrà mossa la pecora nera
+     */
+    @Override
+    public void allertToMoveBlackSheep() {
+        //dice al client di far muovere la pecora nera
+        currentPlayer.printLn("moveBlackSheep");
+        //attende un segnale di risposta per far finire la chiamata da parte del Turn
+        currentPlayer.getNextLine();
     }
 }
