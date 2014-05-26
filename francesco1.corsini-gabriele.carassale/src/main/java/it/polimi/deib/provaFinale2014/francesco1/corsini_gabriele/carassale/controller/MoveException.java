@@ -4,12 +4,21 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
  *
  * @author Francesco Corsini
  */
-public class MoveException extends Exception{
+public class MoveException extends Exception {
 
-    public MoveException () {
+    /**
+     * Solleva un eccezione
+     */
+    public MoveException() {
         super();
     }
-    public MoveException (String s) {
+
+    /**
+     * Solleva un eccezione passando una stringa
+     *
+     * @param s Stringa da sollevare
+     */
+    public MoveException(String s) {
         super(s);
     }
 

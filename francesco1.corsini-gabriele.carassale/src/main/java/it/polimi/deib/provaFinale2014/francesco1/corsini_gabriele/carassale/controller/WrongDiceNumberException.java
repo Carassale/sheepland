@@ -4,13 +4,20 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
  *
  * @author Francesco Corsini
  */
-public class WrongDiceNumberException extends Exception{
+public class WrongDiceNumberException extends Exception {
 
-    //TODO gestione del ritorno del numero uscito
-    public WrongDiceNumberException(int diceNumber){
-        
+    /**
+     * Solleva un eccezione passando un intero
+     *
+     * @param diceNumber Intero da sollevare
+     */
+    public WrongDiceNumberException(int diceNumber) {
+        //TODO gestione del ritorno del numero uscito
     }
 
+    /**
+     * Solleva un eccezione
+     */
     public WrongDiceNumberException() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

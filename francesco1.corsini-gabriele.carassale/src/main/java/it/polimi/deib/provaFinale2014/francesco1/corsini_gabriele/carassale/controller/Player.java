@@ -256,12 +256,10 @@ public class Player {
      * @return
      */
     private boolean canMoveShepard(Road destination) {
-        if (destination.hasFence() == true) {
-            return false;
-        } else if (destination.hasShepard() == true) {
+        if (destination.hasFence()) {
             return false;
         } else {
-            return true;
+            return !destination.hasShepard();
         }
     }
 
@@ -310,7 +308,7 @@ public class Player {
         boolean thereIsShepard = false;
 
         for (Shepard shepard : shepards) {
-            if (shepard.getId() == road.getId()) {
+            if (shepard.getPosition().getId() == road.getId()) {
                 thereIsShepard = true;
             }
         }
@@ -404,6 +402,12 @@ public class Player {
         return gotRightNumber;
     }
 
+    /**
+     * Metodo per pagare i pastori
+     *
+     * @param terrain
+     * @return La cifra di coin pagati
+     */
     private int payShepards(Terrain terrain) {
         int totalCost = 0;
 

@@ -17,6 +17,4 @@ public interface TypeOfInteraction {
 
     public String read();
 
-    public void setGameTable(GameTable gameTable);
-
 }

@@ -24,10 +24,19 @@ public class Main {
 
     ConnectionClient connectionClient;
 
+    /**
+     * È il Main del client
+     *
+     * @param arg
+     */
     public static void main(String arg[]) {
         Main main = new Main();
     }
 
+    /**
+     * Inizializza il necessario per interagire con l'utente, chiede il tipo di
+     * connessione e il tipo di interazione.
+     */
     public Main() {
         connected = false;
         connectionClient = null;
@@ -73,6 +82,11 @@ public class Main {
         connectionClient.waitLine();
     }
 
+    /**
+     * Prova "all'infinito" a connettere il client al server
+     *
+     * @param typeConnection Tipo di connessione da usare
+     */
     private void connectToServer(String typeConnection) {
         connected = false;
         if ("Socket".equals(typeConnection)) {
@@ -86,6 +100,9 @@ public class Main {
         }
     }
 
+    /**
+     * Prova a creare una connessione tramite socket
+     */
     private void tryConnectionSocket() {
         //Il client tenta di connettersi tramite socket
         Socket socket = null;
@@ -93,7 +110,8 @@ public class Main {
             socket = new Socket(address, PORT_SOCKET);
             //Client connesso
             connected = true;
-        } catch (IOException e) {
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             //Connessione tramite Socket non riuscita
         }
 
@@ -108,24 +126,27 @@ public class Main {
         }
     }
 
+    /**
+     * Prova a creare una connessione tramite RMI
+     */
     private void tryConnectionRMI() {
         //Il client tenta di connettersi tramite RMI
 /*
-        try {
-            Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
-            StubRMI stubRMI = (StubRMI) registry.lookup(ServerManagerRMI.SERVER_NAME);
+         try {
+         Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
+         StubRMI stubRMI = (StubRMI) registry.lookup(ServerManagerRMI.SERVER_NAME);
 
-            String result = stubRMI.managerRMI(ac);
-        } catch (RemoteException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         String result = stubRMI.managerRMI(ac);
+         } catch (RemoteException ex) {
+         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (NotBoundException ex) {
+         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+         }
 
-        //Connessione tramite RMI non riuscita
-        if (connected) {
-            ConnectionClientRMI ccrmi = new ConnectionClientRMI();
-        }*/
-        
+         //Connessione tramite RMI non riuscita
+         if (connected) {
+         ConnectionClientRMI ccrmi = new ConnectionClientRMI();
+         }*/
+
     }
 }

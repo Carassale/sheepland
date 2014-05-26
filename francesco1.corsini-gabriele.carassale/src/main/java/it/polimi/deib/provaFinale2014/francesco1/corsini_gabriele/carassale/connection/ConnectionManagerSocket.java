@@ -89,45 +89,45 @@ public class ConnectionManagerSocket extends ConnectionManager {
             try {
                 actionDo = moveShepard();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
-            } catch (CoinException ex) {
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (CoinException ex) {
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("moveSheep".equals(actionToDo)) {
             try {
                 actionDo = moveSheep();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("buyCard".equals(actionToDo)) {
             try {
                 actionDo = buyCard();
             } catch (CoinException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("killSheep".equals(actionToDo)) {
             try {
                 actionDo = killSheep();
             } catch (CoinException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
-            } catch (WrongDiceNumberException ex) {
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (WrongDiceNumberException ex) {
                 currentPlayer.printLn("errorDice");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         } else if ("joinSheep".equals(actionToDo)) {
             try {
                 actionDo = joinSheep();
             } catch (MoveException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
                 currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
         }
         //TODO
@@ -157,24 +157,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * Serializza e invia ad ogni Player il gameTable
      */
     public void refreshGame4AllPlayer() {
-        Logger.getLogger(ConnectionManagerSocket.class.getName()).fine("Invio la mappa ai giocatori");
-        for (PlayerConnectionSocket playerConnection : playerConnections) {
-
-            playerConnection.printLn("refresh");
-
-            FileOutputStream out;
-            ObjectOutputStream oos;
-
-            try {
-                out = new FileOutputStream("save.ser");
-                oos = new ObjectOutputStream(out);
-                oos.writeObject(gameController.getGameTable());
-                oos.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
-
-        }
+        //TODO Da rifare
     }
 
     /*
@@ -196,6 +179,13 @@ public class ConnectionManagerSocket extends ConnectionManager {
         currentPlayer = playerConnections.get(0);
     }
 
+    /**
+     * Muove il pastore
+     *
+     * @return True se la mossa è andata a buon fine
+     * @throws MoveException Impossibile muovere
+     * @throws CoinException Soldi insufficienti
+     */
     private boolean moveShepard() throws MoveException, CoinException {
         //Riceve via socket l'ID dello shepard
         String shepard = currentPlayer.getNextLine();
@@ -219,6 +209,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Muova la pecora
+     *
+     * @return True se la mossa va a buon fine
+     * @throws MoveException Impossiblie muovere
+     */
     private boolean moveSheep() throws MoveException {
         //Riceve via socket l'ID della sheep
         Integer id = currentPlayer.getNextInt();
@@ -240,6 +236,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Compra una carta
+     *
+     * @return True se l'azione va a buon fine
+     * @throws CoinException Soldi insufficienti
+     */
     private boolean buyCard() throws CoinException {
         //Riceve via socket il tipo di TerrainCard
         String kind = currentPlayer.getNextLine();
@@ -254,6 +256,14 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Uccide una pecora
+     *
+     * @return True se l'azione va a buon fine
+     * @throws CoinException Soldi inssufficienti
+     * @throws MoveException Mossa non consentita
+     * @throws WrongDiceNumberException Errore lancio dado
+     */
     private boolean killSheep() throws CoinException, MoveException, WrongDiceNumberException {
         //Riceve via socket l'ID della sheep
         Integer id = currentPlayer.getNextInt();
@@ -270,6 +280,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Accoppia una pecora e un montone
+     *
+     * @return True se l'azione va a buon fine
+     * @throws MoveException Movimento non consentito
+     */
     private boolean joinSheep() throws MoveException {
         //Riceve via socket l'ID del Terrain
         Integer id = currentPlayer.getNextInt();
