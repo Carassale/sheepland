@@ -31,9 +31,9 @@ public class StaticActionListener extends JFrame implements ActionListener{
         GUI.activateActions(false);
         
         if("MoveShepard".equals(command)){
-            GUI.getLAction2().setText("Selezione dove muovere il pastore");
-            GUI.setGUIState((GUIState.MOVESHEPARD));
-            GUI.activateRoads(true);
+            GUI.getLAction2().setText("Seleziona quale Pastore muovere");
+            GUI.setGUIState((GUIState.MOVESHEPARDSELECTION));
+            //TODO apri dropdown con selezione SHepards
         }
         else if("MoveSheep".equals(command)){
             GUI.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");

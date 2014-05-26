@@ -6,7 +6,6 @@
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -33,22 +32,25 @@ public class StaticTerrainListener extends JFrame implements ActionListener{
         GUI.activateTerrains(false);
         String command = e.getActionCommand();
         
-        if(GUI.getGUIState().equals(GUIState.MOVESHEEPFROM)){
+        if(GUI.getGUIState() == GUIState.MOVESHEEPFROM){
             GUI.setGUIState((GUIState.MOVESHEEPSELECTION));
             GUI.activateSheepSelection(true,terrain);
             GUI.getLAction2().setText("Seleziona quale ovino si vuole muovere");
+            //TODO finire sto metodo deve aggiornare nella GUI tempIdSheep
         }
-        else if(GUI.getGUIState().equals(GUIState.KILLSHEEP)){
+        else if(GUI.getGUIState() == GUIState.KILLSHEEP){
             GUI.setGUIState((GUIState.KILLSHEEPSELECTION));
             GUI.activateSheepSelection(true,terrain);
             GUI.getLAction2().setText("Seleziona quale ovino vuoi abbatere");
+            //TODO finire sto metodo deve aggiornare nella GUI tempIdSheep
         }
-        else if(GUI.getGUIState().equals(GUIState.JOINSHEEPS)){
+        else if(GUI.getGUIState() == GUIState.JOINSHEEPS){
             GUI.setGUIState((GUIState.KILLSHEEPSELECTION));
             GUI.sendJoinSheeps(terrain);
         }
-        else if(GUI.getGUIState().equals(GUIState.MOVESHEEPTO)){
-            
+        else if(GUI.getGUIState() == GUIState.MOVESHEEPTO){
+            GUI.setGUIState((GUIState.WAITINGFOROTHERPLAYER));
+            GUI.sendMoveSheep(terrain);
         }
             
     }
