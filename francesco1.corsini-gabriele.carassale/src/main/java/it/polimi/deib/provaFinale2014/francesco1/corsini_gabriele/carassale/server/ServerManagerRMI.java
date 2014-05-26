@@ -26,6 +26,9 @@ public class ServerManagerRMI implements ServerManager {
     private RMIWaitingTimer swt;
     private boolean canAcceptSocket;
 
+    /**
+     * È il nome del ServerManagerRMI, usato per le connessioni
+     */
     public final static String SERVER_NAME = "managerRMI";
 
     /**
@@ -36,6 +39,12 @@ public class ServerManagerRMI implements ServerManager {
         thread.start();
     }
 
+    /**
+     * Inizializza l'array contente il numero di ConnctionManager di tipo RMI
+     * (rappresentano il numero di partite avviate). Crea un serverRMI in grado
+     * di ricevere connessioni in ingresso da parte dei Client e avvia il metodo
+     * waitPlayer (@override).
+     */
     public void run() {
         games = new ArrayList<ConnectionManagerRMI>();
         canAcceptSocket = true;
@@ -52,6 +61,13 @@ public class ServerManagerRMI implements ServerManager {
         }
     }
 
+    /**
+     * Resta in attesa del numero di giocatori massimi per avviare una partita,
+     * in parallelo avvia un thread per controllare l'avvio forzato da parte di
+     * un utente
+     *
+     * @throws java.io.IOException
+     */
     private void waitPlayer() {
         playerConnection = new ArrayList<PlayerConnectionRMI>();
         while (canAcceptSocket) {
@@ -68,6 +84,12 @@ public class ServerManagerRMI implements ServerManager {
         }
     }
 
+    /**
+     * È un metodo Synchronized per non permettere che sia uno o entrambi dei
+     * thread e il metodo waitPlayer lo chiamino nello stesso istante, creando
+     * quindi più partite con lo stesso Array di playerConnection (un client
+     * gioca più partite).
+     */
     public synchronized void runNewGame() {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {

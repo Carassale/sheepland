@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Implementa la classe TypeOfInteraction per gestire le interazioni tramite
+ * linea di comando
  *
  * @author Gabriele Carassale
  */
@@ -19,15 +21,28 @@ public class LineCommand implements TypeOfInteraction {
     private BufferedReader inKeyboard;
     private PrintWriter outVideo;
 
+    /**
+     * Inizializza il BufferReader da tastiera e il PrintWriter a schermo
+     */
     public LineCommand() {
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
     }
 
+    /**
+     * Implementa il metodo superiore e stampa a schermo una stringa
+     *
+     * @param string Stringa da stampare
+     */
     public void print(String string) {
         outVideo.println(string);
     }
 
+    /**
+     * Implementa il metodo superiore e legge una riga dal terminale
+     *
+     * @return Stringa letta
+     */
     public String read() {
         String s = "";
         try {
@@ -38,7 +53,4 @@ public class LineCommand implements TypeOfInteraction {
         return s;
     }
 
-    public void setGameTable(GameTable gameTable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

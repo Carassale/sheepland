@@ -16,6 +16,7 @@ public abstract class ConnectionManager implements Runnable {
      * tutto a loro
      */
     public ConnectionManager() {
+        //TODO
     }
 
     /**
@@ -33,6 +34,7 @@ public abstract class ConnectionManager implements Runnable {
      * modo da non dover fare l'override acnhe del run
      */
     public void startThread() {
+        //TODO
     }
 
     /**
@@ -41,6 +43,7 @@ public abstract class ConnectionManager implements Runnable {
      * gestisce quindi le chiamate Client-Server
      */
     public void startAction() {
+        //TODO
     }
 
     /**
@@ -60,5 +63,6 @@ public abstract class ConnectionManager implements Runnable {
      * al client di tirare un dado per far muovere la pecora nera
      */
     public void allertToMoveBlackSheep() {
+        //TODO
     }
 }

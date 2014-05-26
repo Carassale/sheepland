@@ -10,31 +10,72 @@ import java.io.IOException;
  */
 public class ConnectionClientRMI implements ConnectionClient {
 
+    /**
+     * Questa classe crea la connessione diretta con il GameController tramite
+     * la ConnectionManager nel caso sia stato scelto il metodo RMI
+     *
+     * @author Carassale Gabriele
+     */
     public ConnectionClientRMI() {
+        //TODO
     }
 
+    /**
+     * Muove il pastore
+     */
     public void moveShepard() {
+        //TODO
     }
 
+    /**
+     * Muove la pecora
+     */
     public void moveSheep() {
+        //TODO
     }
 
-    public void buyCard() throws IOException {
+    /**
+     * Compra una carta
+     */
+    public void buyCard() {
+        //TODO
     }
 
-    public void killSheep() throws IOException {
+    /**
+     * Uccide una pecora
+     */
+    public void killSheep() {
+        //TODO
     }
 
-    public void joinSheep() throws IOException {
+    /**
+     * Accoppia una pecora e un montone
+     */
+    public void joinSheep() {
+        //TODO
     }
 
-    public void setNickname() throws IOException {
+    /**
+     * Imposta il nickname
+     */
+    public void setNickname() {
+        //TODO
     }
 
+    /**
+     * Imposta il tipo di interfaccia da utilizzare
+     *
+     * @param typeOfInteraction Interfaccia da impostare
+     */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
+        //TODO
     }
 
+    /**
+     * Resta in attesa di un comando dal server
+     */
     public void waitLine() {
+        //TODO
     }
 
 }

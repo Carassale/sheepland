@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.TypeOfInteraction;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import javax.swing.*;
@@ -9,16 +8,10 @@ import javax.swing.*;
 public class GUIStatic implements TypeOfInteraction {
 
     static JFrame mainJFrame;
-    private GameTable gameTable;
 
     public GUIStatic() {
         mainJFrame = new JFrame("SheepLand");
-        gameTable = null;
         createAndShowGUI();
-    }
-
-    public void setGameTable(GameTable gameTable) {
-        this.gameTable = gameTable;
     }
 
     private void createAndShowGUI() {

@@ -2,11 +2,8 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -45,10 +42,18 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
     }
 
+    /**
+     * Imposta il tipo di interfaccia che desidera utilizzare il client
+     *
+     * @param typeOfInteraction interfaccia da utilizzare
+     */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
         this.typeOfInteraction = typeOfInteraction;
     }
 
+    /**
+     * Resta in attesa di un comando da parte del Server
+     */
     public void waitLine() {
         while (true) {
             try {
@@ -79,7 +84,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
-    private void doAction() throws IOException {
+    /**
+     * Esegue un azione chiedendola al giocatore
+     */
+    private void doAction() {
         typeOfInteraction.print("Fai la tua mossa");
 
         String s = typeOfInteraction.read();
@@ -96,7 +104,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
-    public void moveShepard() throws IOException {
+    /**
+     * Muove il pastore
+     */
+    public void moveShepard() {
         String s = "";
         outSocket.println("moveShepard");
         outSocket.flush();
@@ -112,7 +123,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.flush();
     }
 
-    public void moveSheep() throws IOException {
+    /**
+     * Muove la pecora
+     */
+    public void moveSheep() {
         String s = "";
         outSocket.println("moveSheep");
         outSocket.flush();
@@ -128,7 +142,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.flush();
     }
 
-    public void buyCard() throws IOException {
+    /**
+     * Compra una carta
+     */
+    public void buyCard() {
         String s = "";
         outSocket.println("buyCard");
         outSocket.flush();
@@ -139,7 +156,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.flush();
     }
 
-    public void killSheep() throws IOException {
+    /**
+     * Uccide una pecora
+     */
+    public void killSheep() {
         String s = "";
         outSocket.println("killSheep");
         outSocket.flush();
@@ -150,7 +170,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.flush();
     }
 
-    public void joinSheep() throws IOException {
+    /**
+     * Accoppia una pecora con un montone
+     */
+    public void joinSheep() {
         String s = "";
         outSocket.println("joinShepard");
         outSocket.flush();
@@ -161,45 +184,60 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.flush();
     }
 
-    public void setNickname() throws IOException {
+    /**
+     * Imposta il proprio nickname
+     */
+    public void setNickname() {
         typeOfInteraction.print("Impostare il proprio Nickname\n");
         outSocket.println(typeOfInteraction.read());
         outSocket.flush();
     }
 
-    private void refresh() throws FileNotFoundException, IOException, ClassNotFoundException {
-        System.out.println("Prova: Aggiorna");
-
-        FileInputStream in = new FileInputStream("save.ser");
-        ObjectInputStream ois = new ObjectInputStream(in);
-        //tableView.setGameTable((GameTable) ois.readObject());
-        //tableView.refresh();
-        ois.close();
-    }
-
-    private void errorCoin() {
+    /**
+     * Stampa un errore, oggetto: Coin
+     */
+    public void errorCoin() {
         typeOfInteraction.print("Impossibile fare la mossa! Non hai abbastanza soldi.");
     }
 
-    private void errorMove() {
+    /**
+     * Stampa un errore, oggetto: Move
+     */
+    public void errorMove() {
         typeOfInteraction.print("Impossibile fare la mossa! Movimento non valido.");
     }
 
-    private void errorDice() {
+    /**
+     * Stampa un errore, oggetto: Dice
+     */
+    public void errorDice() {
         typeOfInteraction.print("Impossibile fare la mossa! Errore dado.");
     }
 
-    private void messageText() throws IOException {
-        typeOfInteraction.print(inSocket.readLine());
+    /**
+     * Stampa un messaggio
+     */
+    public void messageText() {
+        try {
+            typeOfInteraction.print(inSocket.readLine());
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    private void placeShepard() {
+    /**
+     * Piazza un pastore
+     */
+    public void placeShepard() {
         typeOfInteraction.print("Seleziona una strada dove posizionare il Pastore.");
         outSocket.println(typeOfInteraction.read());
         outSocket.flush();
     }
 
-    private void moveBlackSheep() throws IOException {
+    /**
+     * Muove la pecora nera
+     */
+    private void moveBlackSheep() {
         typeOfInteraction.print("Allert: vine mossa la pecora nera");
         outSocket.println("ok");
     }

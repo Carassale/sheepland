@@ -24,7 +24,7 @@ import javax.swing.*;
  *
  * @author Francesco Corsini
  */
-public class GUISwingStatic extends JFrame implements TypeOfInteraction{
+public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     private ConnectionClient connectionClient;
     //private ConnectionInitializer init;
@@ -32,8 +32,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction{
 
     private GUIState state;
 
-    private JPanel PMainEast,PMainWest,PMain, PNorth, PSounth, PTerrain, PRoads, PActions, PTerrainType, PLabelAction, PLabelStatus;
-    private JLabel LAction1,LAction2,LCoins,LShepard1,LShepard2;
+    private JPanel PMainEast, PMainWest, PMain, PNorth, PSounth, PTerrain, PRoads, PActions, PTerrainType, PLabelAction, PLabelStatus;
+    private JLabel LAction1, LAction2, LCoins, LShepard1, LShepard2;
     private JLabel[] LTerrainCards = new JLabel[6];
     private JMenu file, connection;
     private JMenuItem eMenuconnectionItemSocket, eMenuconnectionItemRMI;
@@ -96,39 +96,33 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction{
         PLabelStatus.setLayout(new GridLayout(6, 1));
         PMain.add(PRoads = new JPanel(), BorderLayout.SOUTH);
         PRoads.setLayout(new GridLayout(6, 7));
-        PMainEast.setLayout(new GridLayout(6,1));
+        PMainEast.setLayout(new GridLayout(6, 1));
 
         PLabelAction.add(LAction1 = new JLabel("Non è il tuo turno"));
         PLabelAction.add(LAction2 = new JLabel("Attendi..."));
-        
+
         PMainEast.add(LCoins = new JLabel("Monete :" + coins));
-        PMainEast.add(LShepard1 = new JLabel("Posizione 1° pastore: non posizionato" ));
-        PMainEast.add(LShepard2 = new JLabel("Posizione 2° pastore: non posizionato" ));
-        
-        for(int i = 0; i < 6; i++){
+        PMainEast.add(LShepard1 = new JLabel("Posizione 1° pastore: non posizionato"));
+        PMainEast.add(LShepard2 = new JLabel("Posizione 2° pastore: non posizionato"));
+
+        for (int i = 0; i < 6; i++) {
             cards[i] = 0;
-            
-            if(i == 0){
+
+            if (i == 0) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Pianura: " + cards[i]));
-            }
-            else if(i == 1){
+            } else if (i == 1) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Foresta: " + cards[i]));
-            }
-            else if(i == 2){
+            } else if (i == 2) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Fiume: " + cards[i]));
-            }
-            else if(i == 3){
+            } else if (i == 3) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Deserto: " + cards[i]));
-            }
-            else if(i == 4){
+            } else if (i == 4) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Montagna: " + cards[i]));
-            }
-            else if(i == 5){
+            } else if (i == 5) {
                 PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Campi: " + cards[i]));
             }
         }
-        
-        
+
         /*
          eMenuconnectionItemSocket = new JMenuItem("Connect with Socket", icon);
          eMenuconnectionItemSocket.setMnemonic(KeyEvent.VK_E);
@@ -243,48 +237,40 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction{
         for (int i = 0; i < 18; i++) {
             sheeps.add(new ViewSheep(i, i));
         }
-        
 
     }
-    
-    public void refreshCards(String typeOfTerrain, boolean isSold){
-        
-        if("Plain".equals(typeOfTerrain)){
-            serviceRefreshCards(0,isSold);
+
+    public void refreshCards(String typeOfTerrain, boolean isSold) {
+
+        if ("Plain".equals(typeOfTerrain)) {
+            serviceRefreshCards(0, isSold);
             LTerrainCards[0].setText("Carte Pianura: " + cards[0]);
-        }
-        else if("Forest".equals(typeOfTerrain)){
-            serviceRefreshCards(1,isSold);
+        } else if ("Forest".equals(typeOfTerrain)) {
+            serviceRefreshCards(1, isSold);
             LTerrainCards[1].setText("Carte Foresta: " + cards[1]);
-        }
-        else if("River".equals(typeOfTerrain)){
-            serviceRefreshCards(2,isSold);
+        } else if ("River".equals(typeOfTerrain)) {
+            serviceRefreshCards(2, isSold);
             LTerrainCards[2].setText("Carte Fiume: " + cards[2]);
-        }
-        else if("Desert".equals(typeOfTerrain)){
-            serviceRefreshCards(3,isSold);
+        } else if ("Desert".equals(typeOfTerrain)) {
+            serviceRefreshCards(3, isSold);
             LTerrainCards[3].setText("Carte Deserto: " + cards[3]);
-        }
-        else if("Mountain".equals(typeOfTerrain)){
-            serviceRefreshCards(4,isSold);
+        } else if ("Mountain".equals(typeOfTerrain)) {
+            serviceRefreshCards(4, isSold);
             LTerrainCards[4].setText("Carte Montagna: " + cards[4]);
-        } 
-        else if("Field".equals(typeOfTerrain)){
-            serviceRefreshCards(5,isSold);
+        } else if ("Field".equals(typeOfTerrain)) {
+            serviceRefreshCards(5, isSold);
             LTerrainCards[5].setText("Carte Campi: " + cards[5]);
         }
     }
 
-    private void serviceRefreshCards(int typeOfTerrain, boolean isSold){
-        if(isSold)
+    private void serviceRefreshCards(int typeOfTerrain, boolean isSold) {
+        if (isSold) {
             cards[typeOfTerrain]--;
-        else
+        } else {
             cards[typeOfTerrain]++;
+        }
     }
-    
-    
-    
-    
+
     public void clickAction() {
         BMoveShepard.setEnabled(true);
         BMoveSheep.setEnabled(true);
@@ -292,41 +278,42 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction{
         BJoinSheeps.setEnabled(true);
         BKillSheep.setEnabled(true);
     }
-    
-    public void refreshCoins(int coins, boolean addCoins){
-        if(addCoins)
+
+    public void refreshCoins(int coins, boolean addCoins) {
+        if (addCoins) {
             this.coins = this.coins + coins;
-        else
+        } else {
             this.coins = this.coins - coins;
-        
+        }
+
         LCoins.setText("Monete : " + this.coins);
     }
-    
-    public void MoveAnimal(int id, int terrain){
-        LAction2.setText("Animale " + id +"è stato mosso in terreno " + terrain);
+
+    public void MoveAnimal(int id, int terrain) {
+        LAction2.setText("Animale " + id + "è stato mosso in terreno " + terrain);
         //TODO cambiare label nel caso di BlackSheep e Wolf
-        
+
     }
-    
-    private ViewSheep idToViewSheep(int id){
+
+    private ViewSheep idToViewSheep(int id) {
         ViewSheep sheep = null;
-        for(ViewSheep ele : sheeps){
-            if (ele.getId() == id)
+        for (ViewSheep ele : sheeps) {
+            if (ele.getId() == id) {
                 sheep = ele;
+            }
         }
         return sheep;
     }
-    
-    private ViewShepard idToViewShepard(int id){
+
+    private ViewShepard idToViewShepard(int id) {
         ViewShepard shepard = null;
-        for(ViewShepard ele : shepards){
-            if (ele.getId() == id)
+        for (ViewShepard ele : shepards) {
+            if (ele.getId() == id) {
                 shepard = ele;
+            }
         }
         return shepard;
     }
-    
-    
 
     public void print(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -374,51 +361,40 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction{
             BJoinSheeps.setEnabled(false);
             BKillSheep.setEnabled(false);
             if ("MoveShepard".equals(string)) {
-                try {
+                
                     connectionClient.moveShepard();
                     for (int i = 0; i <= 18; i++) {
                         BRoad.get(i).setEnabled(true);
                     }
 
-                } catch (IOException ex) {
-                    Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//               
             } else if ("MoveSheep".equals(string)) {
 
-                try {
+                
                     connectionClient.moveSheep();
                     for (int i = 0; i <= 41; i++) {
                         BTerrain.get(i).setEnabled(true);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    
 
             } else if ("BuyCard".equals(string)) {
-                try {
+                
                     connectionClient.buyCard();
-                } catch (IOException ex) {
-                    Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                  
             } else if ("JoinSheeps".equals(string)) {
-                try {
+                
                     connectionClient.joinSheep();
                     for (int i = 0; i <= 41; i++) {
                         BTerrain.get(i).setEnabled(true);
                     }
 
-                } catch (IOException ex) {
-                    Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    
             } else if ("KillSheep".equals(string)) {
-                try {
-                    connectionClient.killSheep();
-                    for (int i = 0; i <= 41; i++) {
-                        BTerrain.get(i).setEnabled(true);
-                    }
 
-                } catch (IOException ex) {
-                    Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
+                connectionClient.killSheep();
+                for (int i = 0; i <= 41; i++) {
+                    BTerrain.get(i).setEnabled(true);
+
                 }
             }
         }

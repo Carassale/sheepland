@@ -2,7 +2,6 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
