@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.ServerManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIStatic;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.NotBoundException;
@@ -62,7 +63,7 @@ public class Main {
                 connectionClient.setTypeOfInteraction(new LineCommand());
                 break;
             case 2:
-                connectionClient.setTypeOfInteraction(new GUIStatic());
+                connectionClient.setTypeOfInteraction(new GUISwingStatic());
                 break;
             case 3:
                 connectionClient.setTypeOfInteraction(new GUIDinamic());
