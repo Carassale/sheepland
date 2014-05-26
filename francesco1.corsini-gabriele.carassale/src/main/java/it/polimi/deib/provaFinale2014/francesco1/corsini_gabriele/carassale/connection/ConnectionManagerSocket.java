@@ -351,7 +351,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         currentPlayer.getNextLine();
     }
 
-    public void refreshMoveShepard(Integer idShepard, Integer idRoad) {
+    public void refreshMoveShepard(int idShepard, int idRoad) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshMoveShepard");
             playerConnection.printLn(idShepard);
@@ -368,7 +368,8 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public void refreshMoveAnimal(Integer idAnimal, Integer idTerrain) {
+    @Override
+    public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshMoveAnimal");
             playerConnection.printLn(idAnimal);
@@ -376,7 +377,8 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public void refreshAddAnimal(Integer idTerrain, String kind) {
+    @Override
+    public void refreshAddAnimal(int idTerrain, String kind) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshAddAnimal");
             playerConnection.printLn(idTerrain);
@@ -384,14 +386,14 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
-    public void refreshKillAnimal(Integer idAnimal) {
+    public void refreshKillAnimal(int idAnimal) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshKillAnimal");
             playerConnection.printLn(idAnimal);
         }
     }
 
-    public void refreshTransformAnimal(Integer idAnimal, String kindFinal) {
+    public void refreshTransformAnimal(int idAnimal, String kindFinal) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshTransformAnimal");
             playerConnection.printLn(idAnimal);
@@ -399,6 +401,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    @Override
     public void refreshCard(String kind, boolean isSold) {
         currentPlayer.printLn("refreshCard");
         currentPlayer.printLn(kind);
@@ -411,6 +414,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    @Override
     public void refreshCoin(int coins, boolean addCoin) {
         currentPlayer.printLn("refreschCoin");
         currentPlayer.printLn(coins);

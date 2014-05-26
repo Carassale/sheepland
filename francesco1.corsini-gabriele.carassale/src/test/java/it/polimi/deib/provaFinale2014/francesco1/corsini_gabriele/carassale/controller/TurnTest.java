@@ -8,7 +8,6 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,18 +41,20 @@ public class TurnTest {
     }
 
     /**
-     * Test che chiama prova a muovere la BlackSheep e valuta se la pecora si è
-     * mossa veramente(se moveBlackSheep() ritorna true vuol dire che il metodo
-     * la dovrebbe aver mossa, metre false il dado a fallito e la BlackSheep non
-     * si muove). Questo è obbligato poichè il risultato della mossa di
-     * BlackSheep è randomico a causa del lancio del dado
+     * Test che prova a muovere la BlackSheep e valuta se la pecora si è mossa
+     * veramente(se moveBlackSheep() ritorna true vuol dire che il metodo la
+     * dovrebbe aver mossa, metre false il dado a fallito e la BlackSheep non si
+     * muove). Questo è obbligato poichè il risultato della mossa di BlackSheep
+     * è randomico a causa del lancio del dado
      */
     @Test
     public void testControlBlackSheep2() {
 
         boolean sheepHasMoved;
         BlackSheep blackSheep = game.getBlacksheep();
-        Terrain terrainToPlace = game.getMap().getTerrain().get(0); //la metto in un angolo della mappa così ha più possibilità di lanciare eccezione
+
+        //la metto in un angolo della mappa così ha più possibilità di lanciare eccezione
+        Terrain terrainToPlace = game.getMap().getTerrain().get(0);
         blackSheep.setPosition(terrainToPlace);
         terrainToPlace.addAnimal(blackSheep);
 
@@ -64,6 +65,5 @@ public class TurnTest {
             assertSame(terrainToPlace, blackSheep.getPosition());
         }
     }
-
 
 }

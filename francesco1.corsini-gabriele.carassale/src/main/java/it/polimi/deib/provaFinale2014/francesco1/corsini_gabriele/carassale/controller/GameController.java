@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
 import java.util.logging.Level;
@@ -33,6 +34,7 @@ public class GameController {
         dice = new Dice();
         this.connectionManager = null;
         inizializeGame(numberOfPlayers);
+
         placeShepards(numberOfPlayers);
     }
 
@@ -121,13 +123,45 @@ public class GameController {
         //TODO declare
     }
 
+    private void sendAnimalToClient() {
+        String kind = "";
+        for (Sheep sheep : gameTable.getSheeps()) {
+            if (sheep.isLamb()) {
+                kind = "lamb";
+            } else if (sheep.isRam()) {
+                kind = "ram";
+            } else {
+                kind = "whiteSheep";
+            }
+
+            connectionManager.refreshAddAnimal(sheep.getPosition().getID(), kind);
+        }
+
+        Animal wolf = gameTable.getWolf();
+        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), "wolf");
+
+        Animal blackSheep = gameTable.getBlacksheep();
+        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), "blackSheep");
+    }
+
+    private void sendCoinToClient() {
+        int i = 0;
+        do {
+            Player currentPlayer = playerPool.getFirstPlayer();
+
+            connectionManager.refreshCoin(currentPlayer.getCoins(), true);
+            connectionManager.nextPlayerConnections();
+
+            i++;
+        } while (!(playerPool.nextPlayer()));
+    }
+
     /**
      * SOLO PER TEST
      *
      * @param numPlayer
      */
     protected void placeShepards(int numPlayer) {
-
         int i = 0;
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
@@ -213,6 +247,10 @@ public class GameController {
                     }
 
                 }
+            }
+            if (connectionManager != null) {
+                connectionManager.refreshCard(terrainKind, false);
+                connectionManager.nextPlayerConnections();
             }
         } while (!(playerPool.nextPlayer()));
 
@@ -316,6 +354,12 @@ public class GameController {
     public void start(int numberOfPlayers) {
         dice = new Dice();
         inizializeGame(numberOfPlayers);
+
+        if (connectionManager != null) {
+            sendAnimalToClient();
+            sendCoinToClient();
+        }
+
         if (numberOfPlayers > 2) {
             placeShepards(false);
         } else {
