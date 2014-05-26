@@ -50,9 +50,10 @@ public abstract class ConnectionManager implements Runnable {
      * Inserito qui per creare un metodo guida per questa classe abstract, dice
      * al client di posizionareve posizionare due pastori
      *
+     * @param idShepard
      * @return Road nella quale è stato posizionato il pastore
      */
-    public Road getPlacedShepard() {
+    public Road getPlacedShepard(int idShepard) {
         return null;
     }
 
@@ -80,17 +81,21 @@ public abstract class ConnectionManager implements Runnable {
     public void refreshAddShepard(int idShepard, int idRoad) {
         //implementato nelle varie classi
     }
+
     public void refreshAddAnimal(int idTerrain, String kind) {
         //implementato nelle varie classi
     }
+
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         //implementato nelle varie classi
     }
+
     public void refreshCoin(int coins, boolean addCoin) {
         //implementato nelle varie classi
     }
+
     public void refreshCard(String kind, boolean isSold) {
         //implementato nelle varie classi
     }
-    
+
 }

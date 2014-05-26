@@ -326,12 +326,14 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * Metodo chiamato dal gameController per serializzare la comunicazione
      * iniziale degli Shepard dei vari giocatori
      *
+     * @param idShepard
      * @return Road dove posizionare lo Shepard
      */
     @Override
-    public Road getPlacedShepard() {
+    public Road getPlacedShepard(int idShepard) {
         //dice al client di piazzare Shepard
-        currentPlayer.printLn("PlaceShepard");
+        currentPlayer.printLn("placeShepard");
+        currentPlayer.printLn(idShepard);
         //attende risposta 
         Integer id = currentPlayer.getNextInt();
         //ricava l'oggetto
@@ -416,7 +418,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
     @Override
     public void refreshCoin(int coins, boolean addCoin) {
-        currentPlayer.printLn("refreschCoin");
+        currentPlayer.printLn("refreshCoin");
         currentPlayer.printLn(coins);
         // addCoin TRUE -> 0
         // addCoin FALSE -> 1

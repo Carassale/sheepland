@@ -49,7 +49,7 @@ public class ConnectionManagerRMI extends ConnectionManager {
     }
 
     @Override
-    public Road getPlacedShepard() {
+    public Road getPlacedShepard(int idShepard) {
         return null;
     }
 

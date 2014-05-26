@@ -208,8 +208,8 @@ public class LineCommand implements TypeOfInteraction {
         print(message);
     }
 
-    public void placeShepard() {
-        print("Seleziona una strada dove posizionare il Pastore.");
+    public void placeShepard(int idShepard) {
+        print("Seleziona una strada dove posizionare il pastore " + idShepard);
         Integer idRoad = new Integer(read());
 
         connectionClient.placeShepard(idRoad);
