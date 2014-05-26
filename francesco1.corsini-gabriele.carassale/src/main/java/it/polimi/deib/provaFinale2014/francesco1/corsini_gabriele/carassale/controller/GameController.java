@@ -173,8 +173,7 @@ public class GameController {
     }
 
     private void placeShepards(boolean isGameTwoPlayers) {
-        int i = 0;
-        int id;
+        int idShepard = 0;
 
         //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
         Road roadChoosen = new Road(100);
@@ -192,22 +191,18 @@ public class GameController {
                 Player currentPlayer = playerPool.getFirstPlayer();
 
                 do {
-                    boolean hasToScroll = false;
-                    if (shepardsPerPlayer == 1) {
-                        hasToScroll = true;
-                    }
-                    roadChoosen = connectionManager.getPlacedShepard();
+                    roadChoosen = connectionManager.getPlacedShepard(idShepard);
                     if (!roadChoosen.hasShepard()) {
                         playerHasPlacedShepard = true;
                     }
                 } while (!playerHasPlacedShepard);
 
-                Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
-                connectionManager.refreshAddShepard(i, roadChoosen.getId());
+                Shepard shep = new Shepard(roadChoosen, currentPlayer, idShepard);
+                connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
 
                 currentPlayer.getShepards().add(shep);
                 gameTable.getShepards().add(shep);
-                i++;
+                idShepard++;
             }
 
             connectionManager.nextPlayerConnections();

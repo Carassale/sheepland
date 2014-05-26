@@ -68,8 +68,9 @@ public class ConnectionClientSocket implements ConnectionClient {
                     errorMove();
                 } else if ("errorDice".equals(s)) {
                     errorDice();
-                } else if ("PlaceShepard".equals(s)) {
-                    typeOfInteraction.placeShepard();
+                } else if ("placeShepard".equals(s)) {
+                    Integer idShepard = new Integer(inSocket.readLine());
+                    typeOfInteraction.placeShepard(idShepard);
                 } else if ("refreshMoveAnimal".equals(s)) {
                     refreshMoveAnimal();
                 } else if ("refreshAddAnimal".equals(s)) {

@@ -17,7 +17,7 @@ public interface TypeOfInteraction {
 
     public void errorMessage(String message);
     
-    public void placeShepard();
+    public void placeShepard(int idShepard);
 
     // id -1 per la BlackSheep, -2 per il Wolf
     public void refreshMoveAnimal(int idAnimal, int idTerrain);
