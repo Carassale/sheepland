@@ -10,14 +10,21 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
  *
  * @author Francesco Corsini
  */
-public class ViewSheep {
+public class ViewAnimal {
     
     private int id;
     private int position;
+    private String type;
     
-    public ViewSheep(int id, int position){
+    public ViewAnimal(int id, int position){
         this.id = id;
         this.position = position;
+    }
+    
+    public ViewAnimal(int id, int position, String type){
+        this.id = id;
+        this.position = position;
+        this.type = type;
     }
     
     
@@ -37,6 +44,14 @@ public class ViewSheep {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     

@@ -13,7 +13,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 public class ViewShepard {
     
     private int id;
-    private int postition;
+    private int position;
+    
+    public ViewShepard(int id, int road){
+        this.id = id;
+        this.position = road;
+    }
 
     public int getId() {
         return id;
@@ -24,11 +29,11 @@ public class ViewShepard {
     }
 
     public int getPostition() {
-        return postition;
+        return position;
     }
 
     public void setPostition(int postition) {
-        this.postition = postition;
+        this.position = postition;
     }
 
     

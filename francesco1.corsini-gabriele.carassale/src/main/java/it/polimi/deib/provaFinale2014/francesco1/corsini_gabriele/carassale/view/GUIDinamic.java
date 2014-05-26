@@ -1,10 +1,11 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.TypeOfInteraction;
 
 public class GUIDinamic implements TypeOfInteraction {
 
-    public GUIDinamic() {
+    public GUIDinamic(ConnectionClient connectionClient) {
     }
 
     public void clickAction() {
