@@ -62,9 +62,6 @@ public class ConnectionClientSocket implements ConnectionClient {
                     typeOfInteraction.clickAction();
                 } else if ("setNikcnam".equals(s)) {
                     typeOfInteraction.setNickname();
-                } else if ("refresh".equals(s)) {
-                    //TODO
-                    //refresh();
                 } else if ("errorCoin".equals(s)) {
                     errorCoin();
                 } else if ("errorMove".equals(s)) {

@@ -67,10 +67,10 @@ public class Main {
                 connectionClient.setTypeOfInteraction(new LineCommand(connectionClient));
                 break;
             case 2:
-                connectionClient.setTypeOfInteraction(new GUISwingStatic());
+                connectionClient.setTypeOfInteraction(new GUISwingStatic(connectionClient));
                 break;
             case 3:
-                connectionClient.setTypeOfInteraction(new GUIDinamic());
+                connectionClient.setTypeOfInteraction(new GUIDinamic(connectionClient));
                 break;
         }
 

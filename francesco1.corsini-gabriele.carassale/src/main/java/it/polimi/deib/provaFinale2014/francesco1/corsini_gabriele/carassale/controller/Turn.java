@@ -79,16 +79,17 @@ public class Turn {
      * @return true se la BlackSheep è stata mossa
      */
     protected boolean moveBlackSheep() {
-        if (connectionManager != null) {
-            connectionManager.allertToMoveBlackSheep();
-        }
-
         BlackSheep blackSheep = game.getBlacksheep();
         int diceNumber = dice.getRandom();
 
         try {
             Road road = blackSheep.hasToMove(diceNumber);
             blackSheep.move(road);
+
+            if (connectionManager != null) {
+                connectionManager.refreshMoveAnimal(-1, road.getId());
+            }
+
             return true;
         } catch (WrongDiceNumberException e) {
             Logger.getLogger(Turn.class.getName()).log(Level.SEVERE, null, e);
