@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIStatic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import java.io.IOException;
 import java.net.Socket;

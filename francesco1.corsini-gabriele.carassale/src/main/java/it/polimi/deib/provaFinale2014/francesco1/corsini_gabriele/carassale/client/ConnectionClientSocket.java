@@ -96,6 +96,8 @@ public class ConnectionClientSocket implements ConnectionClient {
 
     /**
      * Imposta il proprio nickname
+     *
+     * @param nickname Stringa da settare
      */
     public void setNickname(String nickname) {
         outSocket.println(nickname);
@@ -126,13 +128,16 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Piazza un pastore
      *
-     * @param idRoad
+     * @param idRoad Strada dove posizionare
      */
     public void placeShepard(int idRoad) {
         outSocket.println(idRoad);
         outSocket.flush();
     }
 
+    /**
+     * Invia al typeOfInteraction il movimento dell'animale
+     */
     private void refreshMoveAnimal() {
         try {
             Integer idAnimal = new Integer(inSocket.readLine());
@@ -143,6 +148,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction l'animale aggiunto
+     */
     private void refreshAddAnimal() {
         try {
             Integer idAnimal = new Integer(inSocket.readLine());
@@ -153,6 +161,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction l'animale cancellato
+     */
     private void refreshKillAnimal() {
         try {
             Integer idAnimal = new Integer(inSocket.readLine());
@@ -162,6 +173,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction l'animale trasformato
+     */
     private void refreshTransformAnimal() {
         try {
             Integer idAnimal = new Integer(inSocket.readLine());
@@ -172,6 +186,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction il pastore aggiunto
+     */
     private void refreshAddShepard() {
         try {
             Integer idShepard = new Integer(inSocket.readLine());
@@ -182,6 +199,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction il movimento del pastore
+     */
     private void refreshMoveShepard() {
         try {
             Integer idShepard = new Integer(inSocket.readLine());
@@ -192,6 +212,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction le carte cambiate
+     */
     private void refreshCard() {
         try {
             String kind = inSocket.readLine();
@@ -211,6 +234,9 @@ public class ConnectionClientSocket implements ConnectionClient {
         }
     }
 
+    /**
+     * Invia al typeOfInteraction i coin cambiati
+     */
     private void refreshCoin() {
         try {
             Integer coins = new Integer(inSocket.readLine());
@@ -233,8 +259,8 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Muove il pastore
      *
-     * @param idShepard
-     * @param idRoad
+     * @param idShepard Pastore da muovere
+     * @param idRoad Strada destinazione
      */
     public void moveShepard(int idShepard, int idRoad) {
         outSocket.println("moveShepard");
@@ -250,8 +276,8 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Muove la pecora
      *
-     * @param idSheep
-     * @param idTerrain
+     * @param idSheep Pecora da muovere
+     * @param idTerrain Terreno destinazione
      */
     public void moveSheep(int idSheep, int idTerrain) {
         outSocket.println("moveSheep");
@@ -267,7 +293,7 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Compra una carta
      *
-     * @param typeOfTerrain
+     * @param typeOfTerrain Tipo di carta
      */
     public void buyCard(String typeOfTerrain) {
         outSocket.println("buyCard");
@@ -280,7 +306,7 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Uccide una pecora
      *
-     * @param idSheep
+     * @param idSheep Pecora da uccidere
      */
     public void killSheep(int idSheep) {
         outSocket.println("killSheep");
@@ -293,7 +319,7 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Accoppia una pecora con un montone
      *
-     * @param idTerrain
+     * @param idTerrain Terreno in cui si trovano pecora e montone
      */
     public void joinSheep(int idTerrain) {
         outSocket.println("joinShepard");

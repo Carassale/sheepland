@@ -55,6 +55,12 @@ public class LineCommand implements TypeOfInteraction {
         return s;
     }
 
+    /**
+     * Visualizza a video il movimento dell'animale
+     *
+     * @param idAnimal Animale spostatp
+     * @param idTerrain Terreno destinazione
+     */
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         if (idAnimal == -2) {
             outVideo.println("È stata mossa la pecora nera nel terreno " + idTerrain);
@@ -65,6 +71,12 @@ public class LineCommand implements TypeOfInteraction {
         }
     }
 
+    /**
+     * Visualizza a video l'animale aggiunto
+     *
+     * @param idTerrain Terreno dove posizionare
+     * @param kind Tipo di animale
+     */
     public void refreshAddAnimal(int idTerrain, String kind) {
         String k = null;
         if ("whiteSheep".equals(kind)) {
@@ -81,10 +93,21 @@ public class LineCommand implements TypeOfInteraction {
         outVideo.println(k + " nel terreno " + idTerrain);
     }
 
+    /**
+     * Visualizza a video l'animale cancellato
+     *
+     * @param idAnimal Animale cancellato
+     */
     public void refreshKillAnimal(int idAnimal) {
         outVideo.println("Uccisa pecora " + idAnimal);
     }
 
+    /**
+     * Visualizza a video l'animale trasformato
+     *
+     * @param idAnimal Animale trasformato
+     * @param kind Tipo di trasformazione finale
+     */
     public void refreshTransformAnimal(int idAnimal, String kind) {
         String k = null;
         if ("whiteSheep".equals(kind)) {
@@ -95,6 +118,12 @@ public class LineCommand implements TypeOfInteraction {
         outVideo.println("Trasformato agnello " + idAnimal + " in " + k);
     }
 
+    /**
+     * Visualizza a video le carte cambiate
+     *
+     * @param typeOfTerrain Tipo della carta
+     * @param isSold True se è stata venduta
+     */
     public void refreshCard(String typeOfTerrain, boolean isSold) {
         String s = "Comprata";
         if (isSold) {
@@ -103,6 +132,12 @@ public class LineCommand implements TypeOfInteraction {
         outVideo.println(s + " carta di tipo " + typeOfTerrain);
     }
 
+    /**
+     * Visualizza a video i coin cambiati
+     *
+     * @param coins Coin variati
+     * @param addCoin True se deve aggiungere
+     */
     public void refreshCoin(int coins, boolean addCoin) {
         String s = "Rimossi";
         if (addCoin) {
@@ -111,11 +146,23 @@ public class LineCommand implements TypeOfInteraction {
         outVideo.println(s + " " + coins + " moente.");
     }
 
+    /**
+     * Visualizza a video il pastore aggiunto
+     *
+     * @param idShepard Pastore da aggiungere
+     * @param idRoad Strada dove posizionare
+     */
     public void refreshAddShepard(int idShepard, int idRoad) {
         outVideo.println("Aggiunto pastore " + idShepard + " nella strada " + idRoad);
 
     }
 
+    /**
+     * Visualizza a video il movimento del pastore
+     *
+     * @param idShepard Pastore da muovere
+     * @param idRoad Strada destinazione
+     */
     public void refreshMoveShepard(int idShepard, int idRoad) {
         outVideo.println("Mosso pastore " + idShepard + " nella strada " + idRoad);
     }
@@ -196,6 +243,9 @@ public class LineCommand implements TypeOfInteraction {
         connectionClient.joinSheep(idTerrain);
     }
 
+    /**
+     * Chiede a video di impostare un nickname
+     */
     public void setNickname() {
         print("Impostare il proprio Nickname");
         String s = read();
@@ -203,11 +253,21 @@ public class LineCommand implements TypeOfInteraction {
         connectionClient.setNickname(s);
     }
 
+    /**
+     * Stamoa a video un messaggio di errore
+     *
+     * @param message Messaggio da stampare
+     */
     public void errorMessage(String message) {
         print("ERRORE!!!");
         print(message);
     }
 
+    /**
+     * Chiede a video di posizionare un pastore
+     *
+     * @param idShepard Pastore da posizionare
+     */
     public void placeShepard(int idShepard) {
         print("Seleziona una strada dove posizionare il pastore " + idShepard);
         Integer idRoad = new Integer(read());
