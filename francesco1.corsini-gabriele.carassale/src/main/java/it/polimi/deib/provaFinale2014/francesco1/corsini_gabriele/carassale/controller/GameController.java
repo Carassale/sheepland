@@ -74,6 +74,11 @@ public class GameController {
         return isGameOver;
     }
 
+    /**
+     * Restituisce il player pool
+     *
+     * @return
+     */
     public PlayerPool getPlayerPool() {
         return playerPool;
     }
@@ -104,6 +109,11 @@ public class GameController {
 
     }
 
+    /**
+     * Restituisce il gameTable
+     *
+     * @return GameTable della partita
+     */
     public GameTable getGameTable() {
         return gameTable;
     }
@@ -119,10 +129,16 @@ public class GameController {
         distributeCard();
     }
 
+    /**
+     * Dichiara il vincitore
+     */
     private void declareWinner() {
         //TODO declare
     }
 
+    /**
+     * Invia al al connection manager gli animali da refreshare sul client
+     */
     private void sendAnimalToClient() {
         String kind = "";
         for (Sheep sheep : gameTable.getSheeps()) {
@@ -144,6 +160,9 @@ public class GameController {
         connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), "blackSheep");
     }
 
+    /**
+     * Invia la connection manager i soldi da impostare ai vari giocatori
+     */
     private void sendCoinToClient() {
         int i = 0;
         do {
@@ -172,6 +191,12 @@ public class GameController {
         } while (!(playerPool.nextPlayer()));
     }
 
+    /**
+     * Posiziona un pastore o più pastori, manda al connection manager che
+     * gestisce la richiesta e restituisce la road da settare
+     *
+     * @param isGameTwoPlayers True se il gioco a composto da solo due giocatori
+     */
     private void placeShepards(boolean isGameTwoPlayers) {
         int idShepard = 0;
 
@@ -251,6 +276,11 @@ public class GameController {
 
     }
 
+    /**
+     * Crea il player pool e setta il primo giocatore del round
+     *
+     * @param numberOfPlayers numero di giocatori da inserire nel gioco
+     */
     private void createPlayerPool(int numberOfPlayers) {
         Player player;
         playerPool = new PlayerPool();
@@ -264,6 +294,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Ricevuto un numero random restituisce il tipo della carta associata
+     *
+     * @param random Numero casuale da passare
+     * @return String tipo di carta
+     */
     private String matchNumToTerrainKind(int random) {
         String terrainKind = null;
         if (random == 0) {
@@ -337,6 +373,9 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Metodo per gestire il market di fine round
+     */
     private void market() {
         //TODO market
     }

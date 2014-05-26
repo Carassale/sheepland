@@ -139,7 +139,6 @@ public class GameTable {
      * crea le carte terreno(non le distribuisce)
      */
     public void initializeTerrainCards() {
-
         for (int i = 0; i < 6; i++) {
             ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
             terrainCardPool.add(list);

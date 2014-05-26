@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import java.util.ArrayList;
 
 /**
@@ -41,26 +40,6 @@ public class ConnectionManagerRMI extends ConnectionManager {
         gameController.start(playerConnections.size());
         //setNickName();
         //refreshGame4AllPlayer();
-    }
-
-    @Override
-    public void startAction() {
-        //TODO
-    }
-
-    @Override
-    public Road getPlacedShepard(int idShepard) {
-        return null;
-    }
-
-    @Override
-    public void allertToMoveBlackSheep() {
-        //TODO
-    }
-
-    @Override
-    public void nextPlayerConnections() {
-        //TODO
     }
 
 }

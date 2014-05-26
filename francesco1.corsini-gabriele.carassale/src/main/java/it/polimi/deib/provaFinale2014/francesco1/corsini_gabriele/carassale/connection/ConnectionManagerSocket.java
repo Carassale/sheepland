@@ -353,6 +353,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         currentPlayer.getNextLine();
     }
 
+    /**
+     * Invia a tutti i client il movimento del pastore
+     *
+     * @param idShepard Pastore spostato
+     * @param idRoad Strada destinazione
+     */
     public void refreshMoveShepard(int idShepard, int idRoad) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshMoveShepard");
@@ -361,6 +367,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia a tutti i client il pastore aggiunto
+     *
+     * @param idShepard Pastore aggiunto
+     * @param idRoad Strada posizionamento
+     */
     @Override
     public void refreshAddShepard(int idShepard, int idRoad) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
@@ -370,6 +382,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia a tutti i client il movimento dell'animale
+     *
+     * @param idAnimal Animale da spostare
+     * @param idTerrain Terreno destinazione
+     */
     @Override
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
@@ -379,6 +397,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia a tutti i client l'animale aggiunto
+     *
+     * @param idTerrain Terreno destinazione
+     * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
+     */
     @Override
     public void refreshAddAnimal(int idTerrain, String kind) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
@@ -388,6 +412,11 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia a tutti i client l'animale da rimuovere
+     *
+     * @param idAnimal Animale da rimuovere
+     */
     public void refreshKillAnimal(int idAnimal) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshKillAnimal");
@@ -395,6 +424,13 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia a tutti i client l'animale da trasformare
+     *
+     * @param idAnimal Animale da trasformare
+     * @param kindFinal Trasformazione finale (whiteSheep, ram)
+     */
+    @Override
     public void refreshTransformAnimal(int idAnimal, String kindFinal) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshTransformAnimal");
@@ -403,6 +439,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia al currentPlayer la carta comprata/venduta
+     *
+     * @param kind Tipo di carta
+     * @param isSold True se è venduta
+     */
     @Override
     public void refreshCard(String kind, boolean isSold) {
         currentPlayer.printLn("refreshCard");
@@ -416,6 +458,12 @@ public class ConnectionManagerSocket extends ConnectionManager {
         }
     }
 
+    /**
+     * Invia al currentPlayer le monete da aggiungere/rimuovere
+     *
+     * @param coins Valore dei coin
+     * @param addCoin True se vanno aggiunti
+     */
     @Override
     public void refreshCoin(int coins, boolean addCoin) {
         currentPlayer.printLn("refreshCoin");
