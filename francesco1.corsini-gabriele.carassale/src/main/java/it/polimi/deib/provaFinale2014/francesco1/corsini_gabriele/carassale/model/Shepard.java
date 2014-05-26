@@ -79,10 +79,20 @@ public class Shepard {
         return true;
     }
 
+    /**
+     * Setta il player proprietario
+     *
+     * @param player Player da settare
+     */
     public void setOwner(Player player) {
         owner = player;
     }
 
+    /**
+     * Ritorna il player proprietario
+     *
+     * @return Player proprietario
+     */
     public Player getOwner() {
         return owner;
     }

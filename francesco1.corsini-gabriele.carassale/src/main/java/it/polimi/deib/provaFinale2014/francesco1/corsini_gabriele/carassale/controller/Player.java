@@ -36,7 +36,7 @@ public class Player {
 
         actionDone = new String[3];
         for (int i = 0; i < 3; i++) {
-            actionDone[i] = new String("");
+            actionDone[i] = "";
         }
 
         coins = 20;

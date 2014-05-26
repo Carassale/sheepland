@@ -82,18 +82,52 @@ public abstract class ConnectionManager implements Runnable {
         //implementato nelle varie classi
     }
 
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param idTerrain
+     * @param kind
+     */
     public void refreshAddAnimal(int idTerrain, String kind) {
         //implementato nelle varie classi
     }
 
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param idAnimal
+     * @param idTerrain
+     */
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         //implementato nelle varie classi
     }
 
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param idAnimal
+     * @param kindFinal
+     */
+    public void refreshTransformAnimal(int idAnimal, String kindFinal) {
+        //implementato nelle varie classi
+    }
+
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param coins
+     * @param addCoin
+     */
     public void refreshCoin(int coins, boolean addCoin) {
         //implementato nelle varie classi
     }
 
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param kind
+     * @param isSold
+     */
     public void refreshCard(String kind, boolean isSold) {
         //implementato nelle varie classi
     }
