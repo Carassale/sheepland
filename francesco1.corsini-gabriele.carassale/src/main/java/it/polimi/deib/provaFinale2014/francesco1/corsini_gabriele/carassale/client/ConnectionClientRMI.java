@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import java.io.IOException;
-
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
  * ConnectionManager nel caso sia stato scelto il metodo RMI
@@ -10,72 +8,39 @@ import java.io.IOException;
  */
 public class ConnectionClientRMI implements ConnectionClient {
 
-    /**
-     * Questa classe crea la connessione diretta con il GameController tramite
-     * la ConnectionManager nel caso sia stato scelto il metodo RMI
-     *
-     * @author Carassale Gabriele
-     */
-    public ConnectionClientRMI() {
-        //TODO
-    }
-
-    /**
-     * Muove il pastore
-     */
-    public void moveShepard() {
-        //TODO
-    }
-
-    /**
-     * Muove la pecora
-     */
-    public void moveSheep() {
-        //TODO
-    }
-
-    /**
-     * Compra una carta
-     */
-    public void buyCard() {
-        //TODO
-    }
-
-    /**
-     * Uccide una pecora
-     */
-    public void killSheep() {
-        //TODO
-    }
-
-    /**
-     * Accoppia una pecora e un montone
-     */
-    public void joinSheep() {
-        //TODO
-    }
-
-    /**
-     * Imposta il nickname
-     */
-    public void setNickname() {
-        //TODO
-    }
-
-    /**
-     * Imposta il tipo di interfaccia da utilizzare
-     *
-     * @param typeOfInteraction Interfaccia da impostare
-     */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
-        //TODO
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Resta in attesa di un comando dal server
-     */
+    public void setNickname(String nickname) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void waitLine() {
-        //TODO
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void moveShepard(int idShepard, int idRoad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void moveSheep(int idSheep, int idTerrain) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void buyCard(String typeOfTerrain) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void killSheep(int idSheep) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void joinSheep(int idTerrain) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void placeShepard(int idRoad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

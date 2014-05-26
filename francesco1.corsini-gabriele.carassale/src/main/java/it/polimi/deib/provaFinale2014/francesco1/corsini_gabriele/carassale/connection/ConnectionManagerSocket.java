@@ -8,9 +8,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +49,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
         //setNickName();
-        //refreshGame4AllPlayer();
     }
 
     /**
@@ -86,49 +82,15 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         boolean actionDo = false;
         if ("moveShepard".equals(actionToDo)) {
-            try {
-                actionDo = moveShepard();
-            } catch (MoveException ex) {
-                currentPlayer.printLn("errorMove");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            } catch (CoinException ex) {
-                currentPlayer.printLn("errorCoin");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
+            actionDo = moveShepard();
         } else if ("moveSheep".equals(actionToDo)) {
-            try {
-                actionDo = moveSheep();
-            } catch (MoveException ex) {
-                currentPlayer.printLn("errorMove");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
+            actionDo = moveSheep();
         } else if ("buyCard".equals(actionToDo)) {
-            try {
-                actionDo = buyCard();
-            } catch (CoinException ex) {
-                currentPlayer.printLn("errorCoin");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
+            actionDo = buyCard();
         } else if ("killSheep".equals(actionToDo)) {
-            try {
-                actionDo = killSheep();
-            } catch (CoinException ex) {
-                currentPlayer.printLn("errorCoin");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            } catch (MoveException ex) {
-                currentPlayer.printLn("errorMove");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            } catch (WrongDiceNumberException ex) {
-                currentPlayer.printLn("errorDice");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
+            actionDo = killSheep();
         } else if ("joinSheep".equals(actionToDo)) {
-            try {
-                actionDo = joinSheep();
-            } catch (MoveException ex) {
-                currentPlayer.printLn("errorMove");
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
-            }
+            actionDo = joinSheep();
         }
         //TODO
         //refreshGame4AllPlayer();
@@ -153,13 +115,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
         pcs.printLn("wakeUp");
     }
 
-    /**
-     * Serializza e invia ad ogni Player il gameTable
-     */
-    public void refreshGame4AllPlayer() {
-        //TODO Da rifare
-    }
-
     /*
      * Imposta il nickName del Player
      */
@@ -173,6 +128,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
     /**
      * Scorre la lista dei Player, sposta il primo in ultima posizione
      */
+    @Override
     public void nextPlayerConnections() {
         playerConnections.add(playerConnections.get(0));
         playerConnections.remove(0);
@@ -186,23 +142,32 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @throws MoveException Impossibile muovere
      * @throws CoinException Soldi insufficienti
      */
-    private boolean moveShepard() throws MoveException, CoinException {
+    private boolean moveShepard() {
         //Riceve via socket l'ID dello shepard
-        String shepard = currentPlayer.getNextLine();
-        Integer id = new Integer(shepard);
+        Integer idShepard = currentPlayer.getNextInt();
         //Converte shepard nell'oggetto Shepard associato
-        Shepard s = gameController.getGameTable().idToShepard(id);
+        Shepard s = gameController.getGameTable().idToShepard(idShepard);
 
         //Riceve via socket l'ID della strada
-        String road = currentPlayer.getNextLine();
-        id = new Integer(road);
+        Integer idRoad = currentPlayer.getNextInt();
         //Converte road nell'oggetto Road associato
-        Road r = gameController.getGameTable().idToRoad(id);
+        Road r = gameController.getGameTable().idToRoad(idRoad);
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
-            gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
-            PrintCorrectAction();
-            return true;
+            try {
+                gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
+                PrintCorrectAction();
+                refreshMoveShepard(idShepard, idRoad);
+                return true;
+            } catch (MoveException ex) {
+                currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            } catch (CoinException ex) {
+                currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            }
         } else {
             PrintUncorectAction();
             return false;
@@ -215,21 +180,28 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @return True se la mossa va a buon fine
      * @throws MoveException Impossiblie muovere
      */
-    private boolean moveSheep() throws MoveException {
+    private boolean moveSheep() {
         //Riceve via socket l'ID della sheep
-        Integer id = currentPlayer.getNextInt();
+        Integer idSheep = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
-        Sheep s = gameController.getGameTable().idToSheep(id);
+        Sheep s = gameController.getGameTable().idToSheep(idSheep);
 
         //Riceve via socket l'ID del Terrain
-        id = currentPlayer.getNextInt();
+        Integer idTerrain = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
-        Terrain t = gameController.getGameTable().idToTerrain(id);
+        Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveSheep")) {
-            gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
-            PrintCorrectAction();
-            return true;
+            try {
+                gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
+                PrintCorrectAction();
+                refreshMoveAnimal(idSheep, idTerrain);
+                return true;
+            } catch (MoveException ex) {
+                currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            }
         } else {
             PrintUncorectAction();
             return false;
@@ -242,14 +214,21 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @return True se l'azione va a buon fine
      * @throws CoinException Soldi insufficienti
      */
-    private boolean buyCard() throws CoinException {
+    private boolean buyCard() {
         //Riceve via socket il tipo di TerrainCard
         String kind = currentPlayer.getNextLine();
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("buyCard")) {
-            gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
-            PrintCorrectAction();
-            return true;
+            try {
+                gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
+                PrintCorrectAction();
+                refreshCard(kind, false);
+                return true;
+            } catch (CoinException ex) {
+                currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            }
         } else {
             PrintUncorectAction();
             return false;
@@ -264,16 +243,31 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @throws MoveException Mossa non consentita
      * @throws WrongDiceNumberException Errore lancio dado
      */
-    private boolean killSheep() throws CoinException, MoveException, WrongDiceNumberException {
+    private boolean killSheep() {
         //Riceve via socket l'ID della sheep
-        Integer id = currentPlayer.getNextInt();
+        Integer idSheep = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
-        Sheep sheep = gameController.getGameTable().idToSheep(id);
+        Sheep sheep = gameController.getGameTable().idToSheep(idSheep);
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("killSheep")) {
-            gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
-            PrintCorrectAction();
-            return true;
+            try {
+                gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
+                PrintCorrectAction();
+                refreshKillAnimal(idSheep);
+                return true;
+            } catch (CoinException ex) {
+                currentPlayer.printLn("errorCoin");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            } catch (MoveException ex) {
+                currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            } catch (WrongDiceNumberException ex) {
+                currentPlayer.printLn("errorDice");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            }
         } else {
             PrintUncorectAction();
             return false;
@@ -286,16 +280,23 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @return True se l'azione va a buon fine
      * @throws MoveException Movimento non consentito
      */
-    private boolean joinSheep() throws MoveException {
+    private boolean joinSheep() {
         //Riceve via socket l'ID del Terrain
-        Integer id = currentPlayer.getNextInt();
+        Integer idTerrain = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
-        Terrain t = gameController.getGameTable().idToTerrain(id);
+        Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("joinSheep")) {
-            gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-            PrintCorrectAction();
-            return true;
+            try {
+                gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
+                PrintCorrectAction();
+                refreshAddAnimal(idTerrain, "lamb");
+                return true;
+            } catch (MoveException ex) {
+                currentPlayer.printLn("errorMove");
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                return false;
+            }
         } else {
             PrintUncorectAction();
             return false;
@@ -328,7 +329,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
      * @return Road dove posizionare lo Shepard
      */
     @Override
-    public Road getPlacedShepard(boolean hasToScroll) {
+    public Road getPlacedShepard() {
         //dice al client di piazzare Shepard
         currentPlayer.printLn("PlaceShepard");
         //attende risposta 
@@ -336,9 +337,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
         //ricava l'oggetto
         Road roadChoosen = gameController.getGameTable().idToRoad(id);
 
-        if (hasToScroll) {
-            nextPlayerConnections();
-        }
         return roadChoosen;
     }
 
@@ -352,4 +350,77 @@ public class ConnectionManagerSocket extends ConnectionManager {
         //attende un segnale di risposta per far finire la chiamata da parte del Turn
         currentPlayer.getNextLine();
     }
+
+    public void refreshMoveShepard(Integer idShepard, Integer idRoad) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshMoveShepard");
+            playerConnection.printLn(idShepard);
+            playerConnection.printLn(idRoad);
+        }
+    }
+
+    @Override
+    public void refreshAddShepard(int idShepard, int idRoad) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshAddShepard");
+            playerConnection.printLn(idShepard);
+            playerConnection.printLn(idRoad);
+        }
+    }
+
+    public void refreshMoveAnimal(Integer idAnimal, Integer idTerrain) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshMoveAnimal");
+            playerConnection.printLn(idAnimal);
+            playerConnection.printLn(idTerrain);
+        }
+    }
+
+    public void refreshAddAnimal(Integer idTerrain, String kind) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshAddAnimal");
+            playerConnection.printLn(idTerrain);
+            playerConnection.printLn(kind);
+        }
+    }
+
+    public void refreshKillAnimal(Integer idAnimal) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshKillAnimal");
+            playerConnection.printLn(idAnimal);
+        }
+    }
+
+    public void refreshTransformAnimal(Integer idAnimal, String kindFinal) {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            playerConnection.printLn("refreshTransformAnimal");
+            playerConnection.printLn(idAnimal);
+            playerConnection.printLn(kindFinal);
+        }
+    }
+
+    public void refreshCard(String kind, boolean isSold) {
+        currentPlayer.printLn("refreshCard");
+        currentPlayer.printLn(kind);
+        // isSold TRUE -> 0
+        // isSold FALSE -> 1
+        if (isSold) {
+            currentPlayer.printLn("0");
+        } else {
+            currentPlayer.printLn("1");
+        }
+    }
+
+    public void refreshCoin(int coins, boolean addCoin) {
+        currentPlayer.printLn("refreschCoin");
+        currentPlayer.printLn(coins);
+        // addCoin TRUE -> 0
+        // addCoin FALSE -> 1
+        if (addCoin) {
+            currentPlayer.printLn("0");
+        } else {
+            currentPlayer.printLn("1");
+        }
+    }
+
 }

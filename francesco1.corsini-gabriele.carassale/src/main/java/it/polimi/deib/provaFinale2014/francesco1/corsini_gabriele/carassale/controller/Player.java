@@ -165,8 +165,11 @@ public class Player {
     public void joinSheeps(Terrain terrain, GameTable game) throws MoveException {
         if (isSheepAndRam(terrain)) {
             if (isShepardNear(terrain)) {
-                int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();//prende l'id dell'ultima pecora(che è quella con id più alto
-                Sheep sheep = new Sheep(terrain, false, i + 1);//e inizializza la nuova pecora con l'id successivo
+                //prende l'id dell'ultima pecora(che è quella con id più alto
+                int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();
+
+                //e inizializza la nuova pecora con l'id successivo
+                Sheep sheep = new Sheep(terrain, false, i + 1);
             } else {
                 throw new MoveException("Non c'è vicino un pastore");
             }

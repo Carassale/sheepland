@@ -141,12 +141,18 @@ public class GameController {
     private void placeShepards(boolean isGameTwoPlayers) {
         int i = 0;
         int id;
-        Road roadChoosen = new Road(100); //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
+
+        //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
+        Road roadChoosen = new Road(100);
         do {
-            int shepardsPerPlayer = 1;//questo fa che il ciclo for venga eseguito una sola volta
+            //questo fa che il ciclo for venga eseguito una sola volta
+            int shepardsPerPlayer = 1;
+
+            //in questo caso farà il ciclo for per 2 volte
             if (isGameTwoPlayers) {
-                shepardsPerPlayer = 0;//in questo caso farà il ciclo for per 2 volte
+                shepardsPerPlayer = 0;
             }
+
             for (; shepardsPerPlayer < 2; shepardsPerPlayer++) {
                 boolean playerHasPlacedShepard = false;
                 Player currentPlayer = playerPool.getFirstPlayer();
@@ -156,19 +162,21 @@ public class GameController {
                     if (shepardsPerPlayer == 1) {
                         hasToScroll = true;
                     }
-                    roadChoosen = connectionManager.getPlacedShepard(hasToScroll);
+                    roadChoosen = connectionManager.getPlacedShepard();
                     if (!roadChoosen.hasShepard()) {
                         playerHasPlacedShepard = true;
                     }
                 } while (!playerHasPlacedShepard);
 
                 Shepard shep = new Shepard(roadChoosen, currentPlayer, i);
+                connectionManager.refreshAddShepard(i, roadChoosen.getId());
 
                 currentPlayer.getShepards().add(shep);
                 gameTable.getShepards().add(shep);
                 i++;
             }
 
+            connectionManager.nextPlayerConnections();
         } while (!(playerPool.nextPlayer()));
     }
 

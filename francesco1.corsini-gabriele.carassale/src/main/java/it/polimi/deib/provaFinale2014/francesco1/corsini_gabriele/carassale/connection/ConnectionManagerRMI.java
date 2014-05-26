@@ -49,12 +49,17 @@ public class ConnectionManagerRMI extends ConnectionManager {
     }
 
     @Override
-    public Road getPlacedShepard(boolean hasToScroll) {
+    public Road getPlacedShepard() {
         return null;
     }
 
     @Override
     public void allertToMoveBlackSheep() {
+        //TODO
+    }
+
+    @Override
+    public void nextPlayerConnections() {
         //TODO
     }
 
