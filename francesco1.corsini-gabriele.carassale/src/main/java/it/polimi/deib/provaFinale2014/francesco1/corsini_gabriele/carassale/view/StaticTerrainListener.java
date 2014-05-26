@@ -21,9 +21,11 @@ public class StaticTerrainListener extends JFrame implements ActionListener{
     private int terrain;
     
     
-    public StaticTerrainListener(GUISwingStatic GUI, int terrain, ConnectionClient connectionClient){
+    
+    public StaticTerrainListener(GUISwingStatic GUI, int terrain){
         this.GUI = GUI;
         this.terrain = terrain;
+    
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -34,14 +36,16 @@ public class StaticTerrainListener extends JFrame implements ActionListener{
         if(GUI.getGUIState().equals(GUIState.MOVESHEEPFROM)){
             GUI.setGUIState((GUIState.MOVESHEEPSELECTION));
             GUI.activateSheepSelection(true,terrain);
-            GUI.getLAction2().setText("Selezione quale ovino si vuole muovere");
+            GUI.getLAction2().setText("Seleziona quale ovino si vuole muovere");
         }
         else if(GUI.getGUIState().equals(GUIState.KILLSHEEP)){
-            GUI.setGUIState((GUIState.WAITINGFOROTHERPLAYER));
-            
+            GUI.setGUIState((GUIState.KILLSHEEPSELECTION));
+            GUI.activateSheepSelection(true,terrain);
+            GUI.getLAction2().setText("Seleziona quale ovino vuoi abbatere");
         }
         else if(GUI.getGUIState().equals(GUIState.JOINSHEEPS)){
-            
+            GUI.setGUIState((GUIState.KILLSHEEPSELECTION));
+            GUI.sendJoinSheeps(terrain);
         }
         else if(GUI.getGUIState().equals(GUIState.MOVESHEEPTO)){
             

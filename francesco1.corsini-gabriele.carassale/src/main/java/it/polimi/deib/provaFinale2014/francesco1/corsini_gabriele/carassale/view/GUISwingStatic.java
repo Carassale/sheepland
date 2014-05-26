@@ -7,17 +7,13 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.TypeOfInteraction;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -46,7 +42,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     private ArrayList<ViewShepard> shepards = new ArrayList<ViewShepard>();
     private int[] cards = new int[6];
     private boolean[] roadsWithFence = new boolean[42];
-    private int coins;
+    private int coins = 0;
+    private int tempTerrain;
+    private int tempIdShepard;
 
     public GUISwingStatic(ConnectionClient connectionClient) {
         GUI = this;
@@ -178,7 +176,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         for (int i = 0; i <= 18; i++) {
             JButton B = new JButton("Terreno" + i);
-            B.addActionListener(new StaticTerrainListener(this, i, connectionClient));
+            B.addActionListener(new StaticTerrainListener(this, i));
             B.setActionCommand("" + i);
             BTerrain.add(B);
             PTerrain.add(B);
@@ -435,8 +433,15 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         //TODO setNickname
     }
 
-    public void placeShepard() {
-        //TODO placeShepard
+    public void placeShepard(int id) {
+        LAction2.setText("Selezionare strada dove piazzare Pastore");
+        state = GUIState.PLACESHEPARD;
+        activateRoads(true);
+        tempIdShepard = id;
+    }
+    
+    public void sendPlaceShepard(int road){
+        connectionClient.placeShepard(road);
     }
 
     public JLabel getLAction2() {
@@ -447,6 +452,33 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         this.LAction2 = LAction2;
     }
 
+    public void sendJoinSheeps(int terrain){
+        connectionClient.joinSheep(terrain);
+    }
+    
+    public void sendKillSheep(int terrain){
+        
+    }
+
+    public int getTempTerrain() {
+        return tempTerrain;
+    }
+
+    public void setTempTerrain(int tempTerrain) {
+        this.tempTerrain = tempTerrain;
+    }
+
+    public void placeShepard() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ConnectionClient getConnectionClient() {
+        return connectionClient;
+    }
+
+    public void setConnectionClient(ConnectionClient connectionClient) {
+        this.connectionClient = connectionClient;
+    }
     
 
     
