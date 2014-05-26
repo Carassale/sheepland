@@ -5,7 +5,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.conn
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

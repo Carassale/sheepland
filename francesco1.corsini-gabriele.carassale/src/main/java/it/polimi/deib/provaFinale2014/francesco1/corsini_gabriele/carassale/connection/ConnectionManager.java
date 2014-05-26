@@ -16,7 +16,7 @@ public abstract class ConnectionManager implements Runnable {
      * tutto a loro
      */
     public ConnectionManager() {
-        //TODO
+        //implementato nelle varie classi
     }
 
     /**
@@ -34,7 +34,7 @@ public abstract class ConnectionManager implements Runnable {
      * modo da non dover fare l'override acnhe del run
      */
     public void startThread() {
-        //TODO
+        //implementato nelle varie classi
     }
 
     /**
@@ -43,18 +43,16 @@ public abstract class ConnectionManager implements Runnable {
      * gestisce quindi le chiamate Client-Server
      */
     public void startAction() {
-        //TODO
+        //implementato nelle varie classi
     }
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract, dice
-     * al client di posizionare il pastore
+     * al client di posizionareve posizionare due pastori
      *
-     * @param hasToScroll true se una volta posizionato il pastore, l'array deve
-     * scorrere. False nel caso deve posizionare due pastori
      * @return Road nella quale è stato posizionato il pastore
      */
-    public Road getPlacedShepard(boolean hasToScroll) {
+    public Road getPlacedShepard() {
         return null;
     }
 
@@ -63,6 +61,23 @@ public abstract class ConnectionManager implements Runnable {
      * al client di tirare un dado per far muovere la pecora nera
      */
     public void allertToMoveBlackSheep() {
-        //TODO
+        //implementato nelle varie classi
+    }
+
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     */
+    public void nextPlayerConnections() {
+        //implementato nelle varie classi
+    }
+
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param idShepard
+     * @param idRoad
+     */
+    public void refreshAddShepard(int idShepard, int idRoad) {
+        //implementato nelle varie classi
     }
 }

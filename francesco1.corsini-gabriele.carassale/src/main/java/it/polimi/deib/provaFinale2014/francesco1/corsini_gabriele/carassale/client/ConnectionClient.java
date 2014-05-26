@@ -10,17 +10,19 @@ public interface ConnectionClient {
 
     void setTypeOfInteraction(TypeOfInteraction typeOfInteraction);
 
-    void moveShepard();
-
-    void moveSheep();
-
-    void buyCard();
-
-    void killSheep();
-
-    void joinSheep();
-
-    void setNickname();
+    void setNickname(String nickname);
+    
+    void placeShepard(int idRoad);
 
     void waitLine();
+
+    void moveShepard(int idShepard, int idRoad);
+
+    void moveSheep(int idSheep, int idTerrain);
+
+    void buyCard(String typeOfTerrain);
+
+    void killSheep(int idSheep);
+
+    void joinSheep(int idTerrain);
 }

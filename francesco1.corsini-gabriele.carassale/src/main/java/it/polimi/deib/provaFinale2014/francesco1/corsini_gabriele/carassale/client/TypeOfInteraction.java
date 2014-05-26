@@ -5,16 +5,37 @@
  */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
-
 /**
  *
  * @author Gabriele Carassale
  */
 public interface TypeOfInteraction {
 
-    public void print(String string);
+    public void clickAction();
 
-    public String read();
+    public void setNickname();
+
+    public void errorMessage(String message);
+    
+    public void placeShepard();
+
+    // id -1 per la BlackSheep, -2 per il Wolf
+    public void refreshMoveAnimal(int idAnimal, int idTerrain);
+
+    //kind: whiteSheep, ram, lamb, wolf, blackSheep
+    public void refreshAddAnimal(int idTerrain, String kind);
+
+    public void refreshKillAnimal(int idAnimal);
+
+    public void refreshTransformAnimal(int idAnimal, String kind);
+
+    public void refreshCard(String typeOfTerrain, boolean isSold);
+
+    //true aggiunge, false toglie
+    public void refreshCoin(int coins, boolean addCoin);
+
+    public void refreshAddShepard(int idShepard, int road);
+
+    public void refreshMoveShepard(int idShepard, int road);
 
 }

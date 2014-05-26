@@ -1,14 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.ServerManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIStatic;
 import java.io.IOException;
 import java.net.Socket;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,7 +63,7 @@ public class Main {
 
         switch (typeView) {
             case 1:
-                connectionClient.setTypeOfInteraction(new LineCommand());
+                connectionClient.setTypeOfInteraction(new LineCommand(connectionClient));
                 break;
             case 2:
                 connectionClient.setTypeOfInteraction(new GUIStatic());
@@ -130,7 +125,7 @@ public class Main {
      */
     private void tryConnectionRMI() {
         //Il client tenta di connettersi tramite RMI
-/*
+        /*
          try {
          Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
          StubRMI stubRMI = (StubRMI) registry.lookup(ServerManagerRMI.SERVER_NAME);
@@ -145,7 +140,8 @@ public class Main {
          //Connessione tramite RMI non riuscita
          if (connected) {
          ConnectionClientRMI ccrmi = new ConnectionClientRMI();
-         }*/
+         }
+         */
 
     }
 }
