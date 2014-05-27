@@ -8,12 +8,17 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.TypeOfInteraction;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -31,7 +36,6 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     private JLabel LAction1, LAction2, LAction3, LCoins, LShepard1, LShepard2;
     private JLabel[] LTerrainCards = new JLabel[6];
     private JMenu file, connection;
-    private JMenuItem eMenuconnectionItemSocket, eMenuconnectionItemRMI;
     private JButton BMoveShepard, BMoveSheep, BBuyCard, BJoinSheeps, BKillSheep;
     private JButton BPlain, BForest, BRiver, BDesert, BMountain, BField;
     private ArrayList<JButton> BTerrain = new ArrayList<JButton>();
@@ -57,7 +61,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo creatore principale della GUI che inizializza tutti i pannelli e divide la frame
+     * Metodo creatore principale della GUI che inizializza tutti i pannelli e
+     * divide la frame
      */
     private void initUI() {
 
@@ -69,8 +74,6 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         ImageIcon icon = new ImageIcon("exit.png");
 
         file = new JMenu("File");
-        file.setMnemonic(KeyEvent.VK_F);
-        connection = new JMenu("Connection");
         file.setMnemonic(KeyEvent.VK_F);
 
         JMenuItem eMenuFileItem = new JMenuItem("Exit", icon);
@@ -86,7 +89,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         add(PMainEast = new JPanel(), BorderLayout.EAST);
         add(PMainWest = new JPanel(), BorderLayout.WEST);
         PMainWest.add(PMain = new JPanel(), BorderLayout.NORTH);
-        PMainWest.add(PSounth = new JPanel(), BorderLayout.SOUTH);
+
         PMain.setLayout(new BorderLayout());
         PMain.add(PNorth = new JPanel(), BorderLayout.NORTH);
         PNorth.setLayout(new BorderLayout());
@@ -100,21 +103,29 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         PActions.setLayout(new GridLayout(2, 3));
         PMain.add(PLabelStatus = new JPanel(), BorderLayout.EAST);
         PLabelStatus.setLayout(new GridLayout(6, 1));
-        PMain.add(PRoads = new JPanel(), BorderLayout.SOUTH);
+        PMain.add(PSounth = new JPanel(), BorderLayout.SOUTH);
+        PSounth.setLayout(new BorderLayout());
+        PSounth.add(PRoads = new JPanel(), BorderLayout.NORTH);
         PRoads.setLayout(new GridLayout(6, 7));
+        PSounth.add(sheepDropDown = new JComboBox(), BorderLayout.SOUTH);
         PMainEast.setLayout(new BorderLayout());
         PMainEast.add(PMainEastNorth = new JPanel(), BorderLayout.NORTH);
         PMainEastNorth.setLayout(new GridLayout(4, 1));
-        PMainEast.add(PMainEastSouth = new JPanel(), BorderLayout.SOUTH);
-        PMainEastSouth.add(sheepDropDown = new JComboBox());
+        
+
+        try {
+            PMainEast.add(PSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png"), BorderLayout.CENTER);
+        } catch (IOException ex) {
+            Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         PLabelAction.add(LAction1 = new JLabel("Non è il tuo turno"));
         PLabelAction.add(LAction2 = new JLabel("Attendi..."));
         PLabelAction.add(LAction3 = new JLabel(" "));
 
         PMainEastNorth.add(LCoins = new JLabel("Monete :" + coins));
-        PMainEastNorth.add(LShepard1 = new JLabel("Posizione 1° pastore: non posizionato"));
-        PMainEastNorth.add(LShepard2 = new JLabel("Posizione 2° pastore: non posizionato"));
+        PMainEastNorth.add(LShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato"));
+        PMainEastNorth.add(LShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato"));
 
         sheepDropDown.addActionListener(new StaticDropDownSelectionListener(this));
         sheepDropDown.setEnabled(false);
@@ -141,15 +152,6 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             }
         }
 
-        /*
-         eMenuconnectionItemSocket = new JMenuItem("Connect with Socket", icon);
-         eMenuconnectionItemSocket.setMnemonic(KeyEvent.VK_E);
-         eMenuconnectionItemSocket.addActionListener(new GUIConnectionListener("Socket", this));
-
-         eMenuconnectionItemRMI = new JMenuItem("Connect with RMI", icon);
-         eMenuconnectionItemRMI.setMnemonic(KeyEvent.VK_E);
-         eMenuconnectionItemRMI.addActionListener(new GUIConnectionListener("RMI", this));
-         */
         BMoveShepard = new JButton("Muovi Pastore");
         BMoveShepard.addActionListener(new StaticActionListener(this));
         BMoveShepard.setActionCommand("MoveShepard");
@@ -169,7 +171,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         BBuyCard.setEnabled(false);
 
         BJoinSheeps = new JButton("Accoppia Ovini");
-        BBuyCard.addActionListener(new StaticActionListener(this));
+        BJoinSheeps.addActionListener(new StaticActionListener(this));
         BJoinSheeps.setActionCommand("JoinSheeps");
         PActions.add(BJoinSheeps);
         BJoinSheeps.setEnabled(false);
@@ -230,22 +232,30 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         BField.setEnabled(false);
 
         file.add(eMenuFileItem);
-        //connection.add(eMenuconnectionItemSocket);
-        //connection.add(eMenuconnectionItemRMI);
-
         menubar.add(file);
-        menubar.add(connection);
-
         setJMenuBar(menubar);
 
         state = state.WAITINGFOROTHERPLAYER;
 
         setTitle("SheepLand");
-        setSize(500, 400);
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        int xSize = ((int) tk.getScreenSize().getWidth());
+        int ySize = ((int) tk.getScreenSize().getHeight());
+        Dimension dim = new Dimension(xSize,ySize);
+        
+        setMaximumSize(dim);
+        setMinimumSize(dim);
+
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         pack();
+        
+        Dimension size = BMoveShepard.getSize();
+        BMoveShepard.setMaximumSize(size);
+        BMoveShepard.setMinimumSize(size);
 
     }
 
@@ -259,6 +269,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo che attiva/disattiva i bottoni azione del giocatore
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateActions(boolean val) {
@@ -271,6 +282,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo che attiva/disattiva i bottoni delle strade
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateRoads(boolean val) {
@@ -283,6 +295,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo che attiva/disattiva i bottoni dei terreni
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateTerrains(boolean val) {
@@ -293,6 +306,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo che attiva/disattiva i bottoni della tipologia di terreno
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateTerrainType(boolean val) {
@@ -307,7 +321,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva il menu a tendina con i le possibili Pecore da selezionare
+     * Metodo che attiva/disattiva il menu a tendina con i le possibili Pecore
+     * da selezionare
+     *
      * @param val true si attivano, false si disattivano
      * @param terrain su quale terreno sono gli ovini
      */
@@ -350,6 +366,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo che attiva/disattiva il menu a tendina
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateDropDown(boolean val) {
@@ -357,7 +374,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva il menu a tendina e calcola i Pastori che devono figurarci
+     * Metodo che attiva/disattiva il menu a tendina e calcola i Pastori che
+     * devono figurarci
+     *
      * @param val true si attivano, false si disattivano
      */
     public void activateShepardSelection(boolean val) {
@@ -392,6 +411,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection che aggiorna le monete
+     *
      * @param coins quale variazione
      * @param addCoins true se aggiunti, false se sottratti
      */
@@ -407,6 +427,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection che cambia una carta
+     *
      * @param typeOfTerrain tipologia terreno
      * @param isSold true se è venduto, false se è comprato
      */
@@ -442,7 +463,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per muovere un animale(Ovino,BlackSHeep o Wolf)
+     * Metodo chiamato dalla connection per muovere un animale(Ovino,BlackSHeep
+     * o Wolf)
+     *
      * @param id id univoco animale
      * @param terrain terreno verso dove muovo
      */
@@ -464,7 +487,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection che serve ad aggiungere un nuovo animale 
+     * Metodo chiamato dalla connection che serve ad aggiungere un nuovo animale
+     *
      * @param terrain dove viene aggiunto
      * @param animalType tipologia animale
      */
@@ -482,6 +506,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection per uccidere un dato animale
+     *
      * @param id id univoco dell'animale da uccidere
      */
     public void refreshKillAnimal(int id) {
@@ -492,6 +517,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection per far crescere un ovino
+     *
      * @param id id univoco animale
      * @param kind tipologia in cui è cresciuto
      */
@@ -503,6 +529,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection per aggiungere un nuovo Pastore
+     *
      * @param id id del pastore
      * @param road dove viene piazzato inizialmente
      */
@@ -514,11 +541,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             newShep.setIsOwned(true);
             if (firstShepard == true) {
                 newShep.setIsFirst(true);
-                LShepard1.setText("Posizione 1° pastore: " + newShep.getPostition());
+                LShepard1.setText("Primo pastore in posizione nel terreno numero: " + newShep.getPostition());
                 firstShepard = false;
             } else {
                 newShep.setIsFirst(false);
-                LShepard2.setText("Posizione 2° pastore: " + newShep.getPostition());
+                LShepard2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
             }
         }
         LAction2.setText("E' stato aggiunto un Pastore sulla strada " + road);
@@ -527,6 +554,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection per muovere un pastore
+     *
      * @param id id univoco pastore
      * @param road verso dove si muove
      */
@@ -540,15 +568,16 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         LAction2.setText("E' stato mosso un Pastore sulla strada " + road);
 
         if (shepard.isIsFirst()) {
-            LShepard1.setText("Posizione 1° pastore: " + shepard.getPostition());
+            LShepard1.setText("Primo pastore in posizione nel terreno numero: " + shepard.getPostition());
         } else {
-            LShepard2.setText("Posizione 2° pastore: " + shepard.getPostition());
+            LShepard2.setText("Secondo pastore in posizione nel terreno numero: " + shepard.getPostition());
         }
 
     }
 
     /**
      * Metodo chiamato dalla connection per proclamare vincitore
+     *
      * @param isWinner true se è il vincitore
      */
     public void declareWinner(boolean isWinner) {
@@ -561,6 +590,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     /**
      * Metodo chiamato dalla connection per sollevare eccezione a schermo
+     *
      * @param message stringa da stampare
      */
     public void errorMessage(String message) {

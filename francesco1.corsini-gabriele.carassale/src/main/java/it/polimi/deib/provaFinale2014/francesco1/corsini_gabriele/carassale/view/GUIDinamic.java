@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 public class GUIDinamic implements TypeOfInteraction {
 
     public GUIDinamic(ConnectionClient connectionClient) {
-        GUIDinamicPanel panel = new GUIDinamicPanel();
-        panel.paintComponent(null);
+        //GUIDinamicPanel panel = new GUIDinamicPanel();
+        //panel.paintComponent(null);
         JPanel pan = new JPanel();
         
     }
