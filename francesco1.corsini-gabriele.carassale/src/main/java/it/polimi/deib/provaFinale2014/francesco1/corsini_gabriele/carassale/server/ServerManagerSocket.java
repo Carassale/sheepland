@@ -74,6 +74,9 @@ public class ServerManagerSocket implements ServerManager {
         playerConnection = new ArrayList<PlayerConnectionSocket>();
         while (canAcceptSocket) {
             Socket socket = serverSocket.accept();
+
+            CheckStatus(socket);
+
             if (playerConnection.isEmpty()) {
                 swt = new SocketWaitingTimer();
             }
@@ -83,6 +86,10 @@ public class ServerManagerSocket implements ServerManager {
                 runNewGame();
             }
         }
+    }
+
+    public void CheckStatus(Socket socket) {
+
     }
 
     /**

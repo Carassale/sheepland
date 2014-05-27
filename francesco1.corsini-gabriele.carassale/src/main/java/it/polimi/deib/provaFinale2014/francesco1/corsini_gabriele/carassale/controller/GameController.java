@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
+import java.nio.file.StandardOpenOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,6 +67,7 @@ public class GameController {
         } while (!(playerPool.nextPlayer()));
 
         if (moveWolf()) {
+            connectionManager.refreshMoveAnimal(-2, gameTable.getWolf().getPosition().getID());
             tryEatSheep();
         }
 
@@ -372,6 +374,10 @@ public class GameController {
         } while (repetWhile);
 
         if (sheepDead != null) {
+            if (connectionManager != null) {
+                Sheep s = (Sheep) sheepDead;
+                connectionManager.refreshKillAnimal(s.getId());
+            }
             wolf.getPosition().getAnimals().remove(sheepDead);
             return true;
         }

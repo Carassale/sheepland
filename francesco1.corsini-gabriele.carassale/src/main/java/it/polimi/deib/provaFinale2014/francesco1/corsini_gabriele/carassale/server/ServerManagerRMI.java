@@ -2,9 +2,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMIImpl;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +26,7 @@ public class ServerManagerRMI implements ServerManager {
     private ArrayList<ConnectionManagerRMI> games;
     private Thread thread;
     private RMIWaitingTimer swt;
-    private boolean canAcceptSocket;
+    private boolean canAccept;
 
     /**
      * È il nome del ServerManagerRMI, usato per le connessioni
@@ -46,15 +49,16 @@ public class ServerManagerRMI implements ServerManager {
      */
     public void run() {
         games = new ArrayList<ConnectionManagerRMI>();
-        canAcceptSocket = true;
+        playerConnection = new ArrayList<PlayerConnectionRMI>();
+        canAccept = true;
 
         try {
-            //StubRMI stubRMI = new StubRMIImpl();
-            //StubRMI stub = (StubRMI) UnicastRemoteObject.exportObject(stubRMI, PORT);
+            StubRMI stubRMI = new StubRMIImpl(playerConnection);
+            StubRMI stub = (StubRMI) UnicastRemoteObject.exportObject(stubRMI, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
-            //registry.rebind(SERVER_NAME, stub);
+            registry.rebind(SERVER_NAME, stub);
 
-            //waitPlayer();
+            waitPlayer();
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,14 +72,11 @@ public class ServerManagerRMI implements ServerManager {
      * @throws java.io.IOException
      */
     private void waitPlayer() {
-        playerConnection = new ArrayList<PlayerConnectionRMI>();
-        while (canAcceptSocket) {
-
+        while (canAccept) {
             //Accetta connessione RMI
-            if (playerConnection.isEmpty()) {
+            if (playerConnection.size() == 1) {
                 swt = new RMIWaitingTimer();
             }
-            playerConnection.add(new PlayerConnectionRMI());
             if (playerConnection.size() == PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
@@ -90,13 +91,13 @@ public class ServerManagerRMI implements ServerManager {
      * gioca più partite).
      */
     public synchronized void runNewGame() {
-        canAcceptSocket = false;
+        canAccept = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerRMI(playerConnection));
             System.out.println("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
-        canAcceptSocket = true;
+        canAccept = true;
     }
 
     /**

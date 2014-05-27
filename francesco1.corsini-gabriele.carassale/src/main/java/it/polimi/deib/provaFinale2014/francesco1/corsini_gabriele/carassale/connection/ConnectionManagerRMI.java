@@ -39,7 +39,6 @@ public class ConnectionManagerRMI extends ConnectionManager {
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
         //setNickName();
-        //refreshGame4AllPlayer();
     }
 
 }

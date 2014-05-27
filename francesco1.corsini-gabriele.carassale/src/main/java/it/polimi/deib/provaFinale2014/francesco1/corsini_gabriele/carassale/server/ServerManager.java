@@ -25,11 +25,4 @@ public interface ServerManager extends Runnable {
      */
     static final int TIMEOUT = 10000;
 
-    /**
-     * È l'arrayList contente i le connectionManager, interfaccia implementata
-     * dalle classi ConnectionManagerSocket e ConnectionManagerRMI,
-     * rappresentano le partite avviate.
-     */
-    public static final ArrayList<ConnectionManager> games = null;
-
 }

@@ -117,7 +117,7 @@ public class Player {
         if (canMove == true) {
             if (shepard.isExpensiveMove(destination)) {
                 if (coins == 0) {
-                    throw new CoinException();
+                    throw new CoinException("Non hai abbastanza soldi");
                 } else {
                     coins--;
                 }

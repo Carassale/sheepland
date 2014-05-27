@@ -24,6 +24,8 @@ public class LineCommand implements TypeOfInteraction {
 
     /**
      * Inizializza il BufferReader da tastiera e il PrintWriter a schermo
+     *
+     * @param connectionClient
      */
     public LineCommand(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
@@ -63,9 +65,9 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         if (idAnimal == -2) {
-            outVideo.println("È stata mossa la pecora nera nel terreno " + idTerrain);
+            outVideo.println("Il Lupo si è mosso nel terreno " + idTerrain);
         } else if (idAnimal == -1) {
-            outVideo.println("Si è mosso il lupo nel terreno " + idTerrain);
+            outVideo.println("La pecora nera si è mossa nel terreno " + idTerrain);
         } else {
             outVideo.println("È stata mossa una pecora nel terreno " + idTerrain);
         }
@@ -139,11 +141,19 @@ public class LineCommand implements TypeOfInteraction {
      * @param addCoin True se deve aggiungere
      */
     public void refreshCoin(int coins, boolean addCoin) {
-        String s = "Rimossi";
-        if (addCoin) {
-            s = "Aggiunti";
+        if (coins > 1) {
+            String s = "Rimosse";
+            if (addCoin) {
+                s = "Aggiunte";
+            }
+            outVideo.println(s + " " + coins + " monete.");
+        } else {
+            String s = "Rimossa";
+            if (addCoin) {
+                s = "Aggiunta";
+            }
+            outVideo.println(s + " una moneta.");
         }
-        outVideo.println(s + " " + coins + " moente.");
     }
 
     /**
@@ -171,19 +181,36 @@ public class LineCommand implements TypeOfInteraction {
      * Esegue un azione chiedendola al giocatore
      */
     public void clickAction() {
-        print("Fai la tua mossa");
+        Integer i = 0;
+        do {
+            print("Fai la tua mossa:");
+            print("");
+            print("1 - Muovi pastore");
+            print("2 - Muovi pecora");
+            print("3 - Compra carta");
+            print("4 - Accoppia ovini");
+            print("5 - Uccidi pecora");
+            print("");
 
-        String s = read();
-        if ("moveShepard".equals(s)) {
-            moveShepard();
-        } else if ("moveSheep".equals(s)) {
-            moveSheep();
-        } else if ("buyCard".equals(s)) {
-            buyCard();
-        } else if ("killSheep".equals(s)) {
-            killSheep();
-        } else if ("joinSheep".equals(s)) {
-            joinSheep();
+            i = new Integer(read());
+        } while (i < 1 || i > 5);
+
+        switch (i) {
+            case 1:
+                moveShepard();
+                break;
+            case 2:
+                moveSheep();
+                break;
+            case 3:
+                buyCard();
+                break;
+            case 4:
+                joinSheep();
+                break;
+            case 5:
+                killSheep();
+                break;
         }
     }
 
