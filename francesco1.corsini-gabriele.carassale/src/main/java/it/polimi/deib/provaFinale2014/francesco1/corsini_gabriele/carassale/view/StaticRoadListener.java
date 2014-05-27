@@ -32,7 +32,7 @@ public class StaticRoadListener extends JFrame implements ActionListener {
             GUI.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
             GUI.sendPlaceShepard(road);
         } else if (GUI.getGUIState() == GUIState.MOVESHEPARDTO) {
-            GUI.setGUIState(GUIState.MOVESHEPARDTO);
+            GUI.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
             GUI.sendMoveShepard(road);
         }
 

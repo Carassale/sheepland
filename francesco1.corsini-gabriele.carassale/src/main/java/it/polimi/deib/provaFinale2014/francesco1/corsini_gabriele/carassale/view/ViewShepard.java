@@ -14,6 +14,7 @@ public class ViewShepard {
     
     private int id;
     private int position;
+    private boolean isOwned;
     
     public ViewShepard(int id, int road){
         this.id = id;
@@ -35,6 +36,17 @@ public class ViewShepard {
     public void setPostition(int postition) {
         this.position = postition;
     }
+
+
+    public boolean getIsOwned() {
+        return isOwned;
+    }
+
+    public void setIsOwned(boolean isOwned) {
+        this.isOwned = isOwned;
+    }
+    
+    
 
     
 }

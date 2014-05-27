@@ -18,8 +18,7 @@ import javax.swing.JFrame;
 public class StaticSheepDropDownListener extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
-        JComboBox cb = (JComboBox)e.getSource();
-        String petName = (String)cb.getSelectedItem();
+        
     }
 
 }

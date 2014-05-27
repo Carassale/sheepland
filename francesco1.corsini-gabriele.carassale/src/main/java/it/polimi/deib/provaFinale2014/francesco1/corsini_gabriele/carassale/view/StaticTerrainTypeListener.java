@@ -14,10 +14,26 @@ import javax.swing.JFrame;
  *
  * @author Francesco Corsini
  */
-public class GUIListener extends JFrame implements ActionListener{
+public class StaticTerrainTypeListener extends JFrame implements ActionListener{
+    
+    private GUISwingStatic GUI;
+    
+    
+    
+    public StaticTerrainTypeListener(GUISwingStatic GUI){
+        this.GUI = GUI;
+        
+    }
 
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+        String command = e.getActionCommand();
+        GUI.activateTerrainType(false);
+        
+        if(GUI.getGUIState() == GUIState.BUYCARD){
+            GUI.sendBuyCard(command);
+        }
+        
     }
 
 }

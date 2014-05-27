@@ -33,12 +33,12 @@ public class StaticActionListener extends JFrame implements ActionListener{
         if("MoveShepard".equals(command)){
             GUI.getLAction2().setText("Seleziona quale Pastore muovere");
             GUI.setGUIState((GUIState.MOVESHEPARDSELECTION));
-            //TODO apri dropdown con selezione SHepards
+            GUI.activateShepardSelection(true);
         }
         else if("MoveSheep".equals(command)){
             GUI.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");
             GUI.setGUIState((GUIState.MOVESHEEPFROM));
-            GUI.activateTerrains(rootPaneCheckingEnabled);
+            GUI.activateTerrains(true);
         }
         else if("BuyCard".equals(command)){
             GUI.getLAction2().setText("Selezione la tipologia di carta da comprare");
@@ -54,7 +54,7 @@ public class StaticActionListener extends JFrame implements ActionListener{
         else if("KillSheep".equals(command)){
             GUI.getLAction2().setText("Selezione il territorio dove è l'ovino da abbattere");
             GUI.setGUIState((GUIState.KILLSHEEP));
-            GUI.activateTerrains(rootPaneCheckingEnabled);
+            GUI.activateTerrains(true);
             
         }
     }
