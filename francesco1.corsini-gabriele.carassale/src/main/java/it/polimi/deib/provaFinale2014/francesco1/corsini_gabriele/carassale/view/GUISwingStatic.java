@@ -461,7 +461,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     public void sendPlaceShepard(int road) {
-        shepards.add(new ViewShepard(tempIdShepard, road));
+        //NON CREARE ANCORA PASTORE, SE DEVI CREARE LO DICE IL SERVER
+        //shepards.add(new ViewShepard(tempIdShepard, road));
         connectionClient.placeShepard(road);
         //TODO occhio che qui creo il pastore anche se è in una posizione scorretta!
     }

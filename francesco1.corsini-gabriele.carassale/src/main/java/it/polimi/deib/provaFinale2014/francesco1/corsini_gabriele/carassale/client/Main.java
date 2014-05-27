@@ -8,6 +8,12 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * È il main del Client, serve a scegliere inizialmente come si desidera
+ * giocare: il tipo di connessione e il tipo di interfaccia
+ *
+ * @author Carassale Gabriele
+ */
 public class Main {
 
     private final static int PORT_RMI = 3001;
@@ -19,7 +25,7 @@ public class Main {
     ConnectionClient connectionClient;
 
     /**
-     * È il Main del client
+     * Crea la classe Main, gestisce l'avvio del client
      *
      * @param arg
      */

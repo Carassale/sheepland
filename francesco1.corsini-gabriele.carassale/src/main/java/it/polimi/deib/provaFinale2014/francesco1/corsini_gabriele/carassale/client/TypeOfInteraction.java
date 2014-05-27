@@ -66,6 +66,12 @@ public interface TypeOfInteraction {
      */
     public void refreshTransformAnimal(int idAnimal, String kind);
 
+    /**
+     * Risveglia l'interfaccia e cambia le carte
+     *
+     * @param typeOfTerrain Tipo carta da cambiare
+     * @param isSold True se venduta, False se comprata
+     */
     public void refreshCard(String typeOfTerrain, boolean isSold);
 
     /**

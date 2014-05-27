@@ -222,11 +222,11 @@ public class GameController {
                     }
                 } while (!playerHasPlacedShepard);
 
-                Shepard shep = new Shepard(roadChoosen, currentPlayer, idShepard);
+                Shepard shepard = new Shepard(roadChoosen, currentPlayer, idShepard);
                 connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
 
-                currentPlayer.getShepards().add(shep);
-                gameTable.getShepards().add(shep);
+                currentPlayer.getShepards().add(shepard);
+                gameTable.getShepards().add(shepard);
                 idShepard++;
             }
 
@@ -284,12 +284,17 @@ public class GameController {
     private void createPlayerPool(int numberOfPlayers) {
         Player player;
         playerPool = new PlayerPool();
+        int coin = 20;
+        if (numberOfPlayers == 2) {
+            coin = 30;
+        }
         for (int i = 0; i < numberOfPlayers; i++) {
             if (i == 0) {
                 player = new Player(true);
             } else {
                 player = new Player(false);
             }
+            player.setCoins(coin);
             playerPool.addPlayer(player);
         }
     }

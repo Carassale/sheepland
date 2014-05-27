@@ -115,7 +115,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         pcs.printLn("wakeUp");
     }
 
-    /*
+    /**
      * Imposta il nickName del Player
      */
     public void setNickName() {
