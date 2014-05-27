@@ -26,27 +26,26 @@ public class StaticDropDownSelectionListener extends JFrame implements ActionLis
     
     public void actionPerformed(ActionEvent e) {
         
-        GUI.activateDropDown(false);
         JComboBox cb = (JComboBox) e.getSource();
         String command = (String) cb.getSelectedItem();
         
         if (GUI.getGUIState() == GUIState.MOVESHEEPSELECTION) {
-            GUI.setGUIState((GUIState.MOVESHEEPTO));
-            GUI.activateTerrains(true);
+            
+            
             GUI.getLAction2().setText("Dove si vuole muovere l'Ovino");
             
             command = command.replaceAll("[^\\d.]", "");
             int num = Integer.parseInt(command);
-            GUI.setTempIdSheep(num);
+            GUI.setSheepSelected(num);
         }
         else if (GUI.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
-            GUI.setGUIState((GUIState.MOVESHEPARDTO));
-            GUI.activateRoads(true);
+            
+            
             GUI.getLAction2().setText("Dove si vuole spostare il Pastore");
             
             command = command.replaceAll("[^\\d.]", "");
             int num = Integer.parseInt(command);
-            GUI.setTempIdShepard(num);
+            GUI.setShepardSelected(num);
         }
 
     }

@@ -2,10 +2,15 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.TypeOfInteraction;
+import javax.swing.JPanel;
 
 public class GUIDinamic implements TypeOfInteraction {
 
     public GUIDinamic(ConnectionClient connectionClient) {
+        GUIDinamicPanel panel = new GUIDinamicPanel();
+        panel.paintComponent(null);
+        JPanel pan = new JPanel();
+        
     }
 
     public void clickAction() {
@@ -59,5 +64,7 @@ public class GUIDinamic implements TypeOfInteraction {
     public void placeShepard(int idShepard) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
 }

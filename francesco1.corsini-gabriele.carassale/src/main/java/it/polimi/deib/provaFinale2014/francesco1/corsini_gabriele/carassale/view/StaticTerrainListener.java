@@ -33,6 +33,7 @@ public class StaticTerrainListener extends JFrame implements ActionListener{
         String command = e.getActionCommand();
         
         if(GUI.getGUIState() == GUIState.MOVESHEEPFROM){
+            GUI.activateTerrains(true);
             GUI.setGUIState((GUIState.MOVESHEEPSELECTION));
             GUI.activateSheepSelection(true,terrain);
             GUI.getLAction2().setText("Seleziona quale ovino si vuole muovere");
@@ -49,6 +50,7 @@ public class StaticTerrainListener extends JFrame implements ActionListener{
             GUI.sendJoinSheeps(terrain);
         }
         else if(GUI.getGUIState() == GUIState.MOVESHEEPTO){
+            GUI.activateDropDown(false);
             GUI.setGUIState((GUIState.WAITINGFOROTHERPLAYER));
             GUI.sendMoveSheep(terrain);
         }
