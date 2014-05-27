@@ -16,7 +16,7 @@ public class Main {
      */
     public static void main(String arg[]) {
         ServerManagerSocket serverManagerSocket = new ServerManagerSocket();
-        //ServerManagerRMI serverManagerRMI = new ServerManagerRMI();
+        ServerManagerRMI serverManagerRMI = new ServerManagerRMI();
     }
 
 }

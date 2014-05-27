@@ -106,6 +106,15 @@ public abstract class ConnectionManager implements Runnable {
      * Inserito qui per creare un metodo guida per questa classe abstract
      *
      * @param idAnimal
+     */
+    public void refreshKillAnimal(int idAnimal) {
+        //implementato nelle varie classi
+    }
+
+    /**
+     * Inserito qui per creare un metodo guida per questa classe abstract
+     *
+     * @param idAnimal
      * @param kindFinal
      */
     public void refreshTransformAnimal(int idAnimal, String kindFinal) {

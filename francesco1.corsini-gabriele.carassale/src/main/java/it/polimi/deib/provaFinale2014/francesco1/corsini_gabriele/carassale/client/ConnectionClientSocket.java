@@ -328,4 +328,5 @@ public class ConnectionClientSocket implements ConnectionClient {
         outSocket.println(idTerrain);
         outSocket.flush();
     }
+
 }

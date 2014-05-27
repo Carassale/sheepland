@@ -1,5 +1,11 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
  * ConnectionManager nel caso sia stato scelto il metodo RMI
@@ -8,13 +14,31 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
  */
 public class ConnectionClientRMI implements ConnectionClient {
 
+    private TypeOfInteraction typeOfInteraction;
+    private int idConnection;
+    private Registry registry;
+    private StubRMI stubRMI;
+
+    /**
+     * Crea un connection client di tipo RMI passando l'id della connessione
+     *
+     * @param idConnection Id della connessione
+     * @param registry
+     * @param stubRMI
+     */
+    public ConnectionClientRMI(int idConnection, Registry registry, StubRMI stubRMI) {
+        this.idConnection = idConnection;
+        this.registry = registry;
+        this.stubRMI = stubRMI;
+    }
+
     /**
      * Imposta il tipo di interfaccia che desidera utilizzare il client
      *
      * @param typeOfInteraction interfaccia da utilizzare
      */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.typeOfInteraction = typeOfInteraction;
     }
 
     /**
@@ -30,7 +54,14 @@ public class ConnectionClientRMI implements ConnectionClient {
      * Resta in attesa di un comando da parte del Server
      */
     public void waitLine() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        while (true) {
+            try {
+                String result = stubRMI.checkStatus(idConnection);
+                System.out.println(result);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -88,4 +119,5 @@ public class ConnectionClientRMI implements ConnectionClient {
     public void placeShepard(int idRoad) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

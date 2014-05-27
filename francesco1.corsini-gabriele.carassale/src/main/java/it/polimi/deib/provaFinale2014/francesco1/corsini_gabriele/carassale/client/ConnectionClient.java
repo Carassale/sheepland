@@ -71,4 +71,5 @@ public interface ConnectionClient {
      * @param idTerrain Terreno dove avviene l'accoppiamento
      */
     void joinSheep(int idTerrain);
+
 }

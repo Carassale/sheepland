@@ -155,9 +155,16 @@ public class ConnectionManagerSocket extends ConnectionManager {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
             try {
+                boolean refreshCoin = false;
+                if (s.isExpensiveMove(r)) {
+                    refreshCoin = true;
+                }
                 gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
                 PrintCorrectAction();
                 refreshMoveShepard(idShepard, idRoad);
+                if (refreshCoin) {
+                    refreshCoin(1, false);
+                }
                 return true;
             } catch (MoveException ex) {
                 currentPlayer.printLn("errorMove");
@@ -417,6 +424,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
      *
      * @param idAnimal Animale da rimuovere
      */
+    @Override
     public void refreshKillAnimal(int idAnimal) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn("refreshKillAnimal");

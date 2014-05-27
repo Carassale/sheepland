@@ -1,9 +1,14 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +24,11 @@ public class Main {
     private final static int PORT_RMI = 3001;
     private final static int PORT_SOCKET = 3002;
     private final static String address = "localhost";
+
+    /**
+     * È il nome del ServerManagerRMI, usato per le connessioni
+     */
+    public final static String SERVER_NAME = "managerRMI";
 
     private boolean connected;
 
@@ -131,23 +141,30 @@ public class Main {
      */
     private void tryConnectionRMI() {
         //Il client tenta di connettersi tramite RMI
-        /*
-         try {
-         Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
-         StubRMI stubRMI = (StubRMI) registry.lookup(ServerManagerRMI.SERVER_NAME);
 
-         String result = stubRMI.managerRMI(ac);
-         } catch (RemoteException ex) {
-         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (NotBoundException ex) {
-         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        Integer idResult = -1;
+        Registry registry = null;
+        StubRMI stubRMI = null;
 
-         //Connessione tramite RMI non riuscita
-         if (connected) {
-         ConnectionClientRMI ccrmi = new ConnectionClientRMI();
-         }
-         */
+        try {
+            registry = LocateRegistry.getRegistry(address, PORT_RMI);
+            stubRMI = (StubRMI) registry.lookup(SERVER_NAME);
+            idResult = new Integer(stubRMI.connect());
+            System.out.println("Forse connesso");
+        } catch (RemoteException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (idResult >= 0) {
+            connected = true;
+            System.out.println("ID: " + idResult);
+        }
+
+        if (connected) {
+            connectionClient = new ConnectionClientRMI(idResult, registry, stubRMI);
+        }
 
     }
 }

@@ -87,7 +87,7 @@ public class Turn {
             blackSheep.move(road);
 
             if (connectionManager != null) {
-                connectionManager.refreshMoveAnimal(-1, road.getId());
+                connectionManager.refreshMoveAnimal(-1, blackSheep.getPosition().getID());
             }
 
             return true;
