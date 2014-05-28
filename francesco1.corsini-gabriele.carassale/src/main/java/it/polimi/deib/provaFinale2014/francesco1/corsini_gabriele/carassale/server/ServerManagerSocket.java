@@ -65,8 +65,8 @@ public class ServerManagerSocket implements ServerManager {
 
     /**
      * Resta in attesa del numero di giocatori massimi per avviare una partita,
-     * in parallelo avvia un thread per controllare l'avvio forzato da parte di
-     * un utente
+     * in parallelo avvia un thread per controllare l'avvio per scadenza di
+     * tempo
      *
      * @throws java.io.IOException
      */

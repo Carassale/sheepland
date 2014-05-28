@@ -1,4 +1,4 @@
-package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 /**
  * Crea un'interfaccia per dichiarare i metodi guida da utilizzare nei tre casi

@@ -1,8 +1,14 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
+import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,24 +18,44 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientRMI implements ConnectionClient {
+public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Serializable {
 
     private TypeOfInteraction typeOfInteraction;
-    private int idConnection;
-    private Registry registry;
-    private StubRMI stubRMI;
 
     /**
-     * Crea un connection client di tipo RMI passando l'id della connessione
-     *
-     * @param idConnection Id della connessione
-     * @param registry
-     * @param stubRMI
+     * Viene usato solo per inizializzare poi li verrà assegnato un
+     * CconnectionRMI
      */
-    public ConnectionClientRMI(int idConnection, Registry registry, StubRMI stubRMI) {
-        this.idConnection = idConnection;
-        this.registry = registry;
-        this.stubRMI = stubRMI;
+    private ServerRMI serverRMI;
+    private final static int PORT = 3001;
+    private String nickname;
+
+    private ConnectionRMI connectionRMI;
+
+    /**
+     * Crea un connection client di tipo RMI passando lo stub del server
+     *
+     * @param serverRMI
+     * @param nickname
+     */
+    public ConnectionClientRMI(ServerRMI serverRMI, String nickname) {
+        this.serverRMI = serverRMI;
+        this.nickname = nickname;
+    }
+
+    public void createBind() {
+        try {
+            ClientRMI clientRmi = (ClientRMI) UnicastRemoteObject.exportObject(this);
+            
+            Registry registry = LocateRegistry.getRegistry(PORT);
+            registry.rebind(nickname, this);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void setConnectionRMI(ConnectionRMI connectionRMI) {
+        this.connectionRMI = connectionRMI;
     }
 
     /**
@@ -42,81 +68,89 @@ public class ConnectionClientRMI implements ConnectionClient {
     }
 
     /**
-     * Imposta il proprio nickname
-     *
-     * @param nickname Stringa da settare
+     * Non fa nulla in questa classe
      */
+    public void waitLine() {
+        // non fa nulla
+    }
+
+    public void wakeUp() throws RemoteException {
+        typeOfInteraction.clickAction();
+    }
+
     public void setNickname(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Resta in attesa di un comando da parte del Server
-     */
-    public void waitLine() {
-        while (true) {
-            try {
-                String result = stubRMI.checkStatus(idConnection);
-                System.out.println(result);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+    public void placeShepard(int idRoad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Muove il pastore
-     *
-     * @param idShepard Pastore da muovere
-     * @param idRoad Strada destinazione
-     */
     public void moveShepard(int idShepard, int idRoad) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Muove la pecora
-     *
-     * @param idSheep Pecora da muovere
-     * @param idTerrain Terreno destinazione
-     */
     public void moveSheep(int idSheep, int idTerrain) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Compra una carta
-     *
-     * @param typeOfTerrain Tipo di carta
-     */
     public void buyCard(String typeOfTerrain) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Uccide una pecora
-     *
-     * @param idSheep Pecora da uccidere
-     */
     public void killSheep(int idSheep) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Accoppia una pecora con un montone
-     *
-     * @param idTerrain Terreno in cui si trovano pecora e montone
-     */
     public void joinSheep(int idTerrain) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    /**
-     * Piazza un pastore
-     *
-     * @param idRoad Strada dove posizionare
-     */
-    public void placeShepard(int idRoad) {
+    public void setNikcname() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void errorCoin(String message) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void errorMove(String message) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void errorDice(String message) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshKillAnimal(int idAnimal) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshTransformAnimal(int idAnimal, String kind) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshCard(String kind, boolean isSold) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

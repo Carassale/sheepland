@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
+
 /**
  * Crea un'interfaccia per dichiarare i metodi guida da utilizzare nei due casi
  * di connessione, RMI o Socket. Vengono chiamati dalle type of interaction sui

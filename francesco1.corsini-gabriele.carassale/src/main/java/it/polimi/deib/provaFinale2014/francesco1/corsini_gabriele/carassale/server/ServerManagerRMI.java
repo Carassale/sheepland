@@ -2,8 +2,8 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMIImpl;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -19,9 +19,8 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ServerManagerRMI implements ServerManager {
+public class ServerManagerRMI implements ServerManager, ServerRMI {
 
-    private final static int PORT = 3001;
     private static ArrayList<PlayerConnectionRMI> playerConnection;
     private ArrayList<ConnectionManagerRMI> games;
     private Thread thread;
@@ -31,7 +30,9 @@ public class ServerManagerRMI implements ServerManager {
     /**
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
-    public final static String SERVER_NAME = "managerRMI";
+    public final static String SERVER_NAME = "ServerManagerRMI";
+
+    public final static int PORT = 3001;
 
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
@@ -53,34 +54,16 @@ public class ServerManagerRMI implements ServerManager {
         canAccept = true;
 
         try {
-            StubRMI stubRMI = new StubRMIImpl(playerConnection);
-            StubRMI stub = (StubRMI) UnicastRemoteObject.exportObject(stubRMI, PORT);
-            Registry registry = LocateRegistry.createRegistry(PORT);
-            registry.rebind(SERVER_NAME, stub);
+            System.out.println("Registering...");
 
-            waitPlayer();
+            //Naming.bind(SERVER_NAME, this); OR
+            UnicastRemoteObject.exportObject(this, PORT);
+            Registry registry = LocateRegistry.createRegistry(PORT);
+            registry.rebind(SERVER_NAME, this);
+
+            System.out.println("Registered");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Resta in attesa del numero di giocatori massimi per avviare una partita,
-     * in parallelo avvia un thread per controllare l'avvio forzato da parte di
-     * un utente
-     *
-     * @throws java.io.IOException
-     */
-    private void waitPlayer() {
-        while (canAccept) {
-            //Accetta connessione RMI
-            if (playerConnection.size() == 1) {
-                swt = new RMIWaitingTimer();
-            }
-            if (playerConnection.size() == PLAYER4GAME) {
-                swt.stop();
-                runNewGame();
-            }
         }
     }
 
@@ -98,6 +81,37 @@ public class ServerManagerRMI implements ServerManager {
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
+    }
+
+    public String connect() throws RemoteException {
+        return "connected";
+    }
+
+    /**
+     * Aggiunge giocatori alla partita a una loro richiesta, controlla il numero
+     * di giocatore massimi per avviare una partita, in parallelo avvia un
+     * thread per controllare l'avvio per scadenza di tempo
+     *
+     * @param clientRMI Interfaccia Client da aggiungere
+     * @return "playerAdded" se aggiunto, "noPlayerAdded" se non aggiunto
+     * @throws RemoteException
+     */
+    public String addClient(ClientRMI clientRMI) throws RemoteException {
+        if (canAccept) {
+            //Aggiunge client RMI
+            playerConnection.add(new PlayerConnectionRMI(clientRMI));
+
+            if (playerConnection.size() == 1) {
+                swt = new RMIWaitingTimer();
+            }
+            if (playerConnection.size() == PLAYER4GAME) {
+                swt.stop();
+                runNewGame();
+            }
+
+            return "playerAdded";
+        }
+        return "noPlayerAdded";
     }
 
     /**

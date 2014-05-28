@@ -1,6 +1,8 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.StubRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.LineCommand;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import java.io.IOException;
@@ -21,18 +23,20 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    private final static int PORT_RMI = 3001;
     private final static int PORT_SOCKET = 3002;
+    private final static int PORT_RMI = 3001;
     private final static String address = "localhost";
 
     /**
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
-    public final static String SERVER_NAME = "managerRMI";
+    public final static String SERVER_NAME = "ServerManagerRMI";
 
     private boolean connected;
 
     ConnectionClient connectionClient;
+
+    private String nickname;
 
     /**
      * Crea la classe Main, gestisce l'avvio del client
@@ -50,9 +54,12 @@ public class Main {
     public Main() {
         connected = false;
         connectionClient = null;
+        Scanner keyboard = new Scanner(System.in);
 
         System.out.println("Messaggio di Benvenuto");
-        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Inserisci il tuo nickname");
+        nickname = keyboard.nextLine();
 
         int typeConnection = 0;
         do {
@@ -140,31 +147,36 @@ public class Main {
      * Prova a creare una connessione tramite RMI
      */
     private void tryConnectionRMI() {
+        ServerRMI serverRMI;
+        String s = "";
+
         //Il client tenta di connettersi tramite RMI
-
-        Integer idResult = -1;
-        Registry registry = null;
-        StubRMI stubRMI = null;
-
         try {
-            registry = LocateRegistry.getRegistry(address, PORT_RMI);
-            stubRMI = (StubRMI) registry.lookup(SERVER_NAME);
-            idResult = new Integer(stubRMI.connect());
-            System.out.println("Forse connesso");
-        } catch (RemoteException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
+            serverRMI = (ServerRMI) registry.lookup(SERVER_NAME);
+
+            //serverRMI = (ServerRMI) Naming.lookup(SERVER_NAME);
+            s = serverRMI.connect();
+
+            if ("connected".equals(s)) {
+                connected = true;
+                connectionClient = new ConnectionClientRMI(serverRMI, nickname);
+                ((ClientRMI) connectionClient).createBind();
+
+                String status = "";
+                do {
+                    status = serverRMI.addClient((ClientRMI) connectionClient);
+                } while (!"playerAdded".equals(status));
+
+            }
+
         } catch (NotBoundException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (idResult >= 0) {
-            connected = true;
-            System.out.println("ID: " + idResult);
-        }
-
-        if (connected) {
-            connectionClient = new ConnectionClientRMI(idResult, registry, stubRMI);
-        }
-
+        //UnicastRemoteObject.exportObject(this);
+        //serverRMI.addClient(this);
     }
 }

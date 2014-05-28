@@ -1,5 +1,6 @@
-package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;

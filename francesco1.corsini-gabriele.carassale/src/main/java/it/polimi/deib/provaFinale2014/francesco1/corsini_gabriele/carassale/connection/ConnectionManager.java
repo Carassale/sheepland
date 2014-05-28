@@ -11,15 +11,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 public abstract class ConnectionManager implements Runnable {
 
     /**
-     * È il costruttore di default, non viene implementato perchè le due
-     * tipologie di connessioni hanno molte differenze e preferisco fare gestire
-     * tutto a loro
-     */
-    public ConnectionManager() {
-        //implementato nelle varie classi
-    }
-
-    /**
      * Questa classe implementa un Runnable, le due classi che la estendono
      * hanno entrambe un attributo Thread creato passando come parametro This e
      * successivamente avviato con la chiamata .start()
@@ -55,14 +46,6 @@ public abstract class ConnectionManager implements Runnable {
      */
     public Road getPlacedShepard(int idShepard) {
         return null;
-    }
-
-    /**
-     * Inserito qui per creare un metodo guida per questa classe abstract, dice
-     * al client di tirare un dado per far muovere la pecora nera
-     */
-    public void allertToMoveBlackSheep() {
-        //implementato nelle varie classi
     }
 
     /**

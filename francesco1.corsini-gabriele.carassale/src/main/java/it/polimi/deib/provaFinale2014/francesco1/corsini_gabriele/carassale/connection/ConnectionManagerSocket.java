@@ -350,17 +350,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
     }
 
     /**
-     * Avvisa il Client che verrà mossa la pecora nera
-     */
-    @Override
-    public void allertToMoveBlackSheep() {
-        //dice al client di far muovere la pecora nera
-        currentPlayer.printLn("moveBlackSheep");
-        //attende un segnale di risposta per far finire la chiamata da parte del Turn
-        currentPlayer.getNextLine();
-    }
-
-    /**
      * Invia a tutti i client il movimento del pastore
      *
      * @param idShepard Pastore spostato
