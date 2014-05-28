@@ -1,16 +1,17 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.LineCommand;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.LineCommand;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,8 +161,14 @@ public class Main {
 
             if ("connected".equals(s)) {
                 connected = true;
-                connectionClient = new ConnectionClientRMI(serverRMI, nickname);
-                ((ClientRMI) connectionClient).createBind();
+
+                ClientRMI clientRMI = new ConnectionClientRMI(serverRMI, nickname);
+
+                ClientRMI stub = (ClientRMI) UnicastRemoteObject.exportObject(clientRMI);
+                Registry registry_client = LocateRegistry.getRegistry(PORT_RMI);
+                registry_client.rebind(nickname, stub);
+
+                connectionClient = (ConnectionClientRMI) clientRMI;
 
                 String status = "";
                 do {

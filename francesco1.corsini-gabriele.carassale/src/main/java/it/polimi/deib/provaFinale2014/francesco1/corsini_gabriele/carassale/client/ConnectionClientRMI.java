@@ -6,11 +6,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
@@ -41,17 +36,6 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
     public ConnectionClientRMI(ServerRMI serverRMI, String nickname) {
         this.serverRMI = serverRMI;
         this.nickname = nickname;
-    }
-
-    public void createBind() {
-        try {
-            ClientRMI clientRmi = (ClientRMI) UnicastRemoteObject.exportObject(this);
-            
-            Registry registry = LocateRegistry.getRegistry(PORT);
-            registry.rebind(nickname, this);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void setConnectionRMI(ConnectionRMI connectionRMI) {
@@ -151,6 +135,10 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
     }
 
     public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void createBind() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
