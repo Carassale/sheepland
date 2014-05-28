@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class GUIDinamicPanel extends JPanel {
 
-    public static BufferedImage image;
+    private BufferedImage image;
 
     public GUIDinamicPanel(String string) throws IOException {
         super();
