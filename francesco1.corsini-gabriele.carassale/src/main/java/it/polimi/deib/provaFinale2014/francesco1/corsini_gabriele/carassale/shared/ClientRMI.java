@@ -23,7 +23,7 @@ public interface ClientRMI extends Remote {
 
     public void errorDice(String message) throws RemoteException;
 
-    public void placeShepard(int idShepard) throws RemoteException;
+    public int getPlaceShepard(int idShepard) throws RemoteException;
 
     public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException;
 

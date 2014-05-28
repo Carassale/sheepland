@@ -156,19 +156,12 @@ public class Main {
             Registry registry = LocateRegistry.getRegistry(address, PORT_RMI);
             serverRMI = (ServerRMI) registry.lookup(SERVER_NAME);
 
-            //serverRMI = (ServerRMI) Naming.lookup(SERVER_NAME);
             s = serverRMI.connect();
 
             if ("connected".equals(s)) {
                 connected = true;
 
-                ClientRMI clientRMI = new ConnectionClientRMI(serverRMI, nickname);
-
-                ClientRMI stub = (ClientRMI) UnicastRemoteObject.exportObject(clientRMI);
-                Registry registry_client = LocateRegistry.getRegistry(PORT_RMI);
-                registry_client.rebind(nickname, stub);
-
-                connectionClient = (ConnectionClientRMI) clientRMI;
+                connectionClient = new ConnectionClientRMI(nickname);
 
                 String status = "";
                 do {

@@ -1,7 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,14 +15,14 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionManagerRMI extends ConnectionManager implements ConnectionRMI {
+public class ConnectionManagerRMI extends ConnectionManager implements ConnectionRMI, Serializable {
 
     private final static int NUMACTION = 3;
     private final ArrayList<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
     private Thread thread;
-    
+
     private boolean canDoAction;
 
     /**
@@ -33,8 +35,21 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) {
         this.playerConnections = playerConnections;
         this.canDoAction = true;
+
+        changeReferenceToClient();
+
         thread = new Thread(this);
         thread.start();
+    }
+
+    public void changeReferenceToClient() {
+        for (PlayerConnectionRMI playerConnectionRMI : playerConnections) {
+            try {
+                playerConnectionRMI.getClientRMI().setConnectionRMI(this);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     /**
@@ -60,9 +75,22 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         for (int i = 0; i < NUMACTION; i++) {
             if (canDoAction) {
                 doAction();
+            } else {
+                i--;
             }
         }
         nextPlayerConnections();
+    }
+
+    /**
+     * Scorre la lista dei Player, sposta il primo in ultima posizione
+     */
+    @Override
+    public void nextPlayerConnections() {
+        playerConnections.add(playerConnections.get(0));
+        playerConnections.remove(0);
+
+        currentPlayer = playerConnections.get(0);
     }
 
     /**
@@ -77,6 +105,29 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             currentPlayer.getClientRMI().wakeUp();
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Metodo chiamato dal gameController per serializzare la comunicazione
+     * iniziale degli Shepard dei vari giocatori
+     *
+     * @param idShepard
+     * @return Road dove posizionare lo Shepard
+     */
+    @Override
+    public Road getPlacedShepard(int idShepard) {
+        try {
+            //dice al client di piazzare Shepard
+            Integer id = currentPlayer.getClientRMI().getPlaceShepard(idShepard);
+
+            //ricava l'oggetto
+            Road roadChoosen = gameController.getGameTable().idToRoad(id);
+
+            return roadChoosen;
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 

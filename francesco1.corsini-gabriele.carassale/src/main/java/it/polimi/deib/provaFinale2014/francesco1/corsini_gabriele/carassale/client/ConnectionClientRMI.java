@@ -1,11 +1,15 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
@@ -13,29 +17,39 @@ import java.rmi.RemoteException;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Serializable {
+public class ConnectionClientRMI extends UnicastRemoteObject implements ConnectionClient, ClientRMI, Serializable {
 
     private TypeOfInteraction typeOfInteraction;
 
-    /**
-     * Viene usato solo per inizializzare poi li verrà assegnato un
-     * CconnectionRMI
-     */
-    private ServerRMI serverRMI;
     private final static int PORT = 3001;
     private String nickname;
+
+    private Object tempRoad = null;
 
     private ConnectionRMI connectionRMI;
 
     /**
      * Crea un connection client di tipo RMI passando lo stub del server
      *
-     * @param serverRMI
      * @param nickname
+     * @throws java.rmi.RemoteException
      */
-    public ConnectionClientRMI(ServerRMI serverRMI, String nickname) {
-        this.serverRMI = serverRMI;
+    public ConnectionClientRMI(String nickname) throws RemoteException {
         this.nickname = nickname;
+
+        try {
+            Registry registry = LocateRegistry.getRegistry(PORT);
+            registry.rebind(nickname, this);
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void createBind() throws RemoteException {
+        UnicastRemoteObject.exportObject(this);
+        Registry registry_client = LocateRegistry.getRegistry(PORT);
+        registry_client.rebind(nickname, this);
     }
 
     public void setConnectionRMI(ConnectionRMI connectionRMI) {
@@ -58,16 +72,12 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
         // non fa nulla
     }
 
-    public void wakeUp() throws RemoteException {
-        typeOfInteraction.clickAction();
-    }
-
     public void setNickname(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void placeShepard(int idRoad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        tempRoad = idRoad;
     }
 
     public void moveShepard(int idShepard, int idRoad) {
@@ -90,6 +100,10 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void wakeUp() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public void setNikcname() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -104,6 +118,13 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
 
     public void errorDice(String message) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public int getPlaceShepard(int idShepard) throws RemoteException {
+        typeOfInteraction.placeShepard(idShepard);
+
+        Integer road = new Integer(tempRoad.toString());
+        return road;
     }
 
     public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException {
@@ -137,9 +158,4 @@ public class ConnectionClientRMI implements ConnectionClient, ClientRMI, Seriali
     public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public void createBind() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

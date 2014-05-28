@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import java.io.Serializable;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
@@ -8,7 +9,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
  *
  * @author Carassale Gabriele
  */
-public class PlayerConnectionRMI extends PlayerConnection {
+public class PlayerConnectionRMI extends PlayerConnection implements Serializable {
 
     private ClientRMI clientRMI;
 
