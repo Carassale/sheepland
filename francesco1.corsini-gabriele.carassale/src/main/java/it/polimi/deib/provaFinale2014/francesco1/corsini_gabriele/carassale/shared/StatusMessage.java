@@ -12,9 +12,9 @@ public enum StatusMessage {
     connected("Connesso"),
     actionOK("Mossa effettua"),
     actionError("Non è possibile fare questa mossa, ricorda di muovere il pastore"),
-    errorMove("Errore movimento"),
-    errorDice("Errore dado"),
-    errorCoin("Errore monete");
+    errorMove("errorMove"),
+    errorDice("errorDice"),
+    errorCoin("errorCoin");
 
     private String value;
 

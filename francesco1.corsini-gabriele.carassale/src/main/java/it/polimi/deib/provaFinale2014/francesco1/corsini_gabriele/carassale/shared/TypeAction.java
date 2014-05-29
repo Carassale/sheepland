@@ -17,7 +17,7 @@ public enum TypeAction {
     errorCoin("Errore monete"),
     errorMove("Errore movimento"),
     errorDice("Errore dado"),
-    placeShepard("PosizionaPastore"),
+    placeShepard("Posiziona pastore"),
     refreshMoveAnimal("Refresh muovi animale"),
     refreshAddAnimal("Refresh aggiungi animale"),
     refreshKillAnimal("Refresh uccidi animale"),

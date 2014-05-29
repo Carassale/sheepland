@@ -7,12 +7,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  */
 public enum TypeCard {
 
-    plain("Pianura"),
-    forest("Foresta"),
-    river("Fiume"),
-    desert("Deserto"),
-    mountain("Montagna"),
-    field("Campo"),
+    plain("Plain"),
+    forest("Forest"),
+    river("River"),
+    desert("Desert"),
+    mountain("Mountain"),
+    field("Field"),
     sheepsbourg("Sheepsbourg");
 
     private String value;
