@@ -18,7 +18,7 @@ public interface ConnectionRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String moveShepard(int idShepard, int idRoad) throws RemoteException;
+    String moveShepard(int idShepard, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal client, muove la pecora
@@ -28,7 +28,7 @@ public interface ConnectionRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String moveSheep(int idSheep, int idTerrain) throws RemoteException;
+    String moveSheep(int idSheep, int idTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, compra una carta
@@ -37,7 +37,7 @@ public interface ConnectionRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String buyCard(String typeOfTerrain) throws RemoteException;
+    String buyCard(String typeOfTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, accoppia pecora e montone
@@ -46,7 +46,7 @@ public interface ConnectionRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String joinSheep(int idTerrain) throws RemoteException;
+    String joinSheep(int idTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, uccide una pecora
@@ -55,6 +55,6 @@ public interface ConnectionRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String killSheep(int idSheep) throws RemoteException;
+    String killSheep(int idSheep) throws RemoteException;
 
 }

@@ -13,13 +13,13 @@ public interface ServerManager extends Runnable {
      * numero di connessioni viene avviata una nuova partita tramite
      * ConnectionManagerSocket
      */
-    static final int PLAYER4GAME = 4;
+    int PLAYER4GAME = 4;
 
     /**
      * È il tempo di attesa massimo che il thread SocketWaitingTimer aspetta
      * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
      * millisec
      */
-    static final int TIMEOUT = 10000;
+    int TIMEOUT = 10000;
 
 }

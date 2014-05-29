@@ -17,7 +17,7 @@ public interface ClientRMI extends Remote {
      * @param connectionRMI ConnectionRMI da settare
      * @throws RemoteException
      */
-    public void setConnectionRMI(ConnectionRMI connectionRMI) throws RemoteException;
+    void setConnectionRMI(ConnectionRMI connectionRMI) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, risveglia il client e chiede di
@@ -25,7 +25,7 @@ public interface ClientRMI extends Remote {
      *
      * @throws RemoteException
      */
-    public void wakeUp() throws RemoteException;
+    void wakeUp() throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, risveglia il client e chiede di
@@ -33,7 +33,7 @@ public interface ClientRMI extends Remote {
      *
      * @throws RemoteException
      */
-    public void setNikcname() throws RemoteException;
+    void setNikcname() throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
@@ -42,7 +42,7 @@ public interface ClientRMI extends Remote {
      * @param message Messaggio da inviare
      * @throws RemoteException
      */
-    public void errorCoin(String message) throws RemoteException;
+    void errorCoin(String message) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
@@ -51,7 +51,7 @@ public interface ClientRMI extends Remote {
      * @param message Messaggio da inviare
      * @throws RemoteException
      */
-    public void errorMove(String message) throws RemoteException;
+    void errorMove(String message) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
@@ -60,7 +60,7 @@ public interface ClientRMI extends Remote {
      * @param message Messaggio da inviare
      * @throws RemoteException
      */
-    public void errorDice(String message) throws RemoteException;
+    void errorDice(String message) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, chiede di posizionare il pastore
@@ -69,7 +69,7 @@ public interface ClientRMI extends Remote {
      * @return Strada dove viene posizionato
      * @throws RemoteException
      */
-    public int getPlaceShepard(int idShepard) throws RemoteException;
+    int getPlaceShepard(int idShepard) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha il movimento
@@ -79,7 +79,7 @@ public interface ClientRMI extends Remote {
      * @param idTerrain Terreno destinazione
      * @throws RemoteException
      */
-    public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException;
+    void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha l'aggiunta di un
@@ -89,7 +89,7 @@ public interface ClientRMI extends Remote {
      * @param kind Tipo di animale
      * @throws RemoteException
      */
-    public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException;
+    void refreshAddAnimal(int idAnimal, String kind) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha cancella animale
@@ -97,7 +97,7 @@ public interface ClientRMI extends Remote {
      * @param idAnimal Animale da cancellare
      * @throws RemoteException
      */
-    public void refreshKillAnimal(int idAnimal) throws RemoteException;
+    void refreshKillAnimal(int idAnimal) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha trasformazione animale
@@ -106,7 +106,7 @@ public interface ClientRMI extends Remote {
      * @param kind Tipo di trasformazione finale
      * @throws RemoteException
      */
-    public void refreshTransformAnimal(int idAnimal, String kind) throws RemoteException;
+    void refreshTransformAnimal(int idAnimal, String kind) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha l'aggiunta di un
@@ -116,7 +116,7 @@ public interface ClientRMI extends Remote {
      * @param idRoad Strada dove posizionare
      * @throws RemoteException
      */
-    public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException;
+    void refreshAddShepard(int idShepard, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha il movimento di un
@@ -126,7 +126,7 @@ public interface ClientRMI extends Remote {
      * @param idRoad Strada destinazione
      * @throws RemoteException
      */
-    public void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException;
+    void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha le carta
@@ -135,7 +135,7 @@ public interface ClientRMI extends Remote {
      * @param isSold True se è venduta, False se è comprata
      * @throws RemoteException
      */
-    public void refreshCard(String kind, boolean isSold) throws RemoteException;
+    void refreshCard(String kind, boolean isSold) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha le monete
@@ -144,5 +144,5 @@ public interface ClientRMI extends Remote {
      * @param addCoin True se vanno aggiunte, False se vanno levate
      * @throws RemoteException
      */
-    public void refreshCoin(int coins, boolean addCoin) throws RemoteException;
+    void refreshCoin(int coins, boolean addCoin) throws RemoteException;
 }

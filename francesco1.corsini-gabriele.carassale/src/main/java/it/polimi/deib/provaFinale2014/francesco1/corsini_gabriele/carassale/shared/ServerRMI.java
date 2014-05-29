@@ -16,7 +16,7 @@ public interface ServerRMI extends Remote {
      * @return Messaggio di conferma connessione
      * @throws RemoteException
      */
-    public String connect() throws RemoteException;
+    String connect() throws RemoteException;
 
     /**
      * Il client invia il proprio skeleton, il server lo associa ad un player
@@ -25,6 +25,6 @@ public interface ServerRMI extends Remote {
      * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String addClient(ClientRMI clientRMI) throws RemoteException;
+    String addClient(ClientRMI clientRMI) throws RemoteException;
 
 }
