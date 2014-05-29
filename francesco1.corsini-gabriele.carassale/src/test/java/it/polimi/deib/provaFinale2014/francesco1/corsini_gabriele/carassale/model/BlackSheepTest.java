@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -22,10 +18,10 @@ import org.junit.Test;
  */
 public class BlackSheepTest {
 
-    private static Terrain terrain0,terrain1,terrain2,terrain3,terrain4,terrain5,terrain6;
-    private static Road road1,road2,road3,road4,road5,road6;
+    private static Terrain terrain0, terrain1, terrain2, terrain3, terrain4, terrain5, terrain6;
+    private static Road road1, road2, road3, road4, road5, road6;
     private static BlackSheep bsheep;
-    
+
     @Before
     public void setUpClass() {
         terrain0 = new Terrain();
@@ -43,14 +39,13 @@ public class BlackSheepTest {
         terrain5.setID(5);
         terrain6.setID(6);
 
-        
         road1 = new Road(1);
         road2 = new Road(2);
         road3 = new Road(3);
         road4 = new Road(4);
         road5 = new Road(5);
         road6 = new Road(6);
-        
+
         try {
             road1.connectTerrainRoad(terrain0);
             road1.connectTerrainRoad(terrain1);
@@ -65,9 +60,9 @@ public class BlackSheepTest {
             road6.connectTerrainRoad(terrain0);
             road6.connectTerrainRoad(terrain6);
         } catch (TerrainBoundariesExeption ex) {
-            
+
         }
-        
+
         terrain0.getAdjacentRoads().add(road1);
         terrain0.getAdjacentRoads().add(road2);
         terrain0.getAdjacentRoads().add(road3);
@@ -80,43 +75,33 @@ public class BlackSheepTest {
         terrain4.getAdjacentRoads().add(road4);
         terrain5.getAdjacentRoads().add(road5);
         terrain6.getAdjacentRoads().add(road6);
-        
+
         bsheep = new BlackSheep(terrain0);
-        
+
     }
-   
+
     /**
      * Test per vedere se è dove inizializzata
      */
-  
-    
-    
     /**
      * Test per vedere se si muove quando si chiama funzione hasToMove
      */
-    
     @Test
     public void testHasToMove() {
         road1.setRoadNumber(2);
         Road road;
         try {
             road = bsheep.hasToMove(2);
-            assertSame(road1,road);
+            assertSame(road1, road);
         } catch (WrongDiceNumberException ex) {
             Logger.getLogger(BlackSheepTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-    }
-    
-      @Test
-    public void stayWhereInizialized() {
-        assertSame(terrain0,bsheep.getPosition());
-    }
-    
-}
-  
 
-    
-    
-  
+    }
+
+    @Test
+    public void stayWhereInizialized() {
+        assertSame(terrain0, bsheep.getPosition());
+    }
+
+}

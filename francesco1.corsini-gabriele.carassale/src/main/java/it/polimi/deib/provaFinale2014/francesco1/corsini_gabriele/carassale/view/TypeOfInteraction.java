@@ -13,26 +13,26 @@ public interface TypeOfInteraction {
     /**
      * Risveglia l'interfaccia e fa fare la mossa
      */
-    public void clickAction();
+    void clickAction();
 
     /**
      * Risveglia l'interfaccia e fa settare il nickname
      */
-    public void setNickname();
+    void setNickname();
 
     /**
      * Risveglia l'interfaccia e mostra un messaggio di errore
      *
      * @param message Messaggio da visualizzare
      */
-    public void errorMessage(String message);
+    void errorMessage(String message);
 
     /**
      * Risveglia l'interfaccia e fa posizionare il pastore
      *
      * @param idShepard Pastore da posizionare
      */
-    public void placeShepard(int idShepard);
+    void placeShepard(int idShepard);
 
     /**
      * Risveglia l'interfaccia e muove l'animale
@@ -40,7 +40,7 @@ public interface TypeOfInteraction {
      * @param idAnimal Animale da spostare, -1 BlackSheep, -2 Wolf
      * @param idTerrain Terreno destinazione
      */
-    public void refreshMoveAnimal(int idAnimal, int idTerrain);
+    void refreshMoveAnimal(int idAnimal, int idTerrain);
 
     /**
      * Risveglia l'interfaccia e aggiunge un animale
@@ -49,14 +49,14 @@ public interface TypeOfInteraction {
      * @param kind Tipo di animale da aggiungere: whiteSheep, ram, lamb, wolf,
      * blackSheep
      */
-    public void refreshAddAnimal(int idTerrain, String kind);
+    void refreshAddAnimal(int idTerrain, String kind);
 
     /**
      * Risveglia l'interfaccia e uccide un animale
      *
      * @param idAnimal Animale da uccidere
      */
-    public void refreshKillAnimal(int idAnimal);
+    void refreshKillAnimal(int idAnimal);
 
     /**
      * Risveglia l'interfaccia e trasforma un animale
@@ -64,7 +64,7 @@ public interface TypeOfInteraction {
      * @param idAnimal Animale da trasformare
      * @param kind Tipo di trasformazione finale: ram, whiteSheep
      */
-    public void refreshTransformAnimal(int idAnimal, String kind);
+    void refreshTransformAnimal(int idAnimal, String kind);
 
     /**
      * Risveglia l'interfaccia e cambia le carte
@@ -72,7 +72,7 @@ public interface TypeOfInteraction {
      * @param typeOfTerrain Tipo carta da cambiare
      * @param isSold True se venduta, False se comprata
      */
-    public void refreshCard(String typeOfTerrain, boolean isSold);
+    void refreshCard(String typeOfTerrain, boolean isSold);
 
     /**
      * Risveglia l'interfaccia e cambia i coin
@@ -88,7 +88,7 @@ public interface TypeOfInteraction {
      * @param idShepard Pastore da aggiungere
      * @param road Strada dove posizionare
      */
-    public void refreshAddShepard(int idShepard, int road);
+    void refreshAddShepard(int idShepard, int road);
 
     /**
      * Risveglia l'interfaccia e muove un pastore
@@ -96,6 +96,13 @@ public interface TypeOfInteraction {
      * @param idShepard Pastore da muoverer
      * @param road Strada destinazione
      */
-    public void refreshMoveShepard(int idShepard, int road);
+    void refreshMoveShepard(int idShepard, int road);
+
+    /**
+     * Invia un messaggio da far viusalizzare
+     *
+     * @param message Messaggio da visualizzare
+     */
+    void messageText(String message);
 
 }

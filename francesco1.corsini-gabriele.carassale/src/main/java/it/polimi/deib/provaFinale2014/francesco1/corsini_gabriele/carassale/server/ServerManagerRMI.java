@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.conn
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -30,9 +31,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     /**
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
-    public final static String SERVER_NAME = "ServerManagerRMI";
+    public static final String SERVER_NAME = "ServerManagerRMI";
 
-    public final static int PORT = 3001;
+    public static final int PORT = 3001;
 
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
@@ -54,14 +55,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = true;
 
         try {
-            System.out.println("Registering...");
+            System.out.println("RMI: Registrazione...");
 
             //Naming.bind(SERVER_NAME, this); OR
             UnicastRemoteObject.exportObject(this, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.rebind(SERVER_NAME, this);
 
-            System.out.println("Registered");
+            System.out.println("RMI: Registrato");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,7 +96,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @throws RemoteException
      */
     public String connect() throws RemoteException {
-        return "connected";
+        return StatusMessage.connected.toString();
     }
 
     /**
@@ -120,9 +121,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 runNewGame();
             }
 
-            return "playerAdded";
+            return StatusMessage.playerAdded.toString();
         }
-        return "noPlayerAdded";
+        return StatusMessage.noPlayerAdded.toString();
     }
 
     /**

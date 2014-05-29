@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+
 /**
  * Classe Percora che include pecore, agnelli e montoni
  *
@@ -7,14 +9,14 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
  */
 public class Sheep extends Animal {
 
+    //Età (numero di round) per far diventare vecchia la pecora
+    private static final int AGETOBECOMEOLD = 4;
+
     // questi attributi bastano per capire se una Sheep è un Lamb o Ram
     private int age;
     private String sex;
     private boolean old;
     private int id;
-
-    //Età (numero di round) per far diventare vecchia la pecora
-    private final static int AGETOBECOMEOLD = 4;
 
     /**
      *
@@ -48,9 +50,9 @@ public class Sheep extends Animal {
      */
     private String randomSex() {
         if (Math.random() < 0.5) {
-            return "female";
+            return TypeAnimal.female.toString();
         } else {
-            return "male";
+            return TypeAnimal.male.toString();
         }
     }
 
@@ -106,7 +108,7 @@ public class Sheep extends Animal {
      * @return True se è pecora bianca
      */
     public boolean isWhiteSheep() {
-        return old && "Female".equals(sex);
+        return old && TypeAnimal.female.toString().equals(sex);
     }
 
     /**
@@ -124,7 +126,7 @@ public class Sheep extends Animal {
      * @return True se è montone
      */
     public boolean isRam() {
-        return old == true && "Male".equals(sex);
+        return old == true && TypeAnimal.male.toString().equals(sex);
     }
 
     /**

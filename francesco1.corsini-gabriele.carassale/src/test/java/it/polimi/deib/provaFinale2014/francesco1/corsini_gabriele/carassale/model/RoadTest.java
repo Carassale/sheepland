@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Before;
@@ -20,23 +18,22 @@ import static org.junit.Assert.*;
 public class RoadTest {
 
     private static Road road;
-    private static Terrain terrain0,terrain1,terrain2;
-    
+    private static Terrain terrain0, terrain1, terrain2;
+
     @Before
     public void setUp() {
         road = new Road(1);
         terrain0 = new Terrain();
         terrain1 = new Terrain();
         terrain2 = new Terrain();
-        
-        
+
         try {
             road.connectTerrainRoad(terrain0);
             road.connectTerrainRoad(terrain1);
         } catch (TerrainBoundariesExeption ex) {
             Logger.getLogger(RoadTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**
@@ -44,7 +41,7 @@ public class RoadTest {
      */
     @Test
     public void testGetAdjacentTerrain1() {
-        assertEquals(terrain0,road.getAdjacentTerrain1());
+        assertEquals(terrain0, road.getAdjacentTerrain1());
     }
 
     /**
@@ -52,7 +49,7 @@ public class RoadTest {
      */
     @Test
     public void testGetAdjacentTerrain2() {
-        assertEquals(terrain1,road.getAdjacentTerrain2());
+        assertEquals(terrain1, road.getAdjacentTerrain2());
     }
 
     /**
@@ -94,11 +91,12 @@ public class RoadTest {
      */
     @Test
     public void testGetRoadNumber() {
-        assertEquals(1,road.getRoadNumber());
+        assertEquals(1, road.getRoadNumber());
     }
 
     /**
      * Test of connectTerrainRoad method, of class Road.
+     *
      * @throws TerrainBoundariesExeption
      */
     @Test(expected = TerrainBoundariesExeption.class)
@@ -106,6 +104,4 @@ public class RoadTest {
         road.connectTerrainRoad(terrain2);
     }
 
-   
-    
 }

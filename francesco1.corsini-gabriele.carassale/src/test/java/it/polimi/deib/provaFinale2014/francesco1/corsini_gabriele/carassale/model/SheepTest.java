@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,30 +16,31 @@ import static org.junit.Assert.*;
  * @author Fefa
  */
 public class SheepTest {
-    
+
     private static Sheep sheep;
     private static Terrain terrain0;
-    
+
     @BeforeClass
     public static void setUpClass() {
-        
+
     }
-    
+
     @Before
     public void setUp() {
         terrain0 = new Terrain();
-        sheep = new Sheep(terrain0, false,0);
-        for(int i=0;i<4;i++)
+        sheep = new Sheep(terrain0, false, 0);
+        for (int i = 0; i < 4; i++) {
             sheep.growUpOneTurn();
-        
+        }
+
     }
-    
+
     /**
      * Test of getAge method, of class Sheep.
      */
     @Test
     public void testGetAge() {
-        assertEquals(4,sheep.getAge());
+        assertEquals(4, sheep.getAge());
     }
 
     /**
@@ -48,7 +49,7 @@ public class SheepTest {
     @Test
     public void testSetAge() {
         sheep.setAge(0);
-        assertEquals(0,sheep.getAge());
+        assertEquals(0, sheep.getAge());
     }
 
     /**
@@ -56,10 +57,9 @@ public class SheepTest {
      */
     @Test
     public void testGetSexAndSetSex() {
-        sheep.setSex("Female");
-        assertEquals("Female",sheep.getSex());
+        sheep.setSex(TypeAnimal.female.toString());
+        assertEquals(TypeAnimal.female.toString(), sheep.getSex());
     }
-
 
     /**
      * Test of growUpOneTurn method, of class Sheep.
@@ -68,7 +68,7 @@ public class SheepTest {
     public void testGrowUpOneTurn() {
         sheep.setAge(0);
         sheep.growUpOneTurn();
-        assertEquals(1,sheep.getAge());
+        assertEquals(1, sheep.getAge());
     }
 
     /**
@@ -76,7 +76,7 @@ public class SheepTest {
      */
     @Test
     public void testIsWhiteSheep() {
-        sheep.setSex("Female");
+        sheep.setSex(TypeAnimal.female.toString());
         assertTrue(sheep.isWhiteSheep());
     }
 
@@ -95,7 +95,7 @@ public class SheepTest {
      */
     @Test
     public void testIsRam() {
-        sheep.setSex("Male");
+        sheep.setSex(TypeAnimal.male.toString());
         assertTrue(sheep.isRam());
     }
 
@@ -107,5 +107,4 @@ public class SheepTest {
         assertTrue(sheep.isOld());
     }
 
-    
 }

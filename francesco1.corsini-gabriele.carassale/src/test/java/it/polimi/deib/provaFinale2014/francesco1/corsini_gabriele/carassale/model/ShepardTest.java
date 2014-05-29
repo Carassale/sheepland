@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import org.junit.Before;
@@ -15,10 +14,10 @@ import static org.junit.Assert.*;
  * @author Francesco Corsini
  */
 public class ShepardTest {
-    
+
     private Map map;
     private Shepard shepard;
-    
+
     @Before
     public void setUp() {
         map = new Map();
@@ -31,7 +30,7 @@ public class ShepardTest {
      */
     @Test
     public void testGetPosition() {
-        assertSame(map.getRoads().get(1),shepard.getPosition());
+        assertSame(map.getRoads().get(1), shepard.getPosition());
     }
 
     /**
@@ -40,7 +39,7 @@ public class ShepardTest {
     @Test
     public void testSetPosition() {
         shepard.setPosition(map.getRoads().get(13));
-        assertSame(map.getRoads().get(13),shepard.getPosition());
+        assertSame(map.getRoads().get(13), shepard.getPosition());
     }
 
     /**
@@ -48,7 +47,7 @@ public class ShepardTest {
      */
     @Test
     public void testIsExpensiveMove() {
-       assertTrue(shepard.isExpensiveMove(map.getRoads().get(13)));
+        assertTrue(shepard.isExpensiveMove(map.getRoads().get(13)));
     }
-    
+
 }

@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
@@ -65,15 +68,15 @@ public class Player {
      * @return lista dei territori di quella tipologia
      */
     public ArrayList<TerrainCard> getTerrainCardsOwned(String string) {
-        if ("Plain".equals(string)) {
+        if (TypeCard.plain.toString().equals(string)) {
             return terrainCardsOwned.get(0);
-        } else if ("Forest".equals(string)) {
+        } else if (TypeCard.forest.toString().equals(string)) {
             return terrainCardsOwned.get(1);
-        } else if ("River".equals(string)) {
+        } else if (TypeCard.river.toString().equals(string)) {
             return terrainCardsOwned.get(2);
-        } else if ("Desert".equals(string)) {
+        } else if (TypeCard.desert.toString().equals(string)) {
             return terrainCardsOwned.get(3);
-        } else if ("Mountain".equals(string)) {
+        } else if (TypeCard.mountain.toString().equals(string)) {
             return terrainCardsOwned.get(4);
         } else {
             return terrainCardsOwned.get(5);
@@ -117,7 +120,7 @@ public class Player {
         if (canMove == true) {
             if (shepard.isExpensiveMove(destination)) {
                 if (coins == 0) {
-                    throw new CoinException("Non hai abbastanza soldi");
+                    throw new CoinException(Message.noMoney.toString());
                 } else {
                     coins--;
                 }
@@ -150,7 +153,7 @@ public class Player {
             sheep.setPosition(destination);
             sheep.getPosition().getAnimals().add(sheep);
         } else {
-            throw new MoveException("Non c'è Shepard sulla strada");
+            throw new MoveException(Message.noShepardOnTheRoad.toString());
         }
     }
 
@@ -171,11 +174,11 @@ public class Player {
                 //e inizializza la nuova pecora con l'id successivo
                 Sheep sheep = new Sheep(terrain, false, i + 1);
             } else {
-                throw new MoveException("Non c'è vicino un pastore");
+                throw new MoveException(Message.noNearShepard.toString());
             }
 
         } else {
-            throw new MoveException("Non ci sono una pecora ed un montone nel territorio");
+            throw new MoveException(Message.noJoinableAnimal.toString());
         }
     }
 
@@ -224,10 +227,10 @@ public class Player {
                     throw new WrongDiceNumberException(random);
                 }
             } else {
-                throw new MoveException("Non c'è vicino un pastore");
+                throw new MoveException(Message.noNearShepard.toString());
             }
         } else {
-            throw new CoinException("Non abbastanza soldi per comprare silenzio di tutti i pastori");
+            throw new CoinException(Message.noMoneyForMafia.toString());
         }
 
     }
@@ -293,7 +296,7 @@ public class Player {
         }
 
         if (!isShepard) {
-            throw new MoveException("Non esiste strada che comunica tra questi due territori");
+            throw new MoveException(Message.noRoadComunicat.toString());
         }
 
         return shepPos;
@@ -460,7 +463,7 @@ public class Player {
         }
 
         if ("".equals(actionDone[1])) {
-            if ((action.equals(actionDone[0]) && "moveShepard".equals(action))
+            if ((action.equals(actionDone[0]) && TypeAction.moveShepard.toString().equals(action))
                     || (!action.equals(actionDone[0]))) {
                 actionDone[1] = action;
                 return true;
@@ -468,14 +471,14 @@ public class Player {
         }
 
         if ("".equals(actionDone[2])) {
-            if (action.equals(actionDone[1]) && "moveShepard".equals(action)) {
+            if (action.equals(actionDone[1]) && TypeAction.moveShepard.toString().equals(action)) {
                 cleanActionDone();
                 return true;
             }
 
-            if ("moveShepard".equals(action)
-                    || ("moveShepard".equals(actionDone[0]) && !action.equals(actionDone[1]))
-                    || ("moveShepard".equals(actionDone[1]))) {
+            if (TypeAction.moveShepard.toString().equals(action)
+                    || (TypeAction.moveShepard.toString().equals(actionDone[0]) && !action.equals(actionDone[1]))
+                    || (TypeAction.moveShepard.toString().equals(actionDone[1]))) {
                 cleanActionDone();
                 return true;
             }
@@ -519,10 +522,10 @@ public class Player {
                     throw new WrongDiceNumberException(num);
                 }
             } else {
-                throw new MoveException("Non c'è vicino un pastore");
+                throw new MoveException(Message.noNearShepard.toString());
             }
         } else {
-            throw new CoinException("Non abbastanza soldi per comprare il silenzio di tutti i pastori");
+            throw new CoinException(Message.noMoneyForMafia.toString());
         }
 
     }

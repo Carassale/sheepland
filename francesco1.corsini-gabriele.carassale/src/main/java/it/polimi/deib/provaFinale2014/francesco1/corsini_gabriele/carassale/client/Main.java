@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.LineCommand;
@@ -23,19 +24,21 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    private final static int PORT_SOCKET = 3002;
-    private final static int PORT_RMI = 3001;
-    private final static String address = "localhost";
+    private static final int PORT_SOCKET = 3002;
+    private static final int PORT_RMI = 3001;
+    private static final String address = "localhost";
+
+    private String SOCKET = "socket";
+    private String RMI = "rmi";
 
     /**
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
-    public final static String SERVER_NAME = "ServerManagerRMI";
-
-    private boolean connected;
+    public static final String SERVER_NAME = "ServerManagerRMI";
 
     ConnectionClient connectionClient;
 
+    private boolean connected;
     private String nickname;
 
     /**
@@ -52,9 +55,9 @@ public class Main {
      * connessione e il tipo di interazione.
      */
     public Main() {
+        Scanner keyboard = new Scanner(System.in);
         connected = false;
         connectionClient = null;
-        Scanner keyboard = new Scanner(System.in);
 
         System.out.println("Messaggio di Benvenuto");
 
@@ -70,9 +73,9 @@ public class Main {
         } while (typeConnection < 1 || typeConnection > 2);
 
         if (typeConnection == 1) {
-            connectToServer("Socket");
+            connectToServer(SOCKET);
         } else {
-            connectToServer("RMI");
+            connectToServer(RMI);
         }
 
         int typeView = 0;
@@ -106,11 +109,11 @@ public class Main {
      */
     private void connectToServer(String typeConnection) {
         connected = false;
-        if ("Socket".equals(typeConnection)) {
+        if (SOCKET.equals(typeConnection)) {
             while (!connected) {
                 tryConnectionSocket();
             }
-        } else {
+        } else if (RMI.equals(typeConnection)) {
             while (!connected) {
                 tryConnectionRMI();
             }
@@ -157,7 +160,7 @@ public class Main {
 
             s = serverRMI.connect();
 
-            if ("connected".equals(s)) {
+            if (StatusMessage.connected.toString().equals(s)) {
                 connected = true;
 
                 connectionClient = new ConnectionClientRMI(nickname);
@@ -166,7 +169,7 @@ public class Main {
                 do {
                     //invia al server lo skeleton del client
                     status = serverRMI.addClient((ClientRMI) connectionClient);
-                } while (!"playerAdded".equals(status));
+                } while (!StatusMessage.playerAdded.toString().equals(status));
 
             }
 

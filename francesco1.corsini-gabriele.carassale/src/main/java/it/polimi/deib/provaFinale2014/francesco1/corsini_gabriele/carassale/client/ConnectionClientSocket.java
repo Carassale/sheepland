@@ -1,5 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,7 +21,6 @@ import java.util.logging.Logger;
  */
 public class ConnectionClientSocket implements ConnectionClient {
 
-    private Socket socket;
     private BufferedReader inSocket;
     private PrintWriter outSocket;
 
@@ -36,7 +37,6 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @throws ClassNotFoundException
      */
     public ConnectionClientSocket(Socket socket) throws IOException, ClassNotFoundException {
-        this.socket = socket;
         this.typeOfInteraction = null;
 
         inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -59,35 +59,37 @@ public class ConnectionClientSocket implements ConnectionClient {
         while (true) {
             try {
                 String s = inSocket.readLine();
-                if ("wakeUp".equals(s)) {
+                if (TypeAction.wakeUp.toString().equals(s)) {
                     typeOfInteraction.clickAction();
-                } else if ("setNikcnam".equals(s)) {
+                } else if (TypeAction.setNikcnam.toString().equals(s)) {
                     typeOfInteraction.setNickname();
-                } else if ("errorCoin".equals(s)) {
+                } else if (TypeAction.errorCoin.toString().equals(s)) {
                     errorCoin();
-                } else if ("errorMove".equals(s)) {
+                } else if (TypeAction.errorMove.toString().equals(s)) {
                     errorMove();
-                } else if ("errorDice".equals(s)) {
+                } else if (TypeAction.errorDice.toString().equals(s)) {
                     errorDice();
-                } else if ("placeShepard".equals(s)) {
+                } else if (TypeAction.placeShepard.toString().equals(s)) {
                     Integer idShepard = new Integer(inSocket.readLine());
                     typeOfInteraction.placeShepard(idShepard);
-                } else if ("refreshMoveAnimal".equals(s)) {
+                } else if (TypeAction.refreshMoveAnimal.toString().equals(s)) {
                     refreshMoveAnimal();
-                } else if ("refreshAddAnimal".equals(s)) {
+                } else if (TypeAction.refreshAddAnimal.toString().equals(s)) {
                     refreshAddAnimal();
-                } else if ("refreshKillAnimal".equals(s)) {
+                } else if (TypeAction.refreshKillAnimal.toString().equals(s)) {
                     refreshKillAnimal();
-                } else if ("refreshTransformAnimal".equals(s)) {
+                } else if (TypeAction.refreshTransformAnimal.toString().equals(s)) {
                     refreshTransformAnimal();
-                } else if ("refreshAddShepard".equals(s)) {
+                } else if (TypeAction.refreshAddShepard.toString().equals(s)) {
                     refreshAddShepard();
-                } else if ("refreshMoveShepard".equals(s)) {
+                } else if (TypeAction.refreshMoveShepard.toString().equals(s)) {
                     refreshMoveShepard();
-                } else if ("refreshCard".equals(s)) {
+                } else if (TypeAction.refreshCard.toString().equals(s)) {
                     refreshCard();
-                } else if ("refreshCoin".equals(s)) {
+                } else if (TypeAction.refreshCoin.toString().equals(s)) {
                     refreshCoin();
+                } else if (TypeAction.messageText.toString().equals(s)) {
+                    messageText();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,21 +111,21 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Stampa un errore, oggetto: Coin
      */
     public void errorCoin() {
-        typeOfInteraction.errorMessage("Impossibile fare la mossa! Non hai abbastanza soldi.");
+        typeOfInteraction.errorMessage(Message.impossibleNoMoney.toString());
     }
 
     /**
      * Stampa un errore, oggetto: Move
      */
     public void errorMove() {
-        typeOfInteraction.errorMessage("Impossibile fare la mossa! Movimento non valido.");
+        typeOfInteraction.errorMessage(Message.impossibleMove.toString());
     }
 
     /**
      * Stampa un errore, oggetto: Dice
      */
     public void errorDice() {
-        typeOfInteraction.errorMessage("Impossibile fare la mossa! Errore dado.");
+        typeOfInteraction.errorMessage(Message.impossibleDice.toString());
     }
 
     /**
@@ -264,7 +266,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idRoad Strada destinazione
      */
     public void moveShepard(int idShepard, int idRoad) {
-        outSocket.println("moveShepard");
+        outSocket.println(TypeAction.moveShepard.toString());
         outSocket.flush();
 
         outSocket.println(idShepard);
@@ -281,7 +283,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idTerrain Terreno destinazione
      */
     public void moveSheep(int idSheep, int idTerrain) {
-        outSocket.println("moveSheep");
+        outSocket.println(TypeAction.moveSheep.toString());
         outSocket.flush();
 
         outSocket.println(idSheep);
@@ -297,7 +299,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param typeOfTerrain Tipo di carta
      */
     public void buyCard(String typeOfTerrain) {
-        outSocket.println("buyCard");
+        outSocket.println(TypeAction.buyCard.toString());
         outSocket.flush();
 
         outSocket.println(typeOfTerrain);
@@ -310,7 +312,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idSheep Pecora da uccidere
      */
     public void killSheep(int idSheep) {
-        outSocket.println("killSheep");
+        outSocket.println(TypeAction.killSheep.toString());
         outSocket.flush();
 
         outSocket.println(idSheep);
@@ -323,11 +325,17 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idTerrain Terreno in cui si trovano pecora e montone
      */
     public void joinSheep(int idTerrain) {
-        outSocket.println("joinShepard");
+        outSocket.println(TypeAction.joinSheep.toString());
         outSocket.flush();
 
         outSocket.println(idTerrain);
         outSocket.flush();
     }
 
+    /**
+     * Invia un messaggio al client
+     */
+    private void messageText() {
+        typeOfInteraction.messageText(inSocket.read());
+    }
 }

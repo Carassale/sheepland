@@ -21,8 +21,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     private TypeOfInteraction typeOfInteraction;
 
-    private final static int PORT = 3001;
-    private String nickname;
+    private static final int PORT = 3001;
 
     /**
      * Questa variabile server solo per il metodo placeShepard, serve per
@@ -43,8 +42,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @throws java.rmi.RemoteException
      */
     public ConnectionClientRMI(String nickname) throws RemoteException {
-        this.nickname = nickname;
-
         try {
             Registry registry = LocateRegistry.getRegistry(PORT);
             registry.rebind(nickname, this);
@@ -85,7 +82,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @param nickname Stringa da settare
      */
     public void setNickname(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**

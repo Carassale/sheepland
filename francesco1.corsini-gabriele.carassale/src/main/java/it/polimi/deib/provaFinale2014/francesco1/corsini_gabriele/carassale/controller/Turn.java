@@ -22,6 +22,8 @@ public class Turn {
 
     /**
      * Costruttore solo per eseguire i Test(non ha il connectionManager)
+     * @param isLastTurn
+     * @param gameTable
      */
     public Turn(boolean isLastTurn, GameTable gameTable) {
         connectionManager = null;

@@ -9,6 +9,8 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,33 +40,36 @@ public class PlayerTest {
      * Compro una carta Pianura e poi testo di avere una carta Pianura. Poi ne
      * compro un altra
      *
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
      */
     @Test
     public void testBuyTerrainCard() throws CoinException {
-        assertEquals(0, player.getTerrainCardsOwned("Plain").size());
-        assertEquals(5, game.getTerrainCardPool("Plain").size());
+        assertEquals(0, player.getTerrainCardsOwned(TypeCard.plain.toString()).size());
+        assertEquals(5, game.getTerrainCardPool(TypeCard.plain.toString()).size());
 
-        player.buyTerrainCard("Plain", game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
 
-        assertEquals(1, player.getTerrainCardsOwned("Plain").size());
-        assertEquals(4, game.getTerrainCardPool("Plain").size());
+        assertEquals(1, player.getTerrainCardsOwned(TypeCard.plain.toString()).size());
+        assertEquals(4, game.getTerrainCardPool(TypeCard.plain.toString()).size());
     }
 
     /**
      * test per vedere se vengono scalati i soldi in modo giusto quando compro
      * Carta
      *
-     * @throws Exception
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
      */
     @Test
     public void testBuyTerrainCardCoins() throws CoinException {
 
         assertEquals(20, player.getCoins());
-        player.buyTerrainCard("Plain", game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
         assertEquals(20, player.getCoins());
-        player.buyTerrainCard("Plain", game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
         assertEquals(19, player.getCoins());
-        player.buyTerrainCard("Plain", game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
         assertEquals(17, player.getCoins());
     }
 
@@ -76,8 +81,8 @@ public class PlayerTest {
     @Test(expected = CoinException.class)
     public void testBuyTerrainCardExeption() throws CoinException {
         player.setCoins(0);
-        player.buyTerrainCard("Plain", game);
-        player.buyTerrainCard("Plain", game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.plain.toString(), game);
     }
 
     /**
@@ -120,7 +125,10 @@ public class PlayerTest {
     /**
      * Test che muove shepard in strada con una Fence sopra
      *
-     * @throws Exception
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
      */
     @Test(expected = MoveException.class)
     public void testMoveShepard4() throws MoveException, CoinException {
@@ -131,7 +139,10 @@ public class PlayerTest {
     /**
      * Test che muove shepard in strada con uno Shepard sopra
      *
-     * @throws Exception
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
      */
     @Test(expected = MoveException.class)
     public void testMoveShepard5() throws MoveException, CoinException {
@@ -171,6 +182,11 @@ public class PlayerTest {
     /**
      * Test che muove sheep e fallisce poichè non i due territori non sono
      * confinanti
+     *
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
      */
     @Test(expected = MoveException.class)
     public void testMoveSheep3() throws MoveException, CoinException {
@@ -192,8 +208,8 @@ public class PlayerTest {
         terrain.getAnimals().clear();
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex("Male");
-        sheep1.setSex("Female");
+        sheep2.setSex(TypeAnimal.male.toString());
+        sheep1.setSex(TypeAnimal.female.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 
@@ -213,8 +229,8 @@ public class PlayerTest {
         Terrain terrain = game.getMap().getTerrain().get(16);
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex("Male");
-        sheep1.setSex("Male");
+        sheep2.setSex(TypeAnimal.male.toString());
+        sheep1.setSex(TypeAnimal.male.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 
@@ -231,8 +247,8 @@ public class PlayerTest {
         Terrain terrain = game.getMap().getTerrain().get(10);
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex("Male");
-        sheep1.setSex("Female");
+        sheep2.setSex(TypeAnimal.male.toString());
+        sheep1.setSex(TypeAnimal.female.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 

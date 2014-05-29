@@ -1,5 +1,8 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
@@ -144,21 +147,21 @@ public class GameController {
         String kind = "";
         for (Sheep sheep : gameTable.getSheeps()) {
             if (sheep.isLamb()) {
-                kind = "lamb";
+                kind = TypeAnimal.lamb.toString();
             } else if (sheep.isRam()) {
-                kind = "ram";
+                kind = TypeAnimal.ram.toString();
             } else {
-                kind = "whiteSheep";
+                kind = TypeAnimal.whiteSheep.toString();
             }
 
             connectionManager.refreshAddAnimal(sheep.getPosition().getID(), kind);
         }
 
         Animal wolf = gameTable.getWolf();
-        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), "wolf");
+        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), TypeAnimal.wolf.toString());
 
         Animal blackSheep = gameTable.getBlacksheep();
-        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), "blackSheep");
+        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), TypeAnimal.blackSheep.toString());
     }
 
     /**
@@ -261,7 +264,7 @@ public class GameController {
                             alredyPicked[random] = true;
                             playerHasPicked = true;
                         } else {
-                            throw new NullPointerException("errore distribuzione carte");
+                            throw new NullPointerException(Message.errorDistributeCard.toString());
                         }
                     } catch (CoinException ex) {
                         Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
@@ -309,17 +312,17 @@ public class GameController {
     private String matchNumToTerrainKind(int random) {
         String terrainKind = null;
         if (random == 0) {
-            terrainKind = "Plain";
+            terrainKind = TypeCard.plain.toString();
         } else if (random == 1) {
-            terrainKind = "Forest";
+            terrainKind = TypeCard.forest.toString();
         } else if (random == 2) {
-            terrainKind = "River";
+            terrainKind = TypeCard.river.toString();
         } else if (random == 3) {
-            terrainKind = "Desert";
+            terrainKind = TypeCard.desert.toString();
         } else if (random == 4) {
-            terrainKind = "Mountain";
+            terrainKind = TypeCard.mountain.toString();
         } else if (random == 5) {
-            terrainKind = "Field";
+            terrainKind = TypeCard.field.toString();
         }
         return terrainKind;
     }

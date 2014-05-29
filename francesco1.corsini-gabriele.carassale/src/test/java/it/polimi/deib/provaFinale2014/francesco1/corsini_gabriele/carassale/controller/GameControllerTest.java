@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -38,7 +39,7 @@ public class GameControllerTest {
         } else {
             assertSame(terrainWherePlaced, wolf.getPosition());
         }
-        
+
         boolean wolfHasEat = gameController.tryEatSheep();
         if (wolfHasEat) {
             assertEquals(0, wolf.getPosition().getAnimals().size());
@@ -82,12 +83,12 @@ public class GameControllerTest {
     public void testDistributeCards() {
         //6 giocatori implica che tutte le tipologie di Card sono state distribuite quindi ce ne saranno solo 4 in ogni pool
         gameController = new GameController(6);
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Plain").size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Forest").size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("River").size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Desert").size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Mountain").size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool("Field").size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.plain.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.forest.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.river.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.desert.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.mountain.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.field.toString()).size());
     }
 
     /**

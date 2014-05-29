@@ -22,7 +22,7 @@ public class ServerManagerSocket implements ServerManager {
     /**
      * È la porta sulla quale avvengono le comunicazioni tra client e server
      */
-    private final static int PORT = 3002;
+    private static final int PORT = 3002;
     /**
      * È la lista dei giocatori in attesa (sempre minore di PLAYER4GAME), è
      * static perchè condivisa con il thread parallelo per l'avvio forzato della

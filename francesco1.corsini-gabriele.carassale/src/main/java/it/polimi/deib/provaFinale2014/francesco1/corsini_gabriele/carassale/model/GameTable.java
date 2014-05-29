@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
 
 /**
@@ -97,18 +98,18 @@ public class GameTable {
      * Metodo che ritorna l'array della tipologia di TerrainCard desiderata
      *
      * @param string tipologia terreno della carta
-     * @return ArrayList<TerrainCard> che si desidera
+     * @return ArrayList TerrainCard che si desidera
      */
     public ArrayList<TerrainCard> getTerrainCardPool(String string) {
-        if ("Plain".equals(string)) {
+        if (TypeCard.plain.toString().equals(string)) {
             return terrainCardPool.get(0);
-        } else if ("Forest".equals(string)) {
+        } else if (TypeCard.forest.toString().equals(string)) {
             return terrainCardPool.get(1);
-        } else if ("River".equals(string)) {
+        } else if (TypeCard.river.toString().equals(string)) {
             return terrainCardPool.get(2);
-        } else if ("Desert".equals(string)) {
+        } else if (TypeCard.desert.toString().equals(string)) {
             return terrainCardPool.get(3);
-        } else if ("Mountain".equals(string)) {
+        } else if (TypeCard.mountain.toString().equals(string)) {
             return terrainCardPool.get(4);
         } else {
             return terrainCardPool.get(5);
@@ -148,27 +149,27 @@ public class GameTable {
             TerrainCard terCar = new TerrainCard();
             terCar.setId(i);
             if (i <= 4) {
-                terCar.setTerrainType("Plain");
+                terCar.setTerrainType(TypeCard.plain.toString());
                 terrainCardPool.get(0).add(terCar);
             }
             if (i >= 5 && i <= 9) {
-                terCar.setTerrainType("Forest");
+                terCar.setTerrainType(TypeCard.forest.toString());
                 terrainCardPool.get(1).add(terCar);
             }
             if (i >= 10 && i <= 14) {
-                terCar.setTerrainType("River");
+                terCar.setTerrainType(TypeCard.river.toString());
                 terrainCardPool.get(2).add(terCar);
             }
             if (i >= 15 && i <= 19) {
-                terCar.setTerrainType("Desert");
+                terCar.setTerrainType(TypeCard.desert.toString());
                 terrainCardPool.get(3).add(terCar);
             }
             if (i >= 20 && i <= 24) {
-                terCar.setTerrainType("Mountain");
+                terCar.setTerrainType(TypeCard.mountain.toString());
                 terrainCardPool.get(4).add(terCar);
             }
             if (i >= 25 && i <= 30) {
-                terCar.setTerrainType("Field");
+                terCar.setTerrainType(TypeCard.field.toString());
                 terrainCardPool.get(5).add(terCar);
             }
 

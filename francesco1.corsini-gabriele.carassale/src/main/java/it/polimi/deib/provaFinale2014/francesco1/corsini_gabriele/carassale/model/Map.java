@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -69,19 +70,19 @@ public class Map {
         ter.setID(i);
         ter.setSheepsbourg(false);
         if (i <= 2) {
-            ter.setTerrainType("Plain");
+            ter.setTerrainType(TypeCard.plain.toString());
         } else if (i >= 3 && i <= 5) {
-            ter.setTerrainType("Forest");
+            ter.setTerrainType(TypeCard.forest.toString());
         } else if (i >= 6 && i <= 8) {
-            ter.setTerrainType("River");
+            ter.setTerrainType(TypeCard.river.toString());
         } else if (i >= 9 && i <= 11) {
-            ter.setTerrainType("Desert");
+            ter.setTerrainType(TypeCard.desert.toString());
         } else if (i >= 12 && i <= 14) {
-            ter.setTerrainType("Mountain");
+            ter.setTerrainType(TypeCard.mountain.toString());
         } else if (i >= 15 && i <= 17) {
-            ter.setTerrainType("Field");
+            ter.setTerrainType(TypeCard.field.toString());
         } else {
-            ter.setTerrainType("Sheepsbourg");
+            ter.setTerrainType(TypeCard.sheepsbourg.toString());
             ter.setSheepsbourg(true);
         }
         return ter;

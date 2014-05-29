@@ -9,6 +9,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -24,7 +27,7 @@ import java.util.logging.Logger;
  */
 public class ConnectionManagerRMI extends UnicastRemoteObject implements ConnectionManager, ConnectionRMI, Serializable, Runnable {
 
-    private final static int NUMACTION = 3;
+    private static final int NUMACTION = 3;
     private final ArrayList<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
@@ -291,7 +294,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte idRoad nell'oggetto Road associato
         Road r = gameController.getGameTable().idToRoad(idRoad);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.moveShepard.toString())) {
             try {
                 boolean refreshCoin = false;
                 if (s.isExpensiveMove(r)) {
@@ -312,10 +315,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
-            return "Mossa effettua";
+            return StatusMessage.actionOK.toString();
         } else {
             doRepeatAction = true;
-            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+            return StatusMessage.actionError.toString();
         }
     }
 
@@ -334,7 +337,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveSheep")) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.moveSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
                 refreshMoveAnimal(idSheep, idTerrain);
@@ -344,10 +347,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
-            return "Mossa effettua";
+            return StatusMessage.actionOK.toString();
         } else {
             doRepeatAction = true;
-            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+            return StatusMessage.actionError.toString();
         }
     }
 
@@ -359,7 +362,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @throws RemoteException
      */
     public String buyCard(String typeOfTerrain) throws RemoteException {
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("buyCard")) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.buyCard.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
                 refreshCard(typeOfTerrain, false);
@@ -369,10 +372,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
-            return "Mossa effettua";
+            return StatusMessage.actionOK.toString();
         } else {
             doRepeatAction = true;
-            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+            return StatusMessage.actionError.toString();
         }
     }
 
@@ -387,20 +390,20 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("joinSheep")) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.joinSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-                refreshAddAnimal(idTerrain, "lamb");
+                refreshAddAnimal(idTerrain, TypeAnimal.lamb.toString());
                 canDoAction = true;
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
-            return "Mossa effettua";
+            return StatusMessage.actionOK.toString();
         } else {
             doRepeatAction = true;
-            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+            return StatusMessage.actionError.toString();
         }
     }
 
@@ -415,7 +418,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte sheep nell'oggetto Sheep associato
         Sheep sheep = gameController.getGameTable().idToSheep(idSheep);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("killSheep")) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.killSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
                 refreshKillAnimal(idSheep);
@@ -433,10 +436,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
             }
-            return "Mossa effettua";
+            return StatusMessage.actionOK.toString();
         } else {
             doRepeatAction = true;
-            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+            return StatusMessage.actionError.toString();
         }
     }
 
