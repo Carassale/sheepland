@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -110,7 +108,6 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         PMainEast.setLayout(new BorderLayout());
         PMainEast.add(PMainEastNorth = new JPanel(), BorderLayout.NORTH);
         PMainEastNorth.setLayout(new GridLayout(4, 1));
-        
 
         try {
             PMainEast.add(PSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png"), BorderLayout.CENTER);
@@ -153,31 +150,31 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         BMoveShepard = new JButton("Muovi Pastore");
         BMoveShepard.addActionListener(new StaticActionListener(this));
-        BMoveShepard.setActionCommand("MoveShepard");
+        BMoveShepard.setActionCommand(TypeAction.moveShepard.toString());
         PActions.add(BMoveShepard);
         BMoveShepard.setEnabled(false);
 
         BMoveSheep = new JButton("Muovi Pecora");
         BMoveSheep.addActionListener(new StaticActionListener(this));
-        BMoveSheep.setActionCommand("MoveSheep");
+        BMoveSheep.setActionCommand(TypeAction.moveSheep.toString());
         PActions.add(BMoveSheep);
         BMoveSheep.setEnabled(false);
 
         BBuyCard = new JButton("Compra Carta");
         BBuyCard.addActionListener(new StaticActionListener(this));
-        BBuyCard.setActionCommand("BuyCard");
+        BBuyCard.setActionCommand(TypeAction.buyCard.toString());
         PActions.add(BBuyCard);
         BBuyCard.setEnabled(false);
 
         BJoinSheeps = new JButton("Accoppia Ovini");
         BJoinSheeps.addActionListener(new StaticActionListener(this));
-        BJoinSheeps.setActionCommand("JoinSheeps");
+        BJoinSheeps.setActionCommand(TypeAction.joinSheep.toString());
         PActions.add(BJoinSheeps);
         BJoinSheeps.setEnabled(false);
 
         BKillSheep = new JButton("Abbatti Ovino");
         BKillSheep.addActionListener(new StaticActionListener(this));
-        BKillSheep.setActionCommand("KillSheep");
+        BKillSheep.setActionCommand(TypeAction.killSheep.toString());
         PActions.add(BKillSheep);
         BKillSheep.setEnabled(false);
 
@@ -211,12 +208,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         BDesert.addActionListener(new StaticTerrainTypeListener(GUI));
         BMountain.addActionListener(new StaticTerrainTypeListener(GUI));
         BField.addActionListener(new StaticTerrainTypeListener(GUI));
-        BPlain.setActionCommand("plain");
-        BForest.setActionCommand("forest");
-        BRiver.setActionCommand("river");
-        BDesert.setActionCommand("desert");
-        BMountain.setActionCommand("mountain");
-        BField.setActionCommand("field");
+        BPlain.setActionCommand(TypeCard.plain.toString());
+        BForest.setActionCommand(TypeCard.forest.toString());
+        BRiver.setActionCommand(TypeCard.river.toString());
+        BDesert.setActionCommand(TypeCard.desert.toString());
+        BMountain.setActionCommand(TypeCard.mountain.toString());
+        BField.setActionCommand(TypeCard.field.toString());
         PTerrainType.add(BPlain);
         PTerrainType.add(BForest);
         PTerrainType.add(BRiver);
@@ -241,17 +238,16 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         Toolkit tk = Toolkit.getDefaultToolkit();
         int xSize = ((int) tk.getScreenSize().getWidth());
         int ySize = ((int) tk.getScreenSize().getHeight());
-        Dimension dim = new Dimension(xSize,ySize);
-        
+        Dimension dim = new Dimension(xSize, ySize);
+
         setMaximumSize(dim);
         setMinimumSize(dim);
-
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
         pack();
-        
+
         Dimension size = BMoveShepard.getSize();
         BMoveShepard.setMaximumSize(size);
         BMoveShepard.setMinimumSize(size);
@@ -432,22 +428,22 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void refreshCard(String typeOfTerrain, boolean isSold) {
 
-        if ("Plain".equals(typeOfTerrain)) {
+        if (TypeCard.plain.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(0, isSold);
             LTerrainCards[0].setText("Carte Pianura: " + cards[0]);
-        } else if ("Forest".equals(typeOfTerrain)) {
+        } else if (TypeCard.forest.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(1, isSold);
             LTerrainCards[1].setText("Carte Foresta: " + cards[1]);
-        } else if ("River".equals(typeOfTerrain)) {
+        } else if (TypeCard.river.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(2, isSold);
             LTerrainCards[2].setText("Carte Fiume: " + cards[2]);
-        } else if ("Desert".equals(typeOfTerrain)) {
+        } else if (TypeCard.desert.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(3, isSold);
             LTerrainCards[3].setText("Carte Deserto: " + cards[3]);
-        } else if ("Mountain".equals(typeOfTerrain)) {
+        } else if (TypeCard.mountain.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(4, isSold);
             LTerrainCards[4].setText("Carte Montagna: " + cards[4]);
-        } else if ("Field".equals(typeOfTerrain)) {
+        } else if (TypeCard.field.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(5, isSold);
             LTerrainCards[5].setText("Carte Campi: " + cards[5]);
         }
@@ -493,11 +489,13 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void refreshAddAnimal(int terrain, String animalType) {
         int i = animals.size();
-        if ("wolf".equals(animalType)) {
+        if (TypeAnimal.wolf.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
-        } else if ("blackSheep".equals(animalType)) {
+        } else if (TypeAnimal.blackSheep.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-1, 18));
-        } else if ("whiteSheep".equals(animalType) || "ram".equals(animalType) || "lamb".equals(animalType)) {
+        } else if (TypeAnimal.whiteSheep.toString().equals(animalType)
+                || TypeAnimal.ram.toString().equals(animalType)
+                || TypeAnimal.lamb.toString().equals(animalType)) {
             animals.add(new ViewAnimal(i, terrain, animalType));
             LAction2.setText("E' nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
         }

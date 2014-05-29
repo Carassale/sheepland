@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import java.awt.event.ActionEvent;
@@ -29,16 +24,14 @@ public class GUIDinamicSheepListener extends JFrame implements ActionListener {
         if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
             GUI.setSubMenuOpen(terrain);
             GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
-        }
-        //nel caso ci sia un submenù già aperto allora lo chiudo
+        } //nel caso ci sia un submenù già aperto allora lo chiudo
         else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
             int i = GUI.getSubMenuOpen();
-            if(i == terrain){
+            if (i == terrain) {
                 GUI.activateSubMenuSheep(terrain, false);
-            }
-            else{
-            GUI.activateSubMenuSheep(i,false);
-            GUI.setSubMenuOpen(terrain);
+            } else {
+                GUI.activateSubMenuSheep(i, false);
+                GUI.setSubMenuOpen(terrain);
             }
         }
     }

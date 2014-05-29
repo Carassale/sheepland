@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 /**
@@ -11,13 +5,13 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
  * @author Francesco Corsini
  */
 public class ViewShepard {
-    
+
     private int id;
     private int position;
     private boolean isOwned;
     private boolean isFirst;
-    
-    public ViewShepard(int id, int road){
+
+    public ViewShepard(int id, int road) {
         this.id = id;
         this.position = road;
     }
@@ -38,7 +32,6 @@ public class ViewShepard {
         this.position = postition;
     }
 
-
     public boolean getIsOwned() {
         return isOwned;
     }
@@ -54,8 +47,5 @@ public class ViewShepard {
     public void setIsFirst(boolean isFirst) {
         this.isFirst = isFirst;
     }
-    
-    
 
-    
 }

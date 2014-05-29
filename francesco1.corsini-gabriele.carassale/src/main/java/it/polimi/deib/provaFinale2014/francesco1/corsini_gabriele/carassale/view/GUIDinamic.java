@@ -1,15 +1,15 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -40,7 +40,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private ImageIcon desertCards[] = new ImageIcon[6];
     private ImageIcon mountainCards[] = new ImageIcon[6];
     private ImageIcon fieldCards[] = new ImageIcon[6];
-    
+
     private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
     //se -1 vuol dire che nussun submenu è aperto
@@ -92,7 +92,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     private void createSheepButtons() {
-        
+
+        int offset = 20;
         for (int i = 0; i <= 18; i++) {
             jbuttonSheeps[i] = new DinamicSheepButton();
             setBackGroundInvisible(jbuttonSheeps[i]);
@@ -100,43 +101,43 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             layeredPane.add(jbuttonSheeps[i], new Integer(3));
             jbuttonSheeps[i].setSize(100, 100);
             if (i == 0) {// la prima è la x, la seconda è la y(parte dall'alto)
-                jbuttonSheeps[i].setLocation(165, 110);
+                jbuttonSheeps[i].setLocation(165 + offset, 110 + offset);
             } else if (i == 1) {
-                jbuttonSheeps[i].setLocation(220, 280);
+                jbuttonSheeps[i].setLocation(220 + offset, 280 + offset);
             } else if (i == 2) {
-                jbuttonSheeps[i].setLocation(340, 350);
+                jbuttonSheeps[i].setLocation(340 + offset, 350 + offset);
             } else if (i == 3) {
-                jbuttonSheeps[i].setLocation(220, 410);
+                jbuttonSheeps[i].setLocation(220 + offset, 410 + offset);
             } else if (i == 4) {
-                jbuttonSheeps[i].setLocation(320, 460);
+                jbuttonSheeps[i].setLocation(320 + offset, 460 + offset);
             } else if (i == 5) {
-                jbuttonSheeps[i].setLocation(450, 380);
+                jbuttonSheeps[i].setLocation(450 + offset, 380 + offset);
             } else if (i == 6) {
-                jbuttonSheeps[i].setLocation(440, 500);
+                jbuttonSheeps[i].setLocation(440 + offset, 500 + offset);
             } else if (i == 7) {
-                jbuttonSheeps[i].setLocation(570, 460);
+                jbuttonSheeps[i].setLocation(570 + offset, 460 + offset);
             } else if (i == 8) {
-                jbuttonSheeps[i].setLocation(570, 330);
+                jbuttonSheeps[i].setLocation(570 + offset, 330 + offset);
             } else if (i == 9) {
-                jbuttonSheeps[i].setLocation(660, 380);
+                jbuttonSheeps[i].setLocation(660 + offset, 380 + offset);
             } else if (i == 10) {
-                jbuttonSheeps[i].setLocation(690, 270);
+                jbuttonSheeps[i].setLocation(690 + offset, 270 + offset);
             } else if (i == 11) {
-                jbuttonSheeps[i].setLocation(585, 220);
+                jbuttonSheeps[i].setLocation(585 + offset, 220 + offset);
             } else if (i == 12) {
-                jbuttonSheeps[i].setLocation(690, 165);
+                jbuttonSheeps[i].setLocation(690 + offset, 165 + offset);
             } else if (i == 13) {
-                jbuttonSheeps[i].setLocation(600, 120);
+                jbuttonSheeps[i].setLocation(600 + offset, 120 + offset);
             } else if (i == 14) {
-                jbuttonSheeps[i].setLocation(465, 165);
+                jbuttonSheeps[i].setLocation(465 + offset, 165 + offset);
             } else if (i == 15) {
-                jbuttonSheeps[i].setLocation(500, 60);
+                jbuttonSheeps[i].setLocation(500 + offset, 60 + offset);
             } else if (i == 16) {
-                jbuttonSheeps[i].setLocation(330, 100);
+                jbuttonSheeps[i].setLocation(330 + offset, 100 + offset);
             } else if (i == 17) {
-                jbuttonSheeps[i].setLocation(340, 200);
+                jbuttonSheeps[i].setLocation(340 + offset, 200 + offset);
             } else if (i == 18) {
-                jbuttonSheeps[i].setLocation(450, 270);
+                jbuttonSheeps[i].setLocation(450 + offset, 270 + offset);
             }
             jbuttonSheeps[i].setnumber(2);
         }
@@ -153,9 +154,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             setBackGroundInvisible(jbuttonKillSheep[i]);
             setBackGroundInvisible(jbuttonJoinSheeps[i]);
             setBackGroundInvisible(jbuttonMoveSheep[i]);
-            jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "JoinSheeps"));
-            jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "KillSheep"));
-            jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "MoveSheep"));
+            jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.joinSheep.toString()));
+            jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.killSheep.toString()));
+            jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.moveSheep.toString()));
             layeredPane.add(jbuttonKillSheep[i], new Integer(4));
             layeredPane.add(jbuttonJoinSheeps[i], new Integer(4));
             layeredPane.add(jbuttonMoveSheep[i], new Integer(4));
@@ -187,22 +188,22 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         for (int i = 0; i <= 5; i++) {
             if (i == 0) {
                 cards[i] = new JButton(plainCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "Plain"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.plain.toString()));
             } else if (i == 1) {
                 cards[i] = new JButton(forestCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "Forest"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.forest.toString()));
             } else if (i == 2) {
                 cards[i] = new JButton(riverCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "River"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.river.toString()));
             } else if (i == 3) {
                 cards[i] = new JButton(desertCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "Desert"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.desert.toString()));
             } else if (i == 4) {
                 cards[i] = new JButton(mountainCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "Mountain"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.mountain.toString()));
             } else if (i == 5) {
                 cards[i] = new JButton(fieldCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, "Field"));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.field.toString()));
             }
             setBackGroundInvisible(cards[i]);
             layeredPane.add(cards[i], new Integer(2));
@@ -258,7 +259,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             }
             jlabelBlackSheep[i].setSize(50, 50);
             jlabelBlackSheep[i].setVisible(false);
-            
+
         }
     }
 
@@ -308,7 +309,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             }
             jlabelWolf[i].setSize(50, 50);
             jlabelWolf[i].setVisible(false);
-            
+
         }
 
     }
@@ -339,42 +340,40 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         comp.setFocusPainted(false);
         comp.setContentAreaFilled(false);
     }
-    
-    public void activateWolf(int terrain){
+
+    public void activateWolf(int terrain) {
         jlabelWolf[wolfActive].setVisible(false);
         wolfActive = terrain;
         jlabelWolf[terrain].setVisible(true);
     }
-    
-    public void activateBlackSheep(int terrain){
+
+    public void activateBlackSheep(int terrain) {
         jlabelBlackSheep[blackSheepActive].setVisible(false);
         blackSheepActive = terrain;
         jlabelBlackSheep[terrain].setVisible(true);
     }
 
-    private void activateSheep(int terrain){//CONT DA QUI
+    private void activateSheep(int terrain) {
+        //CONT DA QUI
         int i = 0;
-        for(int j = 0; j <= 5; j++){
-            
+        for (int j = 0; j <= 5; j++) {
+
         }
-        
-        for(ViewAnimal ele : animals){
-            if(ele.getPosition() == terrain)
+
+        for (ViewAnimal ele : animals) {
+            if (ele.getPosition() == terrain) {
                 i++;
+            }
         }
-        if(i <= 4){
-            
+        if (i <= 4) {
+
         }
-            
-            
-        
+
     }
-    
+
     private void joinSheepAnimation() {
-        
+
     }
-    
-    
 
     public void clickAction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -398,16 +397,19 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     public void refreshAddAnimal(int idTerrain, String animalType) {
         int i = animals.size();
-        if ("wolf".equals(animalType)) {
+        if (TypeAnimal.wolf.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
             activateWolf(18);
-        } else if ("blackSheep".equals(animalType)) {
+        } else if (TypeAnimal.blackSheep.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-1, 18));
             activateBlackSheep(18);
-        } else if ("whiteSheep".equals(animalType) || "ram".equals(animalType) || "lamb".equals(animalType)) {//CONT DA QUI
+        } else if (TypeAnimal.whiteSheep.toString().equals(animalType)
+                || TypeAnimal.ram.toString().equals(animalType)
+                || TypeAnimal.lamb.toString().equals(animalType)) {
+            //CONT DA QUI
             animals.add(new ViewAnimal(i, idTerrain, animalType));
             activateSheep(idTerrain);
-            
+
         }
     }
 
