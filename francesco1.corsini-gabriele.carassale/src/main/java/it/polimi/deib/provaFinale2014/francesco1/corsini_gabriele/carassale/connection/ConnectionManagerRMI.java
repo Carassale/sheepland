@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
 import java.io.Serializable;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionManagerRMI extends ConnectionManager implements ConnectionRMI, Serializable {
+public class ConnectionManagerRMI extends UnicastRemoteObject implements ConnectionManager, ConnectionRMI, Serializable, Runnable {
 
     private final static int NUMACTION = 3;
     private final ArrayList<PlayerConnectionRMI> playerConnections;
@@ -39,7 +40,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
      * @param playerConnections ArrayList contenente i player associati a questa
      * partita
      */
-    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) {
+    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) throws RemoteException {
         this.playerConnections = playerConnections;
         this.canDoAction = true;
         this.doRepeatAction = false;
@@ -50,7 +51,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         thread.start();
     }
 
-    public void changeReferenceToClient() {
+    private void changeReferenceToClient() {
         for (PlayerConnectionRMI playerConnectionRMI : playerConnections) {
             try {
                 playerConnectionRMI.getClientRMI().setConnectionRMI(this);
@@ -397,4 +398,15 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
         }
     }
+
+    /**
+     * Questa classe implementa un Runnable, le due classi che la estendono
+     * hanno entrambe un attributo Thread creato passando come parametro This e
+     * successivamente avviato con la chiamata .start()
+     */
+    @Override
+    public void run() {
+        startThread();
+    }
+
 }

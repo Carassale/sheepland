@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionManagerSocket extends ConnectionManager {
+public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
     private final static int NUMACTION = 3;
     private final ArrayList<PlayerConnectionSocket> playerConnections;
@@ -470,6 +470,16 @@ public class ConnectionManagerSocket extends ConnectionManager {
         } else {
             currentPlayer.printLn("1");
         }
+    }
+
+    /**
+     * Questa classe implementa un Runnable, le due classi che la estendono
+     * hanno entrambe un attributo Thread creato passando come parametro This e
+     * successivamente avviato con la chiamata .start()
+     */
+    @Override
+    public void run() {
+        startThread();
     }
 
 }

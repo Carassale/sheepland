@@ -8,34 +8,20 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
  *
  * @author Carassale Gabriele
  */
-public abstract class ConnectionManager implements Runnable {
-
-    /**
-     * Questa classe implementa un Runnable, le due classi che la estendono
-     * hanno entrambe un attributo Thread creato passando come parametro This e
-     * successivamente avviato con la chiamata .start()
-     */
-    @Override
-    public void run() {
-        startThread();
-    }
+public interface ConnectionManager {
 
     /**
      * Fa eseguire i comandi necessari a gestire la connection, creato qui in
      * modo da non dover fare l'override acnhe del run
      */
-    public void startThread() {
-        //implementato nelle varie classi
-    }
+    public void startThread();
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract, dice
      * al connectionManager di comunicare al Client che può eseguire le azioni e
      * gestisce quindi le chiamate Client-Server
      */
-    public void startAction() {
-        //implementato nelle varie classi
-    }
+    public void startAction();
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract, dice
@@ -44,16 +30,12 @@ public abstract class ConnectionManager implements Runnable {
      * @param idShepard
      * @return Road nella quale è stato posizionato il pastore
      */
-    public Road getPlacedShepard(int idShepard) {
-        return null;
-    }
+    public Road getPlacedShepard(int idShepard);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
      */
-    public void nextPlayerConnections() {
-        //implementato nelle varie classi
-    }
+    public void nextPlayerConnections();
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -61,9 +43,7 @@ public abstract class ConnectionManager implements Runnable {
      * @param idShepard
      * @param idRoad
      */
-    public void refreshAddShepard(int idShepard, int idRoad) {
-        //implementato nelle varie classi
-    }
+    public void refreshAddShepard(int idShepard, int idRoad);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -71,9 +51,7 @@ public abstract class ConnectionManager implements Runnable {
      * @param idTerrain
      * @param kind
      */
-    public void refreshAddAnimal(int idTerrain, String kind) {
-        //implementato nelle varie classi
-    }
+    public void refreshAddAnimal(int idTerrain, String kind);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -81,18 +59,14 @@ public abstract class ConnectionManager implements Runnable {
      * @param idAnimal
      * @param idTerrain
      */
-    public void refreshMoveAnimal(int idAnimal, int idTerrain) {
-        //implementato nelle varie classi
-    }
+    public void refreshMoveAnimal(int idAnimal, int idTerrain);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
      *
      * @param idAnimal
      */
-    public void refreshKillAnimal(int idAnimal) {
-        //implementato nelle varie classi
-    }
+    public void refreshKillAnimal(int idAnimal);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -100,9 +74,7 @@ public abstract class ConnectionManager implements Runnable {
      * @param idAnimal
      * @param kindFinal
      */
-    public void refreshTransformAnimal(int idAnimal, String kindFinal) {
-        //implementato nelle varie classi
-    }
+    public void refreshTransformAnimal(int idAnimal, String kindFinal);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -110,9 +82,7 @@ public abstract class ConnectionManager implements Runnable {
      * @param coins
      * @param addCoin
      */
-    public void refreshCoin(int coins, boolean addCoin) {
-        //implementato nelle varie classi
-    }
+    public void refreshCoin(int coins, boolean addCoin);
 
     /**
      * Inserito qui per creare un metodo guida per questa classe abstract
@@ -120,8 +90,6 @@ public abstract class ConnectionManager implements Runnable {
      * @param kind
      * @param isSold
      */
-    public void refreshCard(String kind, boolean isSold) {
-        //implementato nelle varie classi
-    }
+    public void refreshCard(String kind, boolean isSold);
 
 }
