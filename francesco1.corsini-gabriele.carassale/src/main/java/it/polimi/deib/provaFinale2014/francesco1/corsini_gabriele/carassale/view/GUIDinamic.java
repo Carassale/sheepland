@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -25,10 +26,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private GUIDinamicPanel panel;
     private JButton[] cards = new JButton[6];
-    private JButton[] jbuttonSheeps = new JButton[19];
+    private DinamicSheepButton[] jbuttonSheeps = new DinamicSheepButton[19];
     private JButton[] jbuttonKillSheep = new JButton[19];
     private JButton[] jbuttonJoinSheeps = new JButton[19];
     private JButton[] jbuttonMoveSheep = new JButton[19];
+    private JLabel[] jlabelBlackSheep = new JLabel[19];
+    private JLabel[] jlabelWolf = new JLabel[19];
     private JLayeredPane layeredPane;
     private ImageIcon imageIcon = new ImageIcon("src\\main\\resources\\joinSheeps.png");
     private ImageIcon plainCards[] = new ImageIcon[6];
@@ -37,9 +40,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private ImageIcon desertCards[] = new ImageIcon[6];
     private ImageIcon mountainCards[] = new ImageIcon[6];
     private ImageIcon fieldCards[] = new ImageIcon[6];
+    
+    private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
     //se -1 vuol dire che nussun submenu è aperto
     private int subMenuOpen = -1;
+    private int wolfActive = 18, blackSheepActive = 18;
 
     public GUIDinamic(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
@@ -58,6 +64,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createSheepButtons();
         createSheepSubMenu();
         createBlackSheepLabels();
+        createWolfLabels();
         createCards();
 
         state = state.WAITINGFORPLAYER;
@@ -85,12 +92,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     private void createSheepButtons() {
-        ImageIcon icon = new ImageIcon("src\\main\\resources\\sheepSmall.png");
+        
         for (int i = 0; i <= 18; i++) {
-            jbuttonSheeps[i] = new JButton(icon);
+            jbuttonSheeps[i] = new DinamicSheepButton();
             setBackGroundInvisible(jbuttonSheeps[i]);
             jbuttonSheeps[i].addActionListener(new GUIDinamicSheepListener(this, i));
-            layeredPane.add(jbuttonSheeps[i], new Integer(2));
+            layeredPane.add(jbuttonSheeps[i], new Integer(3));
             jbuttonSheeps[i].setSize(100, 100);
             if (i == 0) {// la prima è la x, la seconda è la y(parte dall'alto)
                 jbuttonSheeps[i].setLocation(165, 110);
@@ -131,7 +138,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             } else if (i == 18) {
                 jbuttonSheeps[i].setLocation(450, 270);
             }
-
+            jbuttonSheeps[i].setnumber(2);
         }
     }
 
@@ -149,17 +156,17 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "JoinSheeps"));
             jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "KillSheep"));
             jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, "MoveSheep"));
-            layeredPane.add(jbuttonKillSheep[i], new Integer(3));
-            layeredPane.add(jbuttonJoinSheeps[i], new Integer(3));
-            layeredPane.add(jbuttonMoveSheep[i], new Integer(3));
+            layeredPane.add(jbuttonKillSheep[i], new Integer(4));
+            layeredPane.add(jbuttonJoinSheeps[i], new Integer(4));
+            layeredPane.add(jbuttonMoveSheep[i], new Integer(4));
             jbuttonKillSheep[i].setSize(70, 70);
             jbuttonJoinSheeps[i].setSize(70, 70);
             jbuttonMoveSheep[i].setSize(70, 70);
 
             Point p = jbuttonSheeps[i].getLocation();
-            jbuttonMoveSheep[i].setLocation(p.x - 70, p.y - 50);
-            jbuttonJoinSheeps[i].setLocation(p.x, p.y - 70);
-            jbuttonKillSheep[i].setLocation(p.x + 70, p.y - 50);
+            jbuttonMoveSheep[i].setLocation(p.x - 70, p.y - 35);
+            jbuttonJoinSheeps[i].setLocation(p.x, p.y - 55);
+            jbuttonKillSheep[i].setLocation(p.x + 70, p.y - 35);
             jbuttonMoveSheep[i].setVisible(false);
             jbuttonJoinSheeps[i].setVisible(false);
             jbuttonKillSheep[i].setVisible(false);
@@ -208,16 +215,102 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         ImageIcon icon = new ImageIcon("src\\main\\resources\\blackSheep.png");
         for (int i = 0; i <= 18; i++) {
             JLabel label = new JLabel(icon);
+            jlabelBlackSheep[i] = label;
             layeredPane.add(label, new Integer(1));
             if (i == 0) {
-                label.setLocation(185, 130);
+                jlabelBlackSheep[i].setLocation(225, 180);
+            } else if (i == 1) {
+                jlabelBlackSheep[i].setLocation(250, 250);
+            } else if (i == 2) {
+                jlabelBlackSheep[i].setLocation(370, 330);
+            } else if (i == 3) {
+                jlabelBlackSheep[i].setLocation(220, 390);
+            } else if (i == 4) {
+                jlabelBlackSheep[i].setLocation(300, 530);
+            } else if (i == 5) {
+                jlabelBlackSheep[i].setLocation(470, 440);
+            } else if (i == 6) {
+                jlabelBlackSheep[i].setLocation(400, 590);
+            } else if (i == 7) {
+                jlabelBlackSheep[i].setLocation(580, 550);
+            } else if (i == 8) {
+                jlabelBlackSheep[i].setLocation(625, 325);
+            } else if (i == 9) {
+                jlabelBlackSheep[i].setLocation(740, 420);
+            } else if (i == 10) {
+                jlabelBlackSheep[i].setLocation(705, 255);
+            } else if (i == 11) {
+                jlabelBlackSheep[i].setLocation(570, 250);
+            } else if (i == 12) {
+                jlabelBlackSheep[i].setLocation(760, 160);
+            } else if (i == 13) {
+                jlabelBlackSheep[i].setLocation(670, 100);
+            } else if (i == 14) {
+                jlabelBlackSheep[i].setLocation(530, 180);
+            } else if (i == 15) {
+                jlabelBlackSheep[i].setLocation(580, 50);
+            } else if (i == 16) {
+                jlabelBlackSheep[i].setLocation(410, 120);
+            } else if (i == 17) {
+                jlabelBlackSheep[i].setLocation(360, 265);
+            } else if (i == 18) {
+                jlabelBlackSheep[i].setLocation(450, 270);
             }
-            else if (i == 1) {
-                label.setLocation(240, 260);
-            }
-            label.setSize(50,50);
-            label.setVisible(true);
+            jlabelBlackSheep[i].setSize(50, 50);
+            jlabelBlackSheep[i].setVisible(false);
+            
         }
+    }
+
+    private void createWolfLabels() {
+        ImageIcon icon = new ImageIcon("src\\main\\resources\\wolf.png");
+        for (int i = 0; i <= 18; i++) {
+            jlabelWolf[i] = new JLabel(icon);
+            layeredPane.add(jlabelWolf[i], new Integer(2));
+            if (i == 0) {
+                jlabelWolf[i].setLocation(215, 90);
+            } else if (i == 1) {
+                jlabelWolf[i].setLocation(295, 290);
+            } else if (i == 2) {
+                jlabelWolf[i].setLocation(380, 410);
+            } else if (i == 3) {
+                jlabelWolf[i].setLocation(190, 475);
+            } else if (i == 4) {
+                jlabelWolf[i].setLocation(390, 500);
+            } else if (i == 5) {
+                jlabelWolf[i].setLocation(470, 370);
+            } else if (i == 6) {
+                jlabelWolf[i].setLocation(350, 610);
+            } else if (i == 7) {
+                jlabelWolf[i].setLocation(640, 510);
+            } else if (i == 8) {
+                jlabelWolf[i].setLocation(570, 375);
+            } else if (i == 9) {
+                jlabelWolf[i].setLocation(660, 440);
+            } else if (i == 10) {
+                jlabelWolf[i].setLocation(715, 330);
+            } else if (i == 11) {
+                jlabelWolf[i].setLocation(640, 220);
+            } else if (i == 12) {
+                jlabelWolf[i].setLocation(760, 205);
+            } else if (i == 13) {
+                jlabelWolf[i].setLocation(715, 110);
+            } else if (i == 14) {
+                jlabelWolf[i].setLocation(500, 215);
+            } else if (i == 15) {
+                jlabelWolf[i].setLocation(550, 120);
+            } else if (i == 16) {
+                jlabelWolf[i].setLocation(315, 120);
+            } else if (i == 17) {
+                jlabelWolf[i].setLocation(400, 210);
+            } else if (i == 18) {
+                jlabelWolf[i].setLocation(500, 310);
+            }
+            jlabelWolf[i].setSize(50, 50);
+            jlabelWolf[i].setVisible(false);
+            
+        }
+
     }
 
     public void joinSheeps(int terrain) {
@@ -246,10 +339,42 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         comp.setFocusPainted(false);
         comp.setContentAreaFilled(false);
     }
-
-    private void joinSheepAnimation() {
-
+    
+    public void activateWolf(int terrain){
+        jlabelWolf[wolfActive].setVisible(false);
+        wolfActive = terrain;
+        jlabelWolf[terrain].setVisible(true);
     }
+    
+    public void activateBlackSheep(int terrain){
+        jlabelBlackSheep[blackSheepActive].setVisible(false);
+        blackSheepActive = terrain;
+        jlabelBlackSheep[terrain].setVisible(true);
+    }
+
+    private void activateSheep(int terrain){//CONT DA QUI
+        int i = 0;
+        for(int j = 0; j <= 5; j++){
+            
+        }
+        
+        for(ViewAnimal ele : animals){
+            if(ele.getPosition() == terrain)
+                i++;
+        }
+        if(i <= 4){
+            
+        }
+            
+            
+        
+    }
+    
+    private void joinSheepAnimation() {
+        
+    }
+    
+    
 
     public void clickAction() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -271,8 +396,19 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void refreshAddAnimal(int idTerrain, String kind) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void refreshAddAnimal(int idTerrain, String animalType) {
+        int i = animals.size();
+        if ("wolf".equals(animalType)) {
+            animals.add(new ViewAnimal(-2, 18));
+            activateWolf(18);
+        } else if ("blackSheep".equals(animalType)) {
+            animals.add(new ViewAnimal(-1, 18));
+            activateBlackSheep(18);
+        } else if ("whiteSheep".equals(animalType) || "ram".equals(animalType) || "lamb".equals(animalType)) {//CONT DA QUI
+            animals.add(new ViewAnimal(i, idTerrain, animalType));
+            activateSheep(idTerrain);
+            
+        }
     }
 
     public void refreshKillAnimal(int idAnimal) {
@@ -313,6 +449,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     public void setSubMenuOpen(int subMenuOpen) {
         this.subMenuOpen = subMenuOpen;
+    }
+
+    public void messageText(String message) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
