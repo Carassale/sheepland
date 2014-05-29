@@ -227,6 +227,8 @@ public class PlayerTest {
     @Test(expected = MoveException.class)
     public void testJoinSheeps2() throws MoveException {
         Terrain terrain = game.getMap().getTerrain().get(16);
+        terrain.getAnimals().remove(0);
+
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
         sheep2.setSex(TypeAnimal.male.toString());
