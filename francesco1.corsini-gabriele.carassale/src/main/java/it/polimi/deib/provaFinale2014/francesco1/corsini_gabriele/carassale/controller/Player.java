@@ -41,6 +41,7 @@ public class Player {
         for (int i = 0; i < 3; i++) {
             actionDone[i] = "";
         }
+        nickName = "";
 
         coins = 20;
         isFirstPlayer = firstPlayer;
@@ -397,10 +398,9 @@ public class Player {
 
         for (Road road : terrain.getAdjacentRoads()) {
             for (Shepard shepard : shepards) {
-                if (shepard.getPosition() == road) {
-                    if (random == road.getRoadNumber()) {
-                        gotRightNumber = true;
-                    }
+                if (shepard.getPosition() == road
+                        && random == road.getRoadNumber()) {
+                    gotRightNumber = true;
                 }
             }
         }
@@ -419,11 +419,10 @@ public class Player {
 
         for (Road road : terrain.getAdjacentRoads()) {
             for (Shepard shepard : shepards) {
-                if (road.hasShepard()) {
-                    if (shepard.getId() != road.getShepard().getId()) {
-                        totalCost = totalCost + 2;
-                        shepard.getOwner().setCoins(shepard.getOwner().getCoins() + 2);
-                    }
+                if (road.hasShepard()
+                        && shepard.getId() != road.getShepard().getId()) {
+                    totalCost = totalCost + 2;
+                    shepard.getOwner().setCoins(shepard.getOwner().getCoins() + 2);
                 }
             }
         }
@@ -462,12 +461,12 @@ public class Player {
             return true;
         }
 
-        if ("".equals(actionDone[1])) {
-            if ((action.equals(actionDone[0]) && TypeAction.moveShepard.toString().equals(action))
-                    || (!action.equals(actionDone[0]))) {
-                actionDone[1] = action;
-                return true;
-            }
+        if ("".equals(actionDone[1])
+                && ((action.equals(actionDone[0])
+                && TypeAction.moveShepard.toString().equals(action))
+                || (!action.equals(actionDone[0])))) {
+            actionDone[1] = action;
+            return true;
         }
 
         if ("".equals(actionDone[2])) {

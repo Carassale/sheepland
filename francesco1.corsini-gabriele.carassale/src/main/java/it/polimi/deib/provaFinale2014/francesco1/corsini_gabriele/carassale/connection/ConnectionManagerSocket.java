@@ -161,7 +161,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                     refreshCoin = true;
                 }
                 gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
-                PrintCorrectAction();
+                printCorrectAction();
                 refreshMoveShepard(idShepard, idRoad);
                 if (refreshCoin) {
                     refreshCoin(1, false);
@@ -177,7 +177,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return false;
             }
         } else {
-            PrintUncorectAction();
+            printUncorectAction();
             return false;
         }
     }
@@ -202,7 +202,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.moveSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
-                PrintCorrectAction();
+                printCorrectAction();
                 refreshMoveAnimal(idSheep, idTerrain);
                 return true;
             } catch (MoveException ex) {
@@ -211,7 +211,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return false;
             }
         } else {
-            PrintUncorectAction();
+            printUncorectAction();
             return false;
         }
     }
@@ -229,7 +229,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.buyCard.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
-                PrintCorrectAction();
+                printCorrectAction();
                 refreshCard(kind, false);
                 return true;
             } catch (CoinException ex) {
@@ -238,7 +238,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return false;
             }
         } else {
-            PrintUncorectAction();
+            printUncorectAction();
             return false;
         }
     }
@@ -260,7 +260,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.killSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
-                PrintCorrectAction();
+                printCorrectAction();
                 refreshKillAnimal(idSheep);
                 return true;
             } catch (CoinException ex) {
@@ -277,7 +277,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return false;
             }
         } else {
-            PrintUncorectAction();
+            printUncorectAction();
             return false;
         }
     }
@@ -297,7 +297,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.joinSheep.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-                PrintCorrectAction();
+                printCorrectAction();
                 refreshAddAnimal(idTerrain, TypeAnimal.lamb.toString());
                 return true;
             } catch (MoveException ex) {
@@ -306,7 +306,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return false;
             }
         } else {
-            PrintUncorectAction();
+            printUncorectAction();
             return false;
         }
     }
@@ -315,7 +315,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * Invia al current player un messaggio dicendo che la mossa è andata a buon
      * fine
      */
-    private void PrintCorrectAction() {
+    private void printCorrectAction() {
         currentPlayer.printLn(TypeAction.messageText.toString());
         currentPlayer.printLn("Mossa effettua");
     }
@@ -324,7 +324,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * Invia al current player un messaggio dicendo che la mossa NON è andata a
      * buon fine
      */
-    private void PrintUncorectAction() {
+    private void printUncorectAction() {
         currentPlayer.printLn(TypeAction.messageText.toString());
         currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
 

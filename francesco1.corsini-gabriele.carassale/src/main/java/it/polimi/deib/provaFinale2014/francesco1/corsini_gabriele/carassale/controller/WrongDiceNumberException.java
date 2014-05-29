@@ -12,7 +12,7 @@ public class WrongDiceNumberException extends Exception {
      * @param diceNumber Intero da sollevare
      */
     public WrongDiceNumberException(int diceNumber) {
-        //TODO gestione del ritorno del numero uscito
+        super(Integer.toString(diceNumber));
     }
 
     /**

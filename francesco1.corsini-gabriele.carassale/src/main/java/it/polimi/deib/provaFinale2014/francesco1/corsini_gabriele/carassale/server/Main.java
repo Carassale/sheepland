@@ -9,6 +9,10 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
  */
 public class Main {
 
+    private Main() {
+        //non fa nulla
+    }
+
     /**
      * È il Main del server
      *
@@ -17,7 +21,7 @@ public class Main {
     public static void main(String arg[]) {
         ServerManagerRMI serverManagerRMI = new ServerManagerRMI();
         ServerManagerSocket serverManagerSocket = new ServerManagerSocket();
-        
+
     }
 
 }

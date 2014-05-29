@@ -35,9 +35,11 @@ public class GameController {
      */
     public GameController(int numberOfPlayers) {
         dice = new Dice();
+        this.playerPool = null;
+        this.gameTable = null;
         this.connectionManager = null;
-        inizializeGame(numberOfPlayers);
 
+        inizializeGame(numberOfPlayers);
         placeShepards(numberOfPlayers);
     }
 
@@ -48,6 +50,10 @@ public class GameController {
      * @param connectionManager connessione per poter chiamare azioni del client
      */
     public GameController(ConnectionManager connectionManager) {
+        dice = new Dice();
+        this.playerPool = null;
+        this.gameTable = null;
+        
         this.connectionManager = connectionManager;
     }
 

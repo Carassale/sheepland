@@ -42,15 +42,6 @@ public class Main {
     private String nickname;
 
     /**
-     * Crea la classe Main, gestisce l'avvio del client
-     *
-     * @param arg
-     */
-    public static void main(String arg[]) {
-        Main main = new Main();
-    }
-
-    /**
      * Inizializza il necessario per interagire con l'utente, chiede il tipo di
      * connessione e il tipo di interazione.
      */
@@ -178,5 +169,14 @@ public class Main {
         } catch (RemoteException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Crea la classe Main, gestisce l'avvio del client
+     *
+     * @param arg
+     */
+    public static void main(String arg[]) {
+        Main main = new Main();
     }
 }
