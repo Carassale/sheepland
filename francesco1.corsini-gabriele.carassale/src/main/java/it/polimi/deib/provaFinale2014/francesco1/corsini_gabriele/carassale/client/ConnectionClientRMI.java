@@ -24,8 +24,16 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     private final static int PORT = 3001;
     private String nickname;
 
+    /**
+     * Questa variabile server solo per il metodo placeShepard, serve per
+     * aspettare la scelta del clinet
+     */
     private Object tempRoad = null;
 
+    /**
+     * È il collegamento allo stub del serve sul quale il client può eseguire
+     * dei metodi
+     */
     private ConnectionRMI connectionRMI;
 
     /**
@@ -46,6 +54,11 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Setta lo stub del prorpio server
+     *
+     * @param connectionRMI Stub da settare
+     */
     public void setConnectionRMI(ConnectionRMI connectionRMI) {
         this.connectionRMI = connectionRMI;
     }
@@ -66,14 +79,31 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         // non fa nulla
     }
 
+    /**
+     * Imposta il nickname del Cliet
+     *
+     * @param nickname Stringa da settare
+     */
     public void setNickname(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Riceve la scelta della strada dal client e la setta in tempRoad
+     *
+     * @param idRoad Strada scelta
+     */
     public void placeShepard(int idRoad) {
         tempRoad = idRoad;
     }
 
+    /**
+     * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
+     * questo caso il metodo è muovi il pastore
+     *
+     * @param idShepard Pastore da muovere
+     * @param idRoad Strada destinazione
+     */
     public void moveShepard(int idShepard, int idRoad) {
         try {
             connectionRMI.moveShepard(idShepard, idRoad);
@@ -82,6 +112,13 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
+     * questo caso il metodo è muovi pecora
+     *
+     * @param idSheep Pecora da muovere
+     * @param idTerrain Terreno destinazione
+     */
     public void moveSheep(int idSheep, int idTerrain) {
         try {
             connectionRMI.moveSheep(idSheep, idTerrain);
@@ -90,6 +127,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
+     * questo caso il metodo è compra una carta
+     *
+     * @param typeOfTerrain Tipo di carta da comprare
+     */
     public void buyCard(String typeOfTerrain) {
         try {
             connectionRMI.buyCard(typeOfTerrain);
@@ -98,6 +141,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
+     * questo caso il metodo è uccidi pecora
+     *
+     * @param idSheep Pecora da uccidere
+     */
     public void killSheep(int idSheep) {
         try {
             connectionRMI.killSheep(idSheep);
@@ -106,6 +155,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
+     * questo caso il metodo è accoppia ovini
+     *
+     * @param idTerrain Terreno dove sono presenti un montone e una pecora
+     */
     public void joinSheep(int idTerrain) {
         try {
             connectionRMI.joinSheep(idTerrain);
@@ -114,26 +169,68 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è clickAction e server a risvegliare il client e
+     * chiede la mossa che disidera fare
+     *
+     * @throws RemoteException
+     */
     public void wakeUp() throws RemoteException {
         typeOfInteraction.clickAction();
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo serve a impostare il nickname
+     *
+     * @throws RemoteException
+     */
     public void setNikcname() throws RemoteException {
         typeOfInteraction.setNickname();
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è un messaggio per errore di monete
+     *
+     * @param message Messaggio da mostrare
+     * @throws RemoteException
+     */
     public void errorCoin(String message) throws RemoteException {
         typeOfInteraction.errorMessage(message);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è un messaggio per errore di movimento
+     *
+     * @param message Messaggio da mostrare
+     * @throws RemoteException
+     */
     public void errorMove(String message) throws RemoteException {
         typeOfInteraction.errorMessage(message);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è un messaggio per errore di dado
+     *
+     * @param message Messaggio da mostrare
+     * @throws RemoteException
+     */
     public void errorDice(String message) throws RemoteException {
         typeOfInteraction.errorMessage(message);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è posiziona pastore
+     *
+     * @param idShepard Pastore da posizionare
+     * @return Strada scelta dal client
+     * @throws RemoteException
+     */
     public int getPlaceShepard(int idShepard) throws RemoteException {
         typeOfInteraction.placeShepard(idShepard);
 
@@ -141,34 +238,97 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         return road;
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh sul movimento dell'animale
+     *
+     * @param idAnimal Animale da spostare
+     * @param idTerrain Terreno destinazione
+     * @throws RemoteException
+     */
     public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException {
         typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh sull'aggiunta dell'animale
+     *
+     * @param idAnimal Animale da aggiungere
+     * @param kind Tipo di animale
+     * @throws RemoteException
+     */
     public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException {
         typeOfInteraction.refreshAddAnimal(idAnimal, kind);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh cancella animale
+     *
+     * @param idAnimal Animale da cancellare
+     * @throws RemoteException
+     */
     public void refreshKillAnimal(int idAnimal) throws RemoteException {
         typeOfInteraction.refreshKillAnimal(idAnimal);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh trasforma animale
+     *
+     * @param idAnimal Animale da trasformare
+     * @param kind Tipo di trasformazione finale
+     * @throws RemoteException
+     */
     public void refreshTransformAnimal(int idAnimal, String kind) throws RemoteException {
         typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh aggiungi pastore
+     *
+     * @param idShepard Pastore da aggiungere
+     * @param idRoad Strada posizionamento
+     * @throws RemoteException
+     */
     public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException {
         typeOfInteraction.refreshAddShepard(idShepard, idRoad);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh muovi pastore
+     *
+     * @param idShepard Pastore da muovere
+     * @param idRoad Strada destinazione
+     * @throws RemoteException
+     */
     public void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException {
         typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh carte
+     *
+     * @param kind Tipo di carta
+     * @param isSold True se è venduta, False se è comprata
+     * @throws RemoteException
+     */
     public void refreshCard(String kind, boolean isSold) throws RemoteException {
         typeOfInteraction.refreshCard(kind, isSold);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh monete
+     *
+     * @param coins Monete cambiate
+     * @param addCoin True se sono aggiunte, False se vanno levate
+     * @throws RemoteException
+     */
     public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
         typeOfInteraction.refreshCoin(coins, addCoin);
     }

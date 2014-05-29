@@ -4,13 +4,27 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
+ * Interfaccia per lo skeleton del server
  *
  * @author Gabriele Carassale
  */
 public interface ServerRMI extends Remote {
 
+    /**
+     * Permette al client di connettersi al server
+     *
+     * @return Messaggio di conferma connessione
+     * @throws RemoteException
+     */
     public String connect() throws RemoteException;
 
+    /**
+     * Il client invia il proprio skeleton, il server lo associa ad un player
+     *
+     * @param clientRMI Skeleton del client
+     * @return Messaggio di conferma
+     * @throws RemoteException
+     */
     public String addClient(ClientRMI clientRMI) throws RemoteException;
 
 }

@@ -51,6 +51,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         thread.start();
     }
 
+    /**
+     * Per ogni client collegato a questo connectionManager invia il prorpio
+     * skeleton
+     */
     private void changeReferenceToClient() {
         for (PlayerConnectionRMI playerConnectionRMI : playerConnections) {
             try {
@@ -272,6 +276,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Viene invocato dal connectionClient, muove il pastore
+     *
+     * @param idShepard Pastore da muovere
+     * @param idRoad Destinazione finale
+     * @return Un messaggio di conferma
+     * @throws RemoteException
+     */
     public String moveShepard(int idShepard, int idRoad) throws RemoteException {
         //Converte idShepard nell'oggetto Shepard associato
         Shepard s = gameController.getGameTable().idToShepard(idShepard);
@@ -307,6 +319,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Viene invocato dal connectionClient, muove la pecora
+     *
+     * @param idSheep Pecora da muovere
+     * @param idTerrain Terreno destinazione
+     * @return Messaggio di conferma
+     * @throws RemoteException
+     */
     public String moveSheep(int idSheep, int idTerrain) throws RemoteException {
         //Converte sheep nell'oggetto Sheep associato
         Sheep s = gameController.getGameTable().idToSheep(idSheep);
@@ -331,6 +351,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Viene invocato dal connectionClient, compra una carta
+     *
+     * @param typeOfTerrain Tipo di carta da comprare
+     * @return Messaggio di conferma
+     * @throws RemoteException
+     */
     public String buyCard(String typeOfTerrain) throws RemoteException {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("buyCard")) {
             try {
@@ -349,6 +376,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Viene invocato dal connectionClient, accoppia un montone e una pecora
+     *
+     * @param idTerrain Terreno di accoppiamento
+     * @return Messaggio di conferma
+     * @throws RemoteException
+     */
     public String joinSheep(int idTerrain) throws RemoteException {
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
@@ -370,6 +404,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Viene invocato dal connectionClient, uccide una pecora
+     *
+     * @param idSheep Pecora da uccidere
+     * @return Messaggio di conferma
+     * @throws RemoteException
+     */
     public String killSheep(int idSheep) throws RemoteException {
         //Converte sheep nell'oggetto Sheep associato
         Sheep sheep = gameController.getGameTable().idToSheep(idSheep);

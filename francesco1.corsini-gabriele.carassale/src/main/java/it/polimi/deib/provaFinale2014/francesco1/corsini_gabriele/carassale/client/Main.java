@@ -11,7 +11,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -165,6 +164,7 @@ public class Main {
 
                 String status = "";
                 do {
+                    //invia al server lo skeleton del client
                     status = serverRMI.addClient((ClientRMI) connectionClient);
                 } while (!"playerAdded".equals(status));
 
@@ -175,8 +175,5 @@ public class Main {
         } catch (RemoteException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        //UnicastRemoteObject.exportObject(this);
-        //serverRMI.addClient(this);
     }
 }

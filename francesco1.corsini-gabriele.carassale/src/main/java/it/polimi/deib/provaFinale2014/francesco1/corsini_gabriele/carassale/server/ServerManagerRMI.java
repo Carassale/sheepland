@@ -76,13 +76,24 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     public synchronized void runNewGame() {
         canAccept = false;
         if (playerConnection.size() >= 2) {
-            games.add(new ConnectionManagerRMI(playerConnection));
+            try {
+                games.add(new ConnectionManagerRMI(playerConnection));
+            } catch (RemoteException ex) {
+                Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.out.println("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
     }
 
+    /**
+     * Implementa il metodo dell'interfaccia server, riceve una chiamata dal
+     * client e manda un messaggio di avenuta connessione
+     *
+     * @return Messaggio di avvenuta connessione "connected
+     * @throws RemoteException
+     */
     public String connect() throws RemoteException {
         return "connected";
     }
