@@ -225,12 +225,7 @@ public class ConnectionClientSocket implements ConnectionClient {
             boolean isSold;
             // isSold TRUE -> 0
             // isSold FALSE -> 1
-            //boolean isSold = i == 0;
-            if (i == 0) {
-                isSold = true;
-            } else {
-                isSold = false;
-            }
+            isSold = i == 0;
             typeOfInteraction.refreshCard(kind, isSold);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,12 +242,7 @@ public class ConnectionClientSocket implements ConnectionClient {
             boolean addCoin;
             // addCoin TRUE -> 0
             // addCoin FALSE -> 1
-            //boolean addCoin = i == 0;
-            if (i == 0) {
-                addCoin = true;
-            } else {
-                addCoin = false;
-            }
+            addCoin = i == 0;
             typeOfInteraction.refreshCoin(coins, addCoin);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -336,6 +326,11 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Invia un messaggio al client
      */
     private void messageText() {
-        typeOfInteraction.messageText(inSocket.read());
+        try {
+            String s = inSocket.readLine();
+            typeOfInteraction.messageText(s);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
