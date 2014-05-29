@@ -9,8 +9,6 @@ import java.rmi.RemoteException;
  */
 public interface ClientRMI extends Remote {
 
-    public void createBind() throws RemoteException;
-
     public void setConnectionRMI(ConnectionRMI connectionRMI) throws RemoteException;
 
     public void wakeUp() throws RemoteException;

@@ -1,7 +1,13 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -24,6 +30,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private Thread thread;
 
     private boolean canDoAction;
+    private boolean doRepeatAction;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -35,6 +42,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) {
         this.playerConnections = playerConnections;
         this.canDoAction = true;
+        this.doRepeatAction = false;
 
         changeReferenceToClient();
 
@@ -65,24 +73,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     }
 
     /**
-     * Cicla per il numero di azioni massime consentite il metodo doAction, in
-     * caso di ritorno false dal doAction fa ripetere il metodo finchè non
-     * vengono effettuate un numero corretto di azioni, alla fine chiama il
-     * metodo nextPlayerConnection
-     */
-    @Override
-    public void startAction() {
-        for (int i = 0; i < NUMACTION; i++) {
-            if (canDoAction) {
-                doAction();
-            } else {
-                i--;
-            }
-        }
-        nextPlayerConnections();
-    }
-
-    /**
      * Scorre la lista dei Player, sposta il primo in ultima posizione
      */
     @Override
@@ -91,6 +81,156 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         playerConnections.remove(0);
 
         currentPlayer = playerConnections.get(0);
+    }
+
+    /**
+     * Invia a tutti i client il pastore aggiunto
+     *
+     * @param idShepard Pastore aggiunto
+     * @param idRoad Strada posizionamento
+     */
+    @Override
+    public void refreshAddShepard(int idShepard, int idRoad) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia a tutti i client il movimento del pastore
+     *
+     * @param idShepard Pastore spostato
+     * @param idRoad Strada destinazione
+     */
+    public void refreshMoveShepard(int idShepard, int idRoad) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshMoveShepard(idShepard, idRoad);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia a tutti i client l'animale aggiunto
+     *
+     * @param idTerrain Terreno destinazione
+     * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
+     */
+    @Override
+    public void refreshAddAnimal(int idTerrain, String kind) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshAddAnimal(idTerrain, kind);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia a tutti i client il movimento dell'animale
+     *
+     * @param idAnimal Animale da spostare
+     * @param idTerrain Terreno destinazione
+     */
+    @Override
+    public void refreshMoveAnimal(int idAnimal, int idTerrain) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshMoveAnimal(idAnimal, idTerrain);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia a tutti i client l'animale da rimuovere
+     *
+     * @param idAnimal Animale da rimuovere
+     */
+    @Override
+    public void refreshKillAnimal(int idAnimal) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshKillAnimal(idAnimal);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia a tutti i client l'animale da trasformare
+     *
+     * @param idAnimal Animale da trasformare
+     * @param kindFinal Trasformazione finale (whiteSheep, ram)
+     */
+    @Override
+    public void refreshTransformAnimal(int idAnimal, String kindFinal) {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().refreshTransformAnimal(idAnimal, kindFinal);
+            } catch (RemoteException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Invia al currentPlayer le monete da aggiungere/rimuovere
+     *
+     * @param coins Valore dei coin
+     * @param addCoin True se vanno aggiunti
+     */
+    @Override
+    public void refreshCoin(int coins, boolean addCoin) {
+        try {
+            currentPlayer.getClientRMI().refreshCoin(coins, addCoin);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia al currentPlayer la carta comprata/venduta
+     *
+     * @param kind Tipo di carta
+     * @param isSold True se è venduta
+     */
+    @Override
+    public void refreshCard(String kind, boolean isSold) {
+        try {
+            currentPlayer.getClientRMI().refreshCard(kind, isSold);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Cicla per il numero di azioni massime consentite il metodo doAction,
+     * mette in pausa il ciclo con una variabile, la variabile verra gestita dai
+     * metodi chiamati dal client per poter proseguire le azioni alla fine
+     * chiama il metodo nextPlayerConnection
+     */
+    @Override
+    public void startAction() {
+        for (int i = 0; i < NUMACTION; i++) {
+            while (!canDoAction) {
+                if (doRepeatAction) {
+                    doRepeatAction = false;
+                    doAction();
+                }
+            }
+            doAction();
+        }
+        nextPlayerConnections();
     }
 
     /**
@@ -131,23 +271,130 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         }
     }
 
-    public String moveShepard(int idShepard, int idRoad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String moveShepard(int idShepard, int idRoad) throws RemoteException {
+        //Converte idShepard nell'oggetto Shepard associato
+        Shepard s = gameController.getGameTable().idToShepard(idShepard);
+
+        //Converte idRoad nell'oggetto Road associato
+        Road r = gameController.getGameTable().idToRoad(idRoad);
+
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveShepard")) {
+            try {
+                boolean refreshCoin = false;
+                if (s.isExpensiveMove(r)) {
+                    refreshCoin = true;
+                }
+                gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
+                refreshMoveShepard(idShepard, idRoad);
+                if (refreshCoin) {
+                    refreshCoin(1, false);
+                }
+                canDoAction = true;
+            } catch (MoveException ex) {
+                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (CoinException ex) {
+                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            }
+            return "Mossa effettua";
+        } else {
+            doRepeatAction = true;
+            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+        }
     }
 
-    public String moveSheep(int idSheep, int idTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String moveSheep(int idSheep, int idTerrain) throws RemoteException {
+        //Converte sheep nell'oggetto Sheep associato
+        Sheep s = gameController.getGameTable().idToSheep(idSheep);
+
+        //Converte terrain nell'oggetto Terrain associato
+        Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
+
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("moveSheep")) {
+            try {
+                gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
+                refreshMoveAnimal(idSheep, idTerrain);
+                canDoAction = true;
+            } catch (MoveException ex) {
+                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            }
+            return "Mossa effettua";
+        } else {
+            doRepeatAction = true;
+            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+        }
     }
 
-    public String buyCard(String typeOfTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String buyCard(String typeOfTerrain) throws RemoteException {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("buyCard")) {
+            try {
+                gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
+                refreshCard(typeOfTerrain, false);
+                canDoAction = true;
+            } catch (CoinException ex) {
+                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            }
+            return "Mossa effettua";
+        } else {
+            doRepeatAction = true;
+            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+        }
     }
 
-    public String joinSheep(int idTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String joinSheep(int idTerrain) throws RemoteException {
+        //Converte terrain nell'oggetto Terrain associato
+        Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
+
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("joinSheep")) {
+            try {
+                gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
+                refreshAddAnimal(idTerrain, "lamb");
+                canDoAction = true;
+            } catch (MoveException ex) {
+                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            }
+            return "Mossa effettua";
+        } else {
+            doRepeatAction = true;
+            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+        }
     }
 
-    public String killSheep(int idSheep) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String killSheep(int idSheep) throws RemoteException {
+        //Converte sheep nell'oggetto Sheep associato
+        Sheep sheep = gameController.getGameTable().idToSheep(idSheep);
+
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction("killSheep")) {
+            try {
+                gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
+                refreshKillAnimal(idSheep);
+                canDoAction = true;
+            } catch (CoinException ex) {
+                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (MoveException ex) {
+                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            } catch (WrongDiceNumberException ex) {
+                currentPlayer.getClientRMI().errorDice(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+            }
+            return "Mossa effettua";
+        } else {
+            doRepeatAction = true;
+            return "Non è possibile fare questa mossa, ricorda di muovere il pastore";
+        }
     }
 }

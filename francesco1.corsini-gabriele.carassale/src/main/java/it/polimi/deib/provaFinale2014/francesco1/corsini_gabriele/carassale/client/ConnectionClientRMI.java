@@ -46,12 +46,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
-    public void createBind() throws RemoteException {
-        UnicastRemoteObject.exportObject(this);
-        Registry registry_client = LocateRegistry.getRegistry(PORT);
-        registry_client.rebind(nickname, this);
-    }
-
     public void setConnectionRMI(ConnectionRMI connectionRMI) {
         this.connectionRMI = connectionRMI;
     }
@@ -81,43 +75,63 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     }
 
     public void moveShepard(int idShepard, int idRoad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connectionRMI.moveShepard(idShepard, idRoad);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void moveSheep(int idSheep, int idTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connectionRMI.moveSheep(idSheep, idTerrain);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void buyCard(String typeOfTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connectionRMI.buyCard(typeOfTerrain);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void killSheep(int idSheep) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connectionRMI.killSheep(idSheep);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void joinSheep(int idTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            connectionRMI.joinSheep(idTerrain);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void wakeUp() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.clickAction();
     }
 
     public void setNikcname() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.setNickname();
     }
 
     public void errorCoin(String message) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.errorMessage(message);
     }
 
     public void errorMove(String message) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.errorMessage(message);
     }
 
     public void errorDice(String message) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.errorMessage(message);
     }
 
     public int getPlaceShepard(int idShepard) throws RemoteException {
@@ -128,34 +142,34 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     }
 
     public void refreshMoveAnimal(int idAnimal, int idTerrain) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
     }
 
     public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshAddAnimal(idAnimal, kind);
     }
 
     public void refreshKillAnimal(int idAnimal) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshKillAnimal(idAnimal);
     }
 
     public void refreshTransformAnimal(int idAnimal, String kind) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
     }
 
     public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshAddShepard(idShepard, idRoad);
     }
 
     public void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
     }
 
     public void refreshCard(String kind, boolean isSold) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshCard(kind, isSold);
     }
 
     public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        typeOfInteraction.refreshCoin(coins, addCoin);
     }
 }

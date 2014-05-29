@@ -92,8 +92,6 @@ public class ConnectionManagerSocket extends ConnectionManager {
         } else if ("joinSheep".equals(actionToDo)) {
             actionDo = joinSheep();
         }
-        //TODO
-        //refreshGame4AllPlayer();
         return actionDo;
     }
 
