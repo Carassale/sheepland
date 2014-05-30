@@ -25,7 +25,8 @@ public class DinamicSheepButton extends JButton {
     private boolean isInvisible;
     private int numSheeps = 0;
 
-    public DinamicSheepButton() {
+    public DinamicSheepButton(GUIDinamic gui) {
+        GUI = gui;
         for (int i = 0; i <= 5; i++) {
             try {
                 sheepImagesSmall[i] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\sheep_small_" + i + ".png"));
@@ -50,8 +51,10 @@ public class DinamicSheepButton extends JButton {
             }
 
             public void mouseEntered(MouseEvent e) {
-                isBig = true;
-                repaint();
+                if(GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER){
+                    isBig = true;
+                    repaint();
+                }
             }
 
             public void mouseExited(MouseEvent e) {

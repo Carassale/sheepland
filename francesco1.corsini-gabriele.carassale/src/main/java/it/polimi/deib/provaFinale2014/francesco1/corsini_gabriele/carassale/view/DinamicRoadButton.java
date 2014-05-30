@@ -1,0 +1,145 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
+
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Francesco Corsini
+ */
+public class DinamicRoadButton extends JPanel {
+
+    private final GUIDinamic GUI;
+    private BufferedImage icon;
+    private BufferedImage fence, redShepard, greenShepard, blueShepard, yellowShepard;
+    private final int road;
+    private int idShepard;
+    private boolean isShepard;
+    private boolean isMouseOver = false;
+    private final BufferedImageContainer imagePool;
+
+    DinamicRoadButton(GUIDinamic aThis, int num,BufferedImageContainer imagePool) {
+        road = num;
+        this.GUI = aThis;
+        this.imagePool = imagePool;
+
+        isShepard = false;
+        icon = imagePool.getTransparent();
+        
+        this.setLayout(null);
+        this.setOpaque(false);
+        this.setVisible(false);
+
+        this.addMouseListener(new MouseListener() {
+
+            public void mouseClicked(MouseEvent e) {
+                if (GUI.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
+
+                    if (isShepard == false) {
+                        GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                        GUI.sendPlaceShepard(road);                        
+                    } else {
+                        GUI.updateText("C'è un altro pastore su questa Strada!");
+                    }
+
+                }
+
+            }
+
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            public void mouseReleased(MouseEvent e) {
+
+                if (GUI.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
+
+                    if (isShepard == false) {
+                        GUI.sendPlaceShepard(road);
+                        GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                    } else {
+                        GUI.updateText("C'è un altro pastore su questa Strada!");
+                    }
+
+                }
+            }
+
+            public void mouseEntered(MouseEvent e) {
+
+                if (isShepard) {
+                    isMouseOver = true;
+                    changeSize();
+                }
+            }
+
+            public void mouseExited(MouseEvent e) {
+                if (isShepard) {
+                    isMouseOver = false;
+                }
+            }
+
+        });
+        repaint();
+    }
+
+    private void changeSize() {
+        if (isMouseOver) {
+            this.setSize(80, 80);
+        } else {
+            this.setSize(50, 50);
+        }
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+
+    }
+
+    public void setShepard(int id) {
+
+        if (id == 0) {
+            icon = imagePool.getRedShepard();
+        } else if (id == 0) {
+            icon = imagePool.getBlueShepard();
+        } else if (id == 0) {
+            icon = imagePool.getYellowShepard();
+        } else if (id == 0) {
+            icon = imagePool.getGreenShepard();
+        }
+        isShepard = true;
+        idShepard = id;
+        repaint();
+    }
+
+    public void setFence() {
+       
+            icon = imagePool.getFence();
+            repaint();
+        
+    }
+
+    public boolean isIsShepard() {
+        return isShepard;
+    }
+
+    public void setIsShepard(boolean isShepard) {
+        this.isShepard = isShepard;
+    }
+
+}

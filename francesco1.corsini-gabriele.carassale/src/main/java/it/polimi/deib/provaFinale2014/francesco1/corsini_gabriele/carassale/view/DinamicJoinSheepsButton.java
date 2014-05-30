@@ -21,12 +21,12 @@ public class DinamicJoinSheepsButton extends JPanel {
 
     private BufferedImage icon;
     private GUIDinamic GUI;
-    private int terrain;
+    private final int terrain;
     private DinamicJoinSheepsButton panel; 
 
-    public DinamicJoinSheepsButton(GUIDinamic gui, int terrain) {
+    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
         GUI = gui;
-        this.terrain = terrain;
+        this.terrain = ter;
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
         } catch (IOException ex) {
@@ -35,13 +35,14 @@ public class DinamicJoinSheepsButton extends JPanel {
         this.setLayout(null);
 	this.setOpaque(false);
         this.setVisible(false);
+        this.setToolTipText("Accoppia Ovini");
         
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
                 
-                //GUI.animationJoinSheeps( panel.getLocation().x,panel.getLocation().y);
-                //comunnnication joinSheeps
+                activateAnimation();
+                GUI.sendJoinSheeps(terrain);
             }
 
             public void mousePressed(MouseEvent e) {
@@ -49,8 +50,6 @@ public class DinamicJoinSheepsButton extends JPanel {
             }
 
             public void mouseReleased(MouseEvent e) {
-               
-                    activateAnimation();
                 
             }
 
@@ -66,7 +65,8 @@ public class DinamicJoinSheepsButton extends JPanel {
     }
     
     private void activateAnimation(){
-        GUI.animationJoinSheeps( this.getLocation().x,this.getLocation().y);
+        
+        GUI.animationJoinSheeps( this.getLocation().x,this.getLocation().y, terrain);
     }
     
     

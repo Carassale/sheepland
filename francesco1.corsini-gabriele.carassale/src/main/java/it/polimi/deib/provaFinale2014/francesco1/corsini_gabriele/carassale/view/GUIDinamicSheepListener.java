@@ -19,9 +19,10 @@ public class GUIDinamicSheepListener extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        GUI.activateSubMenuSheep(terrain, true);
+        
 
         if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+            GUI.activateSubMenuSheep(terrain, true);
             GUI.setSubMenuOpen(terrain);
             GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
         } //nel caso ci sia un submenù già aperto allora lo chiudo
