@@ -6,7 +6,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  * @author Carassale Gabriele
  */
 public final class Connection_Variable {
-    
+
     /**
      * Nasconde il costruttor di base
      */
