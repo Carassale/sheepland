@@ -31,7 +31,7 @@ public class GUIDinamicSheepSubMenuListener extends JFrame implements ActionList
         } else if (TypeAction.KILL_SHEEP.toString().equals(type)) {
 
         } else if (TypeAction.JOIN_SHEEP.toString().equals(type)) {
-            GUI.joinSheeps(terrain);
+            GUI.animationJoinSheeps(200,200);
         }
     }
 

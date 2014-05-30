@@ -80,7 +80,7 @@ public interface TypeOfInteraction {
      * @param coins Variazione di coin
      * @param addCoin True se deve aggiungere, False se deve levare
      */
-    void refreshCoin(int coins, boolean addCoin);
+    public void refreshCoin(int coins, boolean addCoin);
 
     /**
      * Risveglia l'interfaccia e aggiunge un pastore

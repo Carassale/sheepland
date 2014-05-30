@@ -6,14 +6,18 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -28,7 +32,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private JButton[] cards = new JButton[6];
     private DinamicSheepButton[] jbuttonSheeps = new DinamicSheepButton[19];
     private JButton[] jbuttonKillSheep = new JButton[19];
-    private JButton[] jbuttonJoinSheeps = new JButton[19];
+    private DinamicJoinSheepsButton[] jbuttonJoinSheeps = new DinamicJoinSheepsButton[19];
     private JButton[] jbuttonMoveSheep = new JButton[19];
     private JLabel[] jlabelBlackSheep = new JLabel[19];
     private JLabel[] jlabelWolf = new JLabel[19];
@@ -40,6 +44,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private ImageIcon desertCards[] = new ImageIcon[6];
     private ImageIcon mountainCards[] = new ImageIcon[6];
     private ImageIcon fieldCards[] = new ImageIcon[6];
+    
+    
 
     private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
@@ -59,6 +65,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(950, 650));
+        
+        
+        
 
         createTable();
         createSheepButtons();
@@ -66,6 +75,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createBlackSheepLabels();
         createWolfLabels();
         createCards();
+        setupAnimations();
 
         state = state.WAITINGFORPLAYER;
         setLocationRelativeTo(null);
@@ -76,6 +86,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         setVisible(true);
     }
 
+    private void setupAnimations(){
+        
+    }
+    
     private void createTable() {
         JComponent newContentPane = layeredPane;
         newContentPane.setOpaque(true);
@@ -139,40 +153,41 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             } else if (i == 18) {
                 jbuttonSheeps[i].setLocation(450 + offset, 270 + offset);
             }
-            jbuttonSheeps[i].setnumber(2);
+            
         }
+        //serve ad inizializzare le pecore su sheapsbourg a 0
+        jbuttonSheeps[18].setnumber(0);
     }
+
 
     private void createSheepSubMenu() {
         ImageIcon iconKillsheep = new ImageIcon("src\\main\\resources\\killSheep.png");
-        ImageIcon iconJoinSheeps = imageIcon;
+        
         ImageIcon iconMoveSheep = new ImageIcon("src\\main\\resources\\runningSheep2.png");
         for (int i = 0; i <= 18; i++) {
             jbuttonKillSheep[i] = new JButton(iconKillsheep);
-            jbuttonJoinSheeps[i] = new JButton(iconJoinSheeps);
+            jbuttonJoinSheeps[i] = new DinamicJoinSheepsButton(this, i);
             jbuttonMoveSheep[i] = new JButton(iconMoveSheep);
             setBackGroundInvisible(jbuttonKillSheep[i]);
-            setBackGroundInvisible(jbuttonJoinSheeps[i]);
             setBackGroundInvisible(jbuttonMoveSheep[i]);
-            jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.JOIN_SHEEP.toString()));
             jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.KILL_SHEEP.toString()));
             jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.MOVE_SHEEP.toString()));
             layeredPane.add(jbuttonKillSheep[i], new Integer(4));
             layeredPane.add(jbuttonJoinSheeps[i], new Integer(4));
             layeredPane.add(jbuttonMoveSheep[i], new Integer(4));
             jbuttonKillSheep[i].setSize(70, 70);
-            jbuttonJoinSheeps[i].setSize(70, 70);
+            jbuttonJoinSheeps[i].setSize(100, 100);
             jbuttonMoveSheep[i].setSize(70, 70);
 
             Point p = jbuttonSheeps[i].getLocation();
             jbuttonMoveSheep[i].setLocation(p.x - 70, p.y - 35);
-            jbuttonJoinSheeps[i].setLocation(p.x, p.y - 55);
+            jbuttonJoinSheeps[i].setLocation(p.x - 20, p.y - 100);
             jbuttonKillSheep[i].setLocation(p.x + 70, p.y - 35);
             jbuttonMoveSheep[i].setVisible(false);
-            jbuttonJoinSheeps[i].setVisible(false);
             jbuttonKillSheep[i].setVisible(false);
 
         }
+        
     }
 
     private void createCards() {
@@ -314,19 +329,13 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     }
 
-    public void joinSheeps(int terrain) {
-        try {
-            JPanel panelJoinSheeps = new GUIDinamicPanel("src\\main\\resources\\joinSheeps2.png");
-            panelJoinSheeps.setLocation(jbuttonJoinSheeps[terrain].getLocation());
-            Dimension dim2 = new Dimension(70, 70);
-            panelJoinSheeps.setSize(dim2);
-            panelJoinSheeps.add(panel, new Integer(3));
-
-            new AnimationJoinSheeps(this, panelJoinSheeps);
-        } catch (IOException ex) {
-            Logger.getLogger(GUIDinamic.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public void animationJoinSheeps(int x, int y) {
+        AnimationJoinSheeps anim = new AnimationJoinSheeps();
+        
+        layeredPane.add(anim, new Integer(5));
+        anim.setVisible(true);
+        anim.setLocation(x, y);
+        anim.getRunner().start();
     }
 
     public void activateSubMenuSheep(int i, boolean val) {
@@ -356,23 +365,14 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private void activateSheep(int terrain) {
         //CONT DA QUI
         int i = 0;
-        for (int j = 0; j <= 5; j++) {
-
-        }
 
         for (ViewAnimal ele : animals) {
             if (ele.getPosition() == terrain) {
                 i++;
             }
         }
-        if (i <= 4) {
-
-        }
-
-    }
-
-    private void joinSheepAnimation() {
-
+        
+        jbuttonSheeps[terrain].setnumber(i);
     }
 
     public void clickAction() {
@@ -406,35 +406,33 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         } else if (TypeAnimal.WHITE_SHEEP.toString().equals(animalType)
                 || TypeAnimal.RAM.toString().equals(animalType)
                 || TypeAnimal.LAMB.toString().equals(animalType)) {
-            //CONT DA QUI
             animals.add(new ViewAnimal(i, idTerrain, animalType));
             activateSheep(idTerrain);
-
         }
     }
 
     public void refreshKillAnimal(int idAnimal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
 
     public void refreshTransformAnimal(int idAnimal, String kind) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void refreshCard(String typeOfTerrain, boolean isSold) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void refreshCoin(int coins, boolean addCoin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void refreshAddShepard(int idShepard, int road) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public void refreshMoveShepard(int idShepard, int road) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     public GUIDinamicState getGUIDinamicState() {

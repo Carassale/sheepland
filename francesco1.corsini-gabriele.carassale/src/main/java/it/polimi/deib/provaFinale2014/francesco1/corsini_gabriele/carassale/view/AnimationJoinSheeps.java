@@ -1,42 +1,97 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Francesco Corsini
  */
-public class AnimationJoinSheeps implements Runnable {
+public class AnimationJoinSheeps extends JPanel implements Runnable {
 
+    private BufferedImage heart;
+    private int maxDim = 100, minDim = 50;
     private Thread runner;
-    private GUIDinamic GUI;
-    private int max;
-    private JPanel panel;
-    private boolean isOver = false;
+    
+    public AnimationJoinSheeps() {
+        try {
+            heart = ImageIO.read(new File(".\\src\\main\\resources\\heart.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setLayout(null);
+	this.setOpaque(false);
+        this.setLocation(this.getLocation().x+50, this.getLocation().y+50);
 
-    public AnimationJoinSheeps(GUIDinamic gui, JPanel panel) {
-        GUI = gui;
         runner = new Thread(this);
-        runner.start();
-        this.panel = panel;
-        Dimension x = panel.getSize();
-        max = x.height * 5;
+        
     }
+
+   
 
     public void run() {
-        while (!isOver) {
-            panel.getSize();
-            int newx = panel.getSize().width + 1;
-            int newy = panel.getSize().height + 1;
-            panel.setSize(newx, newy);
-            if (newx >= max) {
-                isOver = true;
-            }
+        for(int i = 0; i <= maxDim; i++){
+            this.setSize(i*2, i*2);
+            this.setLocation(this.getLocation().x-1, this.getLocation().y-1);
+            repaint();
             try {
-                Thread.sleep(20);
+                Thread.sleep(10);
             } catch (Exception e) {
-            }
+            }            
         }
+        for(int j = 0; j <= 2; j++){
+        for(int i = maxDim; i >= minDim; i--){
+            this.setSize(i*2, i*2);
+            this.setLocation(this.getLocation().x+1, this.getLocation().y+1);
+            repaint();
+            try {
+                Thread.sleep(15);
+            } catch (Exception e) {
+            }            
+        }
+        for(int i = minDim; i <= maxDim; i++){
+            this.setSize(i*2, i*2);
+            this.setLocation(this.getLocation().x-1, this.getLocation().y-1);
+            repaint();
+            try {
+                Thread.sleep(15);
+            } catch (Exception e) {
+            }            
+        }
+        for(int i = maxDim; i >= 0; i--){
+            this.setSize(i*2, i*2);
+            this.setLocation(this.getLocation().x+1, this.getLocation().y+1);
+            repaint();
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+            } 
+        }
+        }
+        this.setVisible(false);
     }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+            g.drawImage(heart, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public Thread getRunner() {
+        return runner;
+    }
+
+    public void setRunner(Thread runner) {
+        this.runner = runner;
+    }
+    
+    
 }

@@ -45,7 +45,7 @@ public class LineCommand implements TypeOfInteraction {
     }
 
     /**
-     * Legge una riga dal terminale
+     * Implementa il metodo superiore e legge una riga dal terminale
      *
      * @return Stringa letta
      */
@@ -57,36 +57,6 @@ public class LineCommand implements TypeOfInteraction {
             Logger.getLogger(LineCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
-    }
-
-    /**
-     * Legge una riga dal terminale
-     *
-     * @return Stringa letta
-     */
-    public int readInt() {
-        String s = read();
-        while (!isNumeric(s)) {
-            print("Devi inserire un valore numerico!");
-            s = read();
-        }
-
-        return Integer.parseInt(s);
-    }
-
-    /**
-     * Controlla se una stringa in realtà può essere convertita a numero
-     *
-     * @param str Stringa da controllore
-     * @return True se è numero
-     */
-    private boolean isNumeric(String str) {
-        try {
-            Integer i = Integer.parseInt(str);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -251,11 +221,10 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void moveShepard() {
         print("Quale pastore vuoi muovere?");
-
-        int idShepard = readInt();
+        Integer idShepard = new Integer(read());
 
         print("In quale strada?");
-        int idRoad = readInt();
+        Integer idRoad = new Integer(read());
 
         connectionClient.moveShepard(idShepard, idRoad);
     }
@@ -265,10 +234,10 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void moveSheep() {
         print("Quale pecora vuoi muovere?");
-        int idSheep = readInt();
+        Integer idSheep = new Integer(read());
 
         print("In quale terreno?");
-        int idTerrain = readInt();
+        Integer idTerrain = new Integer(read());
 
         connectionClient.moveSheep(idSheep, idTerrain);
     }
@@ -288,7 +257,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void killSheep() {
         print("Quale pecora vuoi ammazzare?");
-        int idSheep = readInt();
+        Integer idSheep = new Integer(read());
 
         connectionClient.killSheep(idSheep);
     }
@@ -298,7 +267,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void joinSheep() {
         print("In quale terreno si trovano gli ovini?");
-        int idTerrain = readInt();
+        Integer idTerrain = new Integer(read());
 
         connectionClient.joinSheep(idTerrain);
     }
@@ -330,7 +299,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void placeShepard(int idShepard) {
         print("Seleziona una strada dove posizionare il pastore " + idShepard);
-        int idRoad = readInt();
+        Integer idRoad = new Integer(read());
 
         connectionClient.placeShepard(idRoad);
     }

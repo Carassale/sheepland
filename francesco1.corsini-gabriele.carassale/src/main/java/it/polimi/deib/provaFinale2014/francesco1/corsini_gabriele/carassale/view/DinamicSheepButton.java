@@ -22,6 +22,7 @@ public class DinamicSheepButton extends JButton {
     private GUIDinamic GUI;
 
     private boolean isBig = false;
+    private boolean isInvisible;
     private int numSheeps = 0;
 
     public DinamicSheepButton() {
@@ -66,8 +67,19 @@ public class DinamicSheepButton extends JButton {
         if (sheepNumber > 5) {
             sheepNumber = 5;
         }
-        icon = sheepImagesSmall[sheepNumber];
-        numSheeps = sheepNumber;
+        if(sheepNumber == 0){
+            try {
+                icon = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
+                isInvisible = true;
+            } catch (IOException ex) {
+                Logger.getLogger(DinamicSheepButton.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            icon = sheepImagesSmall[sheepNumber];
+            numSheeps = sheepNumber;
+            isInvisible = false;
+        }
         repaint();
     }
 
@@ -80,5 +92,15 @@ public class DinamicSheepButton extends JButton {
             g.drawImage(icon, 0, 0, 60, 60, this);
         }
     }
+
+    public boolean isIsInvisible() {
+        return isInvisible;
+    }
+
+    public void setIsInvisible(boolean isInvisible) {
+        this.isInvisible = isInvisible;
+    }
+    
+    
 
 }
