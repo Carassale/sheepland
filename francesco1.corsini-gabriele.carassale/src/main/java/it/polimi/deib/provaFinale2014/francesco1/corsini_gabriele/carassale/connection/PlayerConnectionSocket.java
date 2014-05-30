@@ -55,7 +55,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
      * @return int
      */
     public int getNextInt() {
-        return new Integer(inSocket.nextLine());
+        return Integer.valueOf(inSocket.nextLine());
     }
 
     /**

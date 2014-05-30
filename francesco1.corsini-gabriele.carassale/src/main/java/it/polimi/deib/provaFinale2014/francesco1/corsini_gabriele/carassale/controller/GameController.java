@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
@@ -53,7 +52,7 @@ public class GameController {
         dice = new Dice();
         this.playerPool = null;
         this.gameTable = null;
-        
+
         this.connectionManager = connectionManager;
     }
 
@@ -153,35 +152,32 @@ public class GameController {
         String kind = "";
         for (Sheep sheep : gameTable.getSheeps()) {
             if (sheep.isLamb()) {
-                kind = TypeAnimal.lamb.toString();
+                kind = TypeAnimal.LAMB.toString();
             } else if (sheep.isRam()) {
-                kind = TypeAnimal.ram.toString();
+                kind = TypeAnimal.RAM.toString();
             } else {
-                kind = TypeAnimal.whiteSheep.toString();
+                kind = TypeAnimal.WHITE_SHEEP.toString();
             }
 
             connectionManager.refreshAddAnimal(sheep.getPosition().getID(), kind);
         }
 
         Animal wolf = gameTable.getWolf();
-        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), TypeAnimal.wolf.toString());
+        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), TypeAnimal.WOLF.toString());
 
         Animal blackSheep = gameTable.getBlacksheep();
-        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), TypeAnimal.blackSheep.toString());
+        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), TypeAnimal.BLACK_SHEEP.toString());
     }
 
     /**
      * Invia la connection manager i soldi da impostare ai vari giocatori
      */
     private void sendCoinToClient() {
-        int i = 0;
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
 
             connectionManager.refreshCoin(currentPlayer.getCoins(), true);
             connectionManager.nextPlayerConnections();
-
-            i++;
         } while (!(playerPool.nextPlayer()));
     }
 
@@ -190,7 +186,7 @@ public class GameController {
      *
      * @param numPlayer
      */
-    protected void placeShepards(int numPlayer) {
+    private void placeShepards(int numPlayer) {
         int i = 0;
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
@@ -246,9 +242,9 @@ public class GameController {
 
     /**
      * Metodo che serve a fare la distribuzione iniziale delle carte ai vari
-     * giocatori E' protected perchè così posso testarlo
+     * giocatori
      */
-    protected void distributeCard() {
+    private void distributeCard() {
         String terrainKind = null;
         boolean[] alredyPicked = new boolean[6];
         for (int i = 0; i < 6; i++) {
@@ -261,17 +257,14 @@ public class GameController {
 
             while (!playerHasPicked) {
                 int random = (int) (Math.random() * 6);
-                if (alredyPicked[random] == false) {
+                if (!alredyPicked[random]) {
 
                     try {
                         terrainKind = matchNumToTerrainKind(random);
-                        if (terrainKind != null) {
-                            playerThatPicks.buyTerrainCard(terrainKind, gameTable);
-                            alredyPicked[random] = true;
-                            playerHasPicked = true;
-                        } else {
-                            throw new NullPointerException(Message.errorDistributeCard.toString());
-                        }
+
+                        playerThatPicks.buyTerrainCard(terrainKind, gameTable);
+                        alredyPicked[random] = true;
+                        playerHasPicked = true;
                     } catch (CoinException ex) {
                         Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -318,17 +311,17 @@ public class GameController {
     private String matchNumToTerrainKind(int random) {
         String terrainKind = null;
         if (random == 0) {
-            terrainKind = TypeCard.plain.toString();
+            terrainKind = TypeCard.PLAIN.toString();
         } else if (random == 1) {
-            terrainKind = TypeCard.forest.toString();
+            terrainKind = TypeCard.FOREST.toString();
         } else if (random == 2) {
-            terrainKind = TypeCard.river.toString();
+            terrainKind = TypeCard.RIVER.toString();
         } else if (random == 3) {
-            terrainKind = TypeCard.desert.toString();
+            terrainKind = TypeCard.DESERT.toString();
         } else if (random == 4) {
-            terrainKind = TypeCard.mountain.toString();
+            terrainKind = TypeCard.MOUNTAIN.toString();
         } else if (random == 5) {
-            terrainKind = TypeCard.field.toString();
+            terrainKind = TypeCard.FIELD.toString();
         }
         return terrainKind;
     }

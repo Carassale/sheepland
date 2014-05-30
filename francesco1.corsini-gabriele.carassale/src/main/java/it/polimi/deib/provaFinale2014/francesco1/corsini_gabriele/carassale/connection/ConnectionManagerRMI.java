@@ -38,7 +38,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
-     * avvia col la chiamata al metodo .start()
+     * avvia col la chiamata al metodo start
      *
      * @param playerConnections ArrayList contenente i player associati a questa
      * partita
@@ -192,7 +192,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Invia al currentPlayer le monete da aggiungere/rimuovere
+     * Invia al currentPlayer le monete da aggiungere o rimuovere
      *
      * @param coins Valore dei coin
      * @param addCoin True se vanno aggiunti
@@ -207,7 +207,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Invia al currentPlayer la carta comprata/venduta
+     * Invia al currentPlayer la carta comprata o venduta
      *
      * @param kind Tipo di carta
      * @param isSold True se è venduta
@@ -294,7 +294,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte idRoad nell'oggetto Road associato
         Road r = gameController.getGameTable().idToRoad(idRoad);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.moveShepard.toString())) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEPARD.toString())) {
             try {
                 boolean refreshCoin = false;
                 if (s.isExpensiveMove(r)) {
@@ -309,16 +309,16 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return StatusMessage.actionOK.toString();
+            return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
-            return StatusMessage.actionError.toString();
+            return StatusMessage.ACTION_ERROR.toString();
         }
     }
 
@@ -337,7 +337,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.moveSheep.toString())) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
                 refreshMoveAnimal(idSheep, idTerrain);
@@ -345,12 +345,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return StatusMessage.actionOK.toString();
+            return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
-            return StatusMessage.actionError.toString();
+            return StatusMessage.ACTION_ERROR.toString();
         }
     }
 
@@ -362,7 +362,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @throws RemoteException
      */
     public String buyCard(String typeOfTerrain) throws RemoteException {
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.buyCard.toString())) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.BUY_CARD.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
                 refreshCard(typeOfTerrain, false);
@@ -370,12 +370,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return StatusMessage.actionOK.toString();
+            return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
-            return StatusMessage.actionError.toString();
+            return StatusMessage.ACTION_ERROR.toString();
         }
     }
 
@@ -390,20 +390,20 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.joinSheep.toString())) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-                refreshAddAnimal(idTerrain, TypeAnimal.lamb.toString());
+                refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
                 canDoAction = true;
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return StatusMessage.actionOK.toString();
+            return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
-            return StatusMessage.actionError.toString();
+            return StatusMessage.ACTION_ERROR.toString();
         }
     }
 
@@ -418,7 +418,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         //Converte sheep nell'oggetto Sheep associato
         Sheep sheep = gameController.getGameTable().idToSheep(idSheep);
 
-        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.killSheep.toString())) {
+        if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.KILL_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
                 refreshKillAnimal(idSheep);
@@ -426,27 +426,27 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (WrongDiceNumberException ex) {
                 currentPlayer.getClientRMI().errorDice(ex.getMessage());
                 doRepeatAction = true;
-                Logger.getLogger(ConnectionManagerSocket.class.getName()).log(Level.FINE, "Errore: {0}", ex.getMessage());
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return StatusMessage.actionOK.toString();
+            return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
-            return StatusMessage.actionError.toString();
+            return StatusMessage.ACTION_ERROR.toString();
         }
     }
 
     /**
      * Questa classe implementa un Runnable, le due classi che la estendono
      * hanno entrambe un attributo Thread creato passando come parametro This e
-     * successivamente avviato con la chiamata .start()
+     * successivamente avviato con la chiamata start
      */
     @Override
     public void run() {

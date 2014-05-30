@@ -7,14 +7,14 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  */
 public enum StatusMessage {
 
-    playerAdded("Player aggiunto"),
-    noPlayerAdded("Player non aggiunto"),
-    connected("Connesso"),
-    actionOK("Mossa effettua"),
-    actionError("Non è possibile fare questa mossa, ricorda di muovere il pastore"),
-    errorMove("errorMove"),
-    errorDice("errorDice"),
-    errorCoin("errorCoin");
+    PLAYER_ADDED("Player aggiunto"),
+    NO_PLAYER_ADDED("Player non aggiunto"),
+    CONNECTED("Connesso"),
+    ACTION_OK("Mossa effettua"),
+    ACTION_ERROR("Non è possibile fare questa mossa, ricorda di muovere il pastore"),
+    ERROR_MOVE("errorMove"),
+    ERROR_DICE("errorDice"),
+    ERROR_COIN("errorCoin");
 
     private String value;
 

@@ -232,8 +232,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public int getPlaceShepard(int idShepard) throws RemoteException {
         typeOfInteraction.placeShepard(idShepard);
 
-        Integer road = new Integer(tempRoad.toString());
-        return road;
+        return Integer.valueOf(tempRoad.toString());
     }
 
     /**

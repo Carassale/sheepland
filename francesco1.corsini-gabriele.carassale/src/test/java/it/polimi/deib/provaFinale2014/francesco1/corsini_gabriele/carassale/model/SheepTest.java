@@ -57,8 +57,8 @@ public class SheepTest {
      */
     @Test
     public void testGetSexAndSetSex() {
-        sheep.setSex(TypeAnimal.female.toString());
-        assertEquals(TypeAnimal.female.toString(), sheep.getSex());
+        sheep.setSex(TypeAnimal.FEMALE.toString());
+        assertEquals(TypeAnimal.FEMALE.toString(), sheep.getSex());
     }
 
     /**
@@ -76,7 +76,7 @@ public class SheepTest {
      */
     @Test
     public void testIsWhiteSheep() {
-        sheep.setSex(TypeAnimal.female.toString());
+        sheep.setSex(TypeAnimal.FEMALE.toString());
         assertTrue(sheep.isWhiteSheep());
     }
 
@@ -95,7 +95,7 @@ public class SheepTest {
      */
     @Test
     public void testIsRam() {
-        sheep.setSex(TypeAnimal.male.toString());
+        sheep.setSex(TypeAnimal.MALE.toString());
         assertTrue(sheep.isRam());
     }
 

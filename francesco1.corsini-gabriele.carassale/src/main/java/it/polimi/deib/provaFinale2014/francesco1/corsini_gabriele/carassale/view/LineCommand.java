@@ -113,15 +113,15 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void refreshAddAnimal(int idTerrain, String kind) {
         String k = null;
-        if (TypeAnimal.whiteSheep.toString().equals(kind)) {
+        if (TypeAnimal.WHITE_SHEEP.toString().equals(kind)) {
             k = "Aggiunta pecora";
-        } else if (TypeAnimal.blackSheep.toString().equals(kind)) {
+        } else if (TypeAnimal.BLACK_SHEEP.toString().equals(kind)) {
             k = "Aggiunta pecora nera";
-        } else if (TypeAnimal.ram.toString().equals(kind)) {
+        } else if (TypeAnimal.RAM.toString().equals(kind)) {
             k = "Aggiunto montone";
-        } else if (TypeAnimal.lamb.toString().equals(kind)) {
+        } else if (TypeAnimal.LAMB.toString().equals(kind)) {
             k = "Aggiunto agnello";
-        } else if (TypeAnimal.wolf.toString().equals(kind)) {
+        } else if (TypeAnimal.WOLF.toString().equals(kind)) {
             k = "Aggiunto lupo";
         }
         outVideo.println(k + " nel terreno " + idTerrain);
@@ -144,9 +144,9 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void refreshTransformAnimal(int idAnimal, String kind) {
         String k = null;
-        if (TypeAnimal.whiteSheep.toString().equals(kind)) {
+        if (TypeAnimal.WHITE_SHEEP.toString().equals(kind)) {
             k = "pecora";
-        } else if (TypeAnimal.ram.toString().equals(kind)) {
+        } else if (TypeAnimal.RAM.toString().equals(kind)) {
             k = "montone";
         }
         outVideo.println("Trasformato agnello " + idAnimal + " in " + k);

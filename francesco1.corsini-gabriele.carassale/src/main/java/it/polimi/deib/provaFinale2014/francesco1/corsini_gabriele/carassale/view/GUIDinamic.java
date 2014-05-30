@@ -154,9 +154,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             setBackGroundInvisible(jbuttonKillSheep[i]);
             setBackGroundInvisible(jbuttonJoinSheeps[i]);
             setBackGroundInvisible(jbuttonMoveSheep[i]);
-            jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.joinSheep.toString()));
-            jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.killSheep.toString()));
-            jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.moveSheep.toString()));
+            jbuttonJoinSheeps[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.JOIN_SHEEP.toString()));
+            jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.KILL_SHEEP.toString()));
+            jbuttonMoveSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.MOVE_SHEEP.toString()));
             layeredPane.add(jbuttonKillSheep[i], new Integer(4));
             layeredPane.add(jbuttonJoinSheeps[i], new Integer(4));
             layeredPane.add(jbuttonMoveSheep[i], new Integer(4));
@@ -188,22 +188,22 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         for (int i = 0; i <= 5; i++) {
             if (i == 0) {
                 cards[i] = new JButton(plainCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.plain.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.PLAIN.toString()));
             } else if (i == 1) {
                 cards[i] = new JButton(forestCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.forest.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.FOREST.toString()));
             } else if (i == 2) {
                 cards[i] = new JButton(riverCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.river.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.RIVER.toString()));
             } else if (i == 3) {
                 cards[i] = new JButton(desertCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.desert.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.DESERT.toString()));
             } else if (i == 4) {
                 cards[i] = new JButton(mountainCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.mountain.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.MOUNTAIN.toString()));
             } else if (i == 5) {
                 cards[i] = new JButton(fieldCards[0]);
-                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.field.toString()));
+                cards[i].addActionListener(new GUIDinamicCardListener(this, i, TypeCard.FIELD.toString()));
             }
             setBackGroundInvisible(cards[i]);
             layeredPane.add(cards[i], new Integer(2));
@@ -397,15 +397,15 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     public void refreshAddAnimal(int idTerrain, String animalType) {
         int i = animals.size();
-        if (TypeAnimal.wolf.toString().equals(animalType)) {
+        if (TypeAnimal.WOLF.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
             activateWolf(18);
-        } else if (TypeAnimal.blackSheep.toString().equals(animalType)) {
+        } else if (TypeAnimal.BLACK_SHEEP.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-1, 18));
             activateBlackSheep(18);
-        } else if (TypeAnimal.whiteSheep.toString().equals(animalType)
-                || TypeAnimal.ram.toString().equals(animalType)
-                || TypeAnimal.lamb.toString().equals(animalType)) {
+        } else if (TypeAnimal.WHITE_SHEEP.toString().equals(animalType)
+                || TypeAnimal.RAM.toString().equals(animalType)
+                || TypeAnimal.LAMB.toString().equals(animalType)) {
             //CONT DA QUI
             animals.add(new ViewAnimal(i, idTerrain, animalType));
             activateSheep(idTerrain);

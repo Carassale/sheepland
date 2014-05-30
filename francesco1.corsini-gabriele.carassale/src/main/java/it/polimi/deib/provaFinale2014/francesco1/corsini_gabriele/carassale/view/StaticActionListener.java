@@ -23,26 +23,26 @@ public class StaticActionListener extends JFrame implements ActionListener {
         String command = e.getActionCommand();
         GUI.activateActions(false);
 
-        if (TypeAction.moveShepard.toString().equals(command)) {
+        if (TypeAction.MOVE_SHEPARD.toString().equals(command)) {
             GUI.getLAction2().setText("Seleziona quale Pastore muovere");
             GUI.setGUIState((GUIState.MOVESHEPARDSELECTION));
             GUI.activateShepardSelection(true);
             GUI.activateRoads(true);
-        } else if (TypeAction.moveSheep.toString().equals(command)) {
+        } else if (TypeAction.MOVE_SHEEP.toString().equals(command)) {
             GUI.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");
             GUI.setGUIState((GUIState.MOVESHEEPFROM));
             GUI.activateTerrains(true);
 
-        } else if (TypeAction.buyCard.toString().equals(command)) {
+        } else if (TypeAction.BUY_CARD.toString().equals(command)) {
             GUI.getLAction2().setText("Selezione la tipologia di carta da comprare");
             GUI.setGUIState((GUIState.BUYCARD));
             GUI.activateTerrainType(true);
-        } else if (TypeAction.joinSheep.toString().equals(command)) {
+        } else if (TypeAction.JOIN_SHEEP.toString().equals(command)) {
             GUI.getLAction2().setText("Selezione il terreno dove accoppiare");
             GUI.activateTerrains(true);
             GUI.setGUIState((GUIState.JOINSHEEPS));
 
-        } else if (TypeAction.killSheep.toString().equals(command)) {
+        } else if (TypeAction.KILL_SHEEP.toString().equals(command)) {
             GUI.getLAction2().setText("Selezione il territorio dove è l'ovino da abbattere");
             GUI.setGUIState((GUIState.KILLSHEEP));
             GUI.activateTerrains(true);

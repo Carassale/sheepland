@@ -26,11 +26,11 @@ public class GUIDinamicSheepSubMenuListener extends JFrame implements ActionList
         //in modo che nessun submenu sia aperto
         GUI.setSubMenuOpen(-1);
 
-        if (TypeAction.moveSheep.toString().equals(type)) {
+        if (TypeAction.MOVE_SHEEP.toString().equals(type)) {
 
-        } else if (TypeAction.killSheep.toString().equals(type)) {
+        } else if (TypeAction.KILL_SHEEP.toString().equals(type)) {
 
-        } else if (TypeAction.joinSheep.toString().equals(type)) {
+        } else if (TypeAction.JOIN_SHEEP.toString().equals(type)) {
             GUI.joinSheeps(terrain);
         }
     }

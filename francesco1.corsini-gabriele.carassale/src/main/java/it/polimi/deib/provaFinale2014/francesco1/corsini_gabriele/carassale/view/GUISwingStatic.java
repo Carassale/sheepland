@@ -150,31 +150,31 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         BMoveShepard = new JButton("Muovi Pastore");
         BMoveShepard.addActionListener(new StaticActionListener(this));
-        BMoveShepard.setActionCommand(TypeAction.moveShepard.toString());
+        BMoveShepard.setActionCommand(TypeAction.MOVE_SHEPARD.toString());
         PActions.add(BMoveShepard);
         BMoveShepard.setEnabled(false);
 
         BMoveSheep = new JButton("Muovi Pecora");
         BMoveSheep.addActionListener(new StaticActionListener(this));
-        BMoveSheep.setActionCommand(TypeAction.moveSheep.toString());
+        BMoveSheep.setActionCommand(TypeAction.MOVE_SHEEP.toString());
         PActions.add(BMoveSheep);
         BMoveSheep.setEnabled(false);
 
         BBuyCard = new JButton("Compra Carta");
         BBuyCard.addActionListener(new StaticActionListener(this));
-        BBuyCard.setActionCommand(TypeAction.buyCard.toString());
+        BBuyCard.setActionCommand(TypeAction.BUY_CARD.toString());
         PActions.add(BBuyCard);
         BBuyCard.setEnabled(false);
 
         BJoinSheeps = new JButton("Accoppia Ovini");
         BJoinSheeps.addActionListener(new StaticActionListener(this));
-        BJoinSheeps.setActionCommand(TypeAction.joinSheep.toString());
+        BJoinSheeps.setActionCommand(TypeAction.JOIN_SHEEP.toString());
         PActions.add(BJoinSheeps);
         BJoinSheeps.setEnabled(false);
 
         BKillSheep = new JButton("Abbatti Ovino");
         BKillSheep.addActionListener(new StaticActionListener(this));
-        BKillSheep.setActionCommand(TypeAction.killSheep.toString());
+        BKillSheep.setActionCommand(TypeAction.KILL_SHEEP.toString());
         PActions.add(BKillSheep);
         BKillSheep.setEnabled(false);
 
@@ -208,12 +208,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         BDesert.addActionListener(new StaticTerrainTypeListener(GUI));
         BMountain.addActionListener(new StaticTerrainTypeListener(GUI));
         BField.addActionListener(new StaticTerrainTypeListener(GUI));
-        BPlain.setActionCommand(TypeCard.plain.toString());
-        BForest.setActionCommand(TypeCard.forest.toString());
-        BRiver.setActionCommand(TypeCard.river.toString());
-        BDesert.setActionCommand(TypeCard.desert.toString());
-        BMountain.setActionCommand(TypeCard.mountain.toString());
-        BField.setActionCommand(TypeCard.field.toString());
+        BPlain.setActionCommand(TypeCard.PLAIN.toString());
+        BForest.setActionCommand(TypeCard.FOREST.toString());
+        BRiver.setActionCommand(TypeCard.RIVER.toString());
+        BDesert.setActionCommand(TypeCard.DESERT.toString());
+        BMountain.setActionCommand(TypeCard.MOUNTAIN.toString());
+        BField.setActionCommand(TypeCard.FIELD.toString());
         PTerrainType.add(BPlain);
         PTerrainType.add(BForest);
         PTerrainType.add(BRiver);
@@ -428,22 +428,22 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void refreshCard(String typeOfTerrain, boolean isSold) {
 
-        if (TypeCard.plain.toString().equals(typeOfTerrain)) {
+        if (TypeCard.PLAIN.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(0, isSold);
             LTerrainCards[0].setText("Carte Pianura: " + cards[0]);
-        } else if (TypeCard.forest.toString().equals(typeOfTerrain)) {
+        } else if (TypeCard.FOREST.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(1, isSold);
             LTerrainCards[1].setText("Carte Foresta: " + cards[1]);
-        } else if (TypeCard.river.toString().equals(typeOfTerrain)) {
+        } else if (TypeCard.RIVER.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(2, isSold);
             LTerrainCards[2].setText("Carte Fiume: " + cards[2]);
-        } else if (TypeCard.desert.toString().equals(typeOfTerrain)) {
+        } else if (TypeCard.DESERT.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(3, isSold);
             LTerrainCards[3].setText("Carte Deserto: " + cards[3]);
-        } else if (TypeCard.mountain.toString().equals(typeOfTerrain)) {
+        } else if (TypeCard.MOUNTAIN.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(4, isSold);
             LTerrainCards[4].setText("Carte Montagna: " + cards[4]);
-        } else if (TypeCard.field.toString().equals(typeOfTerrain)) {
+        } else if (TypeCard.FIELD.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(5, isSold);
             LTerrainCards[5].setText("Carte Campi: " + cards[5]);
         }
@@ -489,13 +489,13 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void refreshAddAnimal(int terrain, String animalType) {
         int i = animals.size();
-        if (TypeAnimal.wolf.toString().equals(animalType)) {
+        if (TypeAnimal.WOLF.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
-        } else if (TypeAnimal.blackSheep.toString().equals(animalType)) {
+        } else if (TypeAnimal.BLACK_SHEEP.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-1, 18));
-        } else if (TypeAnimal.whiteSheep.toString().equals(animalType)
-                || TypeAnimal.ram.toString().equals(animalType)
-                || TypeAnimal.lamb.toString().equals(animalType)) {
+        } else if (TypeAnimal.WHITE_SHEEP.toString().equals(animalType)
+                || TypeAnimal.RAM.toString().equals(animalType)
+                || TypeAnimal.LAMB.toString().equals(animalType)) {
             animals.add(new ViewAnimal(i, terrain, animalType));
             LAction2.setText("E' nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
         }

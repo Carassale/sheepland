@@ -101,15 +101,15 @@ public class GameTable {
      * @return ArrayList TerrainCard che si desidera
      */
     public ArrayList<TerrainCard> getTerrainCardPool(String string) {
-        if (TypeCard.plain.toString().equals(string)) {
+        if (TypeCard.PLAIN.toString().equals(string)) {
             return terrainCardPool.get(0);
-        } else if (TypeCard.forest.toString().equals(string)) {
+        } else if (TypeCard.FOREST.toString().equals(string)) {
             return terrainCardPool.get(1);
-        } else if (TypeCard.river.toString().equals(string)) {
+        } else if (TypeCard.RIVER.toString().equals(string)) {
             return terrainCardPool.get(2);
-        } else if (TypeCard.desert.toString().equals(string)) {
+        } else if (TypeCard.DESERT.toString().equals(string)) {
             return terrainCardPool.get(3);
-        } else if (TypeCard.mountain.toString().equals(string)) {
+        } else if (TypeCard.MOUNTAIN.toString().equals(string)) {
             return terrainCardPool.get(4);
         } else {
             return terrainCardPool.get(5);
@@ -128,7 +128,7 @@ public class GameTable {
     /**
      * crea una pecora per terreno
      */
-    public void initializeSheeps() {
+    private void initializeSheeps() {
         for (int i = 0; i < 18; i++) {
             Sheep sheep = new Sheep(map.getTerrain().get(i), true, i);
             sheeps.add(sheep);
@@ -139,7 +139,7 @@ public class GameTable {
     /**
      * crea le carte terreno(non le distribuisce)
      */
-    public void initializeTerrainCards() {
+    private void initializeTerrainCards() {
         for (int i = 0; i < 6; i++) {
             ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
             terrainCardPool.add(list);
@@ -149,27 +149,27 @@ public class GameTable {
             TerrainCard terCar = new TerrainCard();
             terCar.setId(i);
             if (i <= 4) {
-                terCar.setTerrainType(TypeCard.plain.toString());
+                terCar.setTerrainType(TypeCard.PLAIN.toString());
                 terrainCardPool.get(0).add(terCar);
             }
             if (i >= 5 && i <= 9) {
-                terCar.setTerrainType(TypeCard.forest.toString());
+                terCar.setTerrainType(TypeCard.FOREST.toString());
                 terrainCardPool.get(1).add(terCar);
             }
             if (i >= 10 && i <= 14) {
-                terCar.setTerrainType(TypeCard.river.toString());
+                terCar.setTerrainType(TypeCard.RIVER.toString());
                 terrainCardPool.get(2).add(terCar);
             }
             if (i >= 15 && i <= 19) {
-                terCar.setTerrainType(TypeCard.desert.toString());
+                terCar.setTerrainType(TypeCard.DESERT.toString());
                 terrainCardPool.get(3).add(terCar);
             }
             if (i >= 20 && i <= 24) {
-                terCar.setTerrainType(TypeCard.mountain.toString());
+                terCar.setTerrainType(TypeCard.MOUNTAIN.toString());
                 terrainCardPool.get(4).add(terCar);
             }
             if (i >= 25 && i <= 30) {
-                terCar.setTerrainType(TypeCard.field.toString());
+                terCar.setTerrainType(TypeCard.FIELD.toString());
                 terrainCardPool.get(5).add(terCar);
             }
 

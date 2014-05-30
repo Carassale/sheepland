@@ -7,16 +7,15 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  */
 public enum Message {
 
-    noMoney("Non hai abbastanza soldi"),
-    noMoneyForMafia("Non abbastanza soldi per comprare silenzio di tutti i pastori"),
-    noShepardOnTheRoad("Non c'è Shepard sulla strada"),
-    noNearShepard("Non c'è vicino un pastore"),
-    noJoinableAnimal("Non ci sono una pecora ed un montone nel territorio"),
-    noRoadComunicat("Non esiste strada che comunica tra questi due territori"),
-    errorDistributeCard("errore distribuzione carte"),
-    impossibleNoMoney("Impossibile fare la mossa! Non hai abbastanza soldi."),
-    impossibleMove("Impossibile fare la mossa! Movimento non valido."),
-    impossibleDice("Impossibile fare la mossa! Errore dado.");
+    NO_MONEY("Non hai abbastanza soldi"),
+    NO_MONEY_FOR_MAFIA("Non abbastanza soldi per comprare silenzio di tutti i pastori"),
+    NO_SHEPARD_ON_THE_ROAD("Non c'è Shepard sulla strada"),
+    NO_NEAR_SHEPARD("Non c'è vicino un pastore"),
+    NO_JOINABLE_ANIMAL("Non ci sono una pecora ed un montone nel territorio"),
+    NO_ROAD_COMUNICANT("Non esiste strada che comunica tra questi due territori"),
+    IMPOSSIBLE_NO_MONEY("Impossibile fare la mossa! Non hai abbastanza soldi."),
+    IMPOSSIBLE_MOVE("Impossibile fare la mossa! Movimento non valido."),
+    IMPOSSIBLE_DICE("Impossibile fare la mossa! Errore dado.");
 
     private String value;
 

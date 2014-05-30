@@ -33,17 +33,20 @@ public class ServerManagerSocket implements ServerManager {
      * È la lista delle parite avviate
      */
     private ArrayList<ConnectionManagerSocket> games;
-    private Thread thread;
+    private Thread threadManager;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
+
+    private final static Logger logger = Logger.getLogger(ServerManagerSocket.class.getName());
 
     /**
      * Crea un serverManager di tipo Socket e avvia il thread
      */
     public ServerManagerSocket() {
-        thread = new Thread(this);
-        thread.start();
+        logger.setLevel(Level.INFO);
+        threadManager = new Thread(this);
+        threadManager.start();
     }
 
     /**
@@ -96,7 +99,7 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
-            System.out.println("Gioco Avviato");
+            logger.info("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
         canAcceptSocket = true;
@@ -108,7 +111,7 @@ public class ServerManagerSocket implements ServerManager {
      */
     private class SocketWaitingTimer implements Runnable {
 
-        private Thread thread;
+        private Thread threadTimer;
 
         /**
          * Implementa un Runnable, ha come attributo un Thread, qui nel
@@ -117,8 +120,8 @@ public class ServerManagerSocket implements ServerManager {
          * modo alla creazione della classe viene anche avviata.
          */
         public SocketWaitingTimer() {
-            this.thread = new Thread(this);
-            this.thread.start();
+            this.threadTimer = new Thread(this);
+            this.threadTimer.start();
         }
 
         /**
@@ -127,9 +130,9 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void run() {
             try {
-                System.out.println("Timer avviato");
-                this.thread.sleep(TIMEOUT);
-                System.out.println("Timer scaduto");
+                logger.info("Timer avviato");
+                this.threadTimer.sleep(TIMEOUT);
+                logger.info("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,8 +144,8 @@ public class ServerManagerSocket implements ServerManager {
          * sia stato raggiunto il numero massimo di connessioni
          */
         public void stop() {
-            this.thread.interrupt();
-            System.out.println("Timer fermato");
+            this.threadTimer.interrupt();
+            logger.info("Timer fermato");
         }
     }
 }

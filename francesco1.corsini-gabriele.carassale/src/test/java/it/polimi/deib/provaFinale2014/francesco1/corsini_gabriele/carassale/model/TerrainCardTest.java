@@ -29,8 +29,8 @@ public class TerrainCardTest {
      */
     @Test
     public void testGetTerrainTypeAndSetTerrainType() {
-        terrainCard.setTerrainType(TypeCard.plain.toString());
-        assertEquals(TypeCard.plain.toString(), terrainCard.getTerrainType());
+        terrainCard.setTerrainType(TypeCard.PLAIN.toString());
+        assertEquals(TypeCard.PLAIN.toString(), terrainCard.getTerrainType());
     }
 
 }

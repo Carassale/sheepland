@@ -7,13 +7,13 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  */
 public enum TypeAnimal {
 
-    wolf("wolf"),
-    blackSheep("blackSheep"),
-    whiteSheep("whiteSheep"),
-    ram("ram"),
-    lamb("lamb"),
-    male("male"),
-    female("female");
+    WOLF("wolf"),
+    BLACK_SHEEP("blackSheep"),
+    WHITE_SHEEP("whiteSheep"),
+    RAM("ram"),
+    LAMB("lamb"),
+    MALE("male"),
+    FEMALE("female");
 
     private String value;
 

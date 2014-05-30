@@ -26,7 +26,7 @@ public class Player {
     private String nickName;
     private boolean isFirstPlayer;
 
-    private String actionDone[];
+    private String[] actionDone;
 
     /**
      * costruttore solo usato per i test
@@ -69,15 +69,15 @@ public class Player {
      * @return lista dei territori di quella tipologia
      */
     public ArrayList<TerrainCard> getTerrainCardsOwned(String string) {
-        if (TypeCard.plain.toString().equals(string)) {
+        if (TypeCard.PLAIN.toString().equals(string)) {
             return terrainCardsOwned.get(0);
-        } else if (TypeCard.forest.toString().equals(string)) {
+        } else if (TypeCard.FOREST.toString().equals(string)) {
             return terrainCardsOwned.get(1);
-        } else if (TypeCard.river.toString().equals(string)) {
+        } else if (TypeCard.RIVER.toString().equals(string)) {
             return terrainCardsOwned.get(2);
-        } else if (TypeCard.desert.toString().equals(string)) {
+        } else if (TypeCard.DESERT.toString().equals(string)) {
             return terrainCardsOwned.get(3);
-        } else if (TypeCard.mountain.toString().equals(string)) {
+        } else if (TypeCard.MOUNTAIN.toString().equals(string)) {
             return terrainCardsOwned.get(4);
         } else {
             return terrainCardsOwned.get(5);
@@ -118,10 +118,10 @@ public class Player {
         boolean canMove = canMoveShepard(destination);
         Road shepPos = shepard.getPosition();
 
-        if (canMove == true) {
+        if (canMove) {
             if (shepard.isExpensiveMove(destination)) {
                 if (coins == 0) {
-                    throw new CoinException(Message.noMoney.toString());
+                    throw new CoinException(Message.NO_MONEY.toString());
                 } else {
                     coins--;
                 }
@@ -154,7 +154,7 @@ public class Player {
             sheep.setPosition(destination);
             sheep.getPosition().getAnimals().add(sheep);
         } else {
-            throw new MoveException(Message.noShepardOnTheRoad.toString());
+            throw new MoveException(Message.NO_SHEPARD_ON_THE_ROAD.toString());
         }
     }
 
@@ -173,13 +173,13 @@ public class Player {
                 int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();
 
                 //e inizializza la nuova pecora con l'id successivo
-                Sheep sheep = new Sheep(terrain, false, i + 1);
+                new Sheep(terrain, false, i + 1);
             } else {
-                throw new MoveException(Message.noNearShepard.toString());
+                throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
             }
 
         } else {
-            throw new MoveException(Message.noJoinableAnimal.toString());
+            throw new MoveException(Message.NO_JOINABLE_ANIMAL.toString());
         }
     }
 
@@ -228,10 +228,10 @@ public class Player {
                     throw new WrongDiceNumberException(random);
                 }
             } else {
-                throw new MoveException(Message.noNearShepard.toString());
+                throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
             }
         } else {
-            throw new CoinException(Message.noMoneyForMafia.toString());
+            throw new CoinException(Message.NO_MONEY_FOR_MAFIA.toString());
         }
 
     }
@@ -297,7 +297,7 @@ public class Player {
         }
 
         if (!isShepard) {
-            throw new MoveException(Message.noRoadComunicat.toString());
+            throw new MoveException(Message.NO_ROAD_COMUNICANT.toString());
         }
 
         return shepPos;
@@ -463,21 +463,21 @@ public class Player {
 
         if ("".equals(actionDone[1])
                 && ((action.equals(actionDone[0])
-                && TypeAction.moveShepard.toString().equals(action))
+                && TypeAction.MOVE_SHEPARD.toString().equals(action))
                 || (!action.equals(actionDone[0])))) {
             actionDone[1] = action;
             return true;
         }
 
         if ("".equals(actionDone[2])) {
-            if (action.equals(actionDone[1]) && TypeAction.moveShepard.toString().equals(action)) {
+            if (action.equals(actionDone[1]) && TypeAction.MOVE_SHEPARD.toString().equals(action)) {
                 cleanActionDone();
                 return true;
             }
 
-            if (TypeAction.moveShepard.toString().equals(action)
-                    || (TypeAction.moveShepard.toString().equals(actionDone[0]) && !action.equals(actionDone[1]))
-                    || (TypeAction.moveShepard.toString().equals(actionDone[1]))) {
+            if (TypeAction.MOVE_SHEPARD.toString().equals(action)
+                    || (TypeAction.MOVE_SHEPARD.toString().equals(actionDone[0]) && !action.equals(actionDone[1]))
+                    || (TypeAction.MOVE_SHEPARD.toString().equals(actionDone[1]))) {
                 cleanActionDone();
                 return true;
             }
@@ -491,7 +491,6 @@ public class Player {
      */
     public void cleanActionDone() {
         for (String action : actionDone) {
-            action = new String();
             action = "";
         }
     }
@@ -521,10 +520,10 @@ public class Player {
                     throw new WrongDiceNumberException(num);
                 }
             } else {
-                throw new MoveException(Message.noNearShepard.toString());
+                throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
             }
         } else {
-            throw new CoinException(Message.noMoneyForMafia.toString());
+            throw new CoinException(Message.NO_MONEY_FOR_MAFIA.toString());
         }
 
     }

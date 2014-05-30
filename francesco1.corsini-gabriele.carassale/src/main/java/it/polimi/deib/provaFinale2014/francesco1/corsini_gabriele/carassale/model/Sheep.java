@@ -28,7 +28,7 @@ public class Sheep extends Animal {
     public Sheep(Terrain terrain, boolean initialization, int num) {
         position = terrain;
         id = num;
-        if (initialization == false) {
+        if (!initialization) {
             age = 0;
             sex = randomSex();
         } else {
@@ -50,9 +50,9 @@ public class Sheep extends Animal {
      */
     private String randomSex() {
         if (Math.random() < 0.5) {
-            return TypeAnimal.female.toString();
+            return TypeAnimal.FEMALE.toString();
         } else {
-            return TypeAnimal.male.toString();
+            return TypeAnimal.MALE.toString();
         }
     }
 
@@ -97,9 +97,8 @@ public class Sheep extends Animal {
      */
     public void growUpOneTurn() {
         age++;
-        if (age == AGETOBECOMEOLD) {
-            old = true;
-        }
+
+        old = age == AGETOBECOMEOLD;
     }
 
     /**
@@ -108,7 +107,7 @@ public class Sheep extends Animal {
      * @return True se è pecora bianca
      */
     public boolean isWhiteSheep() {
-        return old && TypeAnimal.female.toString().equals(sex);
+        return old && TypeAnimal.FEMALE.toString().equals(sex);
     }
 
     /**
@@ -126,7 +125,7 @@ public class Sheep extends Animal {
      * @return True se è montone
      */
     public boolean isRam() {
-        return old == true && TypeAnimal.male.toString().equals(sex);
+        return old == true && TypeAnimal.MALE.toString().equals(sex);
     }
 
     /**

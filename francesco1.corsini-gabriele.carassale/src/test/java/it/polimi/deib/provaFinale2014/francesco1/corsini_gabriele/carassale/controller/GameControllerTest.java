@@ -83,12 +83,12 @@ public class GameControllerTest {
     public void testDistributeCards() {
         //6 giocatori implica che tutte le tipologie di Card sono state distribuite quindi ce ne saranno solo 4 in ogni pool
         gameController = new GameController(6);
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.plain.toString()).size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.forest.toString()).size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.river.toString()).size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.desert.toString()).size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.mountain.toString()).size());
-        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.field.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.PLAIN.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.FOREST.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.RIVER.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.DESERT.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.MOUNTAIN.toString()).size());
+        assertEquals(4, gameController.getGameTable().getTerrainCardPool(TypeCard.FIELD.toString()).size());
     }
 
     /**

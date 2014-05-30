@@ -18,9 +18,9 @@ public class Main {
      *
      * @param arg
      */
-    public static void main(String arg[]) {
-        ServerManagerRMI serverManagerRMI = new ServerManagerRMI();
-        ServerManagerSocket serverManagerSocket = new ServerManagerSocket();
+    public static void main(String[] arg) {
+        new ServerManagerRMI();
+        new ServerManagerSocket();
 
     }
 

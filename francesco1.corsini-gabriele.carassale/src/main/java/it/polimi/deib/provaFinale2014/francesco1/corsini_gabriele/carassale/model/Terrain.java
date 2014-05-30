@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -14,8 +15,9 @@ public class Terrain {
     private boolean sheepsbourg;
     private String terrainType;
     private ArrayList<Animal> animals = new ArrayList<Animal>();
-    private int ID;
+    private int id;
 
+    private final static Logger logger = Logger.getLogger(Terrain.class.getName());
     /**
      * Crea un terreno
      */
@@ -58,7 +60,8 @@ public class Terrain {
         try {
             this.animals.remove(this.animals.indexOf(animal));
         } catch (ArrayIndexOutOfBoundsException e) {
-            Logger.getLogger(Terrain.class.getName()).fine("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali");
+            logger.setLevel(Level.FINER);
+            logger.finer("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali");
         }
     }
 
@@ -104,15 +107,15 @@ public class Terrain {
      * @return int id del terreno
      */
     public int getID() {
-        return ID;
+        return id;
     }
 
     /**
      * Setta l'Id del terreno
      *
-     * @param ID int da settare
+     * @param id int da settare
      */
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(int id) {
+        this.id = id;
     }
 }

@@ -59,36 +59,35 @@ public class ConnectionClientSocket implements ConnectionClient {
         while (true) {
             try {
                 String s = inSocket.readLine();
-                if (TypeAction.wakeUp.toString().equals(s)) {
+                if (TypeAction.WAKE_UP.toString().equals(s)) {
                     typeOfInteraction.clickAction();
-                } else if (TypeAction.setNikcnam.toString().equals(s)) {
+                } else if (TypeAction.SET_NICKNAME.toString().equals(s)) {
                     typeOfInteraction.setNickname();
-                } else if (TypeAction.errorCoin.toString().equals(s)) {
+                } else if (TypeAction.ERROR_COIN.toString().equals(s)) {
                     errorCoin();
-                } else if (TypeAction.errorMove.toString().equals(s)) {
+                } else if (TypeAction.ERROR_MOVE.toString().equals(s)) {
                     errorMove();
-                } else if (TypeAction.errorDice.toString().equals(s)) {
+                } else if (TypeAction.ERROR_DICE.toString().equals(s)) {
                     errorDice();
-                } else if (TypeAction.placeShepard.toString().equals(s)) {
-                    Integer idShepard = new Integer(inSocket.readLine());
-                    typeOfInteraction.placeShepard(idShepard);
-                } else if (TypeAction.refreshMoveAnimal.toString().equals(s)) {
+                } else if (TypeAction.PLACE_SHEPARD.toString().equals(s)) {
+                    typeOfInteraction.placeShepard(Integer.valueOf(inSocket.readLine()));
+                } else if (TypeAction.REFRESH_MOVE_ANIMAL.toString().equals(s)) {
                     refreshMoveAnimal();
-                } else if (TypeAction.refreshAddAnimal.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_ADD_ANIMAL.toString().equals(s)) {
                     refreshAddAnimal();
-                } else if (TypeAction.refreshKillAnimal.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_KILL_ANIMAL.toString().equals(s)) {
                     refreshKillAnimal();
-                } else if (TypeAction.refreshTransformAnimal.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_TRANSFORM_ANIMAL.toString().equals(s)) {
                     refreshTransformAnimal();
-                } else if (TypeAction.refreshAddShepard.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_ADD_SHEPARD.toString().equals(s)) {
                     refreshAddShepard();
-                } else if (TypeAction.refreshMoveShepard.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_MOVE_SHEPARD.toString().equals(s)) {
                     refreshMoveShepard();
-                } else if (TypeAction.refreshCard.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_CARD.toString().equals(s)) {
                     refreshCard();
-                } else if (TypeAction.refreshCoin.toString().equals(s)) {
+                } else if (TypeAction.REFRESH_COIN.toString().equals(s)) {
                     refreshCoin();
-                } else if (TypeAction.messageText.toString().equals(s)) {
+                } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
                     messageText();
                 }
             } catch (IOException ex) {
@@ -111,21 +110,21 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Stampa un errore, oggetto: Coin
      */
     public void errorCoin() {
-        typeOfInteraction.errorMessage(Message.impossibleNoMoney.toString());
+        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_NO_MONEY.toString());
     }
 
     /**
      * Stampa un errore, oggetto: Move
      */
     public void errorMove() {
-        typeOfInteraction.errorMessage(Message.impossibleMove.toString());
+        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_MOVE.toString());
     }
 
     /**
      * Stampa un errore, oggetto: Dice
      */
     public void errorDice() {
-        typeOfInteraction.errorMessage(Message.impossibleDice.toString());
+        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_DICE.toString());
     }
 
     /**
@@ -143,8 +142,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshMoveAnimal() {
         try {
-            Integer idAnimal = new Integer(inSocket.readLine());
-            Integer idTerrain = new Integer(inSocket.readLine());
+            int idAnimal = Integer.valueOf(inSocket.readLine());
+            int idTerrain = Integer.valueOf(inSocket.readLine());
+
             typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,8 +156,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshAddAnimal() {
         try {
-            Integer idAnimal = new Integer(inSocket.readLine());
+            int idAnimal = Integer.valueOf(inSocket.readLine());
             String kind = inSocket.readLine();
+
             typeOfInteraction.refreshAddAnimal(idAnimal, kind);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,8 +170,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshKillAnimal() {
         try {
-            Integer idAnimal = new Integer(inSocket.readLine());
+            int idAnimal = Integer.valueOf(inSocket.readLine());
             typeOfInteraction.refreshKillAnimal(idAnimal);
+
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,8 +183,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshTransformAnimal() {
         try {
-            Integer idAnimal = new Integer(inSocket.readLine());
+            int idAnimal = Integer.valueOf(inSocket.readLine());
             String kind = inSocket.readLine();
+
             typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,8 +197,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshAddShepard() {
         try {
-            Integer idShepard = new Integer(inSocket.readLine());
-            Integer idRoad = new Integer(inSocket.readLine());
+            int idShepard = Integer.valueOf(inSocket.readLine());
+            int idRoad = Integer.valueOf(inSocket.readLine());
+
             typeOfInteraction.refreshAddShepard(idShepard, idRoad);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,8 +211,9 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshMoveShepard() {
         try {
-            Integer idShepard = new Integer(inSocket.readLine());
-            Integer idRoad = new Integer(inSocket.readLine());
+            int idShepard = Integer.valueOf(inSocket.readLine());
+            int idRoad = Integer.valueOf(inSocket.readLine());
+
             typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -221,11 +226,12 @@ public class ConnectionClientSocket implements ConnectionClient {
     private void refreshCard() {
         try {
             String kind = inSocket.readLine();
-            Integer i = new Integer(inSocket.readLine());
+
             boolean isSold;
             // isSold TRUE -> 0
             // isSold FALSE -> 1
-            isSold = i == 0;
+            isSold = Integer.valueOf(inSocket.readLine()) == 0;
+
             typeOfInteraction.refreshCard(kind, isSold);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -237,12 +243,13 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     private void refreshCoin() {
         try {
-            Integer coins = new Integer(inSocket.readLine());
-            Integer i = new Integer(inSocket.readLine());
+            int coins = Integer.valueOf(inSocket.readLine());
+
             boolean addCoin;
             // addCoin TRUE -> 0
             // addCoin FALSE -> 1
-            addCoin = i == 0;
+            addCoin = Integer.valueOf(inSocket.readLine()) == 0;
+
             typeOfInteraction.refreshCoin(coins, addCoin);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,7 +263,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idRoad Strada destinazione
      */
     public void moveShepard(int idShepard, int idRoad) {
-        outSocket.println(TypeAction.moveShepard.toString());
+        outSocket.println(TypeAction.MOVE_SHEPARD.toString());
         outSocket.flush();
 
         outSocket.println(idShepard);
@@ -273,7 +280,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idTerrain Terreno destinazione
      */
     public void moveSheep(int idSheep, int idTerrain) {
-        outSocket.println(TypeAction.moveSheep.toString());
+        outSocket.println(TypeAction.MOVE_SHEEP.toString());
         outSocket.flush();
 
         outSocket.println(idSheep);
@@ -289,7 +296,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param typeOfTerrain Tipo di carta
      */
     public void buyCard(String typeOfTerrain) {
-        outSocket.println(TypeAction.buyCard.toString());
+        outSocket.println(TypeAction.BUY_CARD.toString());
         outSocket.flush();
 
         outSocket.println(typeOfTerrain);
@@ -302,7 +309,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idSheep Pecora da uccidere
      */
     public void killSheep(int idSheep) {
-        outSocket.println(TypeAction.killSheep.toString());
+        outSocket.println(TypeAction.KILL_SHEEP.toString());
         outSocket.flush();
 
         outSocket.println(idSheep);
@@ -315,7 +322,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * @param idTerrain Terreno in cui si trovano pecora e montone
      */
     public void joinSheep(int idTerrain) {
-        outSocket.println(TypeAction.joinSheep.toString());
+        outSocket.println(TypeAction.JOIN_SHEEP.toString());
         outSocket.flush();
 
         outSocket.println(idTerrain);

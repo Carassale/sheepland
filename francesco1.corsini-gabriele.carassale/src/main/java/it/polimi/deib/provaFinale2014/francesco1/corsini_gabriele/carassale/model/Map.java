@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -14,6 +15,8 @@ public class Map {
 
     private ArrayList<Road> roads = new ArrayList<Road>();
     private ArrayList<Terrain> terrain = new ArrayList<Terrain>();
+
+    private final static Logger logger = Logger.getLogger(Map.class.getName());
 
     /**
      * In questo costruttore viene creata la mappa vera e propria inizializzando
@@ -29,7 +32,8 @@ public class Map {
             try {
                 roads.add(generateRoad(i));
             } catch (TerrainBoundariesExeption ex) {
-                Logger.getLogger(Map.class.getName()).fine("Errore nella creazione delle strade");
+                logger.setLevel(Level.FINER);
+                logger.finer("Errore nella creazione delle strade");
             }
         }
         for (int i = 0; i < 19; i++) {
@@ -70,19 +74,19 @@ public class Map {
         ter.setID(i);
         ter.setSheepsbourg(false);
         if (i <= 2) {
-            ter.setTerrainType(TypeCard.plain.toString());
+            ter.setTerrainType(TypeCard.PLAIN.toString());
         } else if (i >= 3 && i <= 5) {
-            ter.setTerrainType(TypeCard.forest.toString());
+            ter.setTerrainType(TypeCard.FOREST.toString());
         } else if (i >= 6 && i <= 8) {
-            ter.setTerrainType(TypeCard.river.toString());
+            ter.setTerrainType(TypeCard.RIVER.toString());
         } else if (i >= 9 && i <= 11) {
-            ter.setTerrainType(TypeCard.desert.toString());
+            ter.setTerrainType(TypeCard.DESERT.toString());
         } else if (i >= 12 && i <= 14) {
-            ter.setTerrainType(TypeCard.mountain.toString());
+            ter.setTerrainType(TypeCard.MOUNTAIN.toString());
         } else if (i >= 15 && i <= 17) {
-            ter.setTerrainType(TypeCard.field.toString());
+            ter.setTerrainType(TypeCard.FIELD.toString());
         } else {
-            ter.setTerrainType(TypeCard.sheepsbourg.toString());
+            ter.setTerrainType(TypeCard.SHEEPSBOURG.toString());
             ter.setSheepsbourg(true);
         }
         return ter;

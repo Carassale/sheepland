@@ -24,7 +24,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
     private static ArrayList<PlayerConnectionRMI> playerConnection;
     private ArrayList<ConnectionManagerRMI> games;
-    private Thread thread;
+    private Thread threadManager;
     private RMIWaitingTimer swt;
     private boolean canAccept;
 
@@ -32,15 +32,17 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
     public static final String SERVER_NAME = "ServerManagerRMI";
-
     public static final int PORT = 3001;
+
+    private final static Logger logger = Logger.getLogger(ServerManagerRMI.class.getName());
 
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
      */
     public ServerManagerRMI() {
-        thread = new Thread(this);
-        thread.start();
+        logger.setLevel(Level.INFO);
+        threadManager = new Thread(this);
+        threadManager.start();
     }
 
     /**
@@ -55,14 +57,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = true;
 
         try {
-            System.out.println("RMI: Registrazione...");
+            logger.info("RMI: Registrazione...");
 
             //Naming.bind(SERVER_NAME, this); OR
             UnicastRemoteObject.exportObject(this, PORT);
             Registry registry = LocateRegistry.createRegistry(PORT);
             registry.rebind(SERVER_NAME, this);
 
-            System.out.println("RMI: Registrato");
+            logger.info("RMI: Registrato");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -82,7 +84,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             } catch (RemoteException ex) {
                 Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Gioco Avviato");
+            logger.info("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
@@ -96,7 +98,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @throws RemoteException
      */
     public String connect() throws RemoteException {
-        return StatusMessage.connected.toString();
+        return StatusMessage.CONNECTED.toString();
     }
 
     /**
@@ -121,9 +123,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 runNewGame();
             }
 
-            return StatusMessage.playerAdded.toString();
+            return StatusMessage.PLAYER_ADDED.toString();
         }
-        return StatusMessage.noPlayerAdded.toString();
+        return StatusMessage.NO_PLAYER_ADDED.toString();
     }
 
     /**
@@ -132,7 +134,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      */
     private class RMIWaitingTimer implements Runnable {
 
-        private Thread thread;
+        private Thread threadTimer;
 
         /**
          * Implementa un Runnable, ha come attributo un Thread, qui nel
@@ -141,8 +143,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          * modo alla creazione della classe viene anche avviata.
          */
         public RMIWaitingTimer() {
-            this.thread = new Thread(this);
-            this.thread.start();
+            this.threadTimer = new Thread(this);
+            this.threadTimer.start();
         }
 
         /**
@@ -151,9 +153,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void run() {
             try {
-                System.out.println("Timer avviato");
-                this.thread.sleep(TIMEOUT);
-                System.out.println("Timer scaduto");
+                logger.info("Timer avviato");
+                this.threadTimer.sleep(TIMEOUT);
+                logger.info("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,8 +167,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          * sia stato raggiunto il numero massimo di connessioni
          */
         public void stop() {
-            this.thread.interrupt();
-            System.out.println("Timer fermato");
+            this.threadTimer.interrupt();
+            logger.info("Timer fermato");
         }
     }
 }

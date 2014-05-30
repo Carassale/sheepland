@@ -45,13 +45,13 @@ public class PlayerTest {
      */
     @Test
     public void testBuyTerrainCard() throws CoinException {
-        assertEquals(0, player.getTerrainCardsOwned(TypeCard.plain.toString()).size());
-        assertEquals(5, game.getTerrainCardPool(TypeCard.plain.toString()).size());
+        assertEquals(0, player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size());
+        assertEquals(5, game.getTerrainCardPool(TypeCard.PLAIN.toString()).size());
 
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
 
-        assertEquals(1, player.getTerrainCardsOwned(TypeCard.plain.toString()).size());
-        assertEquals(4, game.getTerrainCardPool(TypeCard.plain.toString()).size());
+        assertEquals(1, player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size());
+        assertEquals(4, game.getTerrainCardPool(TypeCard.PLAIN.toString()).size());
     }
 
     /**
@@ -65,11 +65,11 @@ public class PlayerTest {
     public void testBuyTerrainCardCoins() throws CoinException {
 
         assertEquals(20, player.getCoins());
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
         assertEquals(20, player.getCoins());
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
         assertEquals(19, player.getCoins());
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
         assertEquals(17, player.getCoins());
     }
 
@@ -81,8 +81,8 @@ public class PlayerTest {
     @Test(expected = CoinException.class)
     public void testBuyTerrainCardExeption() throws CoinException {
         player.setCoins(0);
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
-        player.buyTerrainCard(TypeCard.plain.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
+        player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
     }
 
     /**
@@ -208,8 +208,8 @@ public class PlayerTest {
         terrain.getAnimals().clear();
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex(TypeAnimal.male.toString());
-        sheep1.setSex(TypeAnimal.female.toString());
+        sheep2.setSex(TypeAnimal.MALE.toString());
+        sheep1.setSex(TypeAnimal.FEMALE.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 
@@ -231,8 +231,8 @@ public class PlayerTest {
 
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex(TypeAnimal.male.toString());
-        sheep1.setSex(TypeAnimal.male.toString());
+        sheep2.setSex(TypeAnimal.MALE.toString());
+        sheep1.setSex(TypeAnimal.MALE.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 
@@ -249,8 +249,8 @@ public class PlayerTest {
         Terrain terrain = game.getMap().getTerrain().get(10);
         Sheep sheep2 = new Sheep(terrain, true, 1);
         Sheep sheep1 = new Sheep(terrain, true, 2);
-        sheep2.setSex(TypeAnimal.male.toString());
-        sheep1.setSex(TypeAnimal.female.toString());
+        sheep2.setSex(TypeAnimal.MALE.toString());
+        sheep1.setSex(TypeAnimal.FEMALE.toString());
         sheep2.setOld(true);
         sheep1.setOld(true);
 
