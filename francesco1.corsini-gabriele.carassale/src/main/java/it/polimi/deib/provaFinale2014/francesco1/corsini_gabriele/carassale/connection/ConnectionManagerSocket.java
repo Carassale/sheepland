@@ -50,7 +50,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
-        //setNickName();
     }
 
     /**
@@ -112,16 +111,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     public void wakeUpPlayer(PlayerConnectionSocket pcs) {
         pcs.printLn(TypeAction.WAKE_UP.toString());
-    }
-
-    /**
-     * Imposta il nickName del Player
-     */
-    public void setNickName() {
-        for (PlayerConnectionSocket playerConnection : playerConnections) {
-            playerConnection.printLn(TypeAction.SET_NICKNAME.toString());
-            gameController.getPlayerPool().getFirstPlayer().setNickName(playerConnection.getNextLine());
-        }
     }
 
     /**

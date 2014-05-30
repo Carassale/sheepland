@@ -7,7 +7,10 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUISwingStatic;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.LineCommand;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -116,6 +119,11 @@ public class Main {
         Socket socket = null;
         try {
             socket = new Socket(ADDRESS, Connection_Variable.PORT_SOCKET);
+
+            //Invio il nickname
+            PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            outSocket.println(nickname);
+
             //Client connesso
             connected = true;
         } catch (IOException ex) {
@@ -146,7 +154,7 @@ public class Main {
             Registry registry = LocateRegistry.getRegistry(ADDRESS, Connection_Variable.PORT_RMI);
             serverRMI = (ServerRMI) registry.lookup(Connection_Variable.SERVER_NAME);
 
-            s = serverRMI.connect();
+            s = serverRMI.connect(nickname);
 
             if (StatusMessage.CONNECTED.toString().equals(s)) {
                 connected = true;

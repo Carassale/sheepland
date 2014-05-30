@@ -13,10 +13,11 @@ public interface ServerRMI extends Remote {
     /**
      * Permette al client di connettersi al server
      *
+     * @param nickName
      * @return Messaggio di conferma connessione
      * @throws RemoteException
      */
-    String connect() throws RemoteException;
+    String connect(String nickName) throws RemoteException;
 
     /**
      * Il client invia il proprio skeleton, il server lo associa ad un player

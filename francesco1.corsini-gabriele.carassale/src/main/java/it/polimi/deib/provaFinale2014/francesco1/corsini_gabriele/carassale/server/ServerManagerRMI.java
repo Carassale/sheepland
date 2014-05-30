@@ -88,7 +88,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @return Messaggio di avvenuta connessione "connected
      * @throws RemoteException
      */
-    public String connect() throws RemoteException {
+    public String connect(String nickName) throws RemoteException {
         return StatusMessage.CONNECTED.toString();
     }
 

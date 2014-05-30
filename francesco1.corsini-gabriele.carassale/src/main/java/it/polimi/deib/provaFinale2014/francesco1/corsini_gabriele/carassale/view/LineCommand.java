@@ -304,16 +304,6 @@ public class LineCommand implements TypeOfInteraction {
     }
 
     /**
-     * Chiede a video di impostare un nickname
-     */
-    public void setNickname() {
-        print("Impostare il proprio Nickname");
-        String s = read();
-
-        connectionClient.setNickname(s);
-    }
-
-    /**
      * Stamoa a video un messaggio di errore
      *
      * @param message Messaggio da stampare

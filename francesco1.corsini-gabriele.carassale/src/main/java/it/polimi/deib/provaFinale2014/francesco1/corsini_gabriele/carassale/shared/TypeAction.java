@@ -13,7 +13,6 @@ public enum TypeAction {
     KILL_SHEEP("Kill_sheep"),
     JOIN_SHEEP("Join_sheep"),
     WAKE_UP("Wake_up"),
-    SET_NICKNAME("Set_nickname"),
     ERROR_COIN("Errore_coin"),
     ERROR_MOVE("Error_move"),
     ERROR_DICE("Error_dice"),

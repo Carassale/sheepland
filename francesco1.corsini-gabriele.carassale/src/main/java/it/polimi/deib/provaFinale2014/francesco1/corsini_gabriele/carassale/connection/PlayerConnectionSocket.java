@@ -13,9 +13,9 @@ import java.util.Scanner;
  */
 public class PlayerConnectionSocket extends PlayerConnection {
 
-    private final Socket socket;
-    private final Scanner inSocket;
-    private final PrintWriter outSocket;
+    private Socket socket;
+    private Scanner inSocket;
+    private PrintWriter outSocket;
 
     /**
      * Crea un PlayerConnection e inizializza i socket Scanner e Printer per la
@@ -38,6 +38,18 @@ public class PlayerConnectionSocket extends PlayerConnection {
      */
     public Socket getSocket() {
         return socket;
+    }
+
+    /**
+     * In caso di riaggancio del client, viene settato il nuovo socket
+     *
+     * @param socket Socket da settare
+     * @throws IOException
+     */
+    public void setSocket(Socket socket) throws IOException {
+        this.socket = socket;
+        inSocket = new Scanner(socket.getInputStream());
+        outSocket = new PrintWriter(socket.getOutputStream());
     }
 
     /**

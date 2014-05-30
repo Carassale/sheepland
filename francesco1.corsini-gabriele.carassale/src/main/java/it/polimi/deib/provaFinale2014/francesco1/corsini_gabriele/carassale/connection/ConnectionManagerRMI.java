@@ -75,7 +75,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
-        //setNickName();
     }
 
     /**

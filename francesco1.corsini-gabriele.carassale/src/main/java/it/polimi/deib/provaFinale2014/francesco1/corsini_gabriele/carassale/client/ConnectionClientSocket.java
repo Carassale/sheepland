@@ -61,8 +61,6 @@ public class ConnectionClientSocket implements ConnectionClient {
                 String s = inSocket.readLine();
                 if (TypeAction.WAKE_UP.toString().equals(s)) {
                     typeOfInteraction.clickAction();
-                } else if (TypeAction.SET_NICKNAME.toString().equals(s)) {
-                    typeOfInteraction.setNickname();
                 } else if (TypeAction.ERROR_COIN.toString().equals(s)) {
                     errorCoin();
                 } else if (TypeAction.ERROR_MOVE.toString().equals(s)) {
@@ -96,16 +94,6 @@ public class ConnectionClientSocket implements ConnectionClient {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-
-    /**
-     * Imposta il proprio nickname
-     *
-     * @param nickname Stringa da settare
-     */
-    public void setNickname(String nickname) {
-        outSocket.println(nickname);
-        outSocket.flush();
     }
 
     /**

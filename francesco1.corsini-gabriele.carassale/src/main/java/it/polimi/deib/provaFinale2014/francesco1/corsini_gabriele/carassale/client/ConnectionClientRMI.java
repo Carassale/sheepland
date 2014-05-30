@@ -77,16 +77,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     }
 
     /**
-     * Imposta il nickname del Cliet
-     *
-     * @param nickname Stringa da settare
-     */
-    public void setNickname(String nickname) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
      * Riceve la scelta della strada dal client e la setta in tempRoad
      *
      * @param idRoad Strada scelta
@@ -201,16 +191,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void wakeUp() throws RemoteException {
         typeOfInteraction.clickAction();
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo serve a impostare il nickname
-     *
-     * @throws RemoteException
-     */
-    public void setNikcname() throws RemoteException {
-        typeOfInteraction.setNickname();
     }
 
     /**

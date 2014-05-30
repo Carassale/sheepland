@@ -16,11 +16,6 @@ public interface TypeOfInteraction {
     void clickAction();
 
     /**
-     * Risveglia l'interfaccia e fa settare il nickname
-     */
-    void setNickname();
-
-    /**
      * Risveglia l'interfaccia e mostra un messaggio di errore
      *
      * @param message Messaggio da visualizzare

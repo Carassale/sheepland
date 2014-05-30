@@ -28,14 +28,6 @@ public interface ClientRMI extends Remote {
     void wakeUp() throws RemoteException;
 
     /**
-     * Viene chiamato dal connectionManagerRMI, risveglia il client e chiede di
-     * settare il nickname
-     *
-     * @throws RemoteException
-     */
-    void setNikcname() throws RemoteException;
-
-    /**
      * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
      * coin
      *
