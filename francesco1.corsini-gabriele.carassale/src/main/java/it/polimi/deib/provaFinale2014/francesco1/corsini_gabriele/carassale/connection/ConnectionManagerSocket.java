@@ -27,9 +27,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private final ArrayList<PlayerConnectionSocket> playerConnections;
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
-    private Thread thread;
-
-    private final static Logger logger = Logger.getLogger(ConnectionManagerSocket.class.getName());
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -40,7 +37,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection) {
         this.playerConnections = playerConnection;
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
     }
 
@@ -168,19 +165,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                     refreshCoin(1, false);
                 }
                 return true;
+            } catch (CoinException ex) {
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
+                return false;
             } catch (MoveException ex) {
                 currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
-                return false;
-            } catch (CoinException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -213,11 +206,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshMoveAnimal(idSheep, idTerrain);
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -244,10 +235,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 return true;
             } catch (CoinException ex) {
                 currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
                 return false;
             }
         } else {
@@ -277,25 +266,19 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshKillAnimal(idSheep);
                 return true;
             } catch (CoinException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_DICE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_DICE.toString());
-
+                currentPlayer.printLn(StatusMessage.ERROR_DICE.toString() + ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_DICE.toString() + ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -323,11 +306,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {

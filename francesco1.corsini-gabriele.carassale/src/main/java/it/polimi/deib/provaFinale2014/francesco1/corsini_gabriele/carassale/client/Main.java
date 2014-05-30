@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_variable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
@@ -24,18 +25,10 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    private static final int PORT_SOCKET = 3002;
-    private static final int PORT_RMI = 3001;
     private static final String ADDRESS = "localhost";
-    /**
-     * È il nome del ServerManagerRMI, usato per le connessioni
-     */
-    public static final String SERVER_NAME = "ServerManagerRMI";
 
     private static final String SOCKET = "socket";
     private static final String RMI = "rmi";
-
-    private final static Logger logger = Logger.getLogger(Main.class.getName());
 
     ConnectionClient connectionClient;
 
@@ -51,18 +44,16 @@ public class Main {
         connected = false;
         connectionClient = null;
 
-        logger.setLevel(Level.INFO);
+        System.out.println("Messaggio di Benvenuto");
 
-        logger.info("Messaggio di Benvenuto");
-
-        logger.info("Inserisci il tuo nickname");
+        System.out.println("Inserisci il tuo nickname");
         nickname = keyboard.nextLine();
 
         int typeConnection = 0;
         do {
-            logger.info("Scegliere il modello di connessione Client-Server:");
-            logger.info("1 - Connessione tramite Socket");
-            logger.info("2 - Connessione tramite RMI");
+            System.out.println("Scegliere il modello di connessione Client-Server:");
+            System.out.println("1 - Connessione tramite Socket");
+            System.out.println("2 - Connessione tramite RMI");
             typeConnection = keyboard.nextInt();
         } while (typeConnection < 1 || typeConnection > 2);
 
@@ -74,10 +65,10 @@ public class Main {
 
         int typeView = 0;
         do {
-            logger.info("Scegliere il modo di interegire:");
-            logger.info("1 - Linea di comando");
-            logger.info("2 - Interfaccia grafica statica");
-            logger.info("3 - Interfaccia grafica dinamica");
+            System.out.println("Scegliere il modo di interegire:");
+            System.out.println("1 - Linea di comando");
+            System.out.println("2 - Interfaccia grafica statica");
+            System.out.println("3 - Interfaccia grafica dinamica");
             typeView = keyboard.nextInt();
         } while (typeView < 1 || typeView > 3);
 
@@ -92,7 +83,7 @@ public class Main {
                 connectionClient.setTypeOfInteraction(new GUIDinamic(connectionClient));
                 break;
             default:
-                logger.info("Scelta non corretta.");
+                System.out.println("Scelta non corretta.");
                 break;
         }
 
@@ -124,7 +115,7 @@ public class Main {
         //Il client tenta di connettersi tramite socket
         Socket socket = null;
         try {
-            socket = new Socket(ADDRESS, PORT_SOCKET);
+            socket = new Socket(ADDRESS, Connection_variable.PORT_SOCKET);
             //Client connesso
             connected = true;
         } catch (IOException ex) {
@@ -152,8 +143,8 @@ public class Main {
 
         //Il client tenta di connettersi tramite RMI
         try {
-            Registry registry = LocateRegistry.getRegistry(ADDRESS, PORT_RMI);
-            serverRMI = (ServerRMI) registry.lookup(SERVER_NAME);
+            Registry registry = LocateRegistry.getRegistry(ADDRESS, Connection_variable.PORT_RMI);
+            serverRMI = (ServerRMI) registry.lookup(Connection_variable.SERVER_NAME);
 
             s = serverRMI.connect();
 

@@ -17,7 +17,6 @@ public class Terrain {
     private ArrayList<Animal> animals = new ArrayList<Animal>();
     private int id;
 
-    private final static Logger logger = Logger.getLogger(Terrain.class.getName());
     /**
      * Crea un terreno
      */
@@ -60,8 +59,8 @@ public class Terrain {
         try {
             this.animals.remove(this.animals.indexOf(animal));
         } catch (ArrayIndexOutOfBoundsException e) {
-            logger.setLevel(Level.FINER);
-            logger.finer("Errore eliminazione animale dal territorio(usato per spostare o uccidere animali");
+            Logger.getLogger(Terrain.class.getName())
+                    .log(Level.SEVERE, "Errore eliminazione animale dal territorio(usato per spostare o uccidere animali", e);
         }
     }
 

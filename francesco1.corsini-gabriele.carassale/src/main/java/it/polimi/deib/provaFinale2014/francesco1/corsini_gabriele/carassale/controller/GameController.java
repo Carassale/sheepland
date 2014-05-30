@@ -39,7 +39,7 @@ public class GameController {
         this.connectionManager = null;
 
         inizializeGame(numberOfPlayers);
-        placeShepards(numberOfPlayers);
+        placeShepards();
     }
 
     /**
@@ -186,7 +186,7 @@ public class GameController {
      *
      * @param numPlayer
      */
-    private void placeShepards(int numPlayer) {
+    private void placeShepards() {
         int i = 0;
         do {
             Player currentPlayer = playerPool.getFirstPlayer();

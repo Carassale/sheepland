@@ -24,6 +24,7 @@ public class Sheep extends Animal {
      * @param initialization : serve a capire se sto creando pecore per
      * inizializzazione gioco(tipologia randomica) o se nasce da
      * accoppiamento(agnello)
+     * @param num
      */
     public Sheep(Terrain terrain, boolean initialization, int num) {
         position = terrain;
@@ -33,12 +34,11 @@ public class Sheep extends Animal {
             sex = randomSex();
         } else {
             sex = randomSex();
-            if (Math.random() < 0.3) {
+            old = Math.random() >= 0.3;
+            if (old) {
                 age = 0;
-                old = false;
             } else {
                 age = 4;
-                old = true;
             }
         }
         position.addAnimal(this);

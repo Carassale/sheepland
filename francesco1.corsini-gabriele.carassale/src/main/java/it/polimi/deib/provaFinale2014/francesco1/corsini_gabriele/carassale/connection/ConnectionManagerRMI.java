@@ -31,7 +31,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private final ArrayList<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
-    private Thread thread;
 
     private boolean canDoAction;
     private boolean doRepeatAction;
@@ -50,7 +49,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
         changeReferenceToClient();
 
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
     }
 
@@ -310,10 +309,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_MOVE.toString();
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -346,6 +349,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -371,6 +376,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_COIN.toString();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -399,6 +406,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -427,14 +436,20 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             } catch (WrongDiceNumberException ex) {
                 currentPlayer.getClientRMI().errorDice(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_DICE.toString() + ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {

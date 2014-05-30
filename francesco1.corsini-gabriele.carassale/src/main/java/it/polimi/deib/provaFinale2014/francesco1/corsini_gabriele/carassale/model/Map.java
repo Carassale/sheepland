@@ -16,8 +16,6 @@ public class Map {
     private ArrayList<Road> roads = new ArrayList<Road>();
     private ArrayList<Terrain> terrain = new ArrayList<Terrain>();
 
-    private final static Logger logger = Logger.getLogger(Map.class.getName());
-
     /**
      * In questo costruttore viene creata la mappa vera e propria inizializzando
      * creando i terreni, poi creado le strade e connettendole ai terreni, poi
@@ -32,8 +30,8 @@ public class Map {
             try {
                 roads.add(generateRoad(i));
             } catch (TerrainBoundariesExeption ex) {
-                logger.setLevel(Level.FINER);
-                logger.finer("Errore nella creazione delle strade");
+            Logger.getLogger(Map.class.getName())
+                    .log(Level.SEVERE, "Errore nella creazione delle strade", ex);
             }
         }
         for (int i = 0; i < 19; i++) {

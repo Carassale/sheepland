@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_variable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,10 +21,6 @@ import java.util.logging.Logger;
 public class ServerManagerSocket implements ServerManager {
 
     /**
-     * È la porta sulla quale avvengono le comunicazioni tra client e server
-     */
-    private static final int PORT = 3002;
-    /**
      * È la lista dei giocatori in attesa (sempre minore di PLAYER4GAME), è
      * static perchè condivisa con il thread parallelo per l'avvio forzato della
      * partita
@@ -33,19 +30,15 @@ public class ServerManagerSocket implements ServerManager {
      * È la lista delle parite avviate
      */
     private ArrayList<ConnectionManagerSocket> games;
-    private Thread threadManager;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
-
-    private final static Logger logger = Logger.getLogger(ServerManagerSocket.class.getName());
 
     /**
      * Crea un serverManager di tipo Socket e avvia il thread
      */
     public ServerManagerSocket() {
-        logger.setLevel(Level.INFO);
-        threadManager = new Thread(this);
+        Thread threadManager = new Thread(this);
         threadManager.start();
     }
 
@@ -59,7 +52,7 @@ public class ServerManagerSocket implements ServerManager {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
         try {
-            serverSocket = new ServerSocket(PORT);
+            serverSocket = new ServerSocket(Connection_variable.PORT_SOCKET);
             waitPlayer();
         } catch (IOException ex) {
             Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,7 +75,7 @@ public class ServerManagerSocket implements ServerManager {
                 swt = new SocketWaitingTimer();
             }
             playerConnection.add(new PlayerConnectionSocket(socket));
-            if (playerConnection.size() == PLAYER4GAME) {
+            if (playerConnection.size() == Connection_variable.PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
             }
@@ -99,7 +92,7 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
-            logger.info("Gioco Avviato");
+            System.out.println("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
         canAcceptSocket = true;
@@ -130,9 +123,9 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void run() {
             try {
-                logger.info("Timer avviato");
-                this.threadTimer.sleep(TIMEOUT);
-                logger.info("Timer scaduto");
+                System.out.println("Timer avviato");
+                this.threadTimer.sleep(Connection_variable.TIMEOUT);
+                System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -145,7 +138,7 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            logger.info("Timer fermato");
+            System.out.println("Timer fermato");
         }
     }
 }

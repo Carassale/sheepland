@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_variable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.rmi.RemoteException;
@@ -24,24 +25,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
     private static ArrayList<PlayerConnectionRMI> playerConnection;
     private ArrayList<ConnectionManagerRMI> games;
-    private Thread threadManager;
     private RMIWaitingTimer swt;
     private boolean canAccept;
-
-    /**
-     * È il nome del ServerManagerRMI, usato per le connessioni
-     */
-    public static final String SERVER_NAME = "ServerManagerRMI";
-    public static final int PORT = 3001;
-
-    private final static Logger logger = Logger.getLogger(ServerManagerRMI.class.getName());
 
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
      */
     public ServerManagerRMI() {
-        logger.setLevel(Level.INFO);
-        threadManager = new Thread(this);
+        Thread threadManager = new Thread(this);
         threadManager.start();
     }
 
@@ -57,14 +48,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = true;
 
         try {
-            logger.info("RMI: Registrazione...");
+            System.out.println("RMI: Registrazione...");
 
             //Naming.bind(SERVER_NAME, this); OR
-            UnicastRemoteObject.exportObject(this, PORT);
-            Registry registry = LocateRegistry.createRegistry(PORT);
-            registry.rebind(SERVER_NAME, this);
+            UnicastRemoteObject.exportObject(this, Connection_variable.PORT_RMI);
+            Registry registry = LocateRegistry.createRegistry(Connection_variable.PORT_RMI);
+            registry.rebind(Connection_variable.SERVER_NAME, this);
 
-            logger.info("RMI: Registrato");
+            System.out.println("RMI: Registrato");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,7 +75,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             } catch (RemoteException ex) {
                 Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            logger.info("Gioco Avviato");
+            System.out.println("Gioco Avviato");
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
@@ -118,7 +109,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             if (playerConnection.size() == 1) {
                 swt = new RMIWaitingTimer();
             }
-            if (playerConnection.size() == PLAYER4GAME) {
+            if (playerConnection.size() == Connection_variable.PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
             }
@@ -153,9 +144,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void run() {
             try {
-                logger.info("Timer avviato");
-                this.threadTimer.sleep(TIMEOUT);
-                logger.info("Timer scaduto");
+                System.out.println("Timer avviato");
+                this.threadTimer.sleep(Connection_variable.TIMEOUT);
+                System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,7 +159,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            logger.info("Timer fermato");
+            System.out.println("Timer fermato");
         }
     }
 }
