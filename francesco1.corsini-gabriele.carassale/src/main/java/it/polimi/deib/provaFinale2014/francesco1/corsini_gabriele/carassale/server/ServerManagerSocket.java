@@ -75,7 +75,7 @@ public class ServerManagerSocket implements ServerManager {
                 swt = new SocketWaitingTimer();
             }
             playerConnection.add(new PlayerConnectionSocket(socket));
-            if (playerConnection.size() == Connection_variable.PLAYER4GAME) {
+            if (playerConnection.size() == Server_variable.PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
             }
@@ -124,7 +124,7 @@ public class ServerManagerSocket implements ServerManager {
         public void run() {
             try {
                 System.out.println("Timer avviato");
-                this.threadTimer.sleep(Connection_variable.TIMEOUT);
+                this.threadTimer.sleep(Server_variable.TIMEOUT);
                 System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {

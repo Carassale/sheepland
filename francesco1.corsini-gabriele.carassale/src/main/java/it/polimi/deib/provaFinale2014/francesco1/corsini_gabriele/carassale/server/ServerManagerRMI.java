@@ -109,7 +109,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             if (playerConnection.size() == 1) {
                 swt = new RMIWaitingTimer();
             }
-            if (playerConnection.size() == Connection_variable.PLAYER4GAME) {
+            if (playerConnection.size() == Server_variable.PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
             }
@@ -145,7 +145,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         public void run() {
             try {
                 System.out.println("Timer avviato");
-                this.threadTimer.sleep(Connection_variable.TIMEOUT);
+                this.threadTimer.sleep(Server_variable.TIMEOUT);
                 System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
