@@ -562,12 +562,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void refreshAddAnimal(int idTerrain, String animalType) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String animalType) {
         if (waitingForAddAnimal) {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(true);
         }
-        int i = animals.size();
+        
         if (TypeAnimal.WOLF.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
             activateWolf(18);
@@ -577,7 +577,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         } else if (TypeAnimal.WHITE_SHEEP.toString().equals(animalType)
                 || TypeAnimal.RAM.toString().equals(animalType)
                 || TypeAnimal.LAMB.toString().equals(animalType)) {
-            animals.add(new ViewAnimal(i, idTerrain, animalType));
+            animals.add(new ViewAnimal(idAnimal, idTerrain, animalType));
             activateSheep(idTerrain);
         }
     }

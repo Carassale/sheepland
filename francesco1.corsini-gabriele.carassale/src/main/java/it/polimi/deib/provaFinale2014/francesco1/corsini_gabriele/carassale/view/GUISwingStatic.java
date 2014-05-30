@@ -487,7 +487,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param terrain dove viene aggiunto
      * @param animalType tipologia animale
      */
-    public void refreshAddAnimal(int terrain, String animalType) {
+    public void refreshAddAnimal(int idAnimal, int terrain, String animalType) {//TODO è stato cambiato, ora prende la idAnimal, quindi è da adattare
         int i = animals.size();
         if (TypeAnimal.WOLF.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
