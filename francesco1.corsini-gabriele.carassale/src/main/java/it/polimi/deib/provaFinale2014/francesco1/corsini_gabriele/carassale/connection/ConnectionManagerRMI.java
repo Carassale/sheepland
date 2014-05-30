@@ -52,6 +52,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         thread.start();
     }
 
+    public ArrayList<PlayerConnectionRMI> getPlayerConnections() {
+        return playerConnections;
+    }
+
     /**
      * Per ogni client collegato a questo connectionManager invia il prorpio
      * skeleton
@@ -454,6 +458,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             doRepeatAction = true;
             return StatusMessage.ACTION_ERROR.toString();
         }
+    }
+
+    /**
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     *
+     * @param idPlayer
+     */
+    public void refreshAllToPlayer(int idPlayer) {
+        //TODO
     }
 
     /**

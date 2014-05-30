@@ -477,6 +477,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             currentPlayer.printLn(1);
         }
     }
+    
+    /**
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     *
+     * @param idPlayer
+     */
+    public void refreshAllToPlayer(int idPlayer) {
+        //TODO
+    }
 
     /**
      * Questa classe implementa un Runnable, le due classi che la estendono

@@ -3,7 +3,13 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -33,11 +39,18 @@ public class ServerManagerSocket implements ServerManager {
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
+    private MapServerPlayer map;
+
+    private Socket socket;
+    private String nickname;
 
     /**
      * Crea un serverManager di tipo Socket e avvia il thread
+     *
+     * @param map
      */
-    public ServerManagerSocket() {
+    public ServerManagerSocket(MapServerPlayer map) {
+        this.map = map;
         Thread threadManager = new Thread(this);
         threadManager.start();
     }
@@ -52,7 +65,10 @@ public class ServerManagerSocket implements ServerManager {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
         try {
+            System.out.println("Socket: Inizializzazione socket...");
             serverSocket = new ServerSocket(Connection_Variable.PORT_SOCKET);
+            System.out.println("Socket: Socket inizializzato, ora accetto richieste.");
+
             waitPlayer();
         } catch (IOException ex) {
             Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -68,16 +84,34 @@ public class ServerManagerSocket implements ServerManager {
      */
     public void waitPlayer() throws IOException {
         playerConnection = new ArrayList<PlayerConnectionSocket>();
+        int id;
         while (canAcceptSocket) {
-            Socket socket = serverSocket.accept();
+            socket = serverSocket.accept();
+            System.out.println("Socket: Player collegato");
 
-            if (playerConnection.isEmpty()) {
-                swt = new SocketWaitingTimer();
-            }
-            playerConnection.add(new PlayerConnectionSocket(socket));
-            if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
-                swt.stop();
-                runNewGame();
+            //Controllo il nickname, se continua significa che o è nuovo, o era offline in connessione socket
+            checkNickname();
+
+            if (!map.existPlayer(nickname)) {
+
+                id = playerConnection.size();
+                //Aggiungo il player alla mappa dei client collegati
+                map.addPlayer(nickname, StatusMessage.TYPE_SOCKET.toString(), games.size(), id);
+
+                //Se è il primo avvio il timer
+                if (playerConnection.isEmpty()) {
+                    swt = new SocketWaitingTimer();
+                }
+                playerConnection.add(new PlayerConnectionSocket(socket, id));
+
+                //Se raggiungo il limite avvio il gioco
+                if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
+                    swt.stop();
+                    runNewGame();
+                }
+            } else {
+                //Sposto il socket nel gioco corretto
+                pushToCorrectPlayer(nickname, socket);
             }
         }
     }
@@ -92,10 +126,49 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
-            System.out.println("Gioco Avviato");
+            System.out.println("Socket: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
         canAcceptSocket = true;
+    }
+
+    public void checkNickname() throws IOException {
+        boolean doRepeat;
+        do {
+            BufferedReader inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            nickname = inSocket.readLine();
+
+            if (nickname == null
+                    || (map.existPlayer(nickname) && map.isOnLine(nickname))
+                    || (map.existPlayer(nickname)
+                    && !map.isOnLine(nickname)
+                    && !map.isTypeConnectionSocket(nickname))) {
+                outSocket.println(StatusMessage.NOT_CORRECT_NICKNAME.toString());
+                outSocket.flush();
+                outSocket.println("Questo nickname è già utilizzato da un altro player, controllare il tipo di connessione");
+                outSocket.flush();
+
+                doRepeat = true;
+            } else {
+                outSocket.println(StatusMessage.CORRECT_NICKNAME.toString());
+                outSocket.flush();
+
+                doRepeat = false;
+            }
+        } while (doRepeat);
+    }
+
+    private void pushToCorrectPlayer(String nickname, Socket socket) throws IOException {
+        int idGame = map.getIdGame(nickname);
+        int idPlayer = map.getIdPlayer(nickname);
+        for (PlayerConnectionSocket playerConnectionSocket : games.get(idGame).getPlayerConnections()) {
+            if (playerConnectionSocket.getIdPlayer() == idPlayer) {
+                playerConnectionSocket.setSocket(socket);
+                games.get(idGame).refreshAllToPlayer(idPlayer);
+                return;
+            }
+        }
     }
 
     /**
@@ -123,9 +196,9 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void run() {
             try {
-                System.out.println("Timer avviato");
+                System.out.println("Socket: Timer avviato");
                 this.threadTimer.sleep(Server_Variable.TIMEOUT);
-                System.out.println("Timer scaduto");
+                System.out.println("Socket: Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,7 +211,7 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            System.out.println("Timer fermato");
+            System.out.println("Socket: Timer fermato");
         }
     }
 }

@@ -19,9 +19,9 @@ public class Main {
      * @param arg
      */
     public static void main(String[] arg) {
-        new ServerManagerRMI();
-        new ServerManagerSocket();
-
+        MapServerPlayer map = new MapServerPlayer();
+        new ServerManagerRMI(map);
+        new ServerManagerSocket(map);
     }
 
 }

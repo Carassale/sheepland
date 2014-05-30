@@ -16,6 +16,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
     private Socket socket;
     private Scanner inSocket;
     private PrintWriter outSocket;
+    private int idPlayer;
 
     /**
      * Crea un PlayerConnection e inizializza i socket Scanner e Printer per la
@@ -23,10 +24,12 @@ public class PlayerConnectionSocket extends PlayerConnection {
      *
      * @param socket Viene passato il socket con il quale verrà effettuato
      * l'accoppiamento
+     * @param idPlayer Id del giocatore all'interno del round
      * @throws IOException
      */
-    public PlayerConnectionSocket(Socket socket) throws IOException {
+    public PlayerConnectionSocket(Socket socket, int idPlayer) throws IOException {
         this.socket = socket;
+        this.idPlayer = idPlayer;
         inSocket = new Scanner(socket.getInputStream());
         outSocket = new PrintWriter(socket.getOutputStream());
     }
@@ -38,6 +41,15 @@ public class PlayerConnectionSocket extends PlayerConnection {
      */
     public Socket getSocket() {
         return socket;
+    }
+
+    /**
+     * Restituisce l'id player
+     *
+     * @return int IdPlayer
+     */
+    public int getIdPlayer() {
+        return idPlayer;
     }
 
     /**
