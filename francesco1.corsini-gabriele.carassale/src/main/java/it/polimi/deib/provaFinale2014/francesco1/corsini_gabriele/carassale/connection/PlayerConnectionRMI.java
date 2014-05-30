@@ -12,15 +12,18 @@ import java.io.Serializable;
 public class PlayerConnectionRMI extends PlayerConnection implements Serializable {
 
     private ClientRMI clientRMI;
+    private int idPlayer;
 
     /**
      * Crea e inizializza il Player, setta lo stub del clinet per la
      * comunicazione da server a client
      *
      * @param clientRMI
+     * @param idPlayer
      */
-    public PlayerConnectionRMI(ClientRMI clientRMI) {
+    public PlayerConnectionRMI(ClientRMI clientRMI, int idPlayer) {
         this.clientRMI = clientRMI;
+        this.idPlayer = idPlayer;
     }
 
     /**
@@ -39,6 +42,10 @@ public class PlayerConnectionRMI extends PlayerConnection implements Serializabl
      */
     public void setClientRMI(ClientRMI clientRMI) {
         this.clientRMI = clientRMI;
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
     }
 
 }

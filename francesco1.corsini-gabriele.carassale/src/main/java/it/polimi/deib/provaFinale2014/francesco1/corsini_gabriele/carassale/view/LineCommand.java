@@ -45,7 +45,7 @@ public class LineCommand implements TypeOfInteraction {
     }
 
     /**
-     * Implementa il metodo superiore e legge una riga dal terminale
+     * Legge una riga dal terminale
      *
      * @return Stringa letta
      */
@@ -57,6 +57,36 @@ public class LineCommand implements TypeOfInteraction {
             Logger.getLogger(LineCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
+    }
+
+    /**
+     * Legge una riga dal terminale
+     *
+     * @return Stringa letta
+     */
+    public int readInt() {
+        String s = read();
+        while (!isNumeric(s)) {
+            print("Devi inserire un valore numerico!");
+            s = read();
+        }
+
+        return Integer.parseInt(s);
+    }
+
+    /**
+     * Controlla se una stringa in realtà può essere convertita a numero
+     *
+     * @param str Stringa da controllore
+     * @return True se è numero
+     */
+    private boolean isNumeric(String str) {
+        try {
+            Integer i = Integer.parseInt(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -78,10 +108,11 @@ public class LineCommand implements TypeOfInteraction {
     /**
      * Visualizza a video l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno dove posizionare
      * @param kind Tipo di animale
      */
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         String k = null;
         if (TypeAnimal.WHITE_SHEEP.toString().equals(kind)) {
             k = "Aggiunta pecora";
@@ -94,7 +125,7 @@ public class LineCommand implements TypeOfInteraction {
         } else if (TypeAnimal.WOLF.toString().equals(kind)) {
             k = "Aggiunto lupo";
         }
-        outVideo.println(k + " nel terreno " + idTerrain);
+        outVideo.println(k + " nel terreno " + idTerrain + ". ID: " + idAnimal);
     }
 
     /**
@@ -221,10 +252,11 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void moveShepard() {
         print("Quale pastore vuoi muovere?");
-        Integer idShepard = new Integer(read());
+
+        int idShepard = readInt();
 
         print("In quale strada?");
-        Integer idRoad = new Integer(read());
+        int idRoad = readInt();
 
         connectionClient.moveShepard(idShepard, idRoad);
     }
@@ -234,10 +266,10 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void moveSheep() {
         print("Quale pecora vuoi muovere?");
-        Integer idSheep = new Integer(read());
+        int idSheep = readInt();
 
         print("In quale terreno?");
-        Integer idTerrain = new Integer(read());
+        int idTerrain = readInt();
 
         connectionClient.moveSheep(idSheep, idTerrain);
     }
@@ -257,7 +289,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void killSheep() {
         print("Quale pecora vuoi ammazzare?");
-        Integer idSheep = new Integer(read());
+        int idSheep = readInt();
 
         connectionClient.killSheep(idSheep);
     }
@@ -267,19 +299,9 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void joinSheep() {
         print("In quale terreno si trovano gli ovini?");
-        Integer idTerrain = new Integer(read());
+        int idTerrain = readInt();
 
         connectionClient.joinSheep(idTerrain);
-    }
-
-    /**
-     * Chiede a video di impostare un nickname
-     */
-    public void setNickname() {
-        print("Impostare il proprio Nickname");
-        String s = read();
-
-        connectionClient.setNickname(s);
     }
 
     /**
@@ -299,7 +321,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void placeShepard(int idShepard) {
         print("Seleziona una strada dove posizionare il pastore " + idShepard);
-        Integer idRoad = new Integer(read());
+        int idRoad = readInt();
 
         connectionClient.placeShepard(idRoad);
     }

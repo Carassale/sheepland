@@ -12,7 +12,6 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -25,13 +24,12 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionManagerRMI extends UnicastRemoteObject implements ConnectionManager, ConnectionRMI, Serializable, Runnable {
+public class ConnectionManagerRMI extends UnicastRemoteObject implements ConnectionManager, ConnectionRMI, Runnable {
 
     private static final int NUMACTION = 3;
     private final ArrayList<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
-    private Thread thread;
 
     private boolean canDoAction;
     private boolean doRepeatAction;
@@ -50,8 +48,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
         changeReferenceToClient();
 
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
+    }
+
+    public ArrayList<PlayerConnectionRMI> getPlayerConnections() {
+        return playerConnections;
     }
 
     /**
@@ -77,7 +79,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
-        //setNickName();
     }
 
     /**
@@ -127,14 +128,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     /**
      * Invia a tutti i client l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno destinazione
      * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
      */
     @Override
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             try {
-                playerConnection.getClientRMI().refreshAddAnimal(idTerrain, kind);
+                playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
             } catch (RemoteException ex) {
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -310,10 +312,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_MOVE.toString();
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -346,6 +352,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -371,6 +379,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_COIN.toString();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -393,12 +403,16 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-                refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
+                int idAnimal = gameController.getGameTable().getSheeps().get(gameController.getGameTable().getSheeps().size() - 1).getId();
+                idAnimal++;
+                refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 canDoAction = true;
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -427,20 +441,35 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return ex.getMessage();
             } catch (WrongDiceNumberException ex) {
                 currentPlayer.getClientRMI().errorDice(ex.getMessage());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_DICE.toString() + ex.getMessage();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
             doRepeatAction = true;
             return StatusMessage.ACTION_ERROR.toString();
         }
+    }
+
+    /**
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     *
+     * @param idPlayer
+     */
+    public void refreshAllToPlayer(int idPlayer) {
+        //TODO
     }
 
     /**

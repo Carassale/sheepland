@@ -2,8 +2,8 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class ConnectionClientRMI extends UnicastRemoteObject implements ConnectionClient, ClientRMI, Serializable {
+public class ConnectionClientRMI extends UnicastRemoteObject implements ConnectionClient, ClientRMI {
 
     private TypeOfInteraction typeOfInteraction;
 
@@ -77,16 +77,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     }
 
     /**
-     * Imposta il nickname del Cliet
-     *
-     * @param nickname Stringa da settare
-     */
-    public void setNickname(String nickname) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
      * Riceve la scelta della strada dal client e la setta in tempRoad
      *
      * @param idRoad Strada scelta
@@ -104,7 +94,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void moveShepard(int idShepard, int idRoad) {
         try {
-            connectionRMI.moveShepard(idShepard, idRoad);
+            String s = connectionRMI.moveShepard(idShepard, idRoad);
+            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
+                typeOfInteraction.errorMessage(s);
+            } else {
+                typeOfInteraction.messageText(s);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -119,7 +114,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void moveSheep(int idSheep, int idTerrain) {
         try {
-            connectionRMI.moveSheep(idSheep, idTerrain);
+            String s = connectionRMI.moveSheep(idSheep, idTerrain);
+            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
+                typeOfInteraction.errorMessage(s);
+            } else {
+                typeOfInteraction.messageText(s);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -133,7 +133,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void buyCard(String typeOfTerrain) {
         try {
-            connectionRMI.buyCard(typeOfTerrain);
+            String s = connectionRMI.buyCard(typeOfTerrain);
+            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
+                typeOfInteraction.errorMessage(s);
+            } else {
+                typeOfInteraction.messageText(s);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -147,7 +152,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void killSheep(int idSheep) {
         try {
-            connectionRMI.killSheep(idSheep);
+            String s = connectionRMI.killSheep(idSheep);
+            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
+                typeOfInteraction.errorMessage(s);
+            } else {
+                typeOfInteraction.messageText(s);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -161,7 +171,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void joinSheep(int idTerrain) {
         try {
-            connectionRMI.joinSheep(idTerrain);
+            String s = connectionRMI.joinSheep(idTerrain);
+            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
+                typeOfInteraction.errorMessage(s);
+            } else {
+                typeOfInteraction.messageText(s);
+            }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,16 +191,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void wakeUp() throws RemoteException {
         typeOfInteraction.clickAction();
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo serve a impostare il nickname
-     *
-     * @throws RemoteException
-     */
-    public void setNikcname() throws RemoteException {
-        typeOfInteraction.setNickname();
     }
 
     /**
@@ -252,11 +257,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * questo caso il metodo è refresh sull'aggiunta dell'animale
      *
      * @param idAnimal Animale da aggiungere
+     * @param idTerrain Terreno in cui aggiungere
      * @param kind Tipo di animale
      * @throws RemoteException
      */
-    public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException {
-        typeOfInteraction.refreshAddAnimal(idAnimal, kind);
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) throws RemoteException {
+        typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
     }
 
     /**

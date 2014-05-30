@@ -19,13 +19,6 @@ public interface ConnectionClient {
     void setTypeOfInteraction(TypeOfInteraction typeOfInteraction);
 
     /**
-     * Definisce il metodo per settare il nickname
-     *
-     * @param nickname Stringa da settare
-     */
-    void setNickname(String nickname);
-
-    /**
      * Definisce il metodo per posizionare il pastore
      *
      * @param idRoad Strada dove posizionare

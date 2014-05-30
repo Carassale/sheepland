@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.rmi.RemoteException;
@@ -24,24 +25,18 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
     private static ArrayList<PlayerConnectionRMI> playerConnection;
     private ArrayList<ConnectionManagerRMI> games;
-    private Thread threadManager;
     private RMIWaitingTimer swt;
     private boolean canAccept;
-
-    /**
-     * È il nome del ServerManagerRMI, usato per le connessioni
-     */
-    public static final String SERVER_NAME = "ServerManagerRMI";
-    public static final int PORT = 3001;
-
-    private final static Logger logger = Logger.getLogger(ServerManagerRMI.class.getName());
+    private MapServerPlayer map;
 
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
+     *
+     * @param map
      */
-    public ServerManagerRMI() {
-        logger.setLevel(Level.INFO);
-        threadManager = new Thread(this);
+    public ServerManagerRMI(MapServerPlayer map) {
+        this.map = map;
+        Thread threadManager = new Thread(this);
         threadManager.start();
     }
 
@@ -57,14 +52,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = true;
 
         try {
-            logger.info("RMI: Registrazione...");
+            System.out.println("RMI: Registrazione registry...");
 
             //Naming.bind(SERVER_NAME, this); OR
-            UnicastRemoteObject.exportObject(this, PORT);
-            Registry registry = LocateRegistry.createRegistry(PORT);
-            registry.rebind(SERVER_NAME, this);
+            UnicastRemoteObject.exportObject(this, Connection_Variable.PORT_RMI);
+            Registry registry = LocateRegistry.createRegistry(Connection_Variable.PORT_RMI);
+            registry.rebind(Connection_Variable.SERVER_NAME, this);
 
-            logger.info("RMI: Registrato");
+            System.out.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,7 +79,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             } catch (RemoteException ex) {
                 Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            logger.info("Gioco Avviato");
+            System.out.println("RMI: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
@@ -98,7 +93,19 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @throws RemoteException
      */
     public String connect() throws RemoteException {
+        System.out.println("RMI: Player collegato");
         return StatusMessage.CONNECTED.toString();
+    }
+
+    public String checkNickname(String nickname) {
+        if ((map.existPlayer(nickname) && map.isOnLine(nickname))
+                || (map.existPlayer(nickname)
+                && !map.isOnLine(nickname)
+                && !map.isTypeConnectionSocket(nickname))) {
+            return StatusMessage.NOT_CORRECT_NICKNAME.toString();
+        } else {
+            return StatusMessage.CORRECT_NICKNAME.toString();
+        }
     }
 
     /**
@@ -110,22 +117,42 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @return "playerAdded" se aggiunto, "noPlayerAdded" se non aggiunto
      * @throws RemoteException
      */
-    public String addClient(ClientRMI clientRMI) throws RemoteException {
-        if (canAccept) {
-            //Aggiunge client RMI
-            playerConnection.add(new PlayerConnectionRMI(clientRMI));
+    public String addClient(ClientRMI clientRMI, String nickname) throws RemoteException {
+        if (!map.existPlayer(nickname)) {
+            if (canAccept) {
+                int id = playerConnection.size();
 
-            if (playerConnection.size() == 1) {
-                swt = new RMIWaitingTimer();
-            }
-            if (playerConnection.size() == PLAYER4GAME) {
-                swt.stop();
-                runNewGame();
-            }
+                //Aggiunge client RMI
+                playerConnection.add(new PlayerConnectionRMI(clientRMI, id));
 
+                if (playerConnection.size() == 1) {
+                    swt = new RMIWaitingTimer();
+                }
+                if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
+                    swt.stop();
+                    runNewGame();
+                }
+
+                return StatusMessage.PLAYER_ADDED.toString();
+            } else {
+                return StatusMessage.NO_PLAYER_ADDED.toString();
+            }
+        } else {
+            pushToCorrectPlayer(nickname, clientRMI);
             return StatusMessage.PLAYER_ADDED.toString();
         }
-        return StatusMessage.NO_PLAYER_ADDED.toString();
+    }
+
+    private void pushToCorrectPlayer(String nickname, ClientRMI clientRMI) {
+        int idGame = map.getIdGame(nickname);
+        int idPlayer = map.getIdPlayer(nickname);
+        for (PlayerConnectionRMI playerConnectionRMI : games.get(idGame).getPlayerConnections()) {
+            if (playerConnectionRMI.getIdPlayer() == idPlayer) {
+                playerConnectionRMI.setClientRMI(clientRMI);
+                games.get(idGame).refreshAllToPlayer(idPlayer);
+                return;
+            }
+        }
     }
 
     /**
@@ -153,9 +180,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void run() {
             try {
-                logger.info("Timer avviato");
-                this.threadTimer.sleep(TIMEOUT);
-                logger.info("Timer scaduto");
+                System.out.println("RMI: Timer avviato");
+                this.threadTimer.sleep(Server_Variable.TIMEOUT);
+                System.out.println("RMI: Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,7 +195,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            logger.info("Timer fermato");
+            System.out.println("RMI: Timer fermato");
         }
     }
 }

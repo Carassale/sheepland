@@ -16,11 +16,6 @@ public interface TypeOfInteraction {
     void clickAction();
 
     /**
-     * Risveglia l'interfaccia e fa settare il nickname
-     */
-    void setNickname();
-
-    /**
      * Risveglia l'interfaccia e mostra un messaggio di errore
      *
      * @param message Messaggio da visualizzare
@@ -45,11 +40,12 @@ public interface TypeOfInteraction {
     /**
      * Risveglia l'interfaccia e aggiunge un animale
      *
+     * @param idAnimal
      * @param idTerrain Terrno dove aggiungere
      * @param kind Tipo di animale da aggiungere: whiteSheep, ram, lamb, wolf,
      * blackSheep
      */
-    void refreshAddAnimal(int idTerrain, String kind);
+    void refreshAddAnimal(int idAnimal, int idTerrain, String kind);
 
     /**
      * Risveglia l'interfaccia e uccide un animale

@@ -61,14 +61,16 @@ public class ConnectionClientSocket implements ConnectionClient {
                 String s = inSocket.readLine();
                 if (TypeAction.WAKE_UP.toString().equals(s)) {
                     typeOfInteraction.clickAction();
-                } else if (TypeAction.SET_NICKNAME.toString().equals(s)) {
-                    typeOfInteraction.setNickname();
                 } else if (TypeAction.ERROR_COIN.toString().equals(s)) {
                     errorCoin();
                 } else if (TypeAction.ERROR_MOVE.toString().equals(s)) {
                     errorMove();
                 } else if (TypeAction.ERROR_DICE.toString().equals(s)) {
                     errorDice();
+                } else if (TypeAction.ERROR_MESSAGE.toString().equals(s)) {
+                    errorMessage();
+                } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
+                    messageText();
                 } else if (TypeAction.PLACE_SHEPARD.toString().equals(s)) {
                     typeOfInteraction.placeShepard(Integer.valueOf(inSocket.readLine()));
                 } else if (TypeAction.REFRESH_MOVE_ANIMAL.toString().equals(s)) {
@@ -87,23 +89,11 @@ public class ConnectionClientSocket implements ConnectionClient {
                     refreshCard();
                 } else if (TypeAction.REFRESH_COIN.toString().equals(s)) {
                     refreshCoin();
-                } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
-                    messageText();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-
-    /**
-     * Imposta il proprio nickname
-     *
-     * @param nickname Stringa da settare
-     */
-    public void setNickname(String nickname) {
-        outSocket.println(nickname);
-        outSocket.flush();
     }
 
     /**
@@ -157,9 +147,10 @@ public class ConnectionClientSocket implements ConnectionClient {
     private void refreshAddAnimal() {
         try {
             int idAnimal = Integer.valueOf(inSocket.readLine());
+            int idTerrain = Integer.valueOf(inSocket.readLine());
             String kind = inSocket.readLine();
 
-            typeOfInteraction.refreshAddAnimal(idAnimal, kind);
+            typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -333,6 +324,18 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Invia un messaggio al client
      */
     private void messageText() {
+        try {
+            String s = inSocket.readLine();
+            typeOfInteraction.messageText(s);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia un messaggio di errore al client
+     */
+    private void errorMessage() {
         try {
             String s = inSocket.readLine();
             typeOfInteraction.messageText(s);

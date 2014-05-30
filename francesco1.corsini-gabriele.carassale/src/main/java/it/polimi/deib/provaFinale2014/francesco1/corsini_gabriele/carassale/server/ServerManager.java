@@ -8,18 +8,4 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
  */
 public interface ServerManager extends Runnable {
 
-    /**
-     * È il numero massimo di giocatori per partita, una volta raggiunto tale
-     * numero di connessioni viene avviata una nuova partita tramite
-     * ConnectionManagerSocket
-     */
-    int PLAYER4GAME = 4;
-
-    /**
-     * È il tempo di attesa massimo che il thread SocketWaitingTimer aspetta
-     * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
-     * millisec
-     */
-    int TIMEOUT = 10000;
-
 }

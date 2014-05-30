@@ -27,9 +27,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private final ArrayList<PlayerConnectionSocket> playerConnections;
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
-    private Thread thread;
-
-    private final static Logger logger = Logger.getLogger(ConnectionManagerSocket.class.getName());
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -40,7 +37,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection) {
         this.playerConnections = playerConnection;
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
     }
 
@@ -53,7 +50,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         gameController.start(playerConnections.size());
-        //setNickName();
     }
 
     /**
@@ -118,16 +114,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Imposta il nickName del Player
-     */
-    public void setNickName() {
-        for (PlayerConnectionSocket playerConnection : playerConnections) {
-            playerConnection.printLn(TypeAction.SET_NICKNAME.toString());
-            gameController.getPlayerPool().getFirstPlayer().setNickName(playerConnection.getNextLine());
-        }
-    }
-
-    /**
      * Scorre la lista dei Player, sposta il primo in ultima posizione
      */
     @Override
@@ -168,19 +154,17 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                     refreshCoin(1, false);
                 }
                 return true;
-            } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
-                return false;
             } catch (CoinException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
+                return false;
+            } catch (MoveException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
+                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -213,11 +197,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshMoveAnimal(idSheep, idTerrain);
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -243,11 +226,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshCard(kind, false);
                 return true;
             } catch (CoinException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
                 currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
                 return false;
             }
         } else {
@@ -277,25 +259,22 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshKillAnimal(idSheep);
                 return true;
             } catch (CoinException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_COIN.toString());
-
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (WrongDiceNumberException ex) {
                 currentPlayer.printLn(StatusMessage.ERROR_DICE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_DICE.toString());
-
+                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString() + ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, StatusMessage.ERROR_DICE.toString() + ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -319,15 +298,16 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
+                int idAnimal = gameController.getGameTable().getSheeps().get(gameController.getGameTable().getSheeps().size() - 1).getId();
+                idAnimal++;
+                refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 printCorrectAction();
-                refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-
-                logger.setLevel(Level.FINER);
-                logger.finer(StatusMessage.ERROR_MOVE.toString());
-
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -342,7 +322,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     private void printCorrectAction() {
         currentPlayer.printLn(TypeAction.MESSAGE_TEXT.toString());
-        currentPlayer.printLn("Mossa effettua");
+        currentPlayer.printLn(StatusMessage.ACTION_OK.toString());
     }
 
     /**
@@ -350,8 +330,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * buon fine
      */
     private void printUncorectAction() {
-        currentPlayer.printLn(TypeAction.MESSAGE_TEXT.toString());
-        currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
+        currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+        currentPlayer.printLn(StatusMessage.ACTION_ERROR.toString());
 
     }
 
@@ -422,13 +402,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     /**
      * Invia a tutti i client l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno destinazione
      * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
      */
     @Override
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn(TypeAction.REFRESH_ADD_ANIMAL.toString());
+            playerConnection.printLn(idAnimal);
             playerConnection.printLn(idTerrain);
             playerConnection.printLn(kind);
         }
@@ -498,6 +480,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         } else {
             currentPlayer.printLn(1);
         }
+    }
+
+    /**
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     *
+     * @param idPlayer
+     */
+    public void refreshAllToPlayer(int idPlayer) {
+        //TODO
     }
 
     /**
