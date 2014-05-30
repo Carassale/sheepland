@@ -166,11 +166,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 }
                 return true;
             } catch (CoinException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
                 currentPlayer.printLn(ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
                 return false;
             } catch (MoveException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
                 currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, ex.getMessage(), ex);
@@ -206,6 +208,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshMoveAnimal(idSheep, idTerrain);
                 return true;
             } catch (MoveException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
                 currentPlayer.printLn(ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, ex.getMessage(), ex);
@@ -234,6 +237,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshCard(kind, false);
                 return true;
             } catch (CoinException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
                 currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
@@ -266,17 +270,20 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshKillAnimal(idSheep);
                 return true;
             } catch (CoinException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
                 currentPlayer.printLn(ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (MoveException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
                 currentPlayer.printLn(ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_DICE.toString() + ex.getMessage());
+                currentPlayer.printLn(StatusMessage.ERROR_DICE.toString());
+                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString() + ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, StatusMessage.ERROR_DICE.toString() + ex.getMessage(), ex);
                 return false;
@@ -306,6 +313,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
                 return true;
             } catch (MoveException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
                 currentPlayer.printLn(ex.getMessage());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, ex.getMessage(), ex);
@@ -323,7 +331,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     private void printCorrectAction() {
         currentPlayer.printLn(TypeAction.MESSAGE_TEXT.toString());
-        currentPlayer.printLn("Mossa effettua");
+        currentPlayer.printLn(StatusMessage.ACTION_OK.toString());
     }
 
     /**
@@ -331,8 +339,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * buon fine
      */
     private void printUncorectAction() {
-        currentPlayer.printLn(TypeAction.MESSAGE_TEXT.toString());
-        currentPlayer.printLn("Non è possibile fare questa mossa, ricorda di muovere il pastore");
+        currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+        currentPlayer.printLn(StatusMessage.ACTION_ERROR.toString());
 
     }
 

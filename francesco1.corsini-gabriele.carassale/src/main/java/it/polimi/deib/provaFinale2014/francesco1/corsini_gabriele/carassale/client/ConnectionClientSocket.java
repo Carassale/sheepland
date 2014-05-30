@@ -69,6 +69,10 @@ public class ConnectionClientSocket implements ConnectionClient {
                     errorMove();
                 } else if (TypeAction.ERROR_DICE.toString().equals(s)) {
                     errorDice();
+                } else if (TypeAction.ERROR_MESSAGE.toString().equals(s)) {
+                    errorMessage();
+                } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
+                    messageText();
                 } else if (TypeAction.PLACE_SHEPARD.toString().equals(s)) {
                     typeOfInteraction.placeShepard(Integer.valueOf(inSocket.readLine()));
                 } else if (TypeAction.REFRESH_MOVE_ANIMAL.toString().equals(s)) {
@@ -87,8 +91,6 @@ public class ConnectionClientSocket implements ConnectionClient {
                     refreshCard();
                 } else if (TypeAction.REFRESH_COIN.toString().equals(s)) {
                     refreshCoin();
-                } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
-                    messageText();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -333,6 +335,18 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Invia un messaggio al client
      */
     private void messageText() {
+        try {
+            String s = inSocket.readLine();
+            typeOfInteraction.messageText(s);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia un messaggio di errore al client
+     */
+    private void errorMessage() {
         try {
             String s = inSocket.readLine();
             typeOfInteraction.messageText(s);
