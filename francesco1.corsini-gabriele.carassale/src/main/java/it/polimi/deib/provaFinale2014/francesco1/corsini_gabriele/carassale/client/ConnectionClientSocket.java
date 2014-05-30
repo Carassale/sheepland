@@ -147,9 +147,10 @@ public class ConnectionClientSocket implements ConnectionClient {
     private void refreshAddAnimal() {
         try {
             int idAnimal = Integer.valueOf(inSocket.readLine());
+            int idTerrain = Integer.valueOf(inSocket.readLine());
             String kind = inSocket.readLine();
 
-            typeOfInteraction.refreshAddAnimal(idAnimal, kind);
+            typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }

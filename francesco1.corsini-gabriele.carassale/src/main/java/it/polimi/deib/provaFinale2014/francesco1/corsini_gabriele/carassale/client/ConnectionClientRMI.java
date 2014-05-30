@@ -257,11 +257,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * questo caso il metodo è refresh sull'aggiunta dell'animale
      *
      * @param idAnimal Animale da aggiungere
+     * @param idTerrain Terreno in cui aggiungere
      * @param kind Tipo di animale
      * @throws RemoteException
      */
-    public void refreshAddAnimal(int idAnimal, String kind) throws RemoteException {
-        typeOfInteraction.refreshAddAnimal(idAnimal, kind);
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) throws RemoteException {
+        typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
     }
 
     /**

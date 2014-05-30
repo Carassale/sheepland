@@ -108,10 +108,11 @@ public class LineCommand implements TypeOfInteraction {
     /**
      * Visualizza a video l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno dove posizionare
      * @param kind Tipo di animale
      */
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         String k = null;
         if (TypeAnimal.WHITE_SHEEP.toString().equals(kind)) {
             k = "Aggiunta pecora";
@@ -124,7 +125,7 @@ public class LineCommand implements TypeOfInteraction {
         } else if (TypeAnimal.WOLF.toString().equals(kind)) {
             k = "Aggiunto lupo";
         }
-        outVideo.println(k + " nel terreno " + idTerrain);
+        outVideo.println(k + " nel terreno " + idTerrain + ". ID: " + idAnimal);
     }
 
     /**

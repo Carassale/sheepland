@@ -48,10 +48,11 @@ public interface ConnectionManager {
     /**
      * Inserito qui per creare un metodo guida
      *
+     * @param idAnimal
      * @param idTerrain
      * @param kind
      */
-    void refreshAddAnimal(int idTerrain, String kind);
+    void refreshAddAnimal(int idAnimal, int idTerrain, String kind);
 
     /**
      * Inserito qui per creare un metodo guida

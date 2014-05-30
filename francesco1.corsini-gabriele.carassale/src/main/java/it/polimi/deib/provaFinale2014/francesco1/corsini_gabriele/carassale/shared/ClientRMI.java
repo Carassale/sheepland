@@ -77,11 +77,12 @@ public interface ClientRMI extends Remote {
      * Viene chiamato dal connectionManagerRMI, refresha l'aggiunta di un
      * animale
      *
-     * @param idAnimal Animale da aggiungere
+     * @param idAnimal
+     * @param idTerrain Terreno in cui aggiungere
      * @param kind Tipo di animale
      * @throws RemoteException
      */
-    void refreshAddAnimal(int idAnimal, String kind) throws RemoteException;
+    void refreshAddAnimal(int idAnimal, int idTerrain, String kind) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha cancella animale

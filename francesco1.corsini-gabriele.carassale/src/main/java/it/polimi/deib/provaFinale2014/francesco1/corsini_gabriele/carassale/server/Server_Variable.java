@@ -25,6 +25,6 @@ public final class Server_Variable {
      * prima di avviare forzatamente una partita 2min = 2*60*1000 = 240.000
      * millisec
      */
-    public static final int TIMEOUT = 1000000;
+    public static final int TIMEOUT = 10000;
 
 }

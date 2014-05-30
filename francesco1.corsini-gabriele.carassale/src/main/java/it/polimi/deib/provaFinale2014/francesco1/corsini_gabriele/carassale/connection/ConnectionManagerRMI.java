@@ -128,14 +128,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     /**
      * Invia a tutti i client l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno destinazione
      * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
      */
     @Override
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             try {
-                playerConnection.getClientRMI().refreshAddAnimal(idTerrain, kind);
+                playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
             } catch (RemoteException ex) {
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -402,7 +403,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
-                refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
+                int idAnimal = gameController.getGameTable().getSheeps().get(gameController.getGameTable().getSheeps().size() - 1).getId();
+                idAnimal++;
+                refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 canDoAction = true;
             } catch (MoveException ex) {
                 currentPlayer.getClientRMI().errorMove(ex.getMessage());

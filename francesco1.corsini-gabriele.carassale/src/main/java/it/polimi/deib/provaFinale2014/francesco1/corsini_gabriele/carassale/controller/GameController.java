@@ -159,14 +159,14 @@ public class GameController {
                 kind = TypeAnimal.WHITE_SHEEP.toString();
             }
 
-            connectionManager.refreshAddAnimal(sheep.getPosition().getID(), kind);
+            connectionManager.refreshAddAnimal(sheep.getId(), sheep.getPosition().getID(), kind);
         }
 
         Animal wolf = gameTable.getWolf();
-        connectionManager.refreshAddAnimal(wolf.getPosition().getID(), TypeAnimal.WOLF.toString());
+        connectionManager.refreshAddAnimal(-2, wolf.getPosition().getID(), TypeAnimal.WOLF.toString());
 
         Animal blackSheep = gameTable.getBlacksheep();
-        connectionManager.refreshAddAnimal(blackSheep.getPosition().getID(), TypeAnimal.BLACK_SHEEP.toString());
+        connectionManager.refreshAddAnimal(-1, blackSheep.getPosition().getID(), TypeAnimal.BLACK_SHEEP.toString());
     }
 
     /**

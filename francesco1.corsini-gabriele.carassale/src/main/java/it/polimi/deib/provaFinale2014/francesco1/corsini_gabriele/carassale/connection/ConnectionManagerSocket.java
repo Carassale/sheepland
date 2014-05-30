@@ -298,8 +298,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
+                int idAnimal = gameController.getGameTable().getSheeps().get(gameController.getGameTable().getSheeps().size() - 1).getId();
+                idAnimal++;
+                refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 printCorrectAction();
-                refreshAddAnimal(idTerrain, TypeAnimal.LAMB.toString());
                 return true;
             } catch (MoveException ex) {
                 currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
@@ -400,13 +402,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     /**
      * Invia a tutti i client l'animale aggiunto
      *
+     * @param idAnimal
      * @param idTerrain Terreno destinazione
      * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
      */
     @Override
-    public void refreshAddAnimal(int idTerrain, String kind) {
+    public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             playerConnection.printLn(TypeAction.REFRESH_ADD_ANIMAL.toString());
+            playerConnection.printLn(idAnimal);
             playerConnection.printLn(idTerrain);
             playerConnection.printLn(kind);
         }
@@ -477,7 +481,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             currentPlayer.printLn(1);
         }
     }
-    
+
     /**
      * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
      *
