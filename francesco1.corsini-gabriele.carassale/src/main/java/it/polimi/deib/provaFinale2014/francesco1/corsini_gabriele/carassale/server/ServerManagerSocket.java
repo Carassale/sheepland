@@ -2,7 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -52,7 +52,7 @@ public class ServerManagerSocket implements ServerManager {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
         try {
-            serverSocket = new ServerSocket(Connection_variable.PORT_SOCKET);
+            serverSocket = new ServerSocket(Connection_Variable.PORT_SOCKET);
             waitPlayer();
         } catch (IOException ex) {
             Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +75,7 @@ public class ServerManagerSocket implements ServerManager {
                 swt = new SocketWaitingTimer();
             }
             playerConnection.add(new PlayerConnectionSocket(socket));
-            if (playerConnection.size() == Server_variable.PLAYER4GAME) {
+            if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
                 swt.stop();
                 runNewGame();
             }
@@ -124,7 +124,7 @@ public class ServerManagerSocket implements ServerManager {
         public void run() {
             try {
                 System.out.println("Timer avviato");
-                this.threadTimer.sleep(Server_variable.TIMEOUT);
+                this.threadTimer.sleep(Server_Variable.TIMEOUT);
                 System.out.println("Timer scaduto");
                 runNewGame();
             } catch (InterruptedException ex) {

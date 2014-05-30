@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
@@ -115,7 +115,7 @@ public class Main {
         //Il client tenta di connettersi tramite socket
         Socket socket = null;
         try {
-            socket = new Socket(ADDRESS, Connection_variable.PORT_SOCKET);
+            socket = new Socket(ADDRESS, Connection_Variable.PORT_SOCKET);
             //Client connesso
             connected = true;
         } catch (IOException ex) {
@@ -143,8 +143,8 @@ public class Main {
 
         //Il client tenta di connettersi tramite RMI
         try {
-            Registry registry = LocateRegistry.getRegistry(ADDRESS, Connection_variable.PORT_RMI);
-            serverRMI = (ServerRMI) registry.lookup(Connection_variable.SERVER_NAME);
+            Registry registry = LocateRegistry.getRegistry(ADDRESS, Connection_Variable.PORT_RMI);
+            serverRMI = (ServerRMI) registry.lookup(Connection_Variable.SERVER_NAME);
 
             s = serverRMI.connect();
 
@@ -174,6 +174,6 @@ public class Main {
      * @param arg
      */
     public static void main(String[] arg) {
-        Main main = new Main();
+        new Main();
     }
 }
