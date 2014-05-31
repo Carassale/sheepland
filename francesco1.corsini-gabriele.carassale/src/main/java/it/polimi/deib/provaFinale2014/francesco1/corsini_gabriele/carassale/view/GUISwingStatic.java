@@ -739,7 +739,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     public void messageText(String message) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
+    }
+
+    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
+       
     }
 
 }

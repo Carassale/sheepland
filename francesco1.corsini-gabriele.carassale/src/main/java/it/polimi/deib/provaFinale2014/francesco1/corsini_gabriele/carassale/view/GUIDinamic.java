@@ -75,6 +75,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     //per eseguire il refresh giusto nel muovipastore
     private int tempIdShepard;
     
+    private int fenceNumber;
+    
     public GUIDinamic(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
         imagePool = new BufferedImageContainer();
@@ -104,6 +106,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createCards();
         createRoadLabels();
         createTextLabel();
+        createFenceCounter();
         setupAnimations();
 
         state = state.WAITINGFORSERVER;
@@ -473,6 +476,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setVisible(true);
 
     }
+    
+    private void createFenceCounter(){
+        
+    }
 
     public void updateText(String text) {
         textLabel.setText(text);
@@ -609,10 +616,14 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void refreshAddShepard(int idShepard, int road) {
+       
+    }
+    
+    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
+        
         ViewShepard shep = new ViewShepard(idShepard, road);
         roads[road].setShepard(idShepard);
-        
-        if (idShepard == tempShepard) {
+       if (isMine) {
             shep.setIsOwned(true);
             updateText("Posizionato");
         } else {
@@ -622,7 +633,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         tempShepard = -1;
         shepards.add(shep);
         state = GUIDinamicState.WAITINGFORSERVER;
-
     }
 
     public void refreshMoveShepard(int idShepard, int roadTo) {
@@ -713,6 +723,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public void setTempIdShepard(int tempIdShepard) {
         this.tempIdShepard = tempIdShepard;
     }
+
+    
 
     
 }
