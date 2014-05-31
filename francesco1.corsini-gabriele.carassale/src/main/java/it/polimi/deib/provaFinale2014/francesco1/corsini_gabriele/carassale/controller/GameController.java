@@ -267,6 +267,8 @@ public class GameController {
                         playerHasPicked = true;
                     } catch (CoinException ex) {
                         Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (CardException ex) {
+                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -277,6 +279,31 @@ public class GameController {
             }
         } while (!(playerPool.nextPlayer()));
 
+        clearUnlessTerrainCard();
+    }
+
+    /**
+     * Rimuovere le carte terreno iniziali non utilizzate
+     */
+    public void clearUnlessTerrainCard() {
+        if (gameTable.getTerrainCardPool(TypeCard.DESERT.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.DESERT.toString()).remove(0);
+        }
+        if (gameTable.getTerrainCardPool(TypeCard.FIELD.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.FIELD.toString()).remove(0);
+        }
+        if (gameTable.getTerrainCardPool(TypeCard.FOREST.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.FOREST.toString()).remove(0);
+        }
+        if (gameTable.getTerrainCardPool(TypeCard.MOUNTAIN.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.MOUNTAIN.toString()).remove(0);
+        }
+        if (gameTable.getTerrainCardPool(TypeCard.PLAIN.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.PLAIN.toString()).remove(0);
+        }
+        if (gameTable.getTerrainCardPool(TypeCard.RIVER.toString()).size() == 6) {
+            gameTable.getTerrainCardPool(TypeCard.RIVER.toString()).remove(0);
+        }
     }
 
     /**
@@ -293,9 +320,9 @@ public class GameController {
         }
         for (int i = 0; i < numberOfPlayers; i++) {
             if (i == 0) {
-                player = new Player(true);
+                player = new Player(true, i);
             } else {
-                player = new Player(false);
+                player = new Player(false, i);
             }
             player.setCoins(coin);
             playerPool.addPlayer(player);

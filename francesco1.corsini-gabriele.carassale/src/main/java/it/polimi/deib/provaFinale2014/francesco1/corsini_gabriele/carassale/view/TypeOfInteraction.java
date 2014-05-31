@@ -86,6 +86,8 @@ public interface TypeOfInteraction {
      */
     void refreshAddShepard(int idShepard, int road);
 
+    void refreshAddShepard(int idShepard, int road, boolean isMine);
+
     /**
      * Risveglia l'interfaccia e muove un pastore
      *

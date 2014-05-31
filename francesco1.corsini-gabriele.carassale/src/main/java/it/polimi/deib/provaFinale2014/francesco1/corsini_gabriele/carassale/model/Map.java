@@ -84,7 +84,7 @@ public class Map {
         } else if (i >= 15 && i <= 17) {
             ter.setTerrainType(TypeCard.FIELD.toString());
         } else {
-            ter.setTerrainType(TypeCard.SHEEPSBOURG.toString());
+            ter.setTerrainType("Sheepsbourg");
             ter.setSheepsbourg(true);
         }
         return ter;

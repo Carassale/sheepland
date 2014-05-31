@@ -47,6 +47,15 @@ public interface ClientRMI extends Remote {
 
     /**
      * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
+     * carte
+     *
+     * @param message Messaggio da inviare
+     * @throws RemoteException
+     */
+    void errorCard(String message) throws RemoteException;
+
+    /**
+     * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
      * dado
      *
      * @param message Messaggio da inviare
@@ -110,6 +119,8 @@ public interface ClientRMI extends Remote {
      * @throws RemoteException
      */
     void refreshAddShepard(int idShepard, int idRoad) throws RemoteException;
+
+    void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha il movimento di un

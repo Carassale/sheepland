@@ -23,8 +23,8 @@ public class Player {
     private ArrayList<Shepard> shepards;
     private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned;
     private int coins;
-    private String nickName;
     private boolean isFirstPlayer;
+    private int idPlayer;
 
     private String[] actionDone;
 
@@ -32,8 +32,10 @@ public class Player {
      * costruttore solo usato per i test
      *
      * @param firstPlayer
+     * @param idPlayer
      */
-    public Player(boolean firstPlayer) {
+    public Player(boolean firstPlayer, int idPlayer) {
+        this.idPlayer = idPlayer;
         shepards = new ArrayList<Shepard>();
         terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
 
@@ -41,7 +43,6 @@ public class Player {
         for (int i = 0; i < 3; i++) {
             actionDone[i] = "";
         }
-        nickName = "";
 
         coins = 20;
         isFirstPlayer = firstPlayer;
@@ -89,18 +90,25 @@ public class Player {
      *
      * @param terrainKind la tipologia di terreno che si intende comprare
      * @param game il gameTable su cui si sta giocando
+     * @return Il costo della carta
      * @throws CoinException se i soldi non sono sufficenti a comprare la carta
      */
-    public void buyTerrainCard(String terrainKind, GameTable game) throws CoinException {
+    public int buyTerrainCard(String terrainKind, GameTable game) throws CoinException, CardException {
         int cardLeft = game.getTerrainCardPool(terrainKind).size();
-        int cost = 5 - cardLeft;
-        if (this.coins >= cost) {
-            coins = coins - cost;
-            TerrainCard newTerrCard = new TerrainCard(terrainKind);
-            this.getTerrainCardsOwned(terrainKind).add(newTerrCard);
-            game.getTerrainCardPool(terrainKind).remove(0);
+        if (cardLeft != 0) {
+            int cost = 5 - cardLeft;
+            if (this.coins >= cost) {
+                coins = coins - cost;
+                TerrainCard newTerrCard = new TerrainCard(terrainKind);
+                this.getTerrainCardsOwned(terrainKind).add(newTerrCard);
+                game.getTerrainCardPool(terrainKind).remove(0);
+
+                return cost;
+            } else {
+                throw new CoinException("Non hai abbastanza soldi");
+            }
         } else {
-            throw new CoinException();
+            throw new CardException("Le carte di questa tipologia sono finite");
         }
     }
 
@@ -237,21 +245,21 @@ public class Player {
     }
 
     /**
-     * Restituisce il nickName del player
+     * Restituisce l'id del player
      *
-     * @return String nickName
+     * @return int idPlayer
      */
-    public String getNickName() {
-        return nickName;
+    public int getIdPlayer() {
+        return idPlayer;
     }
 
     /**
-     * Setta il nickName del player
+     * Setta l'id del player
      *
-     * @param nickName valore da settare
+     * @param idPlayer id da settare
      */
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
     }
 
     /**

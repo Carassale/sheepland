@@ -217,6 +217,17 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è un messaggio per errore di fine carte
+     *
+     * @param message Messaggio da mostrare
+     * @throws RemoteException
+     */
+    public void errorCard(String message) throws RemoteException {
+        typeOfInteraction.errorMessage(message);
+    }
+
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
      * questo caso il metodo è un messaggio per errore di dado
      *
      * @param message Messaggio da mostrare
@@ -298,6 +309,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException {
         typeOfInteraction.refreshAddShepard(idShepard, idRoad);
+    }
+
+    public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException {
+        typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
     }
 
     /**

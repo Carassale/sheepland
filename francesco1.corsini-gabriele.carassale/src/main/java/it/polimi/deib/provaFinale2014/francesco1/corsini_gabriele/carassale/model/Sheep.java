@@ -125,7 +125,7 @@ public class Sheep extends Animal {
      * @return True se è montone
      */
     public boolean isRam() {
-        return old == true && TypeAnimal.MALE.toString().equals(sex);
+        return old && TypeAnimal.MALE.toString().equals(sex);
     }
 
     /**

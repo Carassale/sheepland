@@ -12,8 +12,7 @@ public enum TypeCard {
     RIVER("River"),
     DESERT("Desert"),
     MOUNTAIN("Mountain"),
-    FIELD("Field"),
-    SHEEPSBOURG("Sheepsbourg");
+    FIELD("Field");
 
     private String value;
 

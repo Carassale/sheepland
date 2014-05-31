@@ -67,6 +67,8 @@ public class ConnectionClientSocket implements ConnectionClient {
                     errorMove();
                 } else if (TypeAction.ERROR_DICE.toString().equals(s)) {
                     errorDice();
+                } else if (TypeAction.ERROR_CARD.toString().equals(s)) {
+                    errorCard();
                 } else if (TypeAction.ERROR_MESSAGE.toString().equals(s)) {
                     errorMessage();
                 } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
@@ -83,6 +85,8 @@ public class ConnectionClientSocket implements ConnectionClient {
                     refreshTransformAnimal();
                 } else if (TypeAction.REFRESH_ADD_SHEPARD.toString().equals(s)) {
                     refreshAddShepard();
+                } else if (TypeAction.REFRESH_ADD_SHEPARD_BOOL.toString().equals(s)) {
+                    refreshAddShepardBool();
                 } else if (TypeAction.REFRESH_MOVE_SHEPARD.toString().equals(s)) {
                     refreshMoveShepard();
                 } else if (TypeAction.REFRESH_CARD.toString().equals(s)) {
@@ -116,7 +120,12 @@ public class ConnectionClientSocket implements ConnectionClient {
     public void errorDice() {
         typeOfInteraction.errorMessage(Message.IMPOSSIBLE_DICE.toString());
     }
-
+/**
+     * Stampa un errore, oggetto: Card
+     */
+    public void errorCard() {
+        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_CARD.toString());
+    }
     /**
      * Piazza un pastore
      *
@@ -192,6 +201,20 @@ public class ConnectionClientSocket implements ConnectionClient {
             int idRoad = Integer.valueOf(inSocket.readLine());
 
             typeOfInteraction.refreshAddShepard(idShepard, idRoad);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void refreshAddShepardBool() {
+        try {
+            int idShepard = Integer.valueOf(inSocket.readLine());
+            int idRoad = Integer.valueOf(inSocket.readLine());
+            int intIsMine = Integer.valueOf(inSocket.readLine());
+
+            boolean isMine = intIsMine == 0;
+
+            typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }

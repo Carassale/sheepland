@@ -15,6 +15,7 @@ public enum StatusMessage {
     ERROR_MOVE("Error_move"),
     ERROR_DICE("Error_dice"),
     ERROR_COIN("Error_coin"),
+    ERROR_CARD("Error_card"),
     TYPE_SOCKET("Type_socket"),
     TYPE_RMI("Type_rmi"),
     CORRECT_NICKNAME("Correct_nickname"),

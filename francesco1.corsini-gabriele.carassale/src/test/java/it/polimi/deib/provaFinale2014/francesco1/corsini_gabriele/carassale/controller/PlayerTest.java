@@ -29,7 +29,7 @@ public class PlayerTest {
     @Before
     public void setUp() {
         game = new GameTable();
-        player = new Player(false);
+        player = new Player(false, 0);
         shepard = new Shepard(game.getMap().getRoads().get(0), player, 0);
         player.getShepards().add(shepard);
         sheep = new Sheep(game.getMap().getTerrain().get(0), true, 0);
@@ -42,9 +42,11 @@ public class PlayerTest {
      *
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CardException
      */
     @Test
-    public void testBuyTerrainCard() throws CoinException {
+    public void testBuyTerrainCard() throws CoinException, CardException {
         assertEquals(0, player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size());
         assertEquals(5, game.getTerrainCardPool(TypeCard.PLAIN.toString()).size());
 
@@ -60,9 +62,11 @@ public class PlayerTest {
      *
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CardException
      */
     @Test
-    public void testBuyTerrainCardCoins() throws CoinException {
+    public void testBuyTerrainCardCoins() throws CoinException, CardException {
 
         assertEquals(20, player.getCoins());
         player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
@@ -77,9 +81,11 @@ public class PlayerTest {
      * test per vedere se gestisce bene il non avere soldi sufficenti
      *
      * @throws CoinException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CardException
      */
     @Test(expected = CoinException.class)
-    public void testBuyTerrainCardExeption() throws CoinException {
+    public void testBuyTerrainCardExeption() throws CoinException, CardException {
         player.setCoins(0);
         player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
         player.buyTerrainCard(TypeCard.PLAIN.toString(), game);
@@ -270,7 +276,7 @@ public class PlayerTest {
         terrain.getAnimals().clear();
         Sheep sheepToKill = new Sheep(terrain, true, 5);
 
-        Player player2 = new Player(false);
+        Player player2 = new Player(false, 0);
         player.setCoins(20);
         player2.setCoins(20);
         player.getShepards().clear();
@@ -297,7 +303,7 @@ public class PlayerTest {
     @Test(expected = CoinException.class)
     public void testKillAnimal1() throws CoinException, MoveException, WrongDiceNumberException {
 
-        Player player2 = new Player(false);
+        Player player2 = new Player(false, 0);
         player.setCoins(3);
         Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1), player2, 1);
         Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2), player2, 2);
@@ -335,7 +341,7 @@ public class PlayerTest {
         Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1), player, 1);
         player.getShepards().add(shepard1);
 
-        Player player2 = new Player(false);
+        Player player2 = new Player(false, 0);
         player2.setCoins(20);
         Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2), player2, 2);
         player2.getShepards().add(shepard2);

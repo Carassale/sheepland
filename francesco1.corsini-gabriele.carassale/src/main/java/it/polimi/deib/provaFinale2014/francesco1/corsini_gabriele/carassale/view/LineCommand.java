@@ -200,6 +200,14 @@ public class LineCommand implements TypeOfInteraction {
 
     }
 
+    public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) {
+        String s = "";
+        if (isMine) {
+            s = ": è il tuo";
+        }
+        outVideo.println("Aggiunto pastore " + idShepard + " nella strada " + idRoad + s);
+    }
+
     /**
      * Visualizza a video il movimento del pastore
      *

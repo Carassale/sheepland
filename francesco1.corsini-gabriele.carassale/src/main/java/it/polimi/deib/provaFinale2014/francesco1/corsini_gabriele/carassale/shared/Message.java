@@ -15,6 +15,7 @@ public enum Message {
     NO_ROAD_COMUNICANT("Non esiste strada che comunica tra questi due territori"),
     IMPOSSIBLE_NO_MONEY("Impossibile fare la mossa! Non hai abbastanza soldi."),
     IMPOSSIBLE_MOVE("Impossibile fare la mossa! Movimento non valido."),
+    IMPOSSIBLE_CARD("Impossibile fare la mossa! Carte finite."),
     IMPOSSIBLE_DICE("Impossibile fare la mossa! Errore dado.");
 
     private String value;

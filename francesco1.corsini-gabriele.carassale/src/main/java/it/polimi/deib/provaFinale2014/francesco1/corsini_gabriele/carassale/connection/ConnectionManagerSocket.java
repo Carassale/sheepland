@@ -1,8 +1,10 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CardException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -11,6 +13,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -221,8 +224,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.BUY_CARD.toString())) {
             try {
-                gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
+                int cost = gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(kind, gameController.getGameTable());
                 printCorrectAction();
+                refreshCoin(cost, false);
                 refreshCard(kind, false);
                 return true;
             } catch (CoinException ex) {
@@ -230,6 +234,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
                         .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
+                return false;
+            } catch (CardException ex) {
+                currentPlayer.printLn(TypeAction.ERROR_CARD.toString());
+                currentPlayer.printLn(ex.getMessage());
+                Logger.getLogger(ConnectionManagerSocket.class.getName())
+                        .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -378,9 +388,25 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     @Override
     public void refreshAddShepard(int idShepard, int idRoad) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
-            playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD.toString());
-            playerConnection.printLn(idShepard);
-            playerConnection.printLn(idRoad);
+            singeRefreshAddShepard(playerConnection, idShepard, idRoad);
+        }
+    }
+
+    private void singeRefreshAddShepard(PlayerConnectionSocket playerConnection, int idShepard, int idRoad) {
+        playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD.toString());
+        playerConnection.printLn(idShepard);
+        playerConnection.printLn(idRoad);
+    }
+
+    private void singeRefreshAddShepard(PlayerConnectionSocket playerConnection,
+            int idShepard, int idRoad, boolean isMine) {
+        playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD_BOOL.toString());
+        playerConnection.printLn(idShepard);
+        playerConnection.printLn(idRoad);
+        if (isMine) {
+            playerConnection.printLn(0);
+        } else {
+            playerConnection.printLn(1);
         }
     }
 
@@ -409,11 +435,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     @Override
     public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
-            playerConnection.printLn(TypeAction.REFRESH_ADD_ANIMAL.toString());
-            playerConnection.printLn(idAnimal);
-            playerConnection.printLn(idTerrain);
-            playerConnection.printLn(kind);
+            singleRefreshAddAnimal(playerConnection, idAnimal, idTerrain, kind);
         }
+    }
+
+    private void singleRefreshAddAnimal(PlayerConnectionSocket playerConnection, int idAnimal, int idTerrain, String kind) {
+        playerConnection.printLn(TypeAction.REFRESH_ADD_ANIMAL.toString());
+        playerConnection.printLn(idAnimal);
+        playerConnection.printLn(idTerrain);
+        playerConnection.printLn(kind);
     }
 
     /**
@@ -452,14 +482,18 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public void refreshCard(String kind, boolean isSold) {
-        currentPlayer.printLn(TypeAction.REFRESH_CARD.toString());
-        currentPlayer.printLn(kind);
+        refreshCard(currentPlayer, kind, isSold);
+    }
+
+    private void refreshCard(PlayerConnectionSocket playerConnection, String kind, boolean isSold) {
+        playerConnection.printLn(TypeAction.REFRESH_CARD.toString());
+        playerConnection.printLn(kind);
         // isSold TRUE -> 0
         // isSold FALSE -> 1
         if (isSold) {
-            currentPlayer.printLn(0);
+            playerConnection.printLn(0);
         } else {
-            currentPlayer.printLn(1);
+            playerConnection.printLn(1);
         }
     }
 
@@ -471,14 +505,18 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public void refreshCoin(int coins, boolean addCoin) {
-        currentPlayer.printLn(TypeAction.REFRESH_COIN.toString());
-        currentPlayer.printLn(coins);
+        refreshCoin(currentPlayer, coins, addCoin);
+    }
+
+    private void refreshCoin(PlayerConnectionSocket playerConnection, int coins, boolean addCoin) {
+        playerConnection.printLn(TypeAction.REFRESH_COIN.toString());
+        playerConnection.printLn(coins);
         // addCoin TRUE -> 0
         // addCoin FALSE -> 1
         if (addCoin) {
-            currentPlayer.printLn(0);
+            playerConnection.printLn(0);
         } else {
-            currentPlayer.printLn(1);
+            playerConnection.printLn(1);
         }
     }
 
@@ -488,7 +526,63 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @param idPlayer
      */
     public void refreshAllToPlayer(int idPlayer) {
-        //TODO
+        PlayerConnectionSocket thisPlayer = null;
+        for (PlayerConnectionSocket playerConnectionSocket : playerConnections) {
+            if (playerConnectionSocket.getIdPlayer() == idPlayer) {
+                thisPlayer = playerConnectionSocket;
+                break;
+            }
+        }
+
+        String kind;
+        for (Sheep sheep : gameController.getGameTable().getSheeps()) {
+            if (sheep.isLamb()) {
+                kind = TypeAnimal.LAMB.toString();
+            } else if (sheep.isRam()) {
+                kind = TypeAnimal.RAM.toString();
+            } else {
+                kind = TypeAnimal.WHITE_SHEEP.toString();
+            }
+            singleRefreshAddAnimal(thisPlayer, sheep.getId(), sheep.getPosition().getID(), kind);
+        }
+
+        kind = TypeAnimal.WOLF.toString();
+        singleRefreshAddAnimal(thisPlayer, -2, gameController.getGameTable().getWolf().getPosition().getID(), kind);
+
+        kind = TypeAnimal.BLACK_SHEEP.toString();
+        singleRefreshAddAnimal(thisPlayer, -1, gameController.getGameTable().getBlacksheep().getPosition().getID(), kind);
+
+        boolean isMine;
+        for (Shepard shepard : gameController.getGameTable().getShepards()) {
+            isMine = shepard.getOwner().getIdPlayer() == idPlayer;
+            singeRefreshAddShepard(thisPlayer, shepard.getId(), shepard.getPosition().getId(), isMine);
+        }
+
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == idPlayer) {
+                refreshCoin(player.getCoins(), true);
+
+                int i;
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.DESERT.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FIELD.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.FIELD.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FOREST.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.FOREST.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.MOUNTAIN.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.MOUNTAIN.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.PLAIN.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.RIVER.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.RIVER.toString(), false);
+                }
+            }
+        }
     }
 
     /**

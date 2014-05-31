@@ -1,8 +1,10 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CardException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -12,6 +14,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -101,11 +104,24 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     @Override
     public void refreshAddShepard(int idShepard, int idRoad) {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
-            try {
-                playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            singeRefreshAddShepard(playerConnection, idShepard, idRoad);
+        }
+    }
+
+    private void singeRefreshAddShepard(PlayerConnectionRMI playerConnection, int idShepard, int idRoad) {
+        try {
+            playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void singeRefreshAddShepard(PlayerConnectionRMI playerConnection,
+            int idShepard, int idRoad, boolean isMine) {
+        try {
+            playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad, isMine);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -135,11 +151,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     @Override
     public void refreshAddAnimal(int idAnimal, int idTerrain, String kind) {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
-            try {
-                playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
-            } catch (RemoteException ex) {
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            singleRefreshAddAnimal(playerConnection, idAnimal, idTerrain, kind);
+        }
+    }
+
+    private void singleRefreshAddAnimal(PlayerConnectionRMI playerConnection, int idAnimal, int idTerrain, String kind) {
+        try {
+            playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -201,8 +221,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public void refreshCoin(int coins, boolean addCoin) {
+        refreshCoin(currentPlayer, coins, addCoin);
+    }
+
+    private void refreshCoin(PlayerConnectionRMI playerConnection, int coins, boolean addCoin) {
         try {
-            currentPlayer.getClientRMI().refreshCoin(coins, addCoin);
+            playerConnection.getClientRMI().refreshCoin(coins, addCoin);
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -216,8 +240,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public void refreshCard(String kind, boolean isSold) {
+        refreshCard(currentPlayer, kind, isSold);
+    }
+
+    private void refreshCard(PlayerConnectionRMI playerConnection, String kind, boolean isSold) {
         try {
-            currentPlayer.getClientRMI().refreshCard(kind, isSold);
+            playerConnection.getClientRMI().refreshCard(kind, isSold);
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -372,8 +400,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     public String buyCard(String typeOfTerrain) throws RemoteException {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.BUY_CARD.toString())) {
             try {
-                gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
+                int cost = gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
                 refreshCard(typeOfTerrain, false);
+                refreshCoin(cost, false);
                 canDoAction = true;
             } catch (CoinException ex) {
                 currentPlayer.getClientRMI().errorCoin(ex.getMessage());
@@ -381,6 +410,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
 
                 return StatusMessage.ERROR_COIN.toString();
+            } catch (CardException ex) {
+                currentPlayer.getClientRMI().errorCard(ex.getMessage());
+                doRepeatAction = true;
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                return StatusMessage.ERROR_CARD.toString();
             }
             return StatusMessage.ACTION_OK.toString();
         } else {
@@ -469,7 +504,63 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @param idPlayer
      */
     public void refreshAllToPlayer(int idPlayer) {
-        //TODO
+        PlayerConnectionRMI thisPlayer = null;
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            if (playerConnection.getIdPlayer() == idPlayer) {
+                thisPlayer = playerConnection;
+                break;
+            }
+        }
+
+        String kind;
+        for (Sheep sheep : gameController.getGameTable().getSheeps()) {
+            if (sheep.isLamb()) {
+                kind = TypeAnimal.LAMB.toString();
+            } else if (sheep.isRam()) {
+                kind = TypeAnimal.RAM.toString();
+            } else {
+                kind = TypeAnimal.WHITE_SHEEP.toString();
+            }
+            singleRefreshAddAnimal(thisPlayer, sheep.getId(), sheep.getPosition().getID(), kind);
+        }
+
+        kind = TypeAnimal.WOLF.toString();
+        singleRefreshAddAnimal(thisPlayer, -2, gameController.getGameTable().getWolf().getPosition().getID(), kind);
+
+        kind = TypeAnimal.BLACK_SHEEP.toString();
+        singleRefreshAddAnimal(thisPlayer, -1, gameController.getGameTable().getBlacksheep().getPosition().getID(), kind);
+
+        boolean isMine;
+        for (Shepard shepard : gameController.getGameTable().getShepards()) {
+            isMine = shepard.getOwner().getIdPlayer() == idPlayer;
+            singeRefreshAddShepard(thisPlayer, shepard.getId(), shepard.getPosition().getId(), isMine);
+        }
+
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == idPlayer) {
+                refreshCoin(player.getCoins(), true);
+
+                int i;
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.DESERT.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FIELD.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.FIELD.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FOREST.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.FOREST.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.MOUNTAIN.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.MOUNTAIN.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.PLAIN.toString(), false);
+                }
+                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.RIVER.toString()).size(); i++) {
+                    refreshCard(thisPlayer, TypeCard.RIVER.toString(), false);
+                }
+            }
+        }
     }
 
     /**
