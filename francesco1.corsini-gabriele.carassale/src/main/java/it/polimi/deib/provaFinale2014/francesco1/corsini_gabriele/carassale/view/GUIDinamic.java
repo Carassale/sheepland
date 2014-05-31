@@ -43,6 +43,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
     private JLabel textLabel;
+    private JLabel fenceCounter;
+    private JLabel coinPicture,coinNumber;
 
     private ImageIcon plainCards[] = new ImageIcon[6];
     private ImageIcon forestCards[] = new ImageIcon[6];
@@ -71,18 +73,19 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     //se -1 vuol dire che nussun submenu è aperto
     private int subMenuOpen = -1;
     private int wolfActive = 18, blackSheepActive = 18;
-    
+
     //per eseguire il refresh giusto nel muovipastore
     private int tempIdShepard;
-    
+    private int coins;
     private int fenceNumber;
-    
+
     public GUIDinamic(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
         imagePool = new BufferedImageContainer();
-        createAndShowGUI();
+        fenceNumber = 20;
+        
         state = GUIDinamicState.WAITINGFORSERVER;
-
+        createAndShowGUI();
     }
 
     private void createAndShowGUI() {
@@ -106,7 +109,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createCards();
         createRoadLabels();
         createTextLabel();
-        createFenceCounter();
+        updateFenceCounter();
+        createMoney();
         setupAnimations();
 
         state = state.WAITINGFORSERVER;
@@ -141,9 +145,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         int offset = 20;
         for (int i = 0; i <= 18; i++) {
-            jbuttonSheeps[i] = new DinamicSheepButton(this);
+            jbuttonSheeps[i] = new DinamicSheepButton(this, i);
             setBackGroundInvisible(jbuttonSheeps[i]);
-            jbuttonSheeps[i].addActionListener(new GUIDinamicSheepListener(this, i));
             layeredPane.add(jbuttonSheeps[i], new Integer(3));
             jbuttonSheeps[i].setSize(100, 100);
             if (i == 0) {// la prima è la x, la seconda è la y(parte dall'alto)
@@ -194,16 +197,17 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private void createSheepSubMenu() {
         ImageIcon iconKillsheep = new ImageIcon("src\\main\\resources\\killSheep.png");
-
+        
+        
         for (int i = 0; i <= 18; i++) {
             jbuttonKillSheep[i] = new JButton(iconKillsheep);
             jbuttonJoinSheeps[i] = new DinamicJoinSheepsButton(this, i);
             jbuttonMoveSheep[i] = new DinamicMoveSheepButton(this, i);
             setBackGroundInvisible(jbuttonKillSheep[i]);
-            jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.KILL_SHEEP.toString()));
-            layeredPane.add(jbuttonKillSheep[i], new Integer(4));
-            layeredPane.add(jbuttonJoinSheeps[i], new Integer(4));
-            layeredPane.add(jbuttonMoveSheep[i], new Integer(4));
+            //jbuttonKillSheep[i].addActionListener(new GUIDinamicSheepSubMenuListener(this, i, TypeAction.KILL_SHEEP.toString()));
+            layeredPane.add(jbuttonKillSheep[i], new Integer(5));
+            layeredPane.add(jbuttonJoinSheeps[i], new Integer(5));
+            layeredPane.add(jbuttonMoveSheep[i], new Integer(5));
             jbuttonKillSheep[i].setSize(70, 70);
             jbuttonJoinSheeps[i].setSize(100, 100);
             jbuttonMoveSheep[i].setSize(70, 70);
@@ -372,8 +376,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         int offsety = -55;
         for (int i = 0; i <= 41; i++) {
             roads[i] = new DinamicRoadButton(this, i, imagePool);
-            layeredPane.add(roads[i], new Integer(3));
-            roads[i].setSize(50, 50);//TODO cambiare size dipendentemente se pastore o fence 50/50 caso fence
+            layeredPane.add(roads[i], new Integer(4));
+            roads[i].setSize(50, 50);
             roads[i].setVisible(true);
 
             if (i == 0) {
@@ -472,14 +476,38 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         layeredPane.add(textLabel, new Integer(10));
         textLabel.setLocation(120, 1);
         textLabel.setSize(textLabel.getPreferredSize());
-        //textLabel.setSize(WIDTH, WIDTH);
         textLabel.setVisible(true);
 
     }
-    
-    private void createFenceCounter(){
+
+    private void updateFenceCounter() {
+        ImageIcon fen = new ImageIcon(imagePool.getFenceNumber(fenceNumber));
+        fenceCounter = new JLabel(fen);
+        layeredPane.add(fenceCounter, new Integer(2));
+        fenceCounter.setSize(150, 150);
+        fenceCounter.setLocation(825, -15);
+        fenceCounter.setVisible(true);
+    }
+
+    private void createMoney(){
+        ImageIcon fen = new ImageIcon(imagePool.getCoins());
+        coinPicture = new JLabel(fen);
+        layeredPane.add(coinPicture, new Integer(2));
+        coinPicture.setSize(80, 80);
+        coinPicture.setLocation(845, 550);
+        coinPicture.setVisible(true);
+        
+        coinNumber = new JLabel("");
+        coinNumber.setFont(new Font("fantasy", Font.BOLD, 35));
+        coinNumber.setForeground(Color.black);
+        coinNumber.setSize(coinNumber.getPreferredSize());
+        layeredPane.add(coinNumber, new Integer(2));
+        coinNumber.setLocation(780, 570);
+        coinNumber.setVisible(true);
         
     }
+    
+    
 
     public void updateText(String text) {
         textLabel.setText(text);
@@ -518,6 +546,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         jbuttonMoveSheep[i].setVisible(val);
         jbuttonJoinSheeps[i].setVisible(val);
         jbuttonKillSheep[i].setVisible(val);
+    }
+    
+    public void activateSheepType(int terr){
+        
     }
 
     private void setBackGroundInvisible(JButton comp) {
@@ -598,11 +630,19 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             activateSheep(idTerrain);
         }
     }
+    
+    public void refreshAddFence(int idRoad) {
+        
+    }
 
     public void refreshKillAnimal(int idAnimal) {
 
     }
 
+    public void refreshWinner(int position, int score){
+        
+    }
+    
     public void refreshTransformAnimal(int idAnimal, String kind) {
 
     }
@@ -611,19 +651,23 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     }
 
-    public void refreshCoin(int coins, boolean addCoin) {
-
-    }
-
-    public void refreshAddShepard(int idShepard, int road) {
-       
-    }
-    
-    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
+    public void refreshCoin(int coinsChange, boolean addCoin) {
+        if(addCoin)
+            coins = coins +coinsChange;
+        else
+            coins = coins -coinsChange;
         
+        String num = String.valueOf(coins);
+        coinNumber.setText(num);
+        coinNumber.setSize(coinNumber.getPreferredSize());
+
+    }
+
+    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
+
         ViewShepard shep = new ViewShepard(idShepard, road);
         roads[road].setShepard(idShepard);
-       if (isMine) {
+        if (isMine) {
             shep.setIsOwned(true);
             updateText("Posizionato");
         } else {
@@ -645,7 +689,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             }
         }
         state = GUIDinamicState.WAITINGFORSERVER;
-
+        fenceNumber--;
+        updateFenceCounter();
     }
 
     public GUIDinamicState getGUIDinamicState() {
@@ -665,7 +710,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void messageText(String message) {
-
+        
     }
 
     void joinSheeps() {
@@ -726,5 +771,4 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     
 
-    
 }

@@ -24,9 +24,11 @@ public class DinamicSheepButton extends JButton {
     private boolean isBig = false;
     private boolean isInvisible;
     private int numSheeps = 0;
+    private int terrain;
 
-    public DinamicSheepButton(GUIDinamic gui) {
+    public DinamicSheepButton(GUIDinamic gui, int terr) {
         GUI = gui;
+        this.terrain = terr;
         for (int i = 0; i <= 5; i++) {
             try {
                 sheepImagesSmall[i] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\sheep_small_" + i + ".png"));
@@ -42,6 +44,29 @@ public class DinamicSheepButton extends JButton {
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
+               /* if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                    GUI.activateSubMenuSheep(terrain, true);
+                    GUI.setSubMenuOpen(terrain);
+                    GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
+                } //nel caso ci sia un submenù già aperto allora lo chiudo
+                else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
+                    int i = GUI.getSubMenuOpen();
+                    if (i == terrain) {
+                        GUI.activateSubMenuSheep(terrain, false);
+                    } else {
+                        GUI.activateSubMenuSheep(i, false);
+                        GUI.setSubMenuOpen(terrain);
+                    }
+                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORPLAYER));
+                }*/
+                 if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP){
+                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
+                    GUI.sendMoveSheep(terrain);//TODO finish
+                }
+                 else if(GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER){
+                     
+                 }
+
             }
 
             public void mousePressed(MouseEvent e) {
@@ -51,7 +76,7 @@ public class DinamicSheepButton extends JButton {
             }
 
             public void mouseEntered(MouseEvent e) {
-                if(GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER){
+                if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                     isBig = true;
                     repaint();
                 }
@@ -70,15 +95,14 @@ public class DinamicSheepButton extends JButton {
         if (sheepNumber > 5) {
             sheepNumber = 5;
         }
-        if(sheepNumber == 0){
+        if (sheepNumber == 0) {
             try {
                 icon = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
                 isInvisible = true;
             } catch (IOException ex) {
                 Logger.getLogger(DinamicSheepButton.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else{
+        } else {
             icon = sheepImagesSmall[sheepNumber];
             numSheeps = sheepNumber;
             isInvisible = false;
@@ -103,7 +127,5 @@ public class DinamicSheepButton extends JButton {
     public void setIsInvisible(boolean isInvisible) {
         this.isInvisible = isInvisible;
     }
-    
-    
 
 }

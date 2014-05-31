@@ -32,9 +32,9 @@ public class DinamicMoveSheepButton extends JPanel {
     //serve come contatore per ciclare tra le due immagine nel mouseover
     private int cont;
 
-    public DinamicMoveSheepButton(GUIDinamic GUI, int terrain) {
+    public DinamicMoveSheepButton(GUIDinamic gui, int terrain) {
 
-        this.GUI = GUI;
+        this.GUI = gui;
         this.terrain = terrain;
         try {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
@@ -52,7 +52,9 @@ public class DinamicMoveSheepButton extends JPanel {
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
-                //activateAnimation(); No perchè è il server che deve chimare refreshMoveSheep()
+                GUI.updateText("Selezionare territorio dove spostare la pecora");
+                GUI.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
+                
             }
 
             public void mousePressed(MouseEvent e) {

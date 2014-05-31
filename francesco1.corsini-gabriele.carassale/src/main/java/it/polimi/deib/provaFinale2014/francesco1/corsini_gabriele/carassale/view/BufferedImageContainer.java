@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  */
 public class BufferedImageContainer {
 
-    private BufferedImage fence, redShepard, greenShepard, blueShepard, yellowShepard, transparent;
+    private BufferedImage fence, redShepard, greenShepard, blueShepard, yellowShepard, transparent, coins, ram, whiteSheep, lamb;
 
     public BufferedImageContainer() {
         try {
@@ -28,7 +28,10 @@ public class BufferedImageContainer {
             blueShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardBlueSmall.png"));
             yellowShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardYellowSmall.png"));
             transparent = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
-
+            coins = ImageIO.read(new File(".\\src\\main\\resources\\coins.png"));
+            ram = ImageIO.read(new File(".\\src\\main\\resources\\ram.png"));
+            whiteSheep = ImageIO.read(new File(".\\src\\main\\resources\\whiteSheep.png"));
+            lamb = ImageIO.read(new File(".\\src\\main\\resources\\lamb.png"));
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,4 +77,21 @@ public class BufferedImageContainer {
         return null;
     }
 
+    public BufferedImage getCoins(){
+        return coins;
+    }
+
+    public BufferedImage getRam() {
+        return ram;
+    }
+
+    public BufferedImage getWhiteSheep() {
+        return whiteSheep;
+    }
+
+    public BufferedImage getLamb() {
+        return lamb;
+    }
+    
+    
 }

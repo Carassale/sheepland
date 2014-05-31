@@ -745,5 +745,13 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     public void refreshAddShepard(int idShepard, int road, boolean isMine) {
        
     }
+    
+    public void refreshWinner(int position, int score){
+        
+    }
+
+    public void refreshAddFence(int idRoad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
