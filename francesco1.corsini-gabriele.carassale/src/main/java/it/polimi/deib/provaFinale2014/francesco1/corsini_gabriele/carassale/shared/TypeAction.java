@@ -23,7 +23,6 @@ public enum TypeAction {
     REFRESH_KILL_ANIMAL("Refresh_kill_animal"),
     REFRESH_TRANSFORM_ANIMAL("Refresh_transform_animal"),
     REFRESH_ADD_SHEPARD("Refresh_add_shepard"),
-    REFRESH_ADD_SHEPARD_BOOL("Refresh_add_shepard_bool"),
     REFRESH_MOVE_SHEPARD("Refresh_move_shepard"),
     REFRESH_CARD("Refresh_card"),
     REFRESH_COIN("Refresh_coin"),

@@ -305,12 +305,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      *
      * @param idShepard Pastore da aggiungere
      * @param idRoad Strada posizionamento
+     * @param isMine
      * @throws RemoteException
      */
-    public void refreshAddShepard(int idShepard, int idRoad) throws RemoteException {
-        typeOfInteraction.refreshAddShepard(idShepard, idRoad);
-    }
-
     public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException {
         typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
     }

@@ -103,16 +103,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public void refreshAddShepard(int idShepard, int idRoad) {
+        Shepard s;
+        boolean isMine;
         for (PlayerConnectionRMI playerConnection : playerConnections) {
-            singeRefreshAddShepard(playerConnection, idShepard, idRoad);
-        }
-    }
-
-    private void singeRefreshAddShepard(PlayerConnectionRMI playerConnection, int idShepard, int idRoad) {
-        try {
-            playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            s = gameController.getGameTable().idToShepard(idShepard);
+            isMine = playerConnection.getIdPlayer() == s.getOwner().getIdPlayer();
+            singeRefreshAddShepard(playerConnection, idShepard, idRoad, isMine);
         }
     }
 

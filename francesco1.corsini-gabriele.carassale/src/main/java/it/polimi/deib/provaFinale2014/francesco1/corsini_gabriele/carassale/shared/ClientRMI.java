@@ -116,10 +116,9 @@ public interface ClientRMI extends Remote {
      *
      * @param idShepard Pastore da aggiungere
      * @param idRoad Strada dove posizionare
+     * @param isMine
      * @throws RemoteException
      */
-    void refreshAddShepard(int idShepard, int idRoad) throws RemoteException;
-
     void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException;
 
     /**

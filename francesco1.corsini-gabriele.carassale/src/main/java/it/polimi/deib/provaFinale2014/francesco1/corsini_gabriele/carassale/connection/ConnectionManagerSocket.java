@@ -387,20 +387,18 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public void refreshAddShepard(int idShepard, int idRoad) {
+        Shepard s;
+        boolean isMine;
         for (PlayerConnectionSocket playerConnection : playerConnections) {
-            singeRefreshAddShepard(playerConnection, idShepard, idRoad);
+            s = gameController.getGameTable().idToShepard(idShepard);
+            isMine = playerConnection.getIdPlayer() == s.getOwner().getIdPlayer();
+            singeRefreshAddShepard(playerConnection, idShepard, idRoad, isMine);
         }
-    }
-
-    private void singeRefreshAddShepard(PlayerConnectionSocket playerConnection, int idShepard, int idRoad) {
-        playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD.toString());
-        playerConnection.printLn(idShepard);
-        playerConnection.printLn(idRoad);
     }
 
     private void singeRefreshAddShepard(PlayerConnectionSocket playerConnection,
             int idShepard, int idRoad, boolean isMine) {
-        playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD_BOOL.toString());
+        playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD.toString());
         playerConnection.printLn(idShepard);
         playerConnection.printLn(idRoad);
         if (isMine) {

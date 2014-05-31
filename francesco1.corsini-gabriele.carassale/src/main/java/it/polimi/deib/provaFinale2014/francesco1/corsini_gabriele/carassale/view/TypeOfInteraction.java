@@ -83,9 +83,8 @@ public interface TypeOfInteraction {
      *
      * @param idShepard Pastore da aggiungere
      * @param road Strada dove posizionare
+     * @param isMine
      */
-    void refreshAddShepard(int idShepard, int road);
-
     void refreshAddShepard(int idShepard, int road, boolean isMine);
 
     /**
