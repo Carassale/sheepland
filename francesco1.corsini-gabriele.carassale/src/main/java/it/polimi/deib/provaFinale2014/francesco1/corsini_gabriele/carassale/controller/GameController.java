@@ -229,10 +229,11 @@ public class GameController {
                 } while (!playerHasPlacedShepard);
 
                 Shepard shepard = new Shepard(roadChoosen, currentPlayer, idShepard);
-                connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
-
                 currentPlayer.getShepards().add(shepard);
                 gameTable.getShepards().add(shepard);
+
+                connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
+
                 idShepard++;
             }
 

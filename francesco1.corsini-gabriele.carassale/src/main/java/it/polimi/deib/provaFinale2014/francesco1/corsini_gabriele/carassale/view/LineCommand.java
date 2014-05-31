@@ -194,12 +194,8 @@ public class LineCommand implements TypeOfInteraction {
      *
      * @param idShepard Pastore da aggiungere
      * @param idRoad Strada dove posizionare
+     * @param isMine True se è il suo pastore
      */
-    public void refreshAddShepard(int idShepard, int idRoad) {
-        outVideo.println("Aggiunto pastore " + idShepard + " nella strada " + idRoad);
-
-    }
-
     public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) {
         String s = "";
         if (isMine) {
