@@ -6,6 +6,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -29,6 +32,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     private boolean canAccept;
     private MapServerPlayer map;
 
+    private PrintWriter outVideo;
+
     /**
      * Crea un ServerManager di tipo RMI, ancora da implementare
      *
@@ -36,6 +41,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      */
     public ServerManagerRMI(MapServerPlayer map) {
         this.map = map;
+        this.outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
         Thread threadManager = new Thread(this);
         threadManager.start();
     }
@@ -52,14 +58,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = true;
 
         try {
-            System.out.println("RMI: Registrazione registry...");
+            outVideo.println("RMI: Registrazione registry...");
 
             //Naming.bind(SERVER_NAME, this); OR
             UnicastRemoteObject.exportObject(this, Connection_Variable.PORT_RMI);
             Registry registry = LocateRegistry.createRegistry(Connection_Variable.PORT_RMI);
             registry.rebind(Connection_Variable.SERVER_NAME, this);
 
-            System.out.println("RMI: Registry registrato, ora accetto richieste");
+            outVideo.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
             Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -79,7 +85,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             } catch (RemoteException ex) {
                 Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("RMI: Gioco avviato, " + games.size());
+            outVideo.println("RMI: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionRMI>();
         }
         canAccept = true;
@@ -93,7 +99,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @throws RemoteException
      */
     public String connect() throws RemoteException {
-        System.out.println("RMI: Player collegato");
+        outVideo.println("RMI: Player collegato");
         return StatusMessage.CONNECTED.toString();
     }
 
@@ -180,11 +186,16 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void run() {
             try {
-                System.out.println("RMI: Timer avviato");
+                outVideo.println("RMI: Timer avviato");
                 this.threadTimer.sleep(Server_Variable.TIMEOUT);
-                System.out.println("RMI: Timer scaduto");
-                runNewGame();
+                outVideo.println("RMI: Timer scaduto");
+                if (playerConnection.size() >= 2) {
+                    runNewGame();
+                } else {
+                    swt = new RMIWaitingTimer();
+                }
             } catch (InterruptedException ex) {
+                outVideo.println("RMI: Timer fermato");
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -195,7 +206,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            System.out.println("RMI: Timer fermato");
+            outVideo.println("RMI: Timer fermato");
         }
     }
 }

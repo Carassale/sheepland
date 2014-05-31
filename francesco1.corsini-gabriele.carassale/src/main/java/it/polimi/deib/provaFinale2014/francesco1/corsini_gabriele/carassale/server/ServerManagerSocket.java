@@ -44,12 +44,15 @@ public class ServerManagerSocket implements ServerManager {
     private Socket socket;
     private String nickname;
 
+    private PrintWriter outVideo;
+
     /**
      * Crea un serverManager di tipo Socket e avvia il thread
      *
      * @param map
      */
     public ServerManagerSocket(MapServerPlayer map) {
+        this.outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
         this.map = map;
         Thread threadManager = new Thread(this);
         threadManager.start();
@@ -65,9 +68,9 @@ public class ServerManagerSocket implements ServerManager {
         games = new ArrayList<ConnectionManagerSocket>();
         canAcceptSocket = true;
         try {
-            System.out.println("Socket: Inizializzazione socket...");
+            outVideo.println("Socket: Inizializzazione socket...");
             serverSocket = new ServerSocket(Connection_Variable.PORT_SOCKET);
-            System.out.println("Socket: Socket inizializzato, ora accetto richieste.");
+            outVideo.println("Socket: Socket inizializzato, ora accetto richieste.");
 
             waitPlayer();
         } catch (IOException ex) {
@@ -87,7 +90,7 @@ public class ServerManagerSocket implements ServerManager {
         int id;
         while (canAcceptSocket) {
             socket = serverSocket.accept();
-            System.out.println("Socket: Player collegato");
+            outVideo.println("Socket: Player collegato");
 
             //Controllo il nickname, se continua significa che o è nuovo, o era offline in connessione socket
             checkNickname();
@@ -126,7 +129,7 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection));
-            System.out.println("Socket: Gioco avviato, " + games.size());
+            outVideo.println("Socket: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
         canAcceptSocket = true;
@@ -196,11 +199,16 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void run() {
             try {
-                System.out.println("Socket: Timer avviato");
+                outVideo.println("Socket: Timer avviato");
                 this.threadTimer.sleep(Server_Variable.TIMEOUT);
-                System.out.println("Socket: Timer scaduto");
-                runNewGame();
+                outVideo.println("Socket: Timer scaduto");
+                if (playerConnection.size() >= 2) {
+                    runNewGame();
+                } else {
+                    swt = new SocketWaitingTimer();
+                }
             } catch (InterruptedException ex) {
+                outVideo.println("Socket: Timer fermato");
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -211,7 +219,7 @@ public class ServerManagerSocket implements ServerManager {
          */
         public void stop() {
             this.threadTimer.interrupt();
-            System.out.println("Socket: Timer fermato");
+            outVideo.println("Socket: Timer fermato");
         }
     }
 }
