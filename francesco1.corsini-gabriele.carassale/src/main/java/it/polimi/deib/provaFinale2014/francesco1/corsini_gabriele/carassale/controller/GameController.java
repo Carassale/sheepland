@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
@@ -10,6 +8,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -142,7 +143,96 @@ public class GameController {
      * Dichiara il vincitore
      */
     private void declareWinner() {
-        //TODO declare
+        int[] numSheepsForTerrain = new int[6];
+        for (int i = 0; i < 6; i++) {
+            numSheepsForTerrain[i] = 0;
+        }
+
+        //Conto le pecore per tipo di terreno e incremento il proprio contatore
+        String kind;
+        for (Sheep sheep : gameTable.getSheeps()) {
+            if (!sheep.getPosition().isSheepsbourg()) {
+                kind = sheep.getPosition().getTerrainType();
+                numSheepsForTerrain[checkNumCard(kind)]++;
+            }
+        }
+        //Aggiungo il conteggio per la pecora nera
+        if (!gameTable.getBlacksheep().getPosition().isSheepsbourg()) {
+            kind = gameTable.getBlacksheep().getPosition().getTerrainType();
+            numSheepsForTerrain[checkNumCard(kind)] += 2;
+        }
+
+        //Aggiorno i punteggi di ogni giocatore
+        int tempCard;
+        int tempScore;
+        ArrayList<Integer> tempArray = new ArrayList<Integer>();
+        for (Player player : playerPool.getPlayers()) {
+            tempScore = player.getCoins();
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.DESERT.toString())] * tempCard;
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.FIELD.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.FIELD.toString())] * tempCard;
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.FOREST.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.FOREST.toString())] * tempCard;
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.MOUNTAIN.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.MOUNTAIN.toString())] * tempCard;
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.PLAIN.toString())] * tempCard;
+
+            tempCard = player.getTerrainCardsOwned(TypeCard.RIVER.toString()).size();
+            tempScore += numSheepsForTerrain[checkNumCard(TypeCard.RIVER.toString())] * tempCard;
+
+            player.setFinalScore(tempScore);
+            tempArray.add(tempCard);
+        }
+
+        //Ordino la classifica
+        boolean tempOrd;
+        do {
+            tempOrd = true;
+            for (int i = 0; i < tempArray.size() - 1; i++) {
+                if (tempArray.get(i) < tempArray.get(i + 1)) {
+                    tempScore = tempArray.get(i);
+                    tempArray.remove(i);
+                    tempArray.add(i + 1, tempScore);
+
+                    tempOrd = false;
+                }
+            }
+        } while (tempOrd);
+
+        //Attribuisco ad ogni giocatore la posizione in classfica
+        for (Player player : playerPool.getPlayers()) {
+            for (int i = 0; i < tempArray.size(); i++) {
+                if (player.getFinalScore() == tempArray.get(i)) {
+                    player.setFinalPosition(i + 1);
+                }
+            }
+        }
+
+        //Refresho il connection Manager
+        connectionManager.refreshWinner();
+    }
+
+    private int checkNumCard(String kind) {
+        if (kind.equals(TypeCard.DESERT.toString())) {
+            return 0;
+        } else if (kind.equals(TypeCard.FIELD.toString())) {
+            return 1;
+        } else if (kind.equals(TypeCard.FOREST.toString())) {
+            return 2;
+        } else if (kind.equals(TypeCard.MOUNTAIN.toString())) {
+            return 3;
+        } else if (kind.equals(TypeCard.PLAIN.toString())) {
+            return 4;
+        } else {
+            return 5;
+        }
     }
 
     /**

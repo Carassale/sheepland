@@ -97,11 +97,11 @@ public class LineCommand implements TypeOfInteraction {
      */
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
         if (idAnimal == -2) {
-            outVideo.println("Il Lupo si è mosso nel terreno " + idTerrain);
+            print("Il Lupo si è mosso nel terreno " + idTerrain);
         } else if (idAnimal == -1) {
-            outVideo.println("La pecora nera si è mossa nel terreno " + idTerrain);
+            print("La pecora nera si è mossa nel terreno " + idTerrain);
         } else {
-            outVideo.println("È stata mossa una pecora nel terreno " + idTerrain);
+            print("È stata mossa una pecora nel terreno " + idTerrain);
         }
     }
 
@@ -125,7 +125,7 @@ public class LineCommand implements TypeOfInteraction {
         } else if (TypeAnimal.WOLF.toString().equals(kind)) {
             k = "Aggiunto lupo";
         }
-        outVideo.println(k + " nel terreno " + idTerrain + ". ID: " + idAnimal);
+        print(k + " nel terreno " + idTerrain + ". ID: " + idAnimal);
     }
 
     /**
@@ -134,7 +134,7 @@ public class LineCommand implements TypeOfInteraction {
      * @param idAnimal Animale cancellato
      */
     public void refreshKillAnimal(int idAnimal) {
-        outVideo.println("Uccisa pecora " + idAnimal);
+        print("Uccisa pecora " + idAnimal);
     }
 
     /**
@@ -150,7 +150,7 @@ public class LineCommand implements TypeOfInteraction {
         } else if (TypeAnimal.RAM.toString().equals(kind)) {
             k = "montone";
         }
-        outVideo.println("Trasformato agnello " + idAnimal + " in " + k);
+        print("Trasformato agnello " + idAnimal + " in " + k);
     }
 
     /**
@@ -164,7 +164,7 @@ public class LineCommand implements TypeOfInteraction {
         if (isSold) {
             s = "Venduta";
         }
-        outVideo.println(s + " carta di tipo " + typeOfTerrain);
+        print(s + " carta di tipo " + typeOfTerrain);
     }
 
     /**
@@ -179,13 +179,13 @@ public class LineCommand implements TypeOfInteraction {
             if (addCoin) {
                 s = "Aggiunte";
             }
-            outVideo.println(s + " " + coins + " monete.");
+            print(s + " " + coins + " monete.");
         } else {
             String s = "Rimossa";
             if (addCoin) {
                 s = "Aggiunta";
             }
-            outVideo.println(s + " una moneta.");
+            print(s + " una moneta.");
         }
     }
 
@@ -201,7 +201,7 @@ public class LineCommand implements TypeOfInteraction {
         if (isMine) {
             s = ": è il tuo";
         }
-        outVideo.println("Aggiunto pastore " + idShepard + " nella strada " + idRoad + s);
+        print("Aggiunto pastore " + idShepard + " nella strada " + idRoad + s);
     }
 
     /**
@@ -211,7 +211,7 @@ public class LineCommand implements TypeOfInteraction {
      * @param idRoad Strada destinazione
      */
     public void refreshMoveShepard(int idShepard, int idRoad) {
-        outVideo.println("Mosso pastore " + idShepard + " nella strada " + idRoad);
+        print("Mosso pastore " + idShepard + " nella strada " + idRoad);
     }
 
     /**
@@ -332,5 +332,16 @@ public class LineCommand implements TypeOfInteraction {
 
     public void messageText(String message) {
         print(message);
+    }
+
+    public void refreshAddFence(int idRoad) {
+        print("Aggiunta fence nella strada " + idRoad);
+    }
+
+    public void refreshWinner(int finalPosition, int finalScore) {
+        if (finalPosition == 1) {
+            print("COMPLIMENTI HAI VINTO!!!");
+        }
+        print("Gioco completato in posizione " + finalPosition + " con un punteggio di " + finalScore + ".");
     }
 }

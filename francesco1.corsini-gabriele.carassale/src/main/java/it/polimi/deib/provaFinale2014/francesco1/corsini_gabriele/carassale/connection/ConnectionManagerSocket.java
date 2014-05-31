@@ -518,6 +518,27 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    private void refreshAllFence(PlayerConnectionSocket playerConnection) {
+        for (Road road : gameController.getGameTable().getMap().getRoads()) {
+            if (road.hasFence()) {
+                playerConnection.printLn(TypeAction.REFRESH_ADD_FENCE.toString());
+                playerConnection.printLn(road.getId());
+            }
+        }
+    }
+
+    public void refreshWinner() {
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            for (PlayerConnectionSocket playerConnection : playerConnections) {
+                if (player.getIdPlayer() == playerConnection.getIdPlayer()) {
+                    playerConnection.printLn(TypeAction.REFRESH_WINNER.toString());
+                    playerConnection.printLn(player.getFinalPosition());
+                    playerConnection.printLn(player.getFinalScore());
+                }
+            }
+        }
+    }
+
     /**
      * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
      *
@@ -581,6 +602,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 }
             }
         }
+
+        refreshAllFence(thisPlayer);
     }
 
     /**

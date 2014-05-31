@@ -494,6 +494,28 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    private void refreshAllFence(PlayerConnectionRMI playerConnection) {
+        for (Road road : gameController.getGameTable().getMap().getRoads()) {
+            if (road.hasFence()) {
+                try {
+                    playerConnection.getClientRMI().refreshAddFence(road.getId());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+
+    public void refreshWinner() {
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            for (PlayerConnectionRMI playerConnection : playerConnections) {
+                if (player.getIdPlayer() == playerConnection.getIdPlayer()) {
+                    playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
+                }
+            }
+        }
+    }
+
     /**
      * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
      *
@@ -557,6 +579,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 }
             }
         }
+
+        refreshAllFence(thisPlayer);
     }
 
     /**

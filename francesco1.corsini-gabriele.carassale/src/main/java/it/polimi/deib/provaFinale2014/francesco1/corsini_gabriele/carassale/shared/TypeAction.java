@@ -24,8 +24,10 @@ public enum TypeAction {
     REFRESH_TRANSFORM_ANIMAL("Refresh_transform_animal"),
     REFRESH_ADD_SHEPARD("Refresh_add_shepard"),
     REFRESH_MOVE_SHEPARD("Refresh_move_shepard"),
+    REFRESH_ADD_FENCE("Refresh_add_fence"),
     REFRESH_CARD("Refresh_card"),
     REFRESH_COIN("Refresh_coin"),
+    REFRESH_WINNER("Refresh_winner"),
     ERROR_MESSAGE("Error_message:"),
     MESSAGE_TEXT("Message_text:");
 

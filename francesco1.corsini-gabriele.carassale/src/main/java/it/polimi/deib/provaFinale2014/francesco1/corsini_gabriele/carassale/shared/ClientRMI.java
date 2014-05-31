@@ -94,6 +94,14 @@ public interface ClientRMI extends Remote {
     void refreshAddAnimal(int idAnimal, int idTerrain, String kind) throws RemoteException;
 
     /**
+     * Viene chiamato dal connectionManagerRMI, refresha l'aggiunta di una fence
+     *
+     * @param idRoad strada dove aggiungere
+     * @throws RemoteException
+     */
+    void refreshAddFence(int idRoad) throws RemoteException;
+
+    /**
      * Viene chiamato dal connectionManagerRMI, refresha cancella animale
      *
      * @param idAnimal Animale da cancellare
@@ -148,4 +156,6 @@ public interface ClientRMI extends Remote {
      * @throws RemoteException
      */
     void refreshCoin(int coins, boolean addCoin) throws RemoteException;
+
+    public void refreshWinner(int finalPosition, int finalScore);
 }

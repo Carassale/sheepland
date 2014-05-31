@@ -26,15 +26,20 @@ public class Player {
     private boolean isFirstPlayer;
     private int idPlayer;
 
+    private int finalPosition;
+    private int finalScore;
+
     private String[] actionDone;
 
     /**
-     * costruttore solo usato per i test
+     * costruttore
      *
      * @param firstPlayer
      * @param idPlayer
      */
     public Player(boolean firstPlayer, int idPlayer) {
+        this.finalPosition = 0;
+        this.finalScore = 0;
         this.idPlayer = idPlayer;
         shepards = new ArrayList<Shepard>();
         terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
@@ -52,6 +57,27 @@ public class Player {
             ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
             terrainCardsOwned.add(list);
         }
+    }
+
+    /**
+     * Ritorna la posizione finale, il primo ha valore 1
+     *
+     * @return int posizione in classifica
+     */
+    public int getFinalPosition() {
+        return finalPosition;
+    }
+
+    public void setFinalPosition(int finalPosition) {
+        this.finalPosition = finalPosition;
+    }
+
+    public int getFinalScore() {
+        return finalScore;
+    }
+
+    public void setFinalScore(int finalScore) {
+        this.finalScore = finalScore;
     }
 
     /**

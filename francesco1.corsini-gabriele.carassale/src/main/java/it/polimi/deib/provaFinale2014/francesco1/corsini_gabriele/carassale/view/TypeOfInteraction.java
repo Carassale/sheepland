@@ -46,6 +46,13 @@ public interface TypeOfInteraction {
      * blackSheep
      */
     void refreshAddAnimal(int idAnimal, int idTerrain, String kind);
+    
+    /**
+     * Risveglia l'interfaccia e aggiunge una fence
+     *
+     * @param idRoad strada dove aggiungere
+     */
+    void refreshAddFence(int idRoad);
 
     /**
      * Risveglia l'interfaccia e uccide un animale
@@ -101,5 +108,7 @@ public interface TypeOfInteraction {
      * @param message Messaggio da visualizzare
      */
     void messageText(String message);
+
+    public void refreshWinner(int finalPosition, int finalScore);
 
 }

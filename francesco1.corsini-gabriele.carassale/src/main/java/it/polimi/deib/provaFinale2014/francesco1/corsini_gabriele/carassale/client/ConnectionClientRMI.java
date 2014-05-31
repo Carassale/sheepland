@@ -347,4 +347,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void refreshCoin(int coins, boolean addCoin) throws RemoteException {
         typeOfInteraction.refreshCoin(coins, addCoin);
     }
+
+    public void refreshAddFence(int idRoad) throws RemoteException {
+        typeOfInteraction.refreshAddFence(idRoad);
+    }
+
+    public void refreshWinner(int finalPosition, int finalScore) {
+        typeOfInteraction.refreshWinner(finalPosition, finalScore);
+    }
 }

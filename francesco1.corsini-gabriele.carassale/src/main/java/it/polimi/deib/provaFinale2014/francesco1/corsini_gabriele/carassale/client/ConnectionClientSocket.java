@@ -85,12 +85,16 @@ public class ConnectionClientSocket implements ConnectionClient {
                     refreshTransformAnimal();
                 } else if (TypeAction.REFRESH_ADD_SHEPARD.toString().equals(s)) {
                     refreshAddShepard();
+                } else if (TypeAction.REFRESH_ADD_FENCE.toString().equals(s)) {
+                    refreshAddFence();
                 } else if (TypeAction.REFRESH_MOVE_SHEPARD.toString().equals(s)) {
                     refreshMoveShepard();
                 } else if (TypeAction.REFRESH_CARD.toString().equals(s)) {
                     refreshCard();
                 } else if (TypeAction.REFRESH_COIN.toString().equals(s)) {
                     refreshCoin();
+                } else if (TypeAction.REFRESH_WINNER.toString().equals(s)) {
+                    refreshWinner();
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,6 +214,19 @@ public class ConnectionClientSocket implements ConnectionClient {
     }
 
     /**
+     * Invia al typeOfInteraction la fence aggiunta
+     */
+    private void refreshAddFence() {
+        try {
+            int idRoad = Integer.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshAddFence(idRoad);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
      * Invia al typeOfInteraction il movimento del pastore
      */
     private void refreshMoveShepard() {
@@ -254,6 +271,20 @@ public class ConnectionClientSocket implements ConnectionClient {
             addCoin = Integer.valueOf(inSocket.readLine()) == 0;
 
             typeOfInteraction.refreshCoin(coins, addCoin);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia al typeOfInteraction la posizione in classifica e il punteggio
+     */
+    private void refreshWinner() {
+        try {
+            int finalPosition = Integer.valueOf(inSocket.readLine());
+            int finalScore = Integer.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshWinner(finalPosition, finalScore);
         } catch (IOException ex) {
             Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
