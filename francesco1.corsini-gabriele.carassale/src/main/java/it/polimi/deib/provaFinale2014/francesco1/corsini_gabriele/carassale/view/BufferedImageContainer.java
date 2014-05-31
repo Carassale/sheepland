@@ -22,40 +22,62 @@ public class BufferedImageContainer {
     private BufferedImage fence, redShepard, greenShepard, blueShepard, yellowShepard,transparent;
 
     public BufferedImageContainer() {
-        try {
-
-            fence = ImageIO.read(new File(".\\src\\main\\resources\\fence.png"));
-            redShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardRedSmall.png"));
-            greenShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardGreenSmall.png"));
-            blueShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardBlueSmall.png"));
-            yellowShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardYellowSmall.png"));
-            transparent = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(DinamicRoadButton.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
     public BufferedImage getFence() {
+        try {
+            fence = ImageIO.read(new File(".\\src\\main\\resources\\fence.png"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return fence;
     }
 
     public BufferedImage getRedShepard() {
+        try {
+            redShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardRedSmall.png"));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return redShepard;
     }
 
     public BufferedImage getGreenShepard() {
+        try {
+            greenShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardGreenSmall.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return greenShepard;
     }
 
     public BufferedImage getBlueShepard() {
+        try {
+            blueShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardBlueSmall.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return blueShepard;
     }
 
     public BufferedImage getYellowShepard() {
+        try {
+            yellowShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardYellowSmall.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return yellowShepard;
     }
 
     public BufferedImage getTransparent() {
+        try {
+            transparent = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return transparent;
     }
     

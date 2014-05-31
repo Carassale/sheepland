@@ -50,32 +50,37 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private ImageIcon desertCards[] = new ImageIcon[6];
     private ImageIcon mountainCards[] = new ImageIcon[6];
     private ImageIcon fieldCards[] = new ImageIcon[6];
-    
+
     private ArrayList<ViewShepard> shepards = new ArrayList<ViewShepard>();
-    
+
     //contenitore di tutte le immagini
     private BufferedImageContainer imagePool;
 
     //uso per attesa animazioni
     private boolean waitingForAddAnimal = false;
     //variabile temporanea usata per posizionare Pastori 
-    private int tempShepard;
+    private int tempShepard = -1;
 
     private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
     //per prova eliminare
     private int num = 0;
+    //per eseguire il refresh giusto nel muovipastore
+    private int tempRoad;
 
     //se -1 vuol dire che nussun submenu è aperto
     private int subMenuOpen = -1;
     private int wolfActive = 18, blackSheepActive = 18;
-
+    
+    //per eseguire il refresh giusto nel muovipastore
+    private int tempIdShepard;
+    
     public GUIDinamic(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
         imagePool = new BufferedImageContainer();
         createAndShowGUI();
         state = GUIDinamicState.WAITINGFORSERVER;
-        
+
     }
 
     private void createAndShowGUI() {
@@ -101,7 +106,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createTextLabel();
         setupAnimations();
 
-        state = state.WAITINGFORPLAYER;
+        state = state.WAITINGFORSERVER;
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -177,7 +182,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             } else if (i == 18) {
                 jbuttonSheeps[i].setLocation(450 + offset, 270 + offset);
             }
-            
+
         }
 
         //serve ad inizializzare le pecore su sheapsbourg a 0
@@ -348,117 +353,116 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         }
 
     }
-    
-   /* public void resizeRoad(int road, boolean isFence){
-        if(isFence){
-            roads[road].setSize(50, 50);
-            roads[road].setLocation(roads[road].getLocation().x+10, getLocation().y+10);
-        }
-        else{
-            roads[road].setSize(70, 70);
-            
-        }
-    }*/
 
+    /* public void resizeRoad(int road, boolean isFence){
+     if(isFence){
+     roads[road].setSize(50, 50);
+     roads[road].setLocation(roads[road].getLocation().x+10, getLocation().y+10);
+     }
+     else{
+     roads[road].setSize(70, 70);
+            
+     }
+     }*/
     private void createRoadLabels() {
         int offsetx = -35;
         int offsety = -55;
         for (int i = 0; i <= 41; i++) {
             roads[i] = new DinamicRoadButton(this, i, imagePool);
-            layeredPane.add(roads[i], new Integer(2));
+            layeredPane.add(roads[i], new Integer(3));
             roads[i].setSize(50, 50);//TODO cambiare size dipendentemente se pastore o fence 50/50 caso fence
             roads[i].setVisible(true);
-            
+
             if (i == 0) {
-                roads[i].setLocation(298+offsetx, 208+offsety);
+                roads[i].setLocation(298 + offsetx, 208 + offsety);
             } else if (i == 1) {
-                roads[i].setLocation(344+offsetx, 257+offsety);
+                roads[i].setLocation(344 + offsetx, 257 + offsety);
             } else if (i == 2) {
-                roads[i].setLocation(233+offsetx, 285+offsety);
+                roads[i].setLocation(233 + offsetx, 285 + offsety);
             } else if (i == 3) {
-                roads[i].setLocation(344+offsetx, 314+offsety);
+                roads[i].setLocation(344 + offsetx, 314 + offsety);
             } else if (i == 4) {
-                roads[i].setLocation(344+offsetx, 379+offsety);
+                roads[i].setLocation(344 + offsetx, 379 + offsety);
             } else if (i == 5) {
-                roads[i].setLocation(289+offsetx, 412+offsety);
+                roads[i].setLocation(289 + offsetx, 412 + offsety);
             } else if (i == 6) {
-                roads[i].setLocation(352+offsetx, 449+offsety);
+                roads[i].setLocation(352 + offsetx, 449 + offsety);
             } else if (i == 7) {
-                roads[i].setLocation(299+offsetx, 556+offsety);
+                roads[i].setLocation(299 + offsetx, 556 + offsety);
             } else if (i == 8) {
-                roads[i].setLocation(398+offsetx, 495+offsety);
+                roads[i].setLocation(398 + offsetx, 495 + offsety);
             } else if (i == 9) {
-                roads[i].setLocation(456+offsetx, 513+offsety);
+                roads[i].setLocation(456 + offsetx, 513 + offsety);
             } else if (i == 10) {
-                roads[i].setLocation(398+offsetx, 610+offsety);
+                roads[i].setLocation(398 + offsetx, 610 + offsety);
             } else if (i == 11) {
-                roads[i].setLocation(509+offsetx, 535+offsety);
+                roads[i].setLocation(509 + offsetx, 535 + offsety);
             } else if (i == 12) {
-                roads[i].setLocation(568+offsetx, 585+offsety);
+                roads[i].setLocation(568 + offsetx, 585 + offsety);
             } else if (i == 13) {
-                roads[i].setLocation(566+offsetx, 509+offsety);
+                roads[i].setLocation(566 + offsetx, 509 + offsety);
             } else if (i == 14) {
-                roads[i].setLocation(613+offsetx, 480+offsety);
+                roads[i].setLocation(613 + offsetx, 480 + offsety);
             } else if (i == 15) {
-                roads[i].setLocation(679+offsetx, 526+offsety);
+                roads[i].setLocation(679 + offsetx, 526 + offsety);
             } else if (i == 16) {
-                roads[i].setLocation(669+offsetx, 439+offsety);
+                roads[i].setLocation(669 + offsetx, 439 + offsety);
             } else if (i == 17) {
-                roads[i].setLocation(761+offsetx, 413+offsety);
+                roads[i].setLocation(761 + offsetx, 413 + offsety);
             } else if (i == 18) {
-                roads[i].setLocation(696+offsetx, 374+offsety);
+                roads[i].setLocation(696 + offsetx, 374 + offsety);
             } else if (i == 19) {
-                roads[i].setLocation(698+offsetx, 320+offsety);
+                roads[i].setLocation(698 + offsetx, 320 + offsety);
             } else if (i == 20) {
-                roads[i].setLocation(782+offsetx, 284+offsety);
+                roads[i].setLocation(782 + offsetx, 284 + offsety);
             } else if (i == 21) {
-                roads[i].setLocation(710+offsetx, 269+offsety);
+                roads[i].setLocation(710 + offsetx, 269 + offsety);
             } else if (i == 22) {
-                roads[i].setLocation(734+offsetx, 203+offsety);
+                roads[i].setLocation(734 + offsetx, 203 + offsety);
             } else if (i == 23) {
-                roads[i].setLocation(651+offsetx, 251+offsety);
+                roads[i].setLocation(651 + offsetx, 251 + offsety);
             } else if (i == 24) {
-                roads[i].setLocation(604+offsetx, 227+offsety);
+                roads[i].setLocation(604 + offsetx, 227 + offsety);
             } else if (i == 25) {
-                roads[i].setLocation(634+offsetx, 151+offsety);
+                roads[i].setLocation(634 + offsetx, 151 + offsety);
             } else if (i == 26) {
-                roads[i].setLocation(552+offsetx, 200+offsety);
+                roads[i].setLocation(552 + offsetx, 200 + offsety);
             } else if (i == 27) {
-                roads[i].setLocation(498+offsetx, 145+offsety);
+                roads[i].setLocation(498 + offsetx, 145 + offsety);
             } else if (i == 28) {
-                roads[i].setLocation(491+offsetx, 211+offsety);
+                roads[i].setLocation(491 + offsetx, 211 + offsety);
             } else if (i == 29) {
-                roads[i].setLocation(418+offsetx, 234+offsety);
+                roads[i].setLocation(418 + offsetx, 234 + offsety);
             } else if (i == 30) {
-                roads[i].setLocation(470+offsetx, 264+offsety);
+                roads[i].setLocation(470 + offsetx, 264 + offsety);
             } else if (i == 31) {
-                roads[i].setLocation(445+offsetx, 324+offsety);
+                roads[i].setLocation(445 + offsetx, 324 + offsety);
             } else if (i == 32) {
-                roads[i].setLocation(393+offsetx, 352+offsety);
+                roads[i].setLocation(393 + offsetx, 352 + offsety);
             } else if (i == 33) {
-                roads[i].setLocation(452+offsetx, 377+offsety);
+                roads[i].setLocation(452 + offsetx, 377 + offsety);
             } else if (i == 34) {
-                roads[i].setLocation(461+offsetx, 445+offsety);
+                roads[i].setLocation(461 + offsetx, 445 + offsety);
             } else if (i == 35) {
-                roads[i].setLocation(515+offsetx, 399+offsety);
+                roads[i].setLocation(515 + offsetx, 399 + offsety);
             } else if (i == 36) {
-                roads[i].setLocation(566+offsetx, 433+offsety);
+                roads[i].setLocation(566 + offsetx, 433 + offsety);
             } else if (i == 37) {
-                roads[i].setLocation(568+offsetx, 374+offsety);
+                roads[i].setLocation(568 + offsetx, 374 + offsety);
             } else if (i == 38) {
-                roads[i].setLocation(618+offsetx, 355+offsety);
+                roads[i].setLocation(618 + offsetx, 355 + offsety);
             } else if (i == 39) {
-                roads[i].setLocation(563+offsetx, 323+offsety);
+                roads[i].setLocation(563 + offsetx, 323 + offsety);
             } else if (i == 40) {
-                roads[i].setLocation(584+offsetx, 274+offsety);
+                roads[i].setLocation(584 + offsetx, 274 + offsety);
             } else if (i == 41) {
-                roads[i].setLocation(504+offsetx, 298+offsety);
+                roads[i].setLocation(504 + offsetx, 298 + offsety);
             }
-            
+
         }
     }
-    
-    private void createTextLabel(){
+
+    private void createTextLabel() {
         textLabel = new JLabel("");
         textLabel.setFont(new Font("fantasy", Font.BOLD, 25));
         textLabel.setForeground(Color.red);
@@ -467,13 +471,13 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setSize(textLabel.getPreferredSize());
         //textLabel.setSize(WIDTH, WIDTH);
         textLabel.setVisible(true);
-        
-        
+
     }
-    
-    public void updateText(String text){
+
+    public void updateText(String text) {
         textLabel.setText(text);
         textLabel.setSize(textLabel.getPreferredSize());
+        textLabel.repaint();
     }
 
     public void animationJoinSheeps(int x, int y, int terrain) {
@@ -493,6 +497,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         anim.setVisible(true);
         anim.setLocation(this.getWidth() / 2, this.getHeight() / 2);
         anim.getRunner().start();
+    }
+
+    public void animationMoveShepard(int roadTo) {
+
     }
 
     void animationMoveSheep(int x, int y, int terrain, int cont) {
@@ -537,16 +545,18 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void clickAction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        state = GUIDinamicState.WAITINGFORPLAYER;
+        updateText("E' il tuo turno");
     }
 
     public void setNickname() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     public void errorMessage(String message) {
         //caso in cui l'accoppiamento non è andato a buon fine
         if (waitingForAddAnimal == true) {
+            waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(false);
         }
     }
@@ -555,11 +565,11 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         tempShepard = idShepard;
         state = GUIDinamicState.PLACESHEPARD;
         updateText("Posizionare Pastore su Strada");
-        
+
     }
 
     public void refreshMoveAnimal(int idAnimal, int idTerrain) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     public void refreshAddAnimal(int idAnimal, int idTerrain, String animalType) {
@@ -567,7 +577,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(true);
         }
-        
+
         if (TypeAnimal.WOLF.toString().equals(animalType)) {
             animals.add(new ViewAnimal(-2, 18));
             activateWolf(18);
@@ -599,19 +609,32 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void refreshAddShepard(int idShepard, int road) {
-        if(idShepard == tempShepard){            
-            ViewShepard shep = new ViewShepard(idShepard, road);
-            roads[road].setShepard(idShepard);
-            shepards.add(shep);
-            //per evitare accavallamenti
-            tempShepard = -1;
+        ViewShepard shep = new ViewShepard(idShepard, road);
+        roads[road].setShepard(idShepard);
+        
+        if (idShepard == tempShepard) {
+            shep.setIsOwned(true);
+            updateText("Posizionato");
+        } else {
+            shep.setIsOwned(false);
+            updateText("Un altro pastore è stato posizionato");
         }
-        else{
-            roads[road].setShepard(idShepard);
-        }
+        tempShepard = -1;
+        shepards.add(shep);
+        state = GUIDinamicState.WAITINGFORSERVER;
+
     }
 
-    public void refreshMoveShepard(int idShepard, int road) {
+    public void refreshMoveShepard(int idShepard, int roadTo) {
+
+        for (ViewShepard ele : shepards) {
+            if (ele.getId() == idShepard) {
+                roads[ele.getPostition()].setFence();
+                roads[roadTo].setShepard(idShepard);
+                ele.setPostition(roadTo);
+            }
+        }
+        state = GUIDinamicState.WAITINGFORSERVER;
 
     }
 
@@ -647,6 +670,11 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         //    connectionClient.moveSheep(sheepSelected, terrain);
     }
 
+    public void sendMoveShepard(int roadTo) {
+        state = GUIDinamicState.WAITINGFORSERVER;
+        connectionClient.moveShepard(tempIdShepard, roadTo);
+    }
+
     public void sendJoinSheeps(int terrain) {
         waitingForAddAnimal = true;
         connectionClient.joinSheep(terrain);
@@ -656,14 +684,34 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     }
 
-  
+    public void sendPlaceShepard(int road) {
+        state = GUIDinamicState.WAITINGFORSERVER;
+        connectionClient.placeShepard(road);
+
+    }
 
     public int getTempShepard() {
         return tempShepard;
     }
 
-    public void sendPlaceShepard(int road){
-        connectionClient.placeShepard(road);
+    public ArrayList<ViewShepard> getShepards() {
+        return shepards;
+    }
+
+    public int getTempRoad() {
+        return tempRoad;
+    }
+
+    public void setTempRoad(int tempRoad) {
+        this.tempRoad = tempRoad;
+    }
+
+    public int getTempIdShepard() {
+        return tempIdShepard;
+    }
+
+    public void setTempIdShepard(int tempIdShepard) {
+        this.tempIdShepard = tempIdShepard;
     }
 
     

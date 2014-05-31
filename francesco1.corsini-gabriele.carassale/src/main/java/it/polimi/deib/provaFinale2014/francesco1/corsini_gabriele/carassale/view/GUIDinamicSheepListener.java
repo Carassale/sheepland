@@ -34,6 +34,7 @@ public class GUIDinamicSheepListener extends JFrame implements ActionListener {
                 GUI.activateSubMenuSheep(i, false);
                 GUI.setSubMenuOpen(terrain);
             }
+            GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORPLAYER));
         }
     }
 

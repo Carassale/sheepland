@@ -31,14 +31,14 @@ public class DinamicRoadButton extends JPanel {
     private boolean isMouseOver = false;
     private final BufferedImageContainer imagePool;
 
-    DinamicRoadButton(GUIDinamic aThis, int num,BufferedImageContainer imagePool) {
+    DinamicRoadButton(GUIDinamic aThis, int num, BufferedImageContainer imagePool) {
         road = num;
         this.GUI = aThis;
         this.imagePool = imagePool;
 
         isShepard = false;
         icon = imagePool.getTransparent();
-        
+
         this.setLayout(null);
         this.setOpaque(false);
         this.setVisible(false);
@@ -50,13 +50,32 @@ public class DinamicRoadButton extends JPanel {
 
                     if (isShepard == false) {
                         GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                        GUI.sendPlaceShepard(road);                        
+                        GUI.sendPlaceShepard(road);
                     } else {
                         GUI.updateText("C'è un altro pastore su questa Strada!");
                     }
 
+                } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                    if (isShepard) {
+                        for (ViewShepard ele : GUI.getShepards()) {
+                            if (ele.getIsOwned()) {
+                                GUI.updateText("Selezionare strada dove spostarlo");
+                                GUI.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
+                                GUI.setTempRoad(road);
+                                GUI.setTempIdShepard(idShepard);
+                            }
+                        }
+                    }
+                } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO) {
+                    if (road != GUI.getTempRoad()) {
+                        if (isShepard == false) {
+                            GUI.sendMoveShepard(road);
+                            GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                        } else {
+                            GUI.updateText("C'è un altro pastore su questa Strada!");
+                        }
+                    }
                 }
-
             }
 
             public void mousePressed(MouseEvent e) {
@@ -65,30 +84,30 @@ public class DinamicRoadButton extends JPanel {
 
             public void mouseReleased(MouseEvent e) {
 
-                if (GUI.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
-
-                    if (isShepard == false) {
-                        GUI.sendPlaceShepard(road);
-                        GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    } else {
-                        GUI.updateText("C'è un altro pastore su questa Strada!");
-                    }
-
-                }
             }
 
             public void mouseEntered(MouseEvent e) {
+                if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                    if (isShepard) {
+                        for (ViewShepard ele : GUI.getShepards()) {
 
-                if (isShepard) {
-                    isMouseOver = true;
-                    changeSize();
+                                if(ele.getIsOwned()){
+                                isMouseOver = true;
+                                changeSize();
+                                }
+                            
+                        }
+                    }
+                    repaint();
                 }
             }
 
             public void mouseExited(MouseEvent e) {
                 if (isShepard) {
                     isMouseOver = false;
+                    changeSize();
                 }
+                repaint();
             }
 
         });
@@ -115,11 +134,11 @@ public class DinamicRoadButton extends JPanel {
 
         if (id == 0) {
             icon = imagePool.getRedShepard();
-        } else if (id == 0) {
+        } else if (id == 1) {
             icon = imagePool.getBlueShepard();
-        } else if (id == 0) {
+        } else if (id == 2) {
             icon = imagePool.getYellowShepard();
-        } else if (id == 0) {
+        } else if (id == 3) {
             icon = imagePool.getGreenShepard();
         }
         isShepard = true;
@@ -128,10 +147,12 @@ public class DinamicRoadButton extends JPanel {
     }
 
     public void setFence() {
-       
-            icon = imagePool.getFence();
-            repaint();
-        
+
+        icon = imagePool.getFence();
+        isShepard = false;
+        idShepard = -1;
+        repaint();
+
     }
 
     public boolean isIsShepard() {
