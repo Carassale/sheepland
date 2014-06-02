@@ -11,6 +11,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -294,11 +295,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                         .log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.printLn(StatusMessage.ERROR_DICE.toString());
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString() + ex.getMessage());
+                currentPlayer.printLn(TypeAction.ERROR_DICE.toString());
+                currentPlayer.printLn(Message.IMPOSSIBLE_DICE.toString());
                 Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, StatusMessage.ERROR_DICE.toString() + ex.getMessage(), ex);
-                return false;
+                        .log(Level.SEVERE, Message.IMPOSSIBLE_DICE.toString(), ex);
+                printCorrectAction();
+                return true;
             }
         } else {
             printUncorectAction();

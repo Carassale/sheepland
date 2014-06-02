@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -491,11 +492,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
                 return ex.getMessage();
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.getClientRMI().errorDice(ex.getMessage());
+                currentPlayer.getClientRMI().errorDice(Message.IMPOSSIBLE_DICE.toString());
                 doRepeatAction = true;
                 Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
 
-                return StatusMessage.ERROR_DICE.toString() + ex.getMessage();
+                canDoAction = true;
             }
             return StatusMessage.ACTION_OK.toString();
         } else {

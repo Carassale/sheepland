@@ -104,23 +104,29 @@ public class ConnectionClientSocket implements ConnectionClient {
 
     /**
      * Stampa un errore, oggetto: Coin
+     * @throws java.io.IOException
      */
-    public void errorCoin() {
-        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_NO_MONEY.toString());
+    public void errorCoin() throws IOException {
+        String s = inSocket.readLine();
+        typeOfInteraction.errorMessage(s);
     }
 
     /**
      * Stampa un errore, oggetto: Move
+     * @throws java.io.IOException
      */
-    public void errorMove() {
-        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_MOVE.toString());
+    public void errorMove() throws IOException {
+        String s = inSocket.readLine();
+        typeOfInteraction.errorMessage(s);
     }
 
     /**
      * Stampa un errore, oggetto: Dice
+     * @throws java.io.IOException
      */
-    public void errorDice() {
-        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_DICE.toString());
+    public void errorDice() throws IOException {
+        String s = inSocket.readLine();
+        typeOfInteraction.errorMessage(s);
     }
 
     /**
