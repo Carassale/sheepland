@@ -188,7 +188,7 @@ public class GameController {
             tempScore += numSheepsForTerrain[checkNumCard(TypeCard.RIVER.toString())] * tempCard;
 
             player.setFinalScore(tempScore);
-            tempArray.add(tempCard);
+            tempArray.add(tempScore);
         }
 
         //Ordino la classifica
@@ -204,7 +204,7 @@ public class GameController {
                     tempOrd = false;
                 }
             }
-        } while (tempOrd);
+        } while (!tempOrd);
 
         //Attribuisco ad ogni giocatore la posizione in classfica
         for (Player player : playerPool.getPlayers()) {
