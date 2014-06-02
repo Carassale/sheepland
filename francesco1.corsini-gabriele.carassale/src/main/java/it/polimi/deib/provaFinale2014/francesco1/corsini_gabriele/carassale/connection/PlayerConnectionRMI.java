@@ -21,6 +21,7 @@ public class PlayerConnectionRMI implements Serializable {
      *
      * @param clientRMI
      * @param idPlayer
+     * @param nickname
      */
     public PlayerConnectionRMI(ClientRMI clientRMI, int idPlayer, String nickname) {
         this.nickname = nickname;

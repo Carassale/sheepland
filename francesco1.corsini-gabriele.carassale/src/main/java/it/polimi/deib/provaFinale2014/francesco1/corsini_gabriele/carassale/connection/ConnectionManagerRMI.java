@@ -35,6 +35,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
     private MapServerPlayer map;
+    private boolean isConnected;
 
     private boolean canDoAction;
     private boolean doRepeatAction;
@@ -260,7 +261,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public void startAction() {
-        for (int i = 0; i < NUMACTION; i++) {
+        isConnected = true;
+        for (int i = 0; i < NUMACTION && isConnected; i++) {
             while (!canDoAction) {
                 if (doRepeatAction) {
                     doRepeatAction = false;
@@ -284,6 +286,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             currentPlayer.getClientRMI().wakeUp();
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+            isConnected = false;
+            clientDisconnesso();
         }
     }
 
@@ -561,7 +566,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.getIdPlayer() == idPlayer) {
-                refreshCoin(player.getCoins(), true);
+                refreshCoin(thisPlayer, player.getCoins(), true);
 
                 int i;
                 for (i = 0; i < player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
@@ -596,6 +601,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     @Override
     public void run() {
         startThread();
+    }
+
+    public void clientDisconnesso() {
+        map.setOnLine(currentPlayer.getNickname(), false);
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == currentPlayer.getIdPlayer()) {
+                player.setOnLine(false);
+            }
+        }
     }
 
 }

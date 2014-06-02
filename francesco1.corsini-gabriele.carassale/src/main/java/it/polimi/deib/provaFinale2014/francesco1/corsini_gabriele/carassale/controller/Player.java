@@ -527,8 +527,9 @@ public class Player {
      * Svuota la lista delle azioni fatte
      */
     public void cleanActionDone() {
-        for (String action : actionDone) {
-            action = "";
+        actionDone = new String[3];
+        for (int i = 0; i < 3; i++) {
+            actionDone[i] = "";
         }
     }
 

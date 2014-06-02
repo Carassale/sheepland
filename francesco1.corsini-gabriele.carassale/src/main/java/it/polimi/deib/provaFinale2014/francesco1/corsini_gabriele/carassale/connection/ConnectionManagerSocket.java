@@ -592,7 +592,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.getIdPlayer() == idPlayer) {
-                refreshCoin(player.getCoins(), true);
+                refreshCoin(thisPlayer, player.getCoins(), true);
 
                 int i;
                 for (i = 0; i < player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
@@ -636,7 +636,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         startThread();
     }
 
-    private void clientDisconnesso() {
+    public void clientDisconnesso() {
         map.setOnLine(currentPlayer.getNickname(), false);
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.getIdPlayer() == currentPlayer.getIdPlayer()) {
