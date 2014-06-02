@@ -25,17 +25,18 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
 
     private Thread runner;
     private boolean isSuccesfull;
+    private BufferedImageContainer imagePool;
+    
 
-    public AnimationJoinSheepsAfter(boolean isSuccesfull) {
+    public AnimationJoinSheepsAfter(boolean isSuccesfull,BufferedImageContainer image) {
 
         this.isSuccesfull = isSuccesfull;
-        try {
-            icon = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\heart.png"));
-            icon2 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\lambPlus1.png"));
-            icon3 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\heartbroken.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(AnimationJoinSheepsAfter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        imagePool = image;
+
+            icon = imagePool.getHeart();
+            icon2 = imagePool.getLambPlus1();
+            icon3 = imagePool.getHeartbroken();
+
 
         this.setLayout(null);
         this.setVisible(true);
@@ -49,7 +50,7 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep(1500);
+            Thread.sleep(4000);
 
             if (isSuccesfull) {
                 icon = icon2;
@@ -58,7 +59,7 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
                 icon = icon3;
                 repaint();
             }
-            Thread.sleep(1500);
+            Thread.sleep(2500);
         } catch (Exception e) {
         }
         this.setVisible(false);

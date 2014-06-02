@@ -90,10 +90,9 @@ public class DinamicRoadButton extends JPanel {
                 if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                     if (isShepard) {
                         for (ViewShepard ele : GUI.getShepards()) {
-
-                                if(ele.getIsOwned()){
-                                isMouseOver = true;
-                                changeSize();
+                                if(ele.getIsOwned() && ele.getPostition()==road){
+                                    isMouseOver = true;
+                                    changeSize();
                                 }
                             
                         }

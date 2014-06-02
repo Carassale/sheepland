@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -10,24 +16,22 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Francesco Corsini
  */
-public class DinamicJoinSheepsButton extends JPanel {
-
-    private BufferedImage icon;
+public class DinamicKillSheepButton extends JPanel{
+    
+     private BufferedImage icon;
     private GUIDinamic GUI;
-    private final int terrain;
+    private final  int terrain;
     private DinamicJoinSheepsButton panel; 
 
-    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
-        GUI = gui;
+    public DinamicKillSheepButton(GUIDinamic gui, int ter) {
         this.terrain = ter;
+        
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
         } catch (IOException ex) {
@@ -36,14 +40,14 @@ public class DinamicJoinSheepsButton extends JPanel {
         this.setLayout(null);
 	this.setOpaque(false);
         this.setVisible(false);
-        this.setToolTipText("Accoppia Ovini");
+        this.setToolTipText("Abbatti Ovino");
         
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
                 
-                activateAnimation();
-                GUI.sendJoinSheeps(terrain);
+                //activateAnimation();
+                GUI.sendKillSheep();
                 GUI.activateSubMenuSheep(terrain, false);
                 GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
                 GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
@@ -66,22 +70,13 @@ public class DinamicJoinSheepsButton extends JPanel {
                 
             }
         });
-        
     }
     
-    private void activateAnimation(){
-        
-        GUI.animationJoinSheeps( this.getLocation().x,this.getLocation().y, terrain);
-    }
-    
-    
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
             g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
         
     }
-    
-    
-    
 
 }

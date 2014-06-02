@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -44,29 +45,38 @@ public class DinamicSheepButton extends JButton {
         this.addMouseListener(new MouseListener() {
 
             public void mouseClicked(MouseEvent e) {
-               /* if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
-                    GUI.activateSubMenuSheep(terrain, true);
+
+                if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
+                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
+                    GUI.sendMoveSheep(terrain);//TODO finish
+                } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                    GUI.activateSheepTypeButton(terrain, true);
                     GUI.setSubMenuOpen(terrain);
                     GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
-                } //nel caso ci sia un submenù già aperto allora lo chiudo
-                else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
+                } else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
                     int i = GUI.getSubMenuOpen();
                     if (i == terrain) {
                         GUI.activateSubMenuSheep(terrain, false);
+                        GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                        GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                        GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
                     } else {
                         GUI.activateSubMenuSheep(i, false);
+                        GUI.activateSheepType(i, false, TypeAnimal.WHITE_SHEEP.toString());
+                        GUI.activateSheepType(i, false, TypeAnimal.RAM.toString());
+                        GUI.activateSheepType(i, false, TypeAnimal.LAMB.toString());
                         GUI.setSubMenuOpen(terrain);
                     }
                     GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORPLAYER));
-                }*/
-                 if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP){
+                } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
+                    GUI.activateSubMenuSheep(terrain, false);
+                    GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                    GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                    GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
                     GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
-                    GUI.sendMoveSheep(terrain);//TODO finish
+                    GUI.sendMoveSheep(terrain);
+                    //TODO GUI.animation
                 }
-                 else if(GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER){
-                     
-                 }
-
             }
 
             public void mousePressed(MouseEvent e) {
@@ -76,7 +86,9 @@ public class DinamicSheepButton extends JButton {
             }
 
             public void mouseEntered(MouseEvent e) {
-                if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER || 
+                        GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN ||
+                        GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
                     isBig = true;
                     repaint();
                 }

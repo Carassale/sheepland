@@ -22,8 +22,10 @@ public class GUIDinamicCardListener extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER || (GUI.getGUIDinamicState() == GUIDinamicState.INITIALIZATION))
+            GUI.sendBuyCard(type);
     }
+    
+    
 
 }

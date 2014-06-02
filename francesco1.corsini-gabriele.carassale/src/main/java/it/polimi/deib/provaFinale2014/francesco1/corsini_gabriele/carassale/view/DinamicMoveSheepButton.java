@@ -5,6 +5,7 @@
  */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,7 +25,7 @@ public class DinamicMoveSheepButton extends JPanel {
 
     private BufferedImage icon;
     private BufferedImage[] image = new BufferedImage[2];
-    
+
     private GUIDinamic GUI;
     private int terrain;
     private DinamicJoinSheepsButton panel;
@@ -32,10 +33,10 @@ public class DinamicMoveSheepButton extends JPanel {
     //serve come contatore per ciclare tra le due immagine nel mouseover
     private int cont;
 
-    public DinamicMoveSheepButton(GUIDinamic gui, int terrain) {
+    public DinamicMoveSheepButton(GUIDinamic gui, int terr) {
 
         this.GUI = gui;
-        this.terrain = terrain;
+        this.terrain = terr;
         try {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
             image[1] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
@@ -54,15 +55,18 @@ public class DinamicMoveSheepButton extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 GUI.updateText("Selezionare territorio dove spostare la pecora");
                 GUI.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
-                
+                GUI.activateSubMenuSheep(terrain, false);
+                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
             public void mousePressed(MouseEvent e) {
-                
+
             }
 
             public void mouseReleased(MouseEvent e) {
-                
+
             }
 
             public void mouseEntered(MouseEvent e) {
@@ -80,9 +84,9 @@ public class DinamicMoveSheepButton extends JPanel {
         });
 
     }
-    
-    private void activateAnimation(){
-        
+
+    private void activateAnimation() {
+
         GUI.animationMoveSheep(this.getLocation().x, this.getLocation().y, terrain, cont);
     }
 
@@ -113,6 +117,5 @@ public class DinamicMoveSheepButton extends JPanel {
         }
 
     }
-    
 
 }

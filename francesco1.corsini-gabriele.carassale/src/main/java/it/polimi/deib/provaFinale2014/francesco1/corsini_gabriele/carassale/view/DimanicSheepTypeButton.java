@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
@@ -14,34 +16,97 @@ import javax.swing.JPanel;
  *
  * @author Francesco Corsini
  */
-public class DimanicSheepTypeButton extends JPanel{
-    
+public class DimanicSheepTypeButton extends JPanel {
+
     private int terrain;
     private GUIDinamic GUI;
-    private BufferedImage icon; 
+    private BufferedImage icon;
     private BufferedImageContainer imagePool;
-    
+    private String type;
+    private boolean isVisible;
+    private ViewAnimal selectedAnimal;
 
-    public DimanicSheepTypeButton(GUIDinamic gui, int terr, String type, BufferedImageContainer im) {
+    public DimanicSheepTypeButton(GUIDinamic aThis, int terr, String t, BufferedImageContainer pool) {
         terrain = terr;
-        GUI = gui;
-        imagePool = im;
-        
-        if("WhiteSheep".equals(type)){
+        GUI = aThis;
+        imagePool = pool;
+        type = t;
+
+        if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
             icon = imagePool.getWhiteSheep();
-        } else if("Lamb".equals(type)){
+            this.setToolTipText("Pecora");
+        } else if (TypeAnimal.LAMB.toString().equals(type)) {
             icon = imagePool.getLamb();
-        }else {
+            this.setToolTipText("Agnello");
+        } else {
             icon = imagePool.getRam();
+            this.setToolTipText("Montone");
+        }
+        this.setLayout(null);
+        this.setOpaque(false);
+        this.setVisible(false);
+
+        this.addMouseListener(new MouseListener() {
+
+            public void mouseClicked(MouseEvent e) {
+                GUI.setSheepSelected(selectedAnimal);
+                GUI.activateSubMenuSheep(terrain, true);
+                GUI.setSubMenuOpen(terrain);
+            }
+
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+        repaint();
+    }
+
+    public void activateTypeButton() {
+        for (ViewAnimal ele : GUI.getAnimals()) {
+            if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
+                if (ele.getPosition() == terrain) {
+                    if (ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
+                        selectedAnimal = ele;
+                        GUI.activateSheepType(terrain, true, TypeAnimal.WHITE_SHEEP.toString());
+                        isVisible = true;
+                    }
+                }
+            } else if (TypeAnimal.LAMB.toString().equals(type)) {
+                if (ele.getPosition() == terrain) {
+                    if (ele.getType().equals(TypeAnimal.LAMB.toString())) {
+                        selectedAnimal = ele;
+                        GUI.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
+                        isVisible = true;;
+                    }
+                }
+            } else {
+                if (ele.getPosition() == terrain) {
+                    if (ele.getType().equals(TypeAnimal.RAM.toString())) {
+                        selectedAnimal = ele;
+                        GUI.activateSheepType(terrain, true,TypeAnimal.RAM.toString());
+                        isVisible = true;
+                    }
+                }
+            }
         }
     }
-    
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-            g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
-        
+        g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+
     }
-    
-    
 
 }
