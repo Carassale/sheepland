@@ -38,7 +38,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DimanicSheepTypeButton[] jlabelRam = new DimanicSheepTypeButton[19];
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
-    private JLabel textLabel,errorLabel;
+    private JLabel textLabel, errorLabel;
     private JLabel fenceCounter;
     private JLabel coinPicture, coinNumber;
     private JLabel winner, sadFace;
@@ -92,7 +92,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         layeredPane = new JLayeredPane();
         //new Color(red, green, blue)72-209-204
-        layeredPane.setBackground(new Color(72,209,204));
+        layeredPane.setBackground(new Color(72, 209, 204));
         layeredPane.setPreferredSize(new Dimension(950, 650));
 
         createTable();
@@ -546,7 +546,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setSize(textLabel.getPreferredSize());
         textLabel.repaint();
     }
-    
+
     public void updateError(String text) {
         errorLabel.setText(text);
         errorLabel.setSize(errorLabel.getPreferredSize());
@@ -632,7 +632,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         int i = 0;
 
         for (ViewAnimal ele : animals) {
-            if (ele.getPosition() == terrain) {
+            //conta gli animali che sono nel suo terreno e che non siano lupi o blacksheep
+            if (ele.getPosition() == terrain && ele.getId() != -2 && ele.getId() != -1) {
                 i++;
             }
         }
@@ -725,14 +726,18 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void refreshKillAnimal(int idAnimal) {
+        ViewAnimal sheepToKill = null;
+        int pos = -1;
         for (ViewAnimal ele : animals) {
             if (ele.getId() == idAnimal) {
-                int terr = ele.getPosition();
-                animals.remove(ele);
-                activateSheep(terr);
+                pos = ele.getPosition();
+                sheepToKill = ele;
+
                 updateText("Un Ovino è stato ucciso!");
             }
         }
+        animals.remove(sheepToKill);
+        activateSheep(pos);
     }
 
     public void refreshWinner(int position, int score) {
@@ -856,7 +861,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             updateError("ERROR");
         }
         updateText("");
-        
+
     }
 
     public void sendMoveShepard(int roadTo) {

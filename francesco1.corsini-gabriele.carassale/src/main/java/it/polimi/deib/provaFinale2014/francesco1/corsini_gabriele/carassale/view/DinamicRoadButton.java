@@ -9,11 +9,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -58,7 +53,7 @@ public class DinamicRoadButton extends JPanel {
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                     if (isShepard) {
                         for (ViewShepard ele : GUI.getShepards()) {
-                            if (ele.getIsOwned()) {
+                            if (ele.getIsOwned() && ele.getPostition()==road) {
                                 GUI.updateText("Selezionare strada dove spostarlo");
                                 GUI.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
                                 GUI.setTempRoad(road);
