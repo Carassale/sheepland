@@ -9,8 +9,9 @@ public enum StatusMessage {
 
     PLAYER_ADDED("Player aggiunto"),
     NO_PLAYER_ADDED("Player non aggiunto"),
+    PLAYER_TRANSFER("Player trasferito"),
     CONNECTED("Connesso"),
-    ACTION_OK("Mossa effettua"),
+    ACTION_OK("Mossa effettuata"),
     ACTION_ERROR("Non è possibile fare questa mossa, ricorda di muovere il pastore"),
     ERROR_MOVE("Error_move"),
     ERROR_DICE("Error_dice"),

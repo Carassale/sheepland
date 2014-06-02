@@ -29,7 +29,7 @@ public class SheepTest {
     public void setUp() {
         terrain0 = new Terrain();
         sheep = new Sheep(terrain0, false, 0);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             sheep.growUpOneTurn();
         }
 
@@ -40,7 +40,7 @@ public class SheepTest {
      */
     @Test
     public void testGetAge() {
-        assertEquals(4, sheep.getAge());
+        assertEquals(2, sheep.getAge());
     }
 
     /**

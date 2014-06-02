@@ -37,4 +37,5 @@ public interface ServerRMI extends Remote {
      */
     String addClient(ClientRMI clientRMI, String nickname) throws RemoteException;
 
+    void reconnect(String nickname) throws RemoteException;
 }

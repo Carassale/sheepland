@@ -163,6 +163,7 @@ public interface ClientRMI extends Remote {
      *
      * @param finalPosition int Posizione finale in classifica
      * @param finalScore int Punteggio finale del giocatore
+     * @throws java.rmi.RemoteException
      */
-    void refreshWinner(int finalPosition, int finalScore);
+    void refreshWinner(int finalPosition, int finalScore) throws RemoteException;
 }

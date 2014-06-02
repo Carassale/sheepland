@@ -10,7 +10,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 public class Sheep extends Animal {
 
     //Età (numero di round) per far diventare vecchia la pecora
-    private static final int AGETOBECOMEOLD = 4;
+    private static final int AGETOBECOMEOLD = 2;
 
     // questi attributi bastano per capire se una Sheep è un Lamb o Ram
     private int age;
@@ -36,9 +36,9 @@ public class Sheep extends Animal {
             sex = randomSex();
             old = Math.random() >= 0.3;
             if (old) {
-                age = 0;
+                age = AGETOBECOMEOLD;
             } else {
-                age = 4;
+                age = 0;
             }
         }
         position.addAnimal(this);

@@ -104,6 +104,5 @@ public interface ConnectionManager {
      * Inserito qui per creare un metodo guida
      */
     void refreshWinner();
-    
-    void clientDisconnesso();
+
 }

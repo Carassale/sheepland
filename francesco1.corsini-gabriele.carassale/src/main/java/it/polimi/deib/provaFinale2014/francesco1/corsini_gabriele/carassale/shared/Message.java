@@ -16,7 +16,8 @@ public enum Message {
     IMPOSSIBLE_NO_MONEY("Impossibile fare la mossa! Non hai abbastanza soldi."),
     IMPOSSIBLE_MOVE("Impossibile fare la mossa! Movimento non valido."),
     IMPOSSIBLE_CARD("Impossibile fare la mossa! Carte finite."),
-    IMPOSSIBLE_DICE("Lancio del dado fallito.");
+    IMPOSSIBLE_DICE("Lancio del dado fallito."),
+    IMPOSSIBLE_SELECTION("Selezionare oggetti esistenti.");
 
     private String value;
 

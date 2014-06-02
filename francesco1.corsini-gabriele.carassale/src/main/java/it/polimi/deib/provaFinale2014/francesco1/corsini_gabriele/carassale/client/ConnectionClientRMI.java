@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.rmi.RemoteException;
@@ -95,10 +96,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void moveShepard(int idShepard, int idRoad) {
         try {
             String s = connectionRMI.moveShepard(idShepard, idRoad);
-            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
-                typeOfInteraction.errorMessage(s);
-            } else {
+            if (StatusMessage.ACTION_OK.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
+            } else {
+                typeOfInteraction.errorMessage(s);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,10 +116,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void moveSheep(int idSheep, int idTerrain) {
         try {
             String s = connectionRMI.moveSheep(idSheep, idTerrain);
-            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
-                typeOfInteraction.errorMessage(s);
-            } else {
+            if (StatusMessage.ACTION_OK.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
+            } else {
+                typeOfInteraction.errorMessage(s);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,10 +135,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void buyCard(String typeOfTerrain) {
         try {
             String s = connectionRMI.buyCard(typeOfTerrain);
-            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
-                typeOfInteraction.errorMessage(s);
-            } else {
+            if (StatusMessage.ACTION_OK.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
+            } else {
+                typeOfInteraction.errorMessage(s);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
@@ -153,10 +154,11 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void killSheep(int idSheep) {
         try {
             String s = connectionRMI.killSheep(idSheep);
-            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
-                typeOfInteraction.errorMessage(s);
-            } else {
+            if (StatusMessage.ACTION_OK.toString().equals(s)
+                    ||Message.IMPOSSIBLE_DICE.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
+            } else {
+                typeOfInteraction.errorMessage(s);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,10 +174,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public void joinSheep(int idTerrain) {
         try {
             String s = connectionRMI.joinSheep(idTerrain);
-            if (StatusMessage.ACTION_ERROR.toString().equals(s)) {
-                typeOfInteraction.errorMessage(s);
-            } else {
+            if (StatusMessage.ACTION_OK.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
+            } else {
+                typeOfInteraction.errorMessage(s);
             }
         } catch (RemoteException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);

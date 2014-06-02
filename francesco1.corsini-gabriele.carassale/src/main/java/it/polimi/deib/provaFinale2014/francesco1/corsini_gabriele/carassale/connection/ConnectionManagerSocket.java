@@ -158,6 +158,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         //Converte road nell'oggetto Road associato
         Road r = gameController.getGameTable().idToRoad(idRoad);
 
+        if (s == null || r == null) {
+            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            return false;
+        }
+
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEPARD.toString())) {
             try {
                 boolean refreshCoin = false;
@@ -206,6 +212,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Integer idTerrain = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
+
+        if (s == null || t == null) {
+            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            return false;
+        }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEEP.toString())) {
             try {
@@ -274,11 +286,17 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         //Riceve via socket l'ID della sheep
         Integer idSheep = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
-        Sheep sheep = gameController.getGameTable().idToSheep(idSheep);
+        Sheep s = gameController.getGameTable().idToSheep(idSheep);
+
+        if (s == null) {
+            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            return false;
+        }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.KILL_SHEEP.toString())) {
             try {
-                gameController.getPlayerPool().getFirstPlayer().killAnimal(sheep, gameController.getGameTable());
+                gameController.getPlayerPool().getFirstPlayer().killAnimal(s, gameController.getGameTable());
                 printCorrectAction();
                 refreshKillAnimal(idSheep);
                 return true;
@@ -319,6 +337,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Integer idTerrain = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
+
+        if (t == null) {
+            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            return false;
+        }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
@@ -619,7 +643,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
 
         refreshAllFence(thisPlayer);
-                
+
         map.setOnLine(thisPlayer.getNickname(), true);
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.getIdPlayer() == thisPlayer.getIdPlayer()) {

@@ -112,10 +112,11 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @return Status Messagge CORRECT se può collegarsi, NOT CORRECT se non può
      */
     public String checkNickname(String nickname) {
-        if ((map.existPlayer(nickname) && map.isOnLine(nickname))
+        if (nickname == null
+                || (map.existPlayer(nickname) && map.isOnLine(nickname))
                 || (map.existPlayer(nickname)
                 && !map.isOnLine(nickname)
-                && !map.isTypeConnectionSocket(nickname))) {
+                && map.isTypeConnectionSocket(nickname))) {
             return StatusMessage.NOT_CORRECT_NICKNAME.toString();
         } else {
             return StatusMessage.CORRECT_NICKNAME.toString();
@@ -136,6 +137,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             if (canAccept) {
                 int id = playerConnection.size();
 
+                //Aggiungo il player alla mappa dei client collegati
+                map.addPlayer(nickname, StatusMessage.TYPE_RMI.toString(), games.size(), id);
+
                 //Aggiunge client RMI
                 playerConnection.add(new PlayerConnectionRMI(clientRMI, id, nickname));
 
@@ -153,7 +157,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             }
         } else {
             pushToCorrectPlayer(nickname, clientRMI);
-            return StatusMessage.PLAYER_ADDED.toString();
+            return StatusMessage.PLAYER_TRANSFER.toString();
         }
     }
 
@@ -171,10 +175,15 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         for (PlayerConnectionRMI playerConnectionRMI : games.get(idGame).getPlayerConnections()) {
             if (playerConnectionRMI.getIdPlayer() == idPlayer) {
                 playerConnectionRMI.setClientRMI(clientRMI);
-                games.get(idGame).reconnectPlayer(idPlayer);
                 return;
             }
         }
+    }
+
+    public void reconnect(String nickname) {
+        int idGame = map.getIdGame(nickname);
+        int idPlayer = map.getIdPlayer(nickname);
+        games.get(idGame).reconnectPlayer(idPlayer);
     }
 
     /**

@@ -42,6 +42,9 @@ public class Main {
     private boolean connected;
     private String nickname;
 
+    private boolean doTransfer = false;
+    private ServerRMI serverRMI;
+
     /**
      * Inizializza il necessario per interagire con l'utente, chiede il tipo di
      * connessione e il tipo di interazione.
@@ -94,6 +97,10 @@ public class Main {
             default:
                 print("Scelta non corretta.");
                 break;
+        }
+
+        if (doTransfer) {
+            serverRMI.reconnect(nickname);
         }
 
         connectionClient.waitLine();
@@ -205,7 +212,6 @@ public class Main {
      * Prova a creare una connessione tramite RMI
      */
     private void tryConnectionRMI() {
-        ServerRMI serverRMI;
         String s;
 
         //Il client tenta di connettersi tramite RMI
@@ -226,8 +232,11 @@ public class Main {
                 do {
                     //invia al server lo skeleton del client
                     status = serverRMI.addClient((ClientRMI) connectionClient, nickname);
-                } while (!StatusMessage.PLAYER_ADDED.toString().equals(status));
+                } while (StatusMessage.NO_PLAYER_ADDED.toString().equals(status));
 
+                if (StatusMessage.PLAYER_TRANSFER.toString().equals(status)) {
+                    doTransfer = true;
+                }
             }
 
         } catch (NotBoundException ex) {
