@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
@@ -33,6 +34,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private final ArrayList<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
+    private MapServerPlayer map;
 
     private boolean canDoAction;
     private boolean doRepeatAction;
@@ -43,8 +45,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      *
      * @param playerConnections ArrayList contenente i player associati a questa
      * partita
+     * @param map
+     * @throws java.rmi.RemoteException
      */
-    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections) throws RemoteException {
+    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections, MapServerPlayer map) throws RemoteException {
+        this.map = map;
         this.playerConnections = playerConnections;
         this.canDoAction = true;
         this.doRepeatAction = false;
@@ -521,7 +526,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      *
      * @param idPlayer
      */
-    public void refreshAllToPlayer(int idPlayer) {
+    public void reconnectPlayer(int idPlayer) {
         PlayerConnectionRMI thisPlayer = null;
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             if (playerConnection.getIdPlayer() == idPlayer) {

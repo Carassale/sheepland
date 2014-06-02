@@ -157,5 +157,12 @@ public interface ClientRMI extends Remote {
      */
     void refreshCoin(int coins, boolean addCoin) throws RemoteException;
 
+    /**
+     * Viene chiamato dal connectionManagerRMI, a fine partita viene inviato la
+     * posizione finale in classifica e il punteggio del giocatore
+     *
+     * @param finalPosition int Posizione finale in classifica
+     * @param finalScore int Punteggio finale del giocatore
+     */
     void refreshWinner(int finalPosition, int finalScore);
 }

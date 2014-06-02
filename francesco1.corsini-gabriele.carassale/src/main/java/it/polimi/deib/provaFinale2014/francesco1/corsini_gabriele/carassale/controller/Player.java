@@ -25,6 +25,7 @@ public class Player {
     private int coins;
     private boolean isFirstPlayer;
     private int idPlayer;
+    private boolean onLine;
 
     private int finalPosition;
     private int finalScore;
@@ -41,6 +42,8 @@ public class Player {
         this.finalPosition = 0;
         this.finalScore = 0;
         this.idPlayer = idPlayer;
+        onLine = true;
+
         shepards = new ArrayList<Shepard>();
         terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
 
@@ -560,6 +563,14 @@ public class Player {
             throw new CoinException(Message.NO_MONEY_FOR_MAFIA.toString());
         }
 
+    }
+
+    public boolean isOnLine() {
+        return onLine;
+    }
+
+    public void setOnLine(boolean onLine) {
+        this.onLine = onLine;
     }
 
 }

@@ -9,10 +9,11 @@ import java.io.Serializable;
  *
  * @author Carassale Gabriele
  */
-public class PlayerConnectionRMI extends PlayerConnection implements Serializable {
+public class PlayerConnectionRMI implements Serializable {
 
     private ClientRMI clientRMI;
     private int idPlayer;
+    private String nickname;
 
     /**
      * Crea e inizializza il Player, setta lo stub del clinet per la
@@ -21,7 +22,8 @@ public class PlayerConnectionRMI extends PlayerConnection implements Serializabl
      * @param clientRMI
      * @param idPlayer
      */
-    public PlayerConnectionRMI(ClientRMI clientRMI, int idPlayer) {
+    public PlayerConnectionRMI(ClientRMI clientRMI, int idPlayer, String nickname) {
+        this.nickname = nickname;
         this.clientRMI = clientRMI;
         this.idPlayer = idPlayer;
     }
@@ -46,6 +48,14 @@ public class PlayerConnectionRMI extends PlayerConnection implements Serializabl
 
     public int getIdPlayer() {
         return idPlayer;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

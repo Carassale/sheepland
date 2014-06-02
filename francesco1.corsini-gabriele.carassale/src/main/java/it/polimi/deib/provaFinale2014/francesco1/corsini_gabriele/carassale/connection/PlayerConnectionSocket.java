@@ -1,9 +1,13 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
@@ -11,12 +15,13 @@ import java.util.Scanner;
  *
  * @author Carassale Gabriele
  */
-public class PlayerConnectionSocket extends PlayerConnection {
+public class PlayerConnectionSocket {
 
     private Socket socket;
     private Scanner inSocket;
     private PrintWriter outSocket;
     private int idPlayer;
+    private String nickname;
 
     /**
      * Crea un PlayerConnection e inizializza i socket Scanner e Printer per la
@@ -25,9 +30,11 @@ public class PlayerConnectionSocket extends PlayerConnection {
      * @param socket Viene passato il socket con il quale verrà effettuato
      * l'accoppiamento
      * @param idPlayer Id del giocatore all'interno del round
-     * @throws IOException
+     * @param nickname
+     * @throws java.io.IOException
      */
-    public PlayerConnectionSocket(Socket socket, int idPlayer) throws IOException {
+    public PlayerConnectionSocket(Socket socket, int idPlayer, String nickname) throws IOException {
+        this.nickname = nickname;
         this.socket = socket;
         this.idPlayer = idPlayer;
         inSocket = new Scanner(socket.getInputStream());
@@ -70,7 +77,11 @@ public class PlayerConnectionSocket extends PlayerConnection {
      * @return String
      */
     public String getNextLine() {
-        return inSocket.nextLine();
+        if (inSocket.hasNext()) {
+            return inSocket.nextLine();
+        } else {
+            return (StatusMessage.DISCONNECTED.toString());
+        }
     }
 
     /**
@@ -101,6 +112,14 @@ public class PlayerConnectionSocket extends PlayerConnection {
         Integer integer = i;
         outSocket.println(integer.toString());
         outSocket.flush();
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
 }

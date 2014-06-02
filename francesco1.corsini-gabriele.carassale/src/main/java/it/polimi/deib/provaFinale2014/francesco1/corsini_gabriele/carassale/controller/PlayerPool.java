@@ -44,6 +44,10 @@ public class PlayerPool {
     public boolean nextPlayer() {
         players.add(players.get(0));
         players.remove(0);
+        
+        if (!players.get(0).isOnLine()) {
+            return nextPlayer();
+        }
 
         return players.get(0).isFirstPlayer();
     }
