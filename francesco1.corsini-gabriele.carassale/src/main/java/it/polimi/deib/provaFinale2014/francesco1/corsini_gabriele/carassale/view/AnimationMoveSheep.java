@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the animation of the Sheep when the action MoveSheep is performed
  * @author Francesco Corsini
  */
 public class AnimationMoveSheep extends JPanel implements Runnable{
@@ -24,6 +24,10 @@ public class AnimationMoveSheep extends JPanel implements Runnable{
     private BufferedImage icon;
     private BufferedImage[] image = new BufferedImage[2];
     
+    /**
+     * Standard contructor
+     * @param cont which image was displaying when the animation was started
+     */
     public AnimationMoveSheep(int cont) {
         try {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
@@ -39,8 +43,9 @@ public class AnimationMoveSheep extends JPanel implements Runnable{
         
     }
 
-    
-    
+    /**
+     * Run is called when the animation needs to be started
+     */
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

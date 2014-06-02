@@ -34,7 +34,7 @@ public class DinamicKillSheepButton extends JPanel{
        this.GUI = aThis;
         
         try {
-            icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
+            icon = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
         } catch (IOException ex) {
             Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, null, ex);
         }

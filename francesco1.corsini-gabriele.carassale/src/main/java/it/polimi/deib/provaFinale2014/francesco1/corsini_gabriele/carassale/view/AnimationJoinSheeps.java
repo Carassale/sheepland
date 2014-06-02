@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the animation of the Sheep when the action JoinSheeps is performed
  * @author Francesco Corsini
  */
 public class AnimationJoinSheeps extends JPanel implements Runnable {
@@ -20,6 +20,9 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
     private int maxDim = 100, minDim = 50;
     private Thread runner;
 
+    /**
+     * Standard constructor initializer
+     */
     public AnimationJoinSheeps() {
         try {
             heart = ImageIO.read(new File(".\\src\\main\\resources\\heart.png"));
@@ -31,9 +34,11 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
         this.setLocation(this.getLocation().x + 100, this.getLocation().y + 100);
 
         runner = new Thread(this);
-
     }
 
+    /**
+     * Run is called when the animation needs to be started
+     */
     public void run() {
         for (int i = 0; i <= maxDim; i++) {
             this.setSize(i * 2, i * 2);
@@ -73,10 +78,9 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
             } catch (Exception e) {
             }
         }
-
-        
         this.setVisible(false);
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -85,12 +89,13 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
         g.drawImage(heart, 0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * Getter of the thread of the animation
+     * @return the thread
+     */
     public Thread getRunner() {
         return runner;
     }
 
-    public void setRunner(Thread runner) {
-        this.runner = runner;
-    }
 
 }

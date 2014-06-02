@@ -87,7 +87,7 @@ public class DinamicMoveSheepButton extends JPanel {
 
     private void activateAnimation() {
 
-        GUI.animationMoveSheep(this.getLocation().x, this.getLocation().y, terrain, cont);
+        //GUI.animationMoveSheep(this.getLocation().x, this.getLocation().y, terrain, cont);
     }
 
     protected void paintComponent(Graphics g) {

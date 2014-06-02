@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the animation of the Sheep AFTER the action JoinSheeps is performed
  * @author Francesco Corsini
  */
 public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
@@ -27,7 +27,11 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
     private boolean isSuccesfull;
     private final BufferedImageContainer imagePool;
     
-
+    /**
+     * Constructor that already knows the outcome of the action already performed
+     * @param isSuccesfull true or false change the type of the animation
+     * @param image the Pool of the images
+     */
     public AnimationJoinSheepsAfter(boolean isSuccesfull,BufferedImageContainer image) {
 
         this.isSuccesfull = isSuccesfull;
@@ -48,6 +52,9 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
 
     }
 
+    /**
+     * Method called to start the animation
+     */
     public void run() {
         try {
             Thread.sleep(4000);
@@ -72,11 +79,12 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
         g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * Method to get the Thread of the animation
+     * @return the thread
+     */
     public Thread getRunner() {
         return runner;
     }
 
-    public void setRunner(Thread runner) {
-        this.runner = runner;
-    }
 }

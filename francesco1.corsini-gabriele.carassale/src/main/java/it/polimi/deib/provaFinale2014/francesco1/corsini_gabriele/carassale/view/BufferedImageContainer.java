@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
+ * Class the holds all the image files
  * @author Francesco Corsini
  */
 public class BufferedImageContainer {
@@ -22,6 +22,9 @@ public class BufferedImageContainer {
             yellowShepard, transparent, coins, ram, whiteSheep, lamb,heart,
             lambPlus1, heartbroken, sadFace, winner;
 
+    /**
+     * Standard constructor
+     */
     public BufferedImageContainer() {
         try {
             fence = ImageIO.read(new File(".\\src\\main\\resources\\fence.png"));
@@ -44,36 +47,65 @@ public class BufferedImageContainer {
         }
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getFence() {
 
         return fence;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getRedShepard() {
 
         return redShepard;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getGreenShepard() {
 
         return greenShepard;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getBlueShepard() {
 
         return blueShepard;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getYellowShepard() {
 
         return yellowShepard;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getTransparent() {
 
         return transparent;
     }
     
+    /**
+     * Getter of the fence image
+     * @param num the number of fences remaining
+     * @return BufferedImage with the correct fence number
+     */
     public BufferedImage getFenceNumber(int num){
         try {
             if(num < 0)
@@ -86,38 +118,74 @@ public class BufferedImageContainer {
         return null;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getCoins(){
         return coins;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getRam() {
         return ram;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getWhiteSheep() {
         return whiteSheep;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getLamb() {
         return lamb;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getHeart() {
         return heart;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getLambPlus1() {
         return lambPlus1;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getHeartbroken() {
         return heartbroken;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getSadFace() {
         return sadFace;
     }
 
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
     public BufferedImage getWinner() {
         return winner;
     }

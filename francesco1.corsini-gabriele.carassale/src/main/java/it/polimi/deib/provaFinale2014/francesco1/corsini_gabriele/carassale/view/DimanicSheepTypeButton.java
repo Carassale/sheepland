@@ -13,19 +13,26 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the buttons representing the types of the sheeps(lamb,ram,white sheep)
  * @author Francesco Corsini
  */
 public class DimanicSheepTypeButton extends JPanel {
 
     private int terrain;
     private GUIDinamic GUI;
-    private BufferedImage icon;
-    private BufferedImageContainer imagePool;
-    private String type;
+    private final BufferedImage icon;
+    private final BufferedImageContainer imagePool;
+    private final String type;
     private boolean isVisible;
     private ViewAnimal selectedAnimal;
 
+    /**
+     * Constructor
+     * @param aThis GUI dinamic
+     * @param terr terrain where the button has to be created
+     * @param t type of the button
+     * @param pool imagePool
+     */
     public DimanicSheepTypeButton(GUIDinamic aThis, int terr, String t, BufferedImageContainer pool) {
         terrain = terr;
         GUI = aThis;
@@ -73,6 +80,9 @@ public class DimanicSheepTypeButton extends JPanel {
         repaint();
     }
 
+    /**
+     * Method to calculate the types of the sheeps present on the terrain
+     */
     public void activateTypeButton() {
         for (ViewAnimal ele : GUI.getAnimals()) {
             if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
@@ -91,7 +101,7 @@ public class DimanicSheepTypeButton extends JPanel {
                         isVisible = true;;
                     }
                 }
-            } else {
+            } else if (TypeAnimal.RAM.toString().equals(type)){
                 if (ele.getPosition() == terrain) {
                     if (ele.getType().equals(TypeAnimal.RAM.toString())) {
                         selectedAnimal = ele;
