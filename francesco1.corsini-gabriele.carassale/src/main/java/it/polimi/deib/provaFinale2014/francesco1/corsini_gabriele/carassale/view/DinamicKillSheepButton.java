@@ -29,8 +29,9 @@ public class DinamicKillSheepButton extends JPanel{
     private final  int terrain;
     private DinamicJoinSheepsButton panel; 
 
-    public DinamicKillSheepButton(GUIDinamic gui, int ter) {
-        this.terrain = ter;
+    DinamicKillSheepButton(GUIDinamic aThis, int i) {
+       this.terrain = i;
+       this.GUI = aThis;
         
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
@@ -52,6 +53,7 @@ public class DinamicKillSheepButton extends JPanel{
                 GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
                 GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
                 GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
             }
 
             public void mousePressed(MouseEvent e) {

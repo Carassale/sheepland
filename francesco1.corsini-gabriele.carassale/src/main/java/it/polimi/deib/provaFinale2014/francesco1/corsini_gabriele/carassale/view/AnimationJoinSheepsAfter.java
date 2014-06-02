@@ -25,7 +25,7 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
 
     private Thread runner;
     private boolean isSuccesfull;
-    private BufferedImageContainer imagePool;
+    private final BufferedImageContainer imagePool;
     
 
     public AnimationJoinSheepsAfter(boolean isSuccesfull,BufferedImageContainer image) {
