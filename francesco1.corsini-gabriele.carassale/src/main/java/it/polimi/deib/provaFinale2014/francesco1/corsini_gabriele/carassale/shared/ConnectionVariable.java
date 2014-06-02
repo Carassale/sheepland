@@ -5,14 +5,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.sha
  *
  * @author Carassale Gabriele
  */
-public final class Connection_Variable {
-
-    /**
-     * Nasconde il costruttor di base
-     */
-    private Connection_Variable() {
-        //non deve fare nulla
-    }
+public final class ConnectionVariable {
 
     /**
      * È la porta sulla quale avvengono le comunicazioni tra client e server in
@@ -30,4 +23,11 @@ public final class Connection_Variable {
      * È il nome del ServerManagerRMI, usato per le connessioni
      */
     public static final String SERVER_NAME = "ServerManagerRMI";
+
+    /**
+     * Nasconde il costruttor di base
+     */
+    private ConnectionVariable() {
+        //non deve fare nulla
+    }
 }

@@ -2,11 +2,11 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 public class StatusPlayer {
 
-    public String nickname;
-    public String typeConnection;
-    public int idGame;
-    public int idPlayer;
-    public boolean onLine;
+    private String nickname;
+    private String typeConnection;
+    private int idGame;
+    private int idPlayer;
+    private boolean onLine;
 
     public StatusPlayer(String nickname, String typeConnection, int idGame, int idPlayer, boolean onLine) {
         this.nickname = nickname;
