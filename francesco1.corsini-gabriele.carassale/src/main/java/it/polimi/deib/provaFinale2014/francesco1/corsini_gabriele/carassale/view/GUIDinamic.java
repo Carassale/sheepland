@@ -1,22 +1,16 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -24,11 +18,10 @@ import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 
 public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
-    private ConnectionClient connectionClient;
+    private final ConnectionClient connectionClient;
 
     private GUIDinamicState state;
 
@@ -45,7 +38,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DimanicSheepTypeButton[] jlabelRam = new DimanicSheepTypeButton[19];
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
-    private JLabel textLabel;
+    private JLabel textLabel,errorLabel;
     private JLabel fenceCounter;
     private JLabel coinPicture, coinNumber;
     private JLabel winner, sadFace;
@@ -70,8 +63,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
-    //per prova eliminare
-    private int num = 0;
     //per eseguire il refresh giusto nel muovipastore e nel muovipecora
     private int tempRoad;
 
@@ -100,14 +91,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         setSize(dim);
 
         layeredPane = new JLayeredPane();
+        //new Color(red, green, blue)72-209-204
+        layeredPane.setBackground(new Color(72,209,204));
         layeredPane.setPreferredSize(new Dimension(950, 650));
 
-        /*per prova
-         DinamicMoveSheepButton prova = new DinamicMoveSheepButton(this, 1);
-         layeredPane.add(prova, new Integer(5));
-         prova.setSize(70, 70);
-         prova.setLocation(200, 200);
-         */
         createTable();
         createSheepButtons();
         createSheepSubMenu();
@@ -491,12 +478,19 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private void createTextLabel() {
         textLabel = new JLabel("");
+        errorLabel = new JLabel("");
         textLabel.setFont(new Font("fantasy", Font.BOLD, 25));
+        errorLabel.setFont(new Font("fantasy", Font.BOLD, 25));
         textLabel.setForeground(Color.red);
+        errorLabel.setForeground(Color.red);
         layeredPane.add(textLabel, new Integer(10));
+        layeredPane.add(errorLabel, new Integer(10));
         textLabel.setLocation(120, 1);
+        errorLabel.setLocation(140, 600);
         textLabel.setSize(textLabel.getPreferredSize());
+        errorLabel.setSize(errorLabel.getPreferredSize());
         textLabel.setVisible(true);
+        errorLabel.setVisible(true);
 
     }
 
@@ -551,6 +545,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setText(text);
         textLabel.setSize(textLabel.getPreferredSize());
         textLabel.repaint();
+    }
+    
+    public void updateError(String text) {
+        errorLabel.setText(text);
+        errorLabel.setSize(errorLabel.getPreferredSize());
+        errorLabel.repaint();
     }
 
     public void animationJoinSheeps(int x, int y, int terrain) {
@@ -655,7 +655,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(false);
         } else {
-            updateText(message);
+            updateError(message);
         }
     }
 
@@ -838,19 +838,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     public void messageText(String message) {
-        updateText(message);
-    }
-
-    void joinSheeps() {
-
-    }
-
-    public void selectedMoveSheep() {
-
+        updateError(message);
     }
 
     public void sendBuyCard(String terrainType) {
         connectionClient.buyCard(terrainType);
+        updateError("");
     }
 
     public void sendMoveSheep(int terrain) {
@@ -858,21 +851,26 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             int id = sheepSelected.getId();
             connectionClient.moveSheep(id, terrain);
             sheepSelected = null;
+            updateError("");
         } else {
-            updateText("ERROR");
+            updateError("ERROR");
         }
+        updateText("");
+        
     }
 
     public void sendMoveShepard(int roadTo) {
         state = GUIDinamicState.WAITINGFORSERVER;
         connectionClient.moveShepard(tempIdShepard, roadTo);
         updateText("");
+        updateError("");
     }
 
     public void sendJoinSheeps(int terrain) {
         waitingForAddAnimal = true;
         connectionClient.joinSheep(terrain);
         updateText("");
+        updateError("");
     }
 
     public void sendKillSheep() {
@@ -880,9 +878,11 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             int id = sheepSelected.getId();
             connectionClient.killSheep(id);
             sheepSelected = null;
+            updateError("");
         } else {
-            updateText("ERROR");
+            updateError("ERROR");
         }
+        updateText("");
     }
 
     public void sendPlaceShepard(int road) {

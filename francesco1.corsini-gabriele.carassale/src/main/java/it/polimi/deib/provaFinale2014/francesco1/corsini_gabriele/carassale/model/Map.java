@@ -120,7 +120,7 @@ public class Map {
             road.setRoadNumber(2);
         } else if (id == 4) {
             road.connectTerrainRoad(terrain.get(1));
-            road.connectTerrainRoad(terrain.get(3));
+            road.connectTerrainRoad(terrain.get(2));
             road.setRoadNumber(2);
         } else if (id == 5) {
             road.connectTerrainRoad(terrain.get(1));
