@@ -2,7 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -69,7 +69,7 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = true;
         try {
             outVideo.println("Socket: Inizializzazione socket...");
-            serverSocket = new ServerSocket(Connection_Variable.PORT_SOCKET);
+            serverSocket = new ServerSocket(ConnectionVariable.PORT_SOCKET);
             outVideo.println("Socket: Socket inizializzato, ora accetto richieste.");
 
             waitPlayer();
@@ -108,7 +108,7 @@ public class ServerManagerSocket implements ServerManager {
                 playerConnection.add(new PlayerConnectionSocket(socket, id));
 
                 //Se raggiungo il limite avvio il gioco
-                if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
+                if (playerConnection.size() == ServerVariable.PLAYER4GAME) {
                     swt.stop();
                     runNewGame();
                 }
@@ -200,7 +200,7 @@ public class ServerManagerSocket implements ServerManager {
         public void run() {
             try {
                 outVideo.println("Socket: Timer avviato");
-                this.threadTimer.sleep(Server_Variable.TIMEOUT);
+                this.threadTimer.sleep(ServerVariable.TIMEOUT);
                 outVideo.println("Socket: Timer scaduto");
                 if (playerConnection.size() >= 2) {
                     runNewGame();

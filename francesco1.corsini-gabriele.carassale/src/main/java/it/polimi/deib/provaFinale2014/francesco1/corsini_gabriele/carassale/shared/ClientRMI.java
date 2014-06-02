@@ -157,5 +157,5 @@ public interface ClientRMI extends Remote {
      */
     void refreshCoin(int coins, boolean addCoin) throws RemoteException;
 
-    public void refreshWinner(int finalPosition, int finalScore);
+    void refreshWinner(int finalPosition, int finalScore);
 }

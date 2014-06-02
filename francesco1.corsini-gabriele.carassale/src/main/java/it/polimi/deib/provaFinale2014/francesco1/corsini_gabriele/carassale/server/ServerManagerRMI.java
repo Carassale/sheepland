@@ -3,7 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.BufferedWriter;
@@ -61,9 +61,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             outVideo.println("RMI: Registrazione registry...");
 
             //Naming.bind(SERVER_NAME, this); OR
-            UnicastRemoteObject.exportObject(this, Connection_Variable.PORT_RMI);
-            Registry registry = LocateRegistry.createRegistry(Connection_Variable.PORT_RMI);
-            registry.rebind(Connection_Variable.SERVER_NAME, this);
+            UnicastRemoteObject.exportObject(this, ConnectionVariable.PORT_RMI);
+            Registry registry = LocateRegistry.createRegistry(ConnectionVariable.PORT_RMI);
+            registry.rebind(ConnectionVariable.SERVER_NAME, this);
 
             outVideo.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
@@ -134,7 +134,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 if (playerConnection.size() == 1) {
                     swt = new RMIWaitingTimer();
                 }
-                if (playerConnection.size() == Server_Variable.PLAYER4GAME) {
+                if (playerConnection.size() == ServerVariable.PLAYER4GAME) {
                     swt.stop();
                     runNewGame();
                 }
@@ -187,7 +187,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         public void run() {
             try {
                 outVideo.println("RMI: Timer avviato");
-                this.threadTimer.sleep(Server_Variable.TIMEOUT);
+                this.threadTimer.sleep(ServerVariable.TIMEOUT);
                 outVideo.println("RMI: Timer scaduto");
                 if (playerConnection.size() >= 2) {
                     runNewGame();

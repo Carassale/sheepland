@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Connection_Variable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
@@ -161,15 +161,15 @@ public class Main {
         //Il client tenta di connettersi tramite socket
         Socket socket = null;
         try {
-            socket = new Socket(ADDRESS, Connection_Variable.PORT_SOCKET);
+            socket = new Socket(ADDRESS, ConnectionVariable.PORT_SOCKET);
 
             sendNicknameSocket(socket);
 
             //Client connesso
             connected = true;
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             //Connessione tramite Socket non riuscita
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (connected) {
@@ -192,8 +192,8 @@ public class Main {
 
         //Il client tenta di connettersi tramite RMI
         try {
-            Registry registry = LocateRegistry.getRegistry(ADDRESS, Connection_Variable.PORT_RMI);
-            serverRMI = (ServerRMI) registry.lookup(Connection_Variable.SERVER_NAME);
+            Registry registry = LocateRegistry.getRegistry(ADDRESS, ConnectionVariable.PORT_RMI);
+            serverRMI = (ServerRMI) registry.lookup(ConnectionVariable.SERVER_NAME);
 
             s = serverRMI.connect();
 
@@ -238,7 +238,7 @@ public class Main {
         try {
             s = inKeyboard.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(LineCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
     }
@@ -268,6 +268,7 @@ public class Main {
         try {
             Integer i = Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, nfe);
             return false;
         }
         return true;
