@@ -10,6 +10,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -30,6 +31,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private final ArrayList<PlayerConnectionSocket> playerConnections;
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
+    private MapServerPlayer map;
+    private boolean isConnected;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -37,8 +40,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      *
      * @param playerConnection ArrayList contenente i player associati a questa
      * partita
+     * @param map
      */
-    public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection) {
+    public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection, MapServerPlayer map) {
+        this.map = map;
         this.playerConnections = playerConnection;
         Thread thread = new Thread(this);
         thread.start();
@@ -63,8 +68,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public void startAction() {
+        isConnected = true;
         int i = 0;
-        while (i < NUMACTION) {
+        while (i < NUMACTION && isConnected) {
             if (doAction()) {
                 i++;
             }
@@ -94,6 +100,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             actionDo = killSheep();
         } else if (TypeAction.JOIN_SHEEP.toString().equals(actionToDo)) {
             actionDo = joinSheep();
+        } else if (StatusMessage.DISCONNECTED.toString().equals(actionToDo)) {
+            clientDisconnesso();
+            isConnected = false;
+            return true;
         }
         return actionDo;
     }
@@ -124,6 +134,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         playerConnections.add(playerConnections.get(0));
         playerConnections.remove(0);
         currentPlayer = playerConnections.get(0);
+        if (!map.isOnLine(currentPlayer.getNickname())) {
+            nextPlayerConnections();
+        }
     }
 
     /**
@@ -544,7 +557,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      *
      * @param idPlayer
      */
-    public void refreshAllToPlayer(int idPlayer) {
+    public void reconnectPlayer(int idPlayer) {
         PlayerConnectionSocket thisPlayer = null;
         for (PlayerConnectionSocket playerConnectionSocket : playerConnections) {
             if (playerConnectionSocket.getIdPlayer() == idPlayer) {
@@ -604,6 +617,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
 
         refreshAllFence(thisPlayer);
+                
+        map.setOnLine(thisPlayer.getNickname(), true);
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == thisPlayer.getIdPlayer()) {
+                player.setOnLine(true);
+            }
+        }
     }
 
     /**
@@ -614,6 +634,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     @Override
     public void run() {
         startThread();
+    }
+
+    private void clientDisconnesso() {
+        map.setOnLine(currentPlayer.getNickname(), false);
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == currentPlayer.getIdPlayer()) {
+                player.setOnLine(false);
+            }
+        }
     }
 
 }

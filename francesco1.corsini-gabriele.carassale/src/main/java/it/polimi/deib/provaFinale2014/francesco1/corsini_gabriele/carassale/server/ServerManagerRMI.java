@@ -81,7 +81,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         canAccept = false;
         if (playerConnection.size() >= 2) {
             try {
-                games.add(new ConnectionManagerRMI(playerConnection));
+                games.add(new ConnectionManagerRMI(playerConnection, map));
             } catch (RemoteException ex) {
                 Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -103,6 +103,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         return StatusMessage.CONNECTED.toString();
     }
 
+    /**
+     * Ricevuta una stringa contenente il nickname controlla se è già presente
+     * all'interno dell'hash map online o di un altro tipo di connessione. Nel
+     * caso non possa collegarsi invia un messaggio di errore.
+     *
+     * @param nickname
+     * @return Status Messagge CORRECT se può collegarsi, NOT CORRECT se non può
+     */
     public String checkNickname(String nickname) {
         if ((map.existPlayer(nickname) && map.isOnLine(nickname))
                 || (map.existPlayer(nickname)
@@ -129,7 +137,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 int id = playerConnection.size();
 
                 //Aggiunge client RMI
-                playerConnection.add(new PlayerConnectionRMI(clientRMI, id));
+                playerConnection.add(new PlayerConnectionRMI(clientRMI, id, nickname));
 
                 if (playerConnection.size() == 1) {
                     swt = new RMIWaitingTimer();
@@ -149,13 +157,21 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         }
     }
 
+    /**
+     * Nel caso il client deve essere reindirizzato alla corretta partita,
+     * questo metodo cerca il giocatore all'interno della partita e sostituisce
+     * lo stub
+     *
+     * @param nickname Nickname del client
+     * @param clientRMI Stub del client
+     */
     private void pushToCorrectPlayer(String nickname, ClientRMI clientRMI) {
         int idGame = map.getIdGame(nickname);
         int idPlayer = map.getIdPlayer(nickname);
         for (PlayerConnectionRMI playerConnectionRMI : games.get(idGame).getPlayerConnections()) {
             if (playerConnectionRMI.getIdPlayer() == idPlayer) {
                 playerConnectionRMI.setClientRMI(clientRMI);
-                games.get(idGame).refreshAllToPlayer(idPlayer);
+                games.get(idGame).reconnectPlayer(idPlayer);
                 return;
             }
         }

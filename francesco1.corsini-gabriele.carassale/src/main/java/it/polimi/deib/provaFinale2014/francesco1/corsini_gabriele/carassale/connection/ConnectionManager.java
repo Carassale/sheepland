@@ -98,7 +98,7 @@ public interface ConnectionManager {
      *
      * @param idPlayer
      */
-    void refreshAllToPlayer(int idPlayer);
+    void reconnectPlayer(int idPlayer);
 
     /**
      * Inserito qui per creare un metodo guida

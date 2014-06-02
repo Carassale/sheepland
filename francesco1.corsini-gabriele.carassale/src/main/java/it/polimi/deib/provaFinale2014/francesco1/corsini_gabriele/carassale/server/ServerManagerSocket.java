@@ -105,7 +105,7 @@ public class ServerManagerSocket implements ServerManager {
                 if (playerConnection.isEmpty()) {
                     swt = new SocketWaitingTimer();
                 }
-                playerConnection.add(new PlayerConnectionSocket(socket, id));
+                playerConnection.add(new PlayerConnectionSocket(socket, id, nickname));
 
                 //Se raggiungo il limite avvio il gioco
                 if (playerConnection.size() == ServerVariable.PLAYER4GAME) {
@@ -128,7 +128,7 @@ public class ServerManagerSocket implements ServerManager {
     public synchronized void runNewGame() {
         canAcceptSocket = false;
         if (playerConnection.size() >= 2) {
-            games.add(new ConnectionManagerSocket(playerConnection));
+            games.add(new ConnectionManagerSocket(playerConnection, map));
             outVideo.println("Socket: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionSocket>();
         }
@@ -168,7 +168,7 @@ public class ServerManagerSocket implements ServerManager {
         for (PlayerConnectionSocket playerConnectionSocket : games.get(idGame).getPlayerConnections()) {
             if (playerConnectionSocket.getIdPlayer() == idPlayer) {
                 playerConnectionSocket.setSocket(socket);
-                games.get(idGame).refreshAllToPlayer(idPlayer);
+                games.get(idGame).reconnectPlayer(idPlayer);
                 return;
             }
         }

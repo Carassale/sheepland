@@ -19,7 +19,8 @@ public enum StatusMessage {
     TYPE_SOCKET("Type_socket"),
     TYPE_RMI("Type_rmi"),
     CORRECT_NICKNAME("Correct_nickname"),
-    NOT_CORRECT_NICKNAME("Not_correct_nickname");
+    NOT_CORRECT_NICKNAME("Not_correct_nickname"),
+    DISCONNECTED("Disconnected");
 
     private String value;
 

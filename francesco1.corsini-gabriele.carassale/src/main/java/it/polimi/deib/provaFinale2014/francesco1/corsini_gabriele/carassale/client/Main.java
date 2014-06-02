@@ -99,6 +99,10 @@ public class Main {
         connectionClient.waitLine();
     }
 
+    /**
+     * Viene utilizzato da entrambe le connessioni e fa inserire il nickname,
+     * evita che venga inserito un nome vuoto
+     */
     private void insertNickName() {
         do {
             print("Inserisci il tuo nickname");
@@ -106,6 +110,13 @@ public class Main {
         } while ("".equals(nickname));
     }
 
+    /**
+     * Viene utilizzato dalla connessione socket, fa ripetere l'inerimento del
+     * nickname finchè il server non accetta la stringa
+     *
+     * @param socket
+     * @throws IOException
+     */
     public void sendNicknameSocket(Socket socket) throws IOException {
         //Invio il nickname
         PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
@@ -125,6 +136,13 @@ public class Main {
         } while (!StatusMessage.CORRECT_NICKNAME.toString().equals(s));
     }
 
+    /**
+     * Viene utilizzato dalla connessione RMI, fa ripetere l'inerimento del
+     * nickname finchè il server non accetta la stringa
+     *
+     * @param serverRMI
+     * @throws RemoteException
+     */
     public void sendNicknameRMI(ServerRMI serverRMI) throws RemoteException {
         String s;
         do {
