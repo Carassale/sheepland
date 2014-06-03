@@ -47,12 +47,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private JLabel coinPicture, coinNumber;
     private JLabel winner, sadFace;
     
-    private final ImageIcon plainCards[] = new ImageIcon[6];
-    private final ImageIcon forestCards[] = new ImageIcon[6];
-    private final ImageIcon riverCards[] = new ImageIcon[6];
-    private final ImageIcon desertCards[] = new ImageIcon[6];
-    private final ImageIcon mountainCards[] = new ImageIcon[6];
-    private final ImageIcon fieldCards[] = new ImageIcon[6];
+    private final ImageIcon[] plainCards = new ImageIcon[6];
+    private final ImageIcon[] forestCards = new ImageIcon[6];
+    private final ImageIcon[] riverCards = new ImageIcon[6];
+    private final ImageIcon[] desertCards = new ImageIcon[6];
+    private final ImageIcon[] mountainCards = new ImageIcon[6];
+    private final ImageIcon[] fieldCards = new ImageIcon[6];
     private int plain = 0, forest = 0, river = 0, desert = 0, mountain = 0, field = 0;
     
     private final ArrayList<ViewShepard> shepards = new ArrayList<ViewShepard>();

@@ -46,8 +46,51 @@ public class DinamicSheepButton extends JButton {
         this.setOpaque(false);
         this.setBounds(0, 0, 100, 100);
 
-        this.addMouseListener(new MouseListener() {
+        this.addMouseListener(new DinamicSheepButtonListener());
+    }
 
+    /**
+     * Method that refresh the icon displaying the correct number of sheeps
+     * @param sheepNumber new number of sheeps
+     */
+    public void setnumber(int sheepNumber) {
+        if (sheepNumber > 5) {
+            sheepNumber = 5;
+        }
+        if (sheepNumber == 0) {
+            try {
+                icon = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
+                isInvisible = true;
+            } catch (IOException ex) {
+                Logger.getLogger(DinamicSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        } else {
+            icon = sheepImagesSmall[sheepNumber];
+            isInvisible = false;
+        }
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (isBig) {
+            g.drawImage(icon, 0, 0, 80, 80, this);
+        } else {
+            g.drawImage(icon, 0, 0, 60, 60, this);
+        }
+    }
+
+    /**
+     * Method to understand if there are no sheeps on the terrain
+     * @return true if yes
+     */
+    public boolean isIsInvisible() {
+        return isInvisible;
+    }
+    
+    private class DinamicSheepButtonListener implements MouseListener{
+        
             /**
              * Mouse event
              * @param e event
@@ -125,49 +168,8 @@ public class DinamicSheepButton extends JButton {
                 repaint();
             }
 
-        });
-
-    }
-
-    /**
-     * Method that refresh the icon displaying the correct number of sheeps
-     * @param sheepNumber new number of sheeps
-     */
-    public void setnumber(int sheepNumber) {
-        if (sheepNumber > 5) {
-            sheepNumber = 5;
         }
-        if (sheepNumber == 0) {
-            try {
-                icon = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
-                isInvisible = true;
-            } catch (IOException ex) {
-                Logger.getLogger(DinamicSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            }
-        } else {
-            icon = sheepImagesSmall[sheepNumber];
-            isInvisible = false;
-        }
-        repaint();
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (isBig) {
-            g.drawImage(icon, 0, 0, 80, 80, this);
-        } else {
-            g.drawImage(icon, 0, 0, 60, 60, this);
-        }
-    }
-
-    /**
-     * Method to understand if there are no sheeps on the terrain
-     * @return true if yes
-     */
-    public boolean isIsInvisible() {
-        return isInvisible;
-    }
+    
 
 
 }

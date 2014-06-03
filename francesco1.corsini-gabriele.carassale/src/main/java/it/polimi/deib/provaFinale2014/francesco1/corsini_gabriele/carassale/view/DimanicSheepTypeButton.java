@@ -106,30 +106,20 @@ public class DimanicSheepTypeButton extends JPanel {
      */
     public void activateTypeButton() {
         for (ViewAnimal ele : GUI.getAnimals()) {
-            if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
-                if (ele.getPosition() == terrain) {
-                    if (ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
+            if (TypeAnimal.WHITE_SHEEP.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
                         selectedAnimal = ele;
                         GUI.activateSheepType(terrain, true, TypeAnimal.WHITE_SHEEP.toString());
                         isVisible = true;
-                    }
-                }
-            } else if (TypeAnimal.LAMB.toString().equals(type)) {
-                if (ele.getPosition() == terrain) {
-                    if (ele.getType().equals(TypeAnimal.LAMB.toString())) {
+            } else if (TypeAnimal.LAMB.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.LAMB.toString())) {
                         selectedAnimal = ele;
                         GUI.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
                         isVisible = true;;
-                    }
-                }
-            } else if (TypeAnimal.RAM.toString().equals(type)){
-                if (ele.getPosition() == terrain) {
-                    if (ele.getType().equals(TypeAnimal.RAM.toString())) {
+                    
+            } else if (TypeAnimal.RAM.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.RAM.toString())) {
                         selectedAnimal = ele;
                         GUI.activateSheepType(terrain, true,TypeAnimal.RAM.toString());
                         isVisible = true;
-                    }
-                }
+                    
             }
         }
     }
