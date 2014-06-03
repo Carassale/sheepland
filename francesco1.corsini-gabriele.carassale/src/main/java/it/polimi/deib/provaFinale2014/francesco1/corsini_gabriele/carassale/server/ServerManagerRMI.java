@@ -108,7 +108,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * all'interno dell'hash map online o di un altro tipo di connessione. Nel
      * caso non possa collegarsi invia un messaggio di errore.
      *
-     * @param nickname
+     * @param nickname Nome del client
      * @return Status Messagge CORRECT se può collegarsi, NOT CORRECT se non può
      */
     public String checkNickname(String nickname) {
@@ -180,6 +180,13 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         }
     }
 
+    /**
+     * Nel caso il client si era disconnesso in precendenza viene chiamato
+     * questo metodo per settare i parametri all'interno della partita e
+     * chiamare il metodo per refreshare il player
+     *
+     * @param nickname Nome del client
+     */
     public void reconnect(String nickname) {
         int idGame = map.getIdGame(nickname);
         int idPlayer = map.getIdPlayer(nickname);

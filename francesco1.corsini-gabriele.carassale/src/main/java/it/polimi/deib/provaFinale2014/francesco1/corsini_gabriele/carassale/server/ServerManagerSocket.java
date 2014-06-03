@@ -135,6 +135,13 @@ public class ServerManagerSocket implements ServerManager {
         canAcceptSocket = true;
     }
 
+    /**
+     * Riceve una stringa dal socket contenente il nickname, controlla se è già
+     * presente all'interno dell'hash map online o di un altro tipo di
+     * connessione. Nel caso non possa collegarsi invia un messaggio di errore.
+     *
+     * @throws IOException
+     */
     public void checkNickname() throws IOException {
         boolean doRepeat;
         do {
@@ -162,6 +169,15 @@ public class ServerManagerSocket implements ServerManager {
         } while (doRepeat);
     }
 
+    /**
+     * Nel caso il client deve essere reindirizzato alla corretta partita,
+     * questo metodo cerca il giocatore all'interno della partita e sostituisce
+     * lo stub
+     *
+     * @param nickname Nome del client
+     * @param socket socket del client
+     * @throws IOException
+     */
     private void pushToCorrectPlayer(String nickname, Socket socket) throws IOException {
         int idGame = map.getIdGame(nickname);
         int idPlayer = map.getIdPlayer(nickname);

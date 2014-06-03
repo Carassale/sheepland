@@ -557,6 +557,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Invia ad ogni player lo stato finale del giocatore
+     */
     public void refreshWinner() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             for (PlayerConnectionRMI playerConnection : playerConnections) {
@@ -657,6 +660,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         startThread();
     }
 
+    /**
+     * Gestisce la disconnessione del client e setta lo stato nell'hash Map ofline
+     * @param playerConnection 
+     */
     public void clientDisconnesso(PlayerConnectionRMI playerConnection) {
         map.setOnLine(playerConnection.getNickname(), false);
         for (Player player : gameController.getPlayerPool().getPlayers()) {

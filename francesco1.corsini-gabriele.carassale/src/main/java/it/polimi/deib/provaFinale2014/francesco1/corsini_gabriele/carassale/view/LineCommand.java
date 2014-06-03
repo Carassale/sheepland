@@ -330,14 +330,30 @@ public class LineCommand implements TypeOfInteraction {
         connectionClient.placeShepard(idRoad);
     }
 
+    /**
+     * Stampa un messaggio passato come parametro
+     *
+     * @param message Messaggio da stampare
+     */
     public void messageText(String message) {
         print(message);
     }
 
+    /**
+     * Riceve la posizione della fence aggiunta
+     *
+     * @param idRoad
+     */
     public void refreshAddFence(int idRoad) {
         print("Aggiunta fence nella strada " + idRoad);
     }
 
+    /**
+     * Riceve lo stato finale
+     *
+     * @param finalPosition Posizione in classifica
+     * @param finalScore Punteggio finale
+     */
     public void refreshWinner(int finalPosition, int finalScore) {
         if (finalPosition == 1) {
             print("COMPLIMENTI HAI VINTO!!!");

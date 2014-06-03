@@ -46,7 +46,7 @@ public interface TypeOfInteraction {
      * blackSheep
      */
     void refreshAddAnimal(int idAnimal, int idTerrain, String kind);
-    
+
     /**
      * Risveglia l'interfaccia e aggiunge una fence
      *
@@ -103,12 +103,18 @@ public interface TypeOfInteraction {
     void refreshMoveShepard(int idShepard, int road);
 
     /**
-     * Invia un messaggio da far viusalizzare
+     * Riceve un messaggio da far viusalizzare
      *
      * @param message Messaggio da visualizzare
      */
     void messageText(String message);
 
+    /**
+     * Riceve lo stato finale del giocatore
+     *
+     * @param finalPosition Posizione finale in classifica
+     * @param finalScore Punteggio finale
+     */
     public void refreshWinner(int finalPosition, int finalScore);
 
 }
