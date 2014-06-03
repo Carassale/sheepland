@@ -10,14 +10,14 @@ import javax.swing.JFrame;
  */
 public class StaticTerrainTypeListener extends JFrame implements ActionListener {
 
-    private GUISwingStatic GUI;
+    private final GUISwingStatic GUI;
 
     /**
      * Costruttore
-     * @param GUI GUI statica
+     * @param gui GUI statica
      */
-    public StaticTerrainTypeListener(GUISwingStatic GUI) {
-        this.GUI = GUI;
+    public StaticTerrainTypeListener(GUISwingStatic gui) {
+        this.GUI = gui;
 
     }
 

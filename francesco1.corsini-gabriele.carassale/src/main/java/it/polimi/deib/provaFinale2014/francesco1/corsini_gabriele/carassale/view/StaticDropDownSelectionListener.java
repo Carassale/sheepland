@@ -11,14 +11,14 @@ import javax.swing.JFrame;
  */
 public class StaticDropDownSelectionListener extends JFrame implements ActionListener {
 
-    private GUISwingStatic GUI;
+    private final GUISwingStatic GUI;
 
     /**
      * Contrusctor
-     * @param GUI GUI Static
+     * @param gui GUI Static
      */
-    public StaticDropDownSelectionListener(GUISwingStatic GUI) {
-        this.GUI = GUI;
+    public StaticDropDownSelectionListener(GUISwingStatic gui) {
+        this.GUI = gui;
 
     }
 

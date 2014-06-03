@@ -21,7 +21,6 @@ public class DinamicJoinSheepsButton extends JPanel {
     private BufferedImage icon;
     private GUIDinamic GUI;
     private final int terrain;
-    private DinamicJoinSheepsButton panel; 
 
     /**
      * Constructor
@@ -43,6 +42,10 @@ public class DinamicJoinSheepsButton extends JPanel {
         
         this.addMouseListener(new MouseListener() {
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseClicked(MouseEvent e) {
                 
                 activateAnimation();
@@ -53,20 +56,36 @@ public class DinamicJoinSheepsButton extends JPanel {
                 GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mousePressed(MouseEvent e) {
-               
+               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseReleased(MouseEvent e) {
-                
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseEntered(MouseEvent e) {
-               
+               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseExited(MouseEvent e) {
-                
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
         });
         

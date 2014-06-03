@@ -24,7 +24,7 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
     private BufferedImage icon, icon2, icon3;
 
     private Thread runner;
-    private boolean isSuccesfull;
+    private final boolean isSuccesfull;
     private final BufferedImageContainer imagePool;
     
     /**
@@ -67,7 +67,8 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
                 repaint();
             }
             Thread.sleep(2500);
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(AnimationJoinSheepsAfter.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         this.setVisible(false);
     }

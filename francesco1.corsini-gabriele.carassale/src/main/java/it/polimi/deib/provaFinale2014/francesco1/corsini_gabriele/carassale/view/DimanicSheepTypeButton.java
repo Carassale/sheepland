@@ -38,6 +38,7 @@ public class DimanicSheepTypeButton extends JPanel {
         GUI = aThis;
         imagePool = pool;
         type = t;
+        isVisible = false;
 
         if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
             icon = imagePool.getWhiteSheep();
@@ -55,26 +56,46 @@ public class DimanicSheepTypeButton extends JPanel {
 
         this.addMouseListener(new MouseListener() {
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseClicked(MouseEvent e) {
                 GUI.setSheepSelected(selectedAnimal);
                 GUI.activateSubMenuSheep(terrain, true);
                 GUI.setSubMenuOpen(terrain);
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mousePressed(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseReleased(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseEntered(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseExited(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
         });
         repaint();

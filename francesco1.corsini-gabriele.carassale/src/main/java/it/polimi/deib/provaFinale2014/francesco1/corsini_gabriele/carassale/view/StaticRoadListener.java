@@ -10,16 +10,16 @@ import javax.swing.JFrame;
  */
 public class StaticRoadListener extends JFrame implements ActionListener {
 
-    private GUISwingStatic GUI;
-    private int road;
+    private final GUISwingStatic GUI;
+    private final int road;
 
     /**
      * Costruttore 
-     * @param GUI GUI Static
+     * @param gui GUI Static
      * @param road id della strada
      */
-    public StaticRoadListener(GUISwingStatic GUI, int road) {
-        this.GUI = GUI;
+    public StaticRoadListener(GUISwingStatic gui, int road) {
+        this.GUI = gui;
         this.road = road;
 
     }

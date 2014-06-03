@@ -22,7 +22,6 @@ public class DinamicKillSheepButton extends JPanel{
      private BufferedImage icon;
     private GUIDinamic GUI;
     private final  int terrain;
-    private DinamicJoinSheepsButton panel; 
 
     /**
      * Standard Constructor
@@ -36,7 +35,7 @@ public class DinamicKillSheepButton extends JPanel{
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
         } catch (IOException ex) {
-            Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         this.setLayout(null);
 	this.setOpaque(false);
@@ -45,6 +44,10 @@ public class DinamicKillSheepButton extends JPanel{
         
         this.addMouseListener(new MouseListener() {
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseClicked(MouseEvent e) {
                 
                 //activateAnimation();
@@ -56,20 +59,36 @@ public class DinamicKillSheepButton extends JPanel{
                 GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mousePressed(MouseEvent e) {
-               
+               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseReleased(MouseEvent e) {
-                
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseEntered(MouseEvent e) {
-               
+               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseExited(MouseEvent e) {
-                
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
         });
     }

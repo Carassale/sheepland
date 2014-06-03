@@ -43,7 +43,7 @@ public class BufferedImageContainer {
             sadFace = ImageIO.read(new File(".\\src\\main\\resources\\sadFace.png"));
             winner = ImageIO.read(new File(".\\src\\main\\resources\\winner.png"));
         } catch (IOException ex) {
-            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -113,7 +113,7 @@ public class BufferedImageContainer {
             BufferedImage fenceNum = ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
             return fenceNum;
         } catch (IOException ex) {
-            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         return null;
     }

@@ -28,7 +28,6 @@ public class DinamicMoveSheepButton extends JPanel {
 
     private GUIDinamic GUI;
     private int terrain;
-    private DinamicJoinSheepsButton panel;
     private boolean isMouseOver;
     //serve come contatore per ciclare tra le due immagine nel mouseover
     private int cont;
@@ -46,7 +45,7 @@ public class DinamicMoveSheepButton extends JPanel {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
             image[1] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
         } catch (IOException ex) {
-            Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         this.setLayout(null);
         this.setOpaque(false);
@@ -57,6 +56,10 @@ public class DinamicMoveSheepButton extends JPanel {
 
         this.addMouseListener(new MouseListener() {
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseClicked(MouseEvent e) {
                 GUI.updateText("Selezionare territorio dove spostare la pecora");
                 GUI.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
@@ -66,14 +69,26 @@ public class DinamicMoveSheepButton extends JPanel {
                 GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mousePressed(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseReleased(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseEntered(MouseEvent e) {
                 isMouseOver = true;
                 cont = 1;
@@ -81,6 +96,10 @@ public class DinamicMoveSheepButton extends JPanel {
                 runner.start();
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseExited(MouseEvent e) {
                 isMouseOver = false;
 
@@ -105,6 +124,9 @@ public class DinamicMoveSheepButton extends JPanel {
 
     private class DinamicMoveSheepButtonCicle implements Runnable {
 
+        /**
+         * Thread chiamata per animazione
+         */
         public void run() {
             //cicla tra le due immagini
             while (isMouseOver) {
@@ -113,7 +135,8 @@ public class DinamicMoveSheepButton extends JPanel {
                 repaint();
                 try {
                     Thread.sleep(300);
-                } catch (Exception e) {
+                } catch (Exception ex) {
+                    Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
 
             }

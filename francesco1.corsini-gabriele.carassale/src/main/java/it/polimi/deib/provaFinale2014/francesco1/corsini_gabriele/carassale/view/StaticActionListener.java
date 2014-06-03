@@ -11,14 +11,14 @@ import javax.swing.JFrame;
  */
 public class StaticActionListener extends JFrame implements ActionListener {
 
-    private GUISwingStatic GUI;
+    private final GUISwingStatic GUI;
 
     /**
      * Constructor
-     * @param GUI GUI Static
+     * @param gui GUI Static
      */
-    public StaticActionListener(GUISwingStatic GUI) {
-        this.GUI = GUI;
+    public StaticActionListener(GUISwingStatic gui) {
+        this.GUI = gui;
 
     }
 

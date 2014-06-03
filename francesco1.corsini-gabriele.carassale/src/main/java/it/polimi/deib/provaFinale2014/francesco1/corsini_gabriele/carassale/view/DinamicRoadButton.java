@@ -19,7 +19,6 @@ public class DinamicRoadButton extends JPanel {
 
     private final GUIDinamic GUI;
     private BufferedImage icon;
-    private BufferedImage fence, redShepard, greenShepard, blueShepard, yellowShepard;
     private final int road;
     private int idShepard;
     private boolean isShepard;
@@ -46,10 +45,14 @@ public class DinamicRoadButton extends JPanel {
 
         this.addMouseListener(new MouseListener() {
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseClicked(MouseEvent e) {
                 if (GUI.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
 
-                    if (isShepard == false) {
+                    if (!isShepard) {
                         GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                         GUI.sendPlaceShepard(road);
                     } else {
@@ -69,7 +72,7 @@ public class DinamicRoadButton extends JPanel {
                     }
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO) {
                     if (road != GUI.getTempRoad()) {
-                        if (isShepard == false) {
+                        if (!isShepard) {
                             GUI.sendMoveShepard(road);
                             GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                         } else {
@@ -79,14 +82,26 @@ public class DinamicRoadButton extends JPanel {
                 }
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mousePressed(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseReleased(MouseEvent e) {
-
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseEntered(MouseEvent e) {
                 if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                     if (isShepard) {
@@ -102,6 +117,10 @@ public class DinamicRoadButton extends JPanel {
                 }
             }
 
+            /**
+             * Mouse event
+             * @param e event
+             */
             public void mouseExited(MouseEvent e) {
                 if (isShepard) {
                     isMouseOver = false;

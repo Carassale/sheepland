@@ -24,27 +24,27 @@ import javax.swing.*;
  */
 public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
-    private ConnectionClient connectionClient;
-    private GUISwingStatic GUI;
+    private final ConnectionClient connectionClient;
+    private final GUISwingStatic GUI;
 
     private GUIState state;
 
-    private JPanel PMainEast, PMainEastSouth, PMainEastNorth, PMainWest, PMain, PNorth, PSounth, PTerrain, PRoads, PActions, PTerrainType, PLabelAction, PLabelStatus;
-    private JLabel LAction1, LAction2, LAction3, LCoins, LShepard1, LShepard2;
-    private JLabel[] LTerrainCards = new JLabel[6];
-    private JMenu file, connection;
-    private JButton BMoveShepard, BMoveSheep, BBuyCard, BJoinSheeps, BKillSheep;
-    private JButton BPlain, BForest, BRiver, BDesert, BMountain, BField;
-    private ArrayList<JButton> BTerrain = new ArrayList<JButton>();
-    private ArrayList<JButton> BRoad = new ArrayList<JButton>();
-    private ArrayList<ViewAnimal> animalsInDropDown = new ArrayList<ViewAnimal>();
-    private ArrayList<ViewShepard> shepardsInDropDown = new ArrayList<ViewShepard>();
+    private JPanel pMainEast, pMainEastNorth, pMainWest, pMain, pNorth, pSounth, pTerrain, pRoads, pActions, pTerrainType, pLabelAction, pLabelStatus;
+    private JLabel lAction1, lAction2, lAction3, lCoins, lShepard1, lShepard2;
+    private final JLabel[] lTerrainCards = new JLabel[6];
+    private JMenu file;
+    private JButton bMoveShepard, bMoveSheep, bBuyCard, bJoinSheeps, bKillSheep;
+    private JButton bPlain, bForest, bRiver, bDesert, bMountain, bField;
+    private final ArrayList<JButton> bTerrain = new ArrayList<JButton>();
+    private final ArrayList<JButton> bRoad = new ArrayList<JButton>();
+    private final ArrayList<ViewAnimal> animalsInDropDown = new ArrayList<ViewAnimal>();
+    private final ArrayList<ViewShepard> shepardsInDropDown = new ArrayList<ViewShepard>();
     private JComboBox sheepDropDown;
 
-    private ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
-    private ArrayList<ViewShepard> shepards = new ArrayList<ViewShepard>();
-    private int[] cards = new int[6];
-    private boolean[] roadsWithFence = new boolean[42];
+    private final ArrayList<ViewAnimal> animals = new ArrayList<ViewAnimal>();
+    private final ArrayList<ViewShepard> shepards = new ArrayList<ViewShepard>();
+    private final int[] cards = new int[6];
+    private final boolean[] roadsWithFence = new boolean[42];
     private int coins = 0;
     private int tempTerrain, tempRoad, tempIdShepard = -1, tempIdSheep;
     private boolean firstShepard;
@@ -83,49 +83,49 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         eMenuFileItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                System.exit(0);
+                
             }
         });
 
-        add(PMainEast = new JPanel(), BorderLayout.EAST);
-        add(PMainWest = new JPanel(), BorderLayout.WEST);
-        PMainWest.add(PMain = new JPanel(), BorderLayout.NORTH);
+        add(pMainEast = new JPanel(), BorderLayout.EAST);
+        add(pMainWest = new JPanel(), BorderLayout.WEST);
+        pMainWest.add(pMain = new JPanel(), BorderLayout.NORTH);
 
-        PMain.setLayout(new BorderLayout());
-        PMain.add(PNorth = new JPanel(), BorderLayout.NORTH);
-        PNorth.setLayout(new BorderLayout());
-        PNorth.add(PTerrain = new JPanel(), BorderLayout.NORTH);
-        PTerrain.setLayout(new GridLayout(3, 7));
-        PNorth.add(PTerrainType = new JPanel(), BorderLayout.SOUTH);
-        PTerrainType.setLayout(new FlowLayout());
-        PMain.add(PLabelAction = new JPanel(), BorderLayout.WEST);
-        PLabelAction.setLayout(new GridLayout(3, 1));
-        PMain.add(PActions = new JPanel(), BorderLayout.CENTER);
-        PActions.setLayout(new GridLayout(2, 3));
-        PMain.add(PLabelStatus = new JPanel(), BorderLayout.EAST);
-        PLabelStatus.setLayout(new GridLayout(6, 1));
-        PMain.add(PSounth = new JPanel(), BorderLayout.SOUTH);
-        PSounth.setLayout(new BorderLayout());
-        PSounth.add(PRoads = new JPanel(), BorderLayout.NORTH);
-        PRoads.setLayout(new GridLayout(6, 7));
-        PSounth.add(sheepDropDown = new JComboBox(), BorderLayout.SOUTH);
-        PMainEast.setLayout(new BorderLayout());
-        PMainEast.add(PMainEastNorth = new JPanel(), BorderLayout.NORTH);
-        PMainEastNorth.setLayout(new GridLayout(4, 1));
+        pMain.setLayout(new BorderLayout());
+        pMain.add(pNorth = new JPanel(), BorderLayout.NORTH);
+        pNorth.setLayout(new BorderLayout());
+        pNorth.add(pTerrain = new JPanel(), BorderLayout.NORTH);
+        pTerrain.setLayout(new GridLayout(3, 7));
+        pNorth.add(pTerrainType = new JPanel(), BorderLayout.SOUTH);
+        pTerrainType.setLayout(new FlowLayout());
+        pMain.add(pLabelAction = new JPanel(), BorderLayout.WEST);
+        pLabelAction.setLayout(new GridLayout(3, 1));
+        pMain.add(pActions = new JPanel(), BorderLayout.CENTER);
+        pActions.setLayout(new GridLayout(2, 3));
+        pMain.add(pLabelStatus = new JPanel(), BorderLayout.EAST);
+        pLabelStatus.setLayout(new GridLayout(6, 1));
+        pMain.add(pSounth = new JPanel(), BorderLayout.SOUTH);
+        pSounth.setLayout(new BorderLayout());
+        pSounth.add(pRoads = new JPanel(), BorderLayout.NORTH);
+        pRoads.setLayout(new GridLayout(6, 7));
+        pSounth.add(sheepDropDown = new JComboBox(), BorderLayout.SOUTH);
+        pMainEast.setLayout(new BorderLayout());
+        pMainEast.add(pMainEastNorth = new JPanel(), BorderLayout.NORTH);
+        pMainEastNorth.setLayout(new GridLayout(4, 1));
 
         try {
-            PMainEast.add(PSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png"), BorderLayout.CENTER);
+            pMainEast.add(pSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png"), BorderLayout.CENTER);
         } catch (IOException ex) {
-            Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
-        PLabelAction.add(LAction1 = new JLabel("Non è il tuo turno"));
-        PLabelAction.add(LAction2 = new JLabel("Attendi..."));
-        PLabelAction.add(LAction3 = new JLabel(" "));
+        pLabelAction.add(lAction1 = new JLabel("Non è il tuo turno"));
+        pLabelAction.add(lAction2 = new JLabel("Attendi..."));
+        pLabelAction.add(lAction3 = new JLabel(" "));
 
-        PMainEastNorth.add(LCoins = new JLabel("Monete :" + coins));
-        PMainEastNorth.add(LShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato"));
-        PMainEastNorth.add(LShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato"));
+        pMainEastNorth.add(lCoins = new JLabel("Monete :" + coins));
+        pMainEastNorth.add(lShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato"));
+        pMainEastNorth.add(lShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato"));
 
         sheepDropDown.addActionListener(new StaticDropDownSelectionListener(this));
         sheepDropDown.setEnabled(false);
@@ -138,56 +138,56 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             cards[i] = 0;
 
             if (i == 0) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Pianura: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Pianura: " + cards[i]));
             } else if (i == 1) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Foresta: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Foresta: " + cards[i]));
             } else if (i == 2) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Fiume: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Fiume: " + cards[i]));
             } else if (i == 3) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Deserto: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Deserto: " + cards[i]));
             } else if (i == 4) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Montagna: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Montagna: " + cards[i]));
             } else if (i == 5) {
-                PLabelStatus.add(LTerrainCards[i] = new JLabel("Carte Campi: " + cards[i]));
+                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Campi: " + cards[i]));
             }
         }
 
-        BMoveShepard = new JButton("Muovi Pastore");
-        BMoveShepard.addActionListener(new StaticActionListener(this));
-        BMoveShepard.setActionCommand(TypeAction.MOVE_SHEPARD.toString());
-        PActions.add(BMoveShepard);
-        BMoveShepard.setEnabled(false);
+        bMoveShepard = new JButton("Muovi Pastore");
+        bMoveShepard.addActionListener(new StaticActionListener(this));
+        bMoveShepard.setActionCommand(TypeAction.MOVE_SHEPARD.toString());
+        pActions.add(bMoveShepard);
+        bMoveShepard.setEnabled(false);
 
-        BMoveSheep = new JButton("Muovi Pecora");
-        BMoveSheep.addActionListener(new StaticActionListener(this));
-        BMoveSheep.setActionCommand(TypeAction.MOVE_SHEEP.toString());
-        PActions.add(BMoveSheep);
-        BMoveSheep.setEnabled(false);
+        bMoveSheep = new JButton("Muovi Pecora");
+        bMoveSheep.addActionListener(new StaticActionListener(this));
+        bMoveSheep.setActionCommand(TypeAction.MOVE_SHEEP.toString());
+        pActions.add(bMoveSheep);
+        bMoveSheep.setEnabled(false);
 
-        BBuyCard = new JButton("Compra Carta");
-        BBuyCard.addActionListener(new StaticActionListener(this));
-        BBuyCard.setActionCommand(TypeAction.BUY_CARD.toString());
-        PActions.add(BBuyCard);
-        BBuyCard.setEnabled(false);
+        bBuyCard = new JButton("Compra Carta");
+        bBuyCard.addActionListener(new StaticActionListener(this));
+        bBuyCard.setActionCommand(TypeAction.BUY_CARD.toString());
+        pActions.add(bBuyCard);
+        bBuyCard.setEnabled(false);
 
-        BJoinSheeps = new JButton("Accoppia Ovini");
-        BJoinSheeps.addActionListener(new StaticActionListener(this));
-        BJoinSheeps.setActionCommand(TypeAction.JOIN_SHEEP.toString());
-        PActions.add(BJoinSheeps);
-        BJoinSheeps.setEnabled(false);
+        bJoinSheeps = new JButton("Accoppia Ovini");
+        bJoinSheeps.addActionListener(new StaticActionListener(this));
+        bJoinSheeps.setActionCommand(TypeAction.JOIN_SHEEP.toString());
+        pActions.add(bJoinSheeps);
+        bJoinSheeps.setEnabled(false);
 
-        BKillSheep = new JButton("Abbatti Ovino");
-        BKillSheep.addActionListener(new StaticActionListener(this));
-        BKillSheep.setActionCommand(TypeAction.KILL_SHEEP.toString());
-        PActions.add(BKillSheep);
-        BKillSheep.setEnabled(false);
+        bKillSheep = new JButton("Abbatti Ovino");
+        bKillSheep.addActionListener(new StaticActionListener(this));
+        bKillSheep.setActionCommand(TypeAction.KILL_SHEEP.toString());
+        pActions.add(bKillSheep);
+        bKillSheep.setEnabled(false);
 
         for (int i = 0; i <= 18; i++) {
             JButton B = new JButton("Terreno" + i);
             B.addActionListener(new StaticTerrainListener(this, i));
             B.setActionCommand("" + i);
-            BTerrain.add(B);
-            PTerrain.add(B);
+            bTerrain.add(B);
+            pTerrain.add(B);
             B.setEnabled(false);
         }
 
@@ -195,47 +195,47 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             JButton B = new JButton("Strada" + i);
             B.addActionListener(new StaticRoadListener(this, i));
             B.setActionCommand("" + i);
-            BRoad.add(B);
-            PRoads.add(B);
+            bRoad.add(B);
+            pRoads.add(B);
             B.setEnabled(false);
         }
 
-        BPlain = new JButton("Pianura");
-        BForest = new JButton("Foresta");
-        BRiver = new JButton("Fiume");
-        BDesert = new JButton("Deserto");
-        BMountain = new JButton("Montagna");
-        BField = new JButton("Campi");
-        BPlain.addActionListener(new StaticTerrainTypeListener(GUI));
-        BForest.addActionListener(new StaticTerrainTypeListener(GUI));
-        BRiver.addActionListener(new StaticTerrainTypeListener(GUI));
-        BDesert.addActionListener(new StaticTerrainTypeListener(GUI));
-        BMountain.addActionListener(new StaticTerrainTypeListener(GUI));
-        BField.addActionListener(new StaticTerrainTypeListener(GUI));
-        BPlain.setActionCommand(TypeCard.PLAIN.toString());
-        BForest.setActionCommand(TypeCard.FOREST.toString());
-        BRiver.setActionCommand(TypeCard.RIVER.toString());
-        BDesert.setActionCommand(TypeCard.DESERT.toString());
-        BMountain.setActionCommand(TypeCard.MOUNTAIN.toString());
-        BField.setActionCommand(TypeCard.FIELD.toString());
-        PTerrainType.add(BPlain);
-        PTerrainType.add(BForest);
-        PTerrainType.add(BRiver);
-        PTerrainType.add(BDesert);
-        PTerrainType.add(BMountain);
-        PTerrainType.add(BField);
-        BPlain.setEnabled(false);
-        BForest.setEnabled(false);
-        BRiver.setEnabled(false);
-        BDesert.setEnabled(false);
-        BMountain.setEnabled(false);
-        BField.setEnabled(false);
+        bPlain = new JButton("Pianura");
+        bForest = new JButton("Foresta");
+        bRiver = new JButton("Fiume");
+        bDesert = new JButton("Deserto");
+        bMountain = new JButton("Montagna");
+        bField = new JButton("Campi");
+        bPlain.addActionListener(new StaticTerrainTypeListener(GUI));
+        bForest.addActionListener(new StaticTerrainTypeListener(GUI));
+        bRiver.addActionListener(new StaticTerrainTypeListener(GUI));
+        bDesert.addActionListener(new StaticTerrainTypeListener(GUI));
+        bMountain.addActionListener(new StaticTerrainTypeListener(GUI));
+        bField.addActionListener(new StaticTerrainTypeListener(GUI));
+        bPlain.setActionCommand(TypeCard.PLAIN.toString());
+        bForest.setActionCommand(TypeCard.FOREST.toString());
+        bRiver.setActionCommand(TypeCard.RIVER.toString());
+        bDesert.setActionCommand(TypeCard.DESERT.toString());
+        bMountain.setActionCommand(TypeCard.MOUNTAIN.toString());
+        bField.setActionCommand(TypeCard.FIELD.toString());
+        pTerrainType.add(bPlain);
+        pTerrainType.add(bForest);
+        pTerrainType.add(bRiver);
+        pTerrainType.add(bDesert);
+        pTerrainType.add(bMountain);
+        pTerrainType.add(bField);
+        bPlain.setEnabled(false);
+        bForest.setEnabled(false);
+        bRiver.setEnabled(false);
+        bDesert.setEnabled(false);
+        bMountain.setEnabled(false);
+        bField.setEnabled(false);
 
         file.add(eMenuFileItem);
         menubar.add(file);
         setJMenuBar(menubar);
 
-        state = state.WAITINGFOROTHERPLAYER;
+        state = GUIState.WAITINGFOROTHERPLAYER;
 
         setTitle("SheepLand");
 
@@ -252,9 +252,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         setVisible(true);
         pack();
 
-        Dimension size = BMoveShepard.getSize();
-        BMoveShepard.setMaximumSize(size);
-        BMoveShepard.setMinimumSize(size);
+        Dimension size = bMoveShepard.getSize();
+        bMoveShepard.setMaximumSize(size);
+        bMoveShepard.setMinimumSize(size);
 
     }
 
@@ -262,7 +262,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * Metodo chiamato quando si vuole far iniziare il turno al giocatore
      */
     public void clickAction() {
-        LAction1.setText("E' il tuo Turno!");
+        lAction1.setText("E' il tuo Turno!");
         activateActions(true);
     }
 
@@ -272,11 +272,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param val true si attivano, false si disattivano
      */
     public void activateActions(boolean val) {
-        BMoveShepard.setEnabled(val);
-        BMoveSheep.setEnabled(val);
-        BBuyCard.setEnabled(val);
-        BJoinSheeps.setEnabled(val);
-        BKillSheep.setEnabled(val);
+        bMoveShepard.setEnabled(val);
+        bMoveSheep.setEnabled(val);
+        bBuyCard.setEnabled(val);
+        bJoinSheeps.setEnabled(val);
+        bKillSheep.setEnabled(val);
     }
 
     /**
@@ -286,8 +286,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void activateRoads(boolean val) {
         for (int i = 0; i <= 41; i++) {
-            if (roadsWithFence[i] == false) {
-                BRoad.get(i).setEnabled(val);
+            if (!roadsWithFence[i]) {
+                bRoad.get(i).setEnabled(val);
             }
         }
     }
@@ -299,7 +299,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void activateTerrains(boolean val) {
         for (int i = 0; i <= 18; i++) {
-            BTerrain.get(i).setEnabled(val);
+            bTerrain.get(i).setEnabled(val);
         }
     }
 
@@ -310,12 +310,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void activateTerrainType(boolean val) {
 
-        BPlain.setEnabled(val);
-        BForest.setEnabled(val);
-        BRiver.setEnabled(val);
-        BDesert.setEnabled(val);
-        BMountain.setEnabled(val);
-        BField.setEnabled(val);
+        bPlain.setEnabled(val);
+        bForest.setEnabled(val);
+        bRiver.setEnabled(val);
+        bDesert.setEnabled(val);
+        bMountain.setEnabled(val);
+        bField.setEnabled(val);
 
     }
 
@@ -330,7 +330,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         animalsInDropDown.clear();
 
         int itemCount = sheepDropDown.getItemCount();
-        for (int i = 0; i < itemCount - 1; i++) {
+        itemCount = itemCount -1;
+        for (int i = 0; i < itemCount; i++) {
             sheepDropDown.removeItemAt(0);
         }
 
@@ -345,7 +346,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         }
 
         if (sheepCount == 0) {
-            LAction3.setText("In quel territorio non ci sono Ovini! Ritenta la mossa");
+            lAction3.setText("In quel territorio non ci sono Ovini! Ritenta la mossa");
             activateTerrains(true);
         } else {
             for (ViewAnimal ele2 : animalsInDropDown) {
@@ -382,7 +383,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         shepardsInDropDown.clear();
 
         int itemCount = sheepDropDown.getItemCount();
-        for (int i = 0; i < itemCount - 1; i++) {
+        itemCount = itemCount -1;
+        for (int i = 0; i < itemCount; i++) {
             sheepDropDown.removeItemAt(0);
         }
 
@@ -421,7 +423,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             this.coins = this.coins - coins;
         }
 
-        LCoins.setText("Monete : " + this.coins);
+        lCoins.setText("Monete : " + this.coins);
     }
 
     /**
@@ -434,22 +436,22 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         if (TypeCard.PLAIN.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(0, isSold);
-            LTerrainCards[0].setText("Carte Pianura: " + cards[0]);
+            lTerrainCards[0].setText("Carte Pianura: " + cards[0]);
         } else if (TypeCard.FOREST.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(1, isSold);
-            LTerrainCards[1].setText("Carte Foresta: " + cards[1]);
+            lTerrainCards[1].setText("Carte Foresta: " + cards[1]);
         } else if (TypeCard.RIVER.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(2, isSold);
-            LTerrainCards[2].setText("Carte Fiume: " + cards[2]);
+            lTerrainCards[2].setText("Carte Fiume: " + cards[2]);
         } else if (TypeCard.DESERT.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(3, isSold);
-            LTerrainCards[3].setText("Carte Deserto: " + cards[3]);
+            lTerrainCards[3].setText("Carte Deserto: " + cards[3]);
         } else if (TypeCard.MOUNTAIN.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(4, isSold);
-            LTerrainCards[4].setText("Carte Montagna: " + cards[4]);
+            lTerrainCards[4].setText("Carte Montagna: " + cards[4]);
         } else if (TypeCard.FIELD.toString().equals(typeOfTerrain)) {
             serviceRefreshCards(5, isSold);
-            LTerrainCards[5].setText("Carte Campi: " + cards[5]);
+            lTerrainCards[5].setText("Carte Campi: " + cards[5]);
         }
     }
 
@@ -470,15 +472,15 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void refreshMoveAnimal(int id, int terrain) {
         if (id >= 0) {
-            LAction2.setText("Animale " + id + "è stato mosso in terreno " + terrain);
+            lAction2.setText("Animale " + id + "è stato mosso in terreno " + terrain);
             ViewAnimal sheep = idToViewSheep(id);
             sheep.setPosition(terrain);
         } else if (id == -1) {//caso BlackSheep
-            LAction3.setText("La pecora nera si è mossa in terreno " + terrain);
+            lAction3.setText("La pecora nera si è mossa in terreno " + terrain);
             ViewAnimal blackSheep = idToViewSheep(id);
             blackSheep.setPosition(terrain);
         } else if (id == -2) {//caso BlackSheep
-            LAction2.setText("Il Lupo si è mosso in terreno " + terrain);
+            lAction2.setText("Il Lupo si è mosso in terreno " + terrain);
             ViewAnimal blackSheep = idToViewSheep(id);
             blackSheep.setPosition(terrain);
         }
@@ -501,7 +503,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
                 || TypeAnimal.RAM.toString().equals(animalType)
                 || TypeAnimal.LAMB.toString().equals(animalType)) {
             animals.add(new ViewAnimal(i, terrain, animalType));
-            LAction2.setText("E' nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
+            lAction2.setText("E' nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
         }
     }
 
@@ -513,7 +515,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     public void refreshKillAnimal(int id) {
         ViewAnimal sheepToKill = idToViewSheep(id);
         animals.remove(sheepToKill);
-        LAction2.setText("E' stato ucciso l'Animale numero " + id);
+        lAction2.setText("E' stato ucciso l'Animale numero " + id);
     }
 
     /**
@@ -525,7 +527,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     public void refreshTransformAnimal(int id, String kind) {
         ViewAnimal sheepGrowing = idToViewSheep(id);
         sheepGrowing.setType(kind);
-        LAction3.setText("Sono cresciuti degli animali! ");
+        lAction3.setText("Sono cresciuti degli animali! ");
     }
 
     /**
@@ -540,16 +542,16 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         if (id == tempIdShepard) {
 
             newShep.setIsOwned(true);
-            if (firstShepard == true) {
+            if (firstShepard) {
                 newShep.setIsFirst(true);
-                LShepard1.setText("Primo pastore in posizione nel terreno numero: " + newShep.getPostition());
+                lShepard1.setText("Primo pastore in posizione nel terreno numero: " + newShep.getPostition());
                 firstShepard = false;
             } else {
                 newShep.setIsFirst(false);
-                LShepard2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
+                lShepard2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
             }
         }
-        LAction2.setText("E' stato aggiunto un Pastore sulla strada " + road);
+        lAction2.setText("E' stato aggiunto un Pastore sulla strada " + road);
         //TODO anche nel placeshepard mi deve passare l'id così poi qui la riconosco e aggiungo lo shep alla lista di proprietà
     }
 
@@ -564,14 +566,14 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         ViewShepard shepard = idToViewShepard(id);
         int pos = shepard.getPostition();
         roadsWithFence[pos] = true;
-        BRoad.get(pos).setText("Coperta da Cancello");
+        bRoad.get(pos).setText("Coperta da Cancello");
         shepard.setPostition(road);
-        LAction2.setText("E' stato mosso un Pastore sulla strada " + road);
+        lAction2.setText("E' stato mosso un Pastore sulla strada " + road);
 
         if (shepard.isIsFirst()) {
-            LShepard1.setText("Primo pastore in posizione nel terreno numero: " + shepard.getPostition());
+            lShepard1.setText("Primo pastore in posizione nel terreno numero: " + shepard.getPostition());
         } else {
-            LShepard2.setText("Secondo pastore in posizione nel terreno numero: " + shepard.getPostition());
+            lShepard2.setText("Secondo pastore in posizione nel terreno numero: " + shepard.getPostition());
         }
 
     }
@@ -583,9 +585,9 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      */
     public void declareWinner(boolean isWinner) {
         if (isWinner) {
-            LAction3.setText("HAI VINTO!!!!");
+            lAction3.setText("HAI VINTO!!!!");
         } else {
-            LAction3.setText("Un altro giocatore ha vinto :(");
+            lAction3.setText("Un altro giocatore ha vinto :(");
         }
     }
 
@@ -595,7 +597,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param message stringa da stampare
      */
     public void errorMessage(String message) {
-        LAction3.setText(message);
+        lAction3.setText(message);
         GUI.activateDropDown(false);
         GUI.activateActions(true);
     }
@@ -651,7 +653,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param id id of the shepherd
      */
     public void placeShepard(int id) {
-        LAction2.setText("Selezionare strada dove piazzare Pastore");
+        lAction2.setText("Selezionare strada dove piazzare Pastore");
         state = GUIState.PLACESHEPARD;
         if (tempIdShepard == -1) {
             firstShepard = true;
@@ -697,8 +699,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * Setter per scrivere sulla label
      * @param LAction2 
      */
-    public void setLAction2(JLabel LAction2) {
-        this.LAction2 = LAction2;
+    public void setLAction2(JLabel lAction2) {
+        this.lAction2 = lAction2;
     }
     
     /**
@@ -706,7 +708,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @return Label
      */
     public JLabel getLAction2() {
-        return LAction2;
+        return lAction2;
     }
 
     /**

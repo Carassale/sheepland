@@ -10,21 +10,18 @@ import javax.swing.JFrame;
  */
 public class GUIDinamicCardListener extends JFrame implements ActionListener {
 
-    private GUIDinamic GUI;
-    private int number;
-    private String type;
+    private final GUIDinamic GUI;
+    private final String type;
 
     /**
      * Constructor
-     * @param GUI GUI Dynaic
-     * @param num the number of card
+     * @param gui GUI Dynaic
      * @param type type of card
      */
-    public GUIDinamicCardListener(GUIDinamic GUI, int num, String type) {
+    public GUIDinamicCardListener(GUIDinamic gui, String type) {
 
         this.type = type;
-        this.GUI = GUI;
-        this.number = num;
+        this.GUI = gui;
     }
 
     public void actionPerformed(ActionEvent e) {
