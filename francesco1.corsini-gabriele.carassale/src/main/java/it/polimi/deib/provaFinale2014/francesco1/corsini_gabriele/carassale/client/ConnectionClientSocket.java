@@ -56,7 +56,8 @@ public class ConnectionClientSocket implements ConnectionClient {
      * Resta in attesa di un comando da parte del Server
      */
     public void waitLine() {
-        while (true) {
+        boolean gameFinish = false;
+        while (!gameFinish) {
             try {
                 String s = inSocket.readLine();
                 if (TypeAction.WAKE_UP.toString().equals(s)) {
@@ -95,6 +96,7 @@ public class ConnectionClientSocket implements ConnectionClient {
                     refreshCoin();
                 } else if (TypeAction.REFRESH_WINNER.toString().equals(s)) {
                     refreshWinner();
+                    gameFinish = true;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);

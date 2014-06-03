@@ -419,7 +419,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Invia a tutti i client il pastore aggiunto
+     * Invia a tutti i client il pastore aggiunto chiamando il metodo single
+     * Refresh add shepard
      *
      * @param idShepard Pastore aggiunto
      * @param idRoad Strada posizionamento
@@ -435,6 +436,14 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * Invia al player scelto il pastore aggiunto
+     *
+     * @param playerConnection Player a cui inviare il refresh
+     * @param idShepard Pastore aggiunto
+     * @param idRoad Strada posizionamento
+     * @param isMine True se è del player selezionato
+     */
     private void singeRefreshAddShepard(PlayerConnectionSocket playerConnection,
             int idShepard, int idRoad, boolean isMine) {
         playerConnection.printLn(TypeAction.REFRESH_ADD_SHEPARD.toString());
@@ -463,9 +472,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Invia a tutti i client l'animale aggiunto
+     * Invia a tutti i client l'animale aggiunto chiamando il metodo single
+     * Refresh add animal
      *
-     * @param idAnimal
+     * @param idAnimal Animale da aggiungere
      * @param idTerrain Terreno destinazione
      * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
      */
@@ -476,6 +486,14 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * Invia al player scelto l'animale aggiunto
+     *
+     * @param playerConnection Player a cui inviare
+     * @param idAnimal Animale aggiunto
+     * @param idTerrain Terreno posizionamento
+     * @param kind Tipo di animale (blackSheep, whiteSheep, lamb, ram, wolf)
+     */
     private void singleRefreshAddAnimal(PlayerConnectionSocket playerConnection, int idAnimal, int idTerrain, String kind) {
         playerConnection.printLn(TypeAction.REFRESH_ADD_ANIMAL.toString());
         playerConnection.printLn(idAnimal);
@@ -522,6 +540,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         refreshCard(currentPlayer, kind, isSold);
     }
 
+    /**
+     * Invia al player scelto la carta comprata o venduta
+     *
+     * @param playerConnection Player a cui mandare
+     * @param kind Tipo di carta
+     * @param isSold True se è venduta
+     */
     private void refreshCard(PlayerConnectionSocket playerConnection, String kind, boolean isSold) {
         playerConnection.printLn(TypeAction.REFRESH_CARD.toString());
         playerConnection.printLn(kind);
@@ -545,6 +570,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         refreshCoin(currentPlayer, coins, addCoin);
     }
 
+    /**
+     * Invia al player scelto le monete da aggiungere o rimuovere
+     *
+     * @param playerConnection Player scelto
+     * @param coins Valore dei coin
+     * @param addCoin True se vanno aggiunti
+     */
     private void refreshCoin(PlayerConnectionSocket playerConnection, int coins, boolean addCoin) {
         playerConnection.printLn(TypeAction.REFRESH_COIN.toString());
         playerConnection.printLn(coins);
@@ -557,6 +589,11 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * Invia al player scelto il refresh di tutte le fance indicandone la strada
+     *
+     * @param playerConnection Player scelto
+     */
     private void refreshAllFence(PlayerConnectionSocket playerConnection) {
         for (Road road : gameController.getGameTable().getMap().getRoads()) {
             if (road.hasFence()) {
@@ -566,6 +603,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * Invia a tutti i player la loro posizione in classifica e la posizione
+     * finale
+     */
     public void refreshWinner() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             for (PlayerConnectionSocket playerConnection : playerConnections) {
@@ -662,6 +703,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         startThread();
     }
 
+    /**
+     * Viene chiamato nel caso il client si sia disconnesso, modifica i valori
+     * onLine nella hash map e nel game controller
+     */
     public void clientDisconnesso() {
         map.setOnLine(currentPlayer.getNickname(), false);
         for (Player player : gameController.getPlayerPool().getPlayers()) {
