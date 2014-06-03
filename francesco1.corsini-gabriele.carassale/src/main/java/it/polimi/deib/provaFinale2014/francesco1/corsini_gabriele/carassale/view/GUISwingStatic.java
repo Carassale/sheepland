@@ -804,21 +804,36 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Method to update text
+     * TODO comment
      * @param message text to show
      */
     public void messageText(String message) {
        //TODO
     }
 
+    /**
+     * TODO doc
+     * @param idShepard
+     * @param road
+     * @param isMine 
+     */
     public void refreshAddShepard(int idShepard, int road, boolean isMine) {
        //TODO
     }
     
+    /**
+     * TODO doc
+     * @param position
+     * @param score 
+     */
     public void refreshWinner(int position, int score){
         //TODO
     }
 
+    /**
+     * TODO doc
+     * @param idRoad 
+     */
     public void refreshAddFence(int idRoad) {
         //TODO
     }

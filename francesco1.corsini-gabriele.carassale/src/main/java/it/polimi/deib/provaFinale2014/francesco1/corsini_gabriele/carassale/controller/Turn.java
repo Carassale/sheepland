@@ -6,6 +6,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,7 +114,13 @@ public class Turn {
                 ele.growUpOneTurn();
                 //se non è più lamb allora è cresciuto
                 if (!ele.isLamb()) {
-                    connectionManager.refreshTransformAnimal(ele.getId(), ele.randomSex());
+                    String kind;
+                    if (ele.isRam()) {
+                        kind = TypeAnimal.RAM.toString();
+                    } else {
+                        kind = TypeAnimal.WHITE_SHEEP.toString();
+                    }
+                    connectionManager.refreshTransformAnimal(ele.getId(), kind);
                 }
             }
         }

@@ -105,9 +105,7 @@ public class DimanicSheepTypeButton extends JPanel {
      * Method to calculate the types of the sheep present on the terrain
      */
     public void activateTypeButton() {
-        //prima li disattivo(la stringa non importa nel caso false)
-        GUI.activateSheepType(terrain,false ,TypeAnimal.WHITE_SHEEP.toString());
-        //poi li riattivo
+        
         for (ViewAnimal ele : GUI.getAnimals()) {
             if (TypeAnimal.WHITE_SHEEP.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
                         selectedAnimal = ele;
@@ -116,8 +114,7 @@ public class DimanicSheepTypeButton extends JPanel {
             } else if (TypeAnimal.LAMB.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.LAMB.toString())) {
                         selectedAnimal = ele;
                         GUI.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
-                        isVisible = true;
-                    
+                        isVisible = true;          
             } else if (TypeAnimal.RAM.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.RAM.toString())) {
                         selectedAnimal = ele;
                         GUI.activateSheepType(terrain, true,TypeAnimal.RAM.toString());
