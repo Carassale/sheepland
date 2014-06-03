@@ -25,7 +25,7 @@ import javax.swing.JLayeredPane;
  */
 public class GUIDinamic extends JFrame implements TypeOfInteraction {
     
-    private final ConnectionClient connectionClient;
+    private ConnectionClient connectionClient;
     
     private GUIDinamicState state;
     
@@ -87,6 +87,17 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public GUIDinamic(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
+        imagePool = new BufferedImageContainer();
+        fenceNumber = 20;
+        
+        state = GUIDinamicState.INITIALIZATION;
+        createAndShowGUI();
+    }
+    
+    /**
+     * Costruttore usato solo nei test
+     */
+    public GUIDinamic(){
         imagePool = new BufferedImageContainer();
         fenceNumber = 20;
         
@@ -631,9 +642,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     /**
      * Method called to calculate and activate the SheepType buttons
      * @param i the territory to calc
-     * @param val true to show, false to hide
      */
-    public void activateSheepTypeButton(int i, boolean val) {
+    public void activateSheepTypeButton(int i) {
         jlabelWhiteSheep[i].activateTypeButton();
         jlabelRam[i].activateTypeButton();
         jlabelLamb[i].activateTypeButton();
@@ -677,6 +687,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void activateWolf(int terrain) {
         jlabelWolf[wolfActive].setVisible(false);
+        for (ViewAnimal ele : animals) {
+                //id del wolf
+                if (ele.getId() == -2) {
+                    ele.setPosition(terrain);
+                }
+            }
         wolfActive = terrain;
         jlabelWolf[terrain].setVisible(true);
     }
@@ -687,6 +703,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void activateBlackSheep(int terrain) {
         jlabelBlackSheep[blackSheepActive].setVisible(false);
+        for (ViewAnimal ele : animals) {
+                //id della blacksheep
+                if (ele.getId() == -1) {
+                    ele.setPosition(terrain);
+                }
+            }
         blackSheepActive = terrain;
         jlabelBlackSheep[terrain].setVisible(true);
     }
@@ -1140,5 +1162,15 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public void setAnimals(ArrayList<ViewAnimal> animals) {
         this.animals = animals;
     }
+
+    /**
+     * Getter used only for testing purpose
+     * @return the arraylist of the buttons
+     */
+    public DinamicRoadButton[] getRoads() {
+        return roads;
+    }
+    
+    
     
 }

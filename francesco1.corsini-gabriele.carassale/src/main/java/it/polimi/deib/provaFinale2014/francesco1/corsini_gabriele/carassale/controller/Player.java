@@ -71,14 +71,26 @@ public class Player {
         return finalPosition;
     }
 
+    /**
+     * Setter della posizione finale, il primo ha valore 1
+     * @param finalPosition 
+     */
     public void setFinalPosition(int finalPosition) {
         this.finalPosition = finalPosition;
     }
 
+    /**
+     * Getter chiamato per calcolare lo score finale
+     * @return score del giocatore
+     */
     public int getFinalScore() {
         return finalScore;
     }
 
+    /**
+     * Setter per immettere il punteggio
+     * @param finalScore punteggio
+     */
     public void setFinalScore(int finalScore) {
         this.finalScore = finalScore;
     }

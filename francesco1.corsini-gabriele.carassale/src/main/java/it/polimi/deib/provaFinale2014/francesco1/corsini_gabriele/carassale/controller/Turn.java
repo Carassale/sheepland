@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,10 +19,11 @@ public class Turn {
     private boolean forceLastRound;
     private final GameTable game;
     private final Dice dice;
-    private ConnectionManager connectionManager;
+    private final ConnectionManager connectionManager;
 
     /**
      * Costruttore solo per eseguire i Test(non ha il connectionManager)
+     *
      * @param isLastTurn
      * @param gameTable
      */
@@ -38,8 +40,7 @@ public class Turn {
     /**
      * Costruttore
      *
-     * @param isLastTurn true se è un turno dell'ultimo giro(verranno messe le
-     * Fence finali)
+     * @param isLastTurn true se è un turno dell'ultimo giro
      * @param gameTable gioco su cui si sta giocando
      * @param connectionManager dove sono tutte le connessioni
      */
@@ -61,7 +62,7 @@ public class Turn {
      */
     public boolean playTurn() {
         moveBlackSheep();
-
+        growUpLambs();
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
         if (connectionManager != null) {
             connectionManager.startAction();
@@ -98,6 +99,24 @@ public class Turn {
             return false;
         }
 
+    }
+
+    /**
+     * Metodo che fa crescere tutti gli agnelli di 1 turno e se ne trova uno
+     * abbastanza grande lo fa diventare pecora o montone
+     */
+    protected void growUpLambs() {
+        //è protected per poterlo testare
+        for (Sheep ele : game.getSheeps()) {
+            //se è un lamb lo faccio crescere 
+            if (ele.isLamb()) {
+                ele.growUpOneTurn();
+                //se non è più lamb allora è cresciuto
+                if (!ele.isLamb()) {
+                    connectionManager.refreshTransformAnimal(ele.getId(), ele.randomSex());
+                }
+            }
+        }
     }
 
 }

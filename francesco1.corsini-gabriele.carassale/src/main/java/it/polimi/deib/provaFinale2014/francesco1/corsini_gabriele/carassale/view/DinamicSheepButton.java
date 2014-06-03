@@ -101,7 +101,7 @@ public class DinamicSheepButton extends JButton {
                     GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
                     GUI.sendMoveSheep(terrain);//TODO finish
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
-                    GUI.activateSheepTypeButton(terrain, true);
+                    GUI.activateSheepTypeButton(terrain);
                     GUI.setSubMenuOpen(terrain);
                     GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {

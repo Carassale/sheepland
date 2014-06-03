@@ -7,6 +7,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -64,6 +65,29 @@ public class TurnTest {
         } else {
             assertSame(terrainToPlace, blackSheep.getPosition());
         }
+    }
+    
+    @Test
+    public void testGrowUpLamb(){
+        boolean isThereLamb = false;
+        int age = 0;
+        Sheep lamb = null;
+        //cerco nella mappa un lamb(prenderò ultimo nella lista)
+        for(Sheep ele : game.getSheeps()){
+            if(ele.isLamb()){
+                lamb = ele;
+                isThereLamb = true;
+
+            }
+        }
+        //se non c'erano agnelli termino
+        if(!isThereLamb){
+            assertTrue(true);
+        }
+        age = lamb.getAge();
+        turn.growUpLambs();
+        assertEquals(age+1,lamb.getAge());
+        
     }
 
 }

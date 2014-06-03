@@ -45,10 +45,13 @@ public class Sheep extends Animal {
     }
 
     /**
+     * Restituisce un genere casuale quando cresce. E' public poiché può anche
+     * crescere in mezzo alla partita(e quindi è chiamato dal Turn)
      *
      * @return Stringa con maschi o femmina
      */
-    private String randomSex() {
+    public String randomSex() {
+        //è public poichè vedi doc.
         if (Math.random() < 0.5) {
             return TypeAnimal.FEMALE.toString();
         } else {

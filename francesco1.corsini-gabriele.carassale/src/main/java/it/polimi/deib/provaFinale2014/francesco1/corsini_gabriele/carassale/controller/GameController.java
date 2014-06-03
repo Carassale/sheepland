@@ -60,7 +60,7 @@ public class GameController {
     /**
      * Metodo che crea e chiama i vari Turn dei singoli giocatori nel singolo
      * Round.(se 4 giocatori ==> 4 Turns = 1 Round ) Il isGameOver serve sia
-     * come costruttore del Turn(serve per sapere se utilizzare Fence Finali)
+     * come costruttore del Turn
      * sia come ritorno al PlayGame che così smetterà di richiamare questo
      * metodo
      *

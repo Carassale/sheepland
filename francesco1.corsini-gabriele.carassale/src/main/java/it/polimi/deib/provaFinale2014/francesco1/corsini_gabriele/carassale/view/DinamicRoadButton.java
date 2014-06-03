@@ -25,6 +25,8 @@ public class DinamicRoadButton extends JPanel {
     private boolean isShepard;
     private boolean isMouseOver = false;
     private final BufferedImageContainer imagePool;
+    //principalmente usato per i test
+    private boolean hasFence;
 
     /**
      * Constructor
@@ -37,7 +39,8 @@ public class DinamicRoadButton extends JPanel {
         road = num;
         this.GUI = aThis;
         this.imagePool = imagePool;
-
+        
+        hasFence = false;
         isShepard = false;
         icon = imagePool.getTransparent();
 
@@ -94,6 +97,7 @@ public class DinamicRoadButton extends JPanel {
         icon = imagePool.getFence();
         isShepard = false;
         idShepard = -1;
+        hasFence = true;
         repaint();
 
     }
@@ -115,6 +119,25 @@ public class DinamicRoadButton extends JPanel {
     public void setIsShepard(boolean isShepard) {
         this.isShepard = isShepard;
     }
+
+    /**
+     * Getter used mainly for testing purpose 
+     * @return true if it has fence
+     */
+    public boolean isHasFence() {
+        return hasFence;
+    }
+    
+    /**
+     * Setter used mainly for testing purpose 
+     * @param val val to set
+     */
+    public void setHasFence(boolean val) {
+        hasFence = val;
+    }
+    
+    
+    
 
     private class DinamicRoadButtonListener implements MouseListener {
 
