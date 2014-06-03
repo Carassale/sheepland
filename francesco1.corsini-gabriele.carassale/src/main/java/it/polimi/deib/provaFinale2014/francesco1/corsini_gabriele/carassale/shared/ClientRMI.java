@@ -166,4 +166,13 @@ public interface ClientRMI extends Remote {
      * @throws java.rmi.RemoteException
      */
     void refreshWinner(int finalPosition, int finalScore) throws RemoteException;
+
+    /**
+     * Viene chiamato dal connectionManagerRMI, controlla se il client è pronto
+     * a ricevere comandi
+     *
+     * @return True se è pronto
+     * @throws RemoteException
+     */
+    boolean isReady() throws RemoteException;
 }

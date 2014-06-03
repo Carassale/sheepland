@@ -17,7 +17,7 @@ public abstract class Animal {
     }
 
     /**
-     * Metodo in comune a tutti gli animali
+     * Method in comune a tutti gli animali
      *
      * @return è il Terrain dove si trova l'animale
      */
@@ -26,7 +26,7 @@ public abstract class Animal {
     }
 
     /**
-     * Metodo in comune a tutti gli animali, setta il terreno passato come
+     * Method in comune a tutti gli animali, setta il terreno passato come
      * parametro
      *
      * @param val è il Terrain da settare

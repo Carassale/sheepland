@@ -14,19 +14,20 @@ import java.util.logging.Logger;
 
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
- * ConnectionManager nel caso sia stato scelto il metodo RMI
+ * ConnectionManager nel caso sia stato scelto il method RMI
  *
  * @author Carassale Gabriele
  */
 public class ConnectionClientRMI extends UnicastRemoteObject implements ConnectionClient, ClientRMI {
 
     private TypeOfInteraction typeOfInteraction;
+    private boolean isReady = false;
     private Object objectSyncronize = new Object();
 
     private static final int PORT = 3001;
 
     /**
-     * Questa variabile server solo per il metodo placeShepard, serve per
+     * Questa variabile server solo per il method placeShepard, serve per
      * aspettare la scelta del clinet
      */
     private Integer tempRoad = null;
@@ -69,6 +70,17 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
         this.typeOfInteraction = typeOfInteraction;
+        isReady = true;
+    }
+
+    /**
+     * Viene chiamato dal connection client per sapere se è pronto a ricevere
+     * comandi
+     *
+     * @return isReady
+     */
+    public boolean isReady() {
+        return isReady;
     }
 
     /**
@@ -92,7 +104,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
-     * questo caso il metodo è muovi il pastore
+     * questo caso il method è muovi il pastore
      *
      * @param idShepard Pastore da muovere
      * @param idRoad Strada destinazione
@@ -112,7 +124,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
-     * questo caso il metodo è muovi pecora
+     * questo caso il method è muovi pecora
      *
      * @param idSheep Pecora da muovere
      * @param idTerrain Terreno destinazione
@@ -132,7 +144,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
-     * questo caso il metodo è compra una carta
+     * questo caso il method è compra una carta
      *
      * @param typeOfTerrain Tipo di carta da comprare
      */
@@ -151,7 +163,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
-     * questo caso il metodo è uccidi pecora
+     * questo caso il method è uccidi pecora
      *
      * @param idSheep Pecora da uccidere
      */
@@ -171,7 +183,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
-     * questo caso il metodo è accoppia ovini
+     * questo caso il method è accoppia ovini
      *
      * @param idTerrain Terreno dove sono presenti un montone e una pecora
      */
@@ -190,7 +202,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è clickAction e server a risvegliare il client e
+     * questo caso il method è clickAction e server a risvegliare il client e
      * chiede la mossa che disidera fare
      *
      * @throws RemoteException
@@ -201,7 +213,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è un messaggio per errore di monete
+     * questo caso il method è un messaggio per errore di monete
      *
      * @param message Messaggio da mostrare
      * @throws RemoteException
@@ -212,7 +224,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è un messaggio per errore di movimento
+     * questo caso il method è un messaggio per errore di movimento
      *
      * @param message Messaggio da mostrare
      * @throws RemoteException
@@ -223,7 +235,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è un messaggio per errore di fine carte
+     * questo caso il method è un messaggio per errore di fine carte
      *
      * @param message Messaggio da mostrare
      * @throws RemoteException
@@ -234,7 +246,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è un messaggio per errore di dado
+     * questo caso il method è un messaggio per errore di dado
      *
      * @param message Messaggio da mostrare
      * @throws RemoteException
@@ -245,7 +257,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è posiziona pastore
+     * questo caso il method è posiziona pastore
      *
      * @param idShepard Pastore da posizionare
      * @return Strada scelta dal client
@@ -270,7 +282,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh sul movimento dell'animale
+     * questo caso il method è refresh sul movimento dell'animale
      *
      * @param idAnimal Animale da spostare
      * @param idTerrain Terreno destinazione
@@ -282,7 +294,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh sull'aggiunta dell'animale
+     * questo caso il method è refresh sull'aggiunta dell'animale
      *
      * @param idAnimal Animale da aggiungere
      * @param idTerrain Terreno in cui aggiungere
@@ -295,7 +307,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh cancella animale
+     * questo caso il method è refresh cancella animale
      *
      * @param idAnimal Animale da cancellare
      * @throws RemoteException
@@ -306,7 +318,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh trasforma animale
+     * questo caso il method è refresh trasforma animale
      *
      * @param idAnimal Animale da trasformare
      * @param kind Tipo di trasformazione finale
@@ -318,7 +330,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh aggiungi pastore
+     * questo caso il method è refresh aggiungi pastore
      *
      * @param idShepard Pastore da aggiungere
      * @param idRoad Strada posizionamento
@@ -331,7 +343,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh muovi pastore
+     * questo caso il method è refresh muovi pastore
      *
      * @param idShepard Pastore da muovere
      * @param idRoad Strada destinazione
@@ -343,7 +355,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh carte
+     * questo caso il method è refresh carte
      *
      * @param kind Tipo di carta
      * @param isSold True se è venduta, False se è comprata
@@ -355,7 +367,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh monete
+     * questo caso il method è refresh monete
      *
      * @param coins Monete cambiate
      * @param addCoin True se sono aggiunte, False se vanno levate
@@ -367,7 +379,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh fance
+     * questo caso il method è refresh fance
      *
      * @param idRoad Strada dove posizionare la fance
      * @throws RemoteException
@@ -378,7 +390,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il metodo è refresh winner e invia la posizione in classifica
+     * questo caso il method è refresh winner e invia la posizione in classifica
      * e il punteggio
      *
      * @param finalPosition Posizione in classifica

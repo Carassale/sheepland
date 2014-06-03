@@ -127,7 +127,7 @@ public class Player {
     }
 
     /**
-     * Metodo che permette al giocatore di comprare una carta terreno
+     * Method che permette al giocatore di comprare una carta terreno
      *
      * @param terrainKind la tipologia di terreno che si intende comprare
      * @param game il gameTable su cui si sta giocando
@@ -154,7 +154,7 @@ public class Player {
     }
 
     /**
-     * Metodo che muove un pastore da una strada ad un altra
+     * Method che muove un pastore da una strada ad un altra
      *
      * @param destination strada destinazione
      * @param shepard pastore da muovere
@@ -186,7 +186,7 @@ public class Player {
     }
 
     /**
-     * Metodo per muove pecora tra due territori con in mezzo un pastore
+     * Method per muove pecora tra due territori con in mezzo un pastore
      *
      * @param sheep pecora da muovere
      * @param destination dove si vuole muovere
@@ -209,7 +209,7 @@ public class Player {
 
     //TODO lancio dado per vedere se si accoppiano
     /**
-     * Metodo per fare accoppiare una pecora ed un montone e generare un agnello
+     * Method per fare accoppiare una pecora ed un montone e generare un agnello
      *
      * @param terrain terreno dove sono gli animali
      * @param game gioco su cui si sta giocando
@@ -251,7 +251,7 @@ public class Player {
     }
 
     /**
-     * Metodo per fare abbattimento di pecora
+     * Method per fare abbattimento di pecora
      *
      * @param sheepToKill pecora da abbattere
      * @param game gioco su cui si sta giocando
@@ -304,7 +304,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da moveShepard che serve a vedere se la
+     * Method di servizio utilizzato da moveShepard che serve a vedere se la
      * destinazione è valida
      *
      * @param destination
@@ -320,7 +320,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da moveSheep che serve a vedere se la mossa
+     * Method di servizio utilizzato da moveSheep che serve a vedere se la mossa
      * è valida
      *
      * @param terrainSheep terreno dove è la sheep
@@ -353,7 +353,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da moveSheepOnRoad per vedere se sulla
+     * Method di servizio utilizzato da moveSheepOnRoad per vedere se sulla
      * strada dove devono trasitare le pecore c'è un pastore del giocatore che
      * ha richiesto la mossa
      *
@@ -373,7 +373,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da joinSheeps e per controllare se c'è una
+     * Method di servizio utilizzato da joinSheeps e per controllare se c'è una
      * pecora ed un montone sul terreno
      *
      * @param terrain terreno da controllare
@@ -398,7 +398,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da joinSheeps e da killAnimal per
+     * Method di servizio utilizzato da joinSheeps e da killAnimal per
      * controllare se c'è un pastore in una strada confinante
      *
      * @param terrain terreno su cui cercheremo
@@ -419,7 +419,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da killAnimal per contare pastori
+     * Method di servizio utilizzato da killAnimal per contare pastori
      *
      * @param terrain dove contare
      * @return num pastori
@@ -436,7 +436,7 @@ public class Player {
     }
 
     /**
-     * Metodo di servizio utilizzato da joinSheeps e da killAnimal per vedere se
+     * Method di servizio utilizzato da joinSheeps e da killAnimal per vedere se
      * un tiro di dado corrisponde alla strada su cui è il pastore
      *
      * @param terrain terreno dove si trova la pecora/e in questione
@@ -458,7 +458,7 @@ public class Player {
     }
 
     /**
-     * Metodo per pagare i pastori
+     * Method per pagare i pastori
      *
      * @param terrain
      * @return La cifra di coin pagati
@@ -546,7 +546,7 @@ public class Player {
     }
 
     /**
-     * Metodo solo per TEST
+     * Method solo per TEST
      *
      * @param sheepToKill pecora da uccidere
      * @param game gameTable del gioco

@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
- * sia stato scelto il metodo RMI
+ * sia stato scelto il tipo RMI
  *
  * @author Carassale Gabriele
  */

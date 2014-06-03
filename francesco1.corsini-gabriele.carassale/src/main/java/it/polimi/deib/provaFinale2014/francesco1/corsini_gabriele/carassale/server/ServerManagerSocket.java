@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Questa classe viene inizializzata direttamente dal main, ha il compito di
  * restare in attesa dei vari socket e ad ogni PAYER4GAME, o meno, avvia una
- * nuova partita. Questa classe viene creata nel sia stato scelto il metodo
+ * nuova partita. Questa classe viene creata nel sia stato scelto il method
  * Socket
  *
  * @author Carassale Gabriele
@@ -62,7 +62,7 @@ public class ServerManagerSocket implements ServerManager {
      * Inizializza l'array contente il numero di ConnctionManager di tipo Socket
      * (rappresentano il numero di partite avviate). Crea un serverSocket in
      * grado di ricevere connessioni in ingresso da parte dei socket dei Client
-     * e avvia il metodo waitPlayer (@override) che aspetta i socket.
+     * e avvia il method waitPlayer (@override) che aspetta i socket.
      */
     public void run() {
         games = new ArrayList<ConnectionManagerSocket>();
@@ -120,8 +120,8 @@ public class ServerManagerSocket implements ServerManager {
     }
 
     /**
-     * È un metodo Synchronized per non permettere che sia uno o entrambi dei
-     * thread e il metodo waitPlayer lo chiamino nello stesso istante, creando
+     * È un method Synchronized per non permettere che sia uno o entrambi dei
+     * thread e il method waitPlayer lo chiamino nello stesso istante, creando
      * quindi più partite con lo stesso Array di playerConnection (un client
      * gioca più partite).
      */
@@ -171,7 +171,7 @@ public class ServerManagerSocket implements ServerManager {
 
     /**
      * Nel caso il client deve essere reindirizzato alla corretta partita,
-     * questo metodo cerca il giocatore all'interno della partita e sostituisce
+     * questo method cerca il giocatore all'interno della partita e sostituisce
      * lo stub
      *
      * @param nickname Nome del client
@@ -191,7 +191,7 @@ public class ServerManagerSocket implements ServerManager {
     }
 
     /**
-     * Viene creato dal metodo waitPlayer e ha lo scopo di avviare la partita
+     * Viene creato dal method waitPlayer e ha lo scopo di avviare la partita
      * nel caso scadi il TIMEOUT
      */
     private class SocketWaitingTimer implements Runnable {
@@ -210,7 +210,7 @@ public class ServerManagerSocket implements ServerManager {
         }
 
         /**
-         * Avvia un timer, una volta scaduto effettua la chiamata al metodo
+         * Avvia un timer, una volta scaduto effettua la chiamata al method
          * runNewGame()
          */
         public void run() {
@@ -229,7 +229,7 @@ public class ServerManagerSocket implements ServerManager {
         }
 
         /**
-         * Blocca il timeout, viene chiamato dal metodo waitPlayer() nel caso
+         * Blocca il timeout, viene chiamato dal method waitPlayer() nel caso
          * sia stato raggiunto il numero massimo di connessioni
          */
         public void stop() {

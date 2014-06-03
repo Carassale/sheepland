@@ -58,11 +58,11 @@ public class GameController {
     }
 
     /**
-     * Metodo che crea e chiama i vari Turn dei singoli giocatori nel singolo
+     * Method che crea e chiama i vari Turn dei singoli giocatori nel singolo
      * Round.(se 4 giocatori ==> 4 Turns = 1 Round ) Il isGameOver serve sia
      * come costruttore del Turn
      * sia come ritorno al PlayGame che così smetterà di richiamare questo
-     * metodo
+     * method
      *
      * @return true se il gioco è finito
      */
@@ -94,7 +94,7 @@ public class GameController {
     }
 
     /**
-     * Metodo che chiama dei Round fino a che il gioco non è finito
+     * Method che chiama dei Round fino a che il gioco non è finito
      */
     public void playGame() {
         boolean isGameOver = false;
@@ -105,7 +105,7 @@ public class GameController {
     }
 
     /**
-     * Metodo per effettuare test
+     * Method per effettuare test
      *
      * @param numTurns
      */
@@ -129,7 +129,7 @@ public class GameController {
     }
 
     /**
-     * Metodo che serve a creare la Plancia di gioco con tutti i suoi
+     * Method che serve a creare la Plancia di gioco con tutti i suoi
      * componenti(Mappa, Animali, Shepards, ecc...) e a distribuire le carte
      * iniziali
      */
@@ -332,7 +332,7 @@ public class GameController {
     }
 
     /**
-     * Metodo che serve a fare la distribuzione iniziale delle carte ai vari
+     * Method che serve a fare la distribuzione iniziale delle carte ai vari
      * giocatori
      */
     private void distributeCard() {
@@ -504,7 +504,7 @@ public class GameController {
     }
 
     /**
-     * Metodo per gestire il market di fine round
+     * Method per gestire il market di fine round
      */
     private void market() {
         //TODO market

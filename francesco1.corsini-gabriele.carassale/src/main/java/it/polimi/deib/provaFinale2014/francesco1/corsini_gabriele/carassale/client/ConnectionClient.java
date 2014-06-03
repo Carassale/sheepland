@@ -12,26 +12,26 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view
 public interface ConnectionClient {
 
     /**
-     * Definisce il metodo per settare il tipo di interfaccia
+     * Definisce il method per settare il tipo di interfaccia
      *
      * @param typeOfInteraction LineCommand, GUISwingStatic, GUIDinamic
      */
     void setTypeOfInteraction(TypeOfInteraction typeOfInteraction);
 
     /**
-     * Definisce il metodo per posizionare il pastore
+     * Definisce il method per posizionare il pastore
      *
      * @param idRoad Strada dove posizionare
      */
     void placeShepard(int idRoad);
 
     /**
-     * Definisce il metodo per aspettare un comando dal server
+     * Definisce il method per aspettare un comando dal server
      */
     void waitLine();
 
     /**
-     * Definisce il metodo per muovere il pastore
+     * Definisce il method per muovere il pastore
      *
      * @param idShepard Pastore da muovere
      * @param idRoad Strada dove posizionare
@@ -39,7 +39,7 @@ public interface ConnectionClient {
     void moveShepard(int idShepard, int idRoad);
 
     /**
-     * Definisce il metodo per muovere la pecora
+     * Definisce il method per muovere la pecora
      *
      * @param idSheep Pecora da muovere
      * @param idTerrain Terreno dove posizionare
@@ -47,21 +47,21 @@ public interface ConnectionClient {
     void moveSheep(int idSheep, int idTerrain);
 
     /**
-     * Definisce il metodo per comprare una carta
+     * Definisce il method per comprare una carta
      *
      * @param typeOfTerrain Tipo di carta da comprare
      */
     void buyCard(String typeOfTerrain);
 
     /**
-     * Definisce il metodo per uccidere una pecora
+     * Definisce il method per uccidere una pecora
      *
      * @param idSheep Pecora da uccidere
      */
     void killSheep(int idSheep);
 
     /**
-     * Definisce il metodo per accoppiare una pecora e un montone
+     * Definisce il method per accoppiare una pecora e un montone
      *
      * @param idTerrain Terreno dove avviene l'accoppiamento
      */

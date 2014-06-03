@@ -20,7 +20,7 @@ public class BlackSheep extends Animal {
     }
 
     /**
-     * Metodo che controlla se bisogna muoversi, viene invocato dal Turn
+     * Method che controlla se bisogna muoversi, viene invocato dal Turn
      *
      * @param num numero uscito dal lancio del dado
      * @return Road la ritorna se ne trova una con il num sopra
@@ -39,7 +39,7 @@ public class BlackSheep extends Animal {
     }
 
     /**
-     * Metodo che muove la pecora alla destinazione
+     * Method che muove la pecora alla destinazione
      *
      * @param moveToRoad è la strada dove deve andare
      */

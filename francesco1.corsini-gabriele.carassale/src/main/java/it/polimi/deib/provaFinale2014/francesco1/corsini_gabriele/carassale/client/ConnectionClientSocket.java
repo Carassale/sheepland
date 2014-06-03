@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 /**
  * Questa classe crea la connessione diretta con il GameController tramite la
- * ConnectionManager nel caso sia stato scelto il metodo Socket
+ * ConnectionManager nel caso sia stato scelto il tipo Socket
  *
  * @author Carassale Gabriele
  */
@@ -29,7 +29,7 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Imposta il socket passato come parametro e lo rende pubblico alla classe,
      * inizializza le due printWriter e i due bufferReader, associa una
-     * TableView, fa partire il metodo waitLine
+     * TableView, fa partire il method waitLine
      *
      * @param socket È il socket associato alla connessione con il Server, li
      * viene passato direttamente dal ConnectionClient

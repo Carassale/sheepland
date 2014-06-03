@@ -64,7 +64,7 @@ public class Wolf extends Animal {
     }
 
     /**
-     * Metodo che controlla se il lupo può mangiare delle pecore nel suo stesso
+     * Method che controlla se il lupo può mangiare delle pecore nel suo stesso
      * territorio e nel caso ne prende una a caso
      *
      * @return Animal da mangiare o null se non ci sono

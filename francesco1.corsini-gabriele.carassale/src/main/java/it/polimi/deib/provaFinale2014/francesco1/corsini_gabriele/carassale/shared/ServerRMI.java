@@ -38,7 +38,7 @@ public interface ServerRMI extends Remote {
     String addClient(ClientRMI clientRMI, String nickname) throws RemoteException;
 
     /**
-     * Questo metodo viene chiamato nel caso il client dev'essere spostato nella
+     * Questo method viene chiamato nel caso il client dev'essere spostato nella
      * partita già in corso dalla quale si era precedentemente disconnesso
      *
      * @param nickname

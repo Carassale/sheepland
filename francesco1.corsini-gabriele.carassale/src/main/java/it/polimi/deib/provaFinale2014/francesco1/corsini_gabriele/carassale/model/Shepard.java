@@ -41,7 +41,7 @@ public class Shepard {
     }
 
     /**
-     * Metodo per prendere la posizione
+     * Method per prendere la posizione
      *
      * @return posizione shepard
      */

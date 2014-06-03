@@ -43,7 +43,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
-     * avvia col la chiamata al metodo start
+     * avvia col la chiamata al method start
      *
      * @param playerConnections ArrayList contenente i player associati a questa
      * partita
@@ -53,8 +53,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections, MapServerPlayer map) throws RemoteException {
         this.map = map;
         this.playerConnections = playerConnections;
-        this.canDoAction = true;
-        this.doRepeatAction = false;
 
         changeReferenceToClient();
 
@@ -90,6 +88,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     public void startThread() {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
+        waitOkFromClient();
         gameController.start(playerConnections.size());
     }
 
@@ -275,22 +274,25 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Cicla per il numero di azioni massime consentite il metodo do Action,
+     * Cicla per il numero di azioni massime consentite il method do Action,
      * mette in pausa il ciclo con una variabile, la variabile verra gestita dai
      * metodi chiamati dal client per poter proseguire le azioni alla fine
-     * chiama il metodo nextPlayerConnection
+     * chiama il method nextPlayerConnection
      */
     @Override
     public void startAction() {
+        canDoAction = true;
+        doRepeatAction = false;
+
         isConnected = true;
         for (int i = 0; i < NUMACTION && isConnected; i++) {
+            doAction();
             while (!canDoAction && isConnected) {
                 if (doRepeatAction && isConnected) {
                     doRepeatAction = false;
                     doAction();
                 }
             }
-            doAction();
         }
         nextPlayerConnections();
     }
@@ -314,7 +316,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Metodo chiamato dal gameController per serializzare la comunicazione
+     * Method chiamato dal gameController per serializzare la comunicazione
      * iniziale degli Shepard dei vari giocatori
      *
      * @param idShepard
@@ -583,10 +585,21 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     public void reconnectPlayer(int idPlayer) {
         PlayerConnectionRMI thisPlayer = null;
+
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             if (playerConnection.getIdPlayer() == idPlayer) {
                 thisPlayer = playerConnection;
                 break;
+            }
+        }
+
+        boolean isReady = false;
+        while (!isReady) {
+            isReady = isRadyClient(thisPlayer);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -675,4 +688,35 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    private boolean isAllClientReady() {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            if (!isRadyClient(playerConnection)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isRadyClient(PlayerConnectionRMI playerConnection) {
+        try {
+            if (!playerConnection.getClientRMI().isReady()) {
+                return false;
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+
+    private void waitOkFromClient() {
+        while (!isAllClientReady()) {
+            try {
+                System.out.println("In attesa di tutti i giocatori...");
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("Tutto pronto, il gioco ha inizio.");
+    }
 }

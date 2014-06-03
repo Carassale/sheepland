@@ -95,7 +95,7 @@ public class GameTable {
     }
 
     /**
-     * Metodo che ritorna l'array della tipologia di TerrainCard desiderata
+     * Method che ritorna l'array della tipologia di TerrainCard desiderata
      *
      * @param string tipologia terreno della carta
      * @return ArrayList TerrainCard che si desidera
@@ -177,7 +177,7 @@ public class GameTable {
     }
 
     /**
-     * Metodo per trasformare un id in un oggetto pastore
+     * Method per trasformare un id in un oggetto pastore
      *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
@@ -192,7 +192,7 @@ public class GameTable {
     }
 
     /**
-     * Metodo per trasformare un id in un oggetto Sheep
+     * Method per trasformare un id in un oggetto Sheep
      *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
@@ -208,7 +208,7 @@ public class GameTable {
     }
 
     /**
-     * Metodo per trasformare un id in un oggetto Road
+     * Method per trasformare un id in un oggetto Road
      *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
@@ -223,7 +223,7 @@ public class GameTable {
     }
 
     /**
-     * Metodo per trasformare un id in un oggetto Terrain
+     * Method per trasformare un id in un oggetto Terrain
      *
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato

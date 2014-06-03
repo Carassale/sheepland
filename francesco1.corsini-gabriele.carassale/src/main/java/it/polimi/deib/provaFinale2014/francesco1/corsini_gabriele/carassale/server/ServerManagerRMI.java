@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 /**
  * Questa classe viene inizializzata direttamente dal main, ha il compito di
  * restare in attesa dei vari socket e ad ogni PAYER4GAME, o meno, avvia una
- * nuova partita. Questa classe viene creata nel sia stato scelto il metodo RMI
+ * nuova partita. Questa classe viene creata nel sia stato scelto il method RMI
  *
  * @author Carassale Gabriele
  */
@@ -49,7 +49,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     /**
      * Inizializza l'array contente il numero di ConnctionManager di tipo RMI
      * (rappresentano il numero di partite avviate). Crea un serverRMI in grado
-     * di ricevere connessioni in ingresso da parte dei Client e avvia il metodo
+     * di ricevere connessioni in ingresso da parte dei Client e avvia il method
      * waitPlayer (@override).
      */
     public void run() {
@@ -72,8 +72,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     }
 
     /**
-     * È un metodo Synchronized per non permettere che sia uno o entrambi dei
-     * thread e il metodo waitPlayer lo chiamino nello stesso istante, creando
+     * È un method Synchronized per non permettere che sia uno o entrambi dei
+     * thread e il method waitPlayer lo chiamino nello stesso istante, creando
      * quindi più partite con lo stesso Array di playerConnection (un client
      * gioca più partite).
      */
@@ -92,7 +92,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     }
 
     /**
-     * Implementa il metodo dell'interfaccia server, riceve una chiamata dal
+     * Implementa il method dell'interfaccia server, riceve una chiamata dal
      * client e manda un messaggio di avenuta connessione
      *
      * @return Messaggio di avvenuta connessione "connected
@@ -160,7 +160,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
     /**
      * Nel caso il client deve essere reindirizzato alla corretta partita,
-     * questo metodo cerca il giocatore all'interno della partita e sostituisce
+     * questo method cerca il giocatore all'interno della partita e sostituisce
      * lo stub
      *
      * @param nickname Nickname del client
@@ -179,8 +179,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
     /**
      * Nel caso il client si era disconnesso in precendenza viene chiamato
-     * questo metodo per settare i parametri all'interno della partita e
-     * chiamare il metodo per refreshare il player
+     * questo method per settare i parametri all'interno della partita e
+     * chiamare il method per refreshare il player
      *
      * @param nickname Nome del client
      */
@@ -191,7 +191,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     }
 
     /**
-     * Viene creato dal metodo waitPlayer e ha lo scopo di avviare la partita
+     * Viene creato dal method waitPlayer e ha lo scopo di avviare la partita
      * nel caso scadi il TIMEOUT
      */
     private class RMIWaitingTimer implements Runnable {
@@ -210,7 +210,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         }
 
         /**
-         * Avvia un timer, una volta scaduto effettua la chiamata al metodo
+         * Avvia un timer, una volta scaduto effettua la chiamata al method
          * runNewGame()
          */
         public void run() {
@@ -229,7 +229,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
         }
 
         /**
-         * Blocca il timeout, viene chiamato dal metodo waitPlayer() nel caso
+         * Blocca il timeout, viene chiamato dal method waitPlayer() nel caso
          * sia stato raggiunto il numero massimo di connessioni
          */
         public void stop() {

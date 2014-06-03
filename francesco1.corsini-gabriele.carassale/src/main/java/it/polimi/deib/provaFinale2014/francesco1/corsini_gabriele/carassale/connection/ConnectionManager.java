@@ -17,14 +17,14 @@ public interface ConnectionManager {
     void startThread();
 
     /**
-     * Inserito qui per creare un metodo guida, dice al connectionManager di
+     * Inserito qui per creare un method guida, dice al connectionManager di
      * comunicare al Client che può eseguire le azioni e gestisce quindi le
      * chiamate Client-Server
      */
     void startAction();
 
     /**
-     * Inserito qui per creare un metodo guida, dice al client di posizionareve
+     * Inserito qui per creare un method guida, dice al client di posizionareve
      * posizionare due pastori
      *
      * @param idShepard
@@ -33,12 +33,12 @@ public interface ConnectionManager {
     Road getPlacedShepard(int idShepard);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      */
     void nextPlayerConnections();
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idShepard
      * @param idRoad
@@ -46,7 +46,7 @@ public interface ConnectionManager {
     void refreshAddShepard(int idShepard, int idRoad);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idAnimal
      * @param idTerrain
@@ -55,7 +55,7 @@ public interface ConnectionManager {
     void refreshAddAnimal(int idAnimal, int idTerrain, String kind);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idAnimal
      * @param idTerrain
@@ -63,14 +63,14 @@ public interface ConnectionManager {
     void refreshMoveAnimal(int idAnimal, int idTerrain);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idAnimal
      */
     void refreshKillAnimal(int idAnimal);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idAnimal
      * @param kindFinal
@@ -78,7 +78,7 @@ public interface ConnectionManager {
     void refreshTransformAnimal(int idAnimal, String kindFinal);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param coins
      * @param addCoin
@@ -86,7 +86,7 @@ public interface ConnectionManager {
     void refreshCoin(int coins, boolean addCoin);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param kind
      * @param isSold
@@ -94,14 +94,14 @@ public interface ConnectionManager {
     void refreshCard(String kind, boolean isSold);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      *
      * @param idPlayer
      */
     void reconnectPlayer(int idPlayer);
 
     /**
-     * Inserito qui per creare un metodo guida
+     * Inserito qui per creare un method guida
      */
     void refreshWinner();
 

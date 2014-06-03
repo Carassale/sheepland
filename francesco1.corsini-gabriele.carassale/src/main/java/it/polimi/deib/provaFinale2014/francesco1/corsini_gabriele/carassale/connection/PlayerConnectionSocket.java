@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
- * sia stato scelto il metodo Socket
+ * sia stato scelto il tipo Socket
  *
  * @author Carassale Gabriele
  */

@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class LineCommand implements TypeOfInteraction {
     }
 
     /**
-     * Implementa il metodo superiore e stampa a schermo una stringa
+     * Implementa il method superiore e stampa a schermo una stringa
      *
      * @param string Stringa da stampare
      */
@@ -229,7 +230,7 @@ public class LineCommand implements TypeOfInteraction {
             print("5 - Uccidi pecora");
             print("");
 
-            i = Integer.valueOf(read());
+            i = readInt();
         } while (i < 1 || i > 5);
 
         switch (i) {
@@ -285,8 +286,45 @@ public class LineCommand implements TypeOfInteraction {
      * Compra una carta
      */
     public void buyCard() {
-        print("Quale tipo di carta vuoi acquistare?");
-        String kind = read();
+        int i;
+        String kind = "";
+        do {
+            print("Quale tipo di carta vuoi acquistare?");
+            print("");
+            print("1 - " + TypeCard.DESERT.toString());
+            print("2 - " + TypeCard.FIELD.toString());
+            print("3 - " + TypeCard.FOREST.toString());
+            print("4 - " + TypeCard.MOUNTAIN.toString());
+            print("6 - " + TypeCard.PLAIN.toString());
+            print("5 - " + TypeCard.RIVER.toString());
+            print("");
+
+            i = readInt();
+        } while (i < 1 || i > 6);
+
+        switch (i) {
+            case 1:
+                kind = TypeCard.DESERT.toString();
+                break;
+            case 2:
+                kind = TypeCard.FIELD.toString();
+                break;
+            case 3:
+                kind = TypeCard.FOREST.toString();
+                break;
+            case 4:
+                kind = TypeCard.MOUNTAIN.toString();
+                break;
+            case 5:
+                kind = TypeCard.PLAIN.toString();
+                break;
+            case 6:
+                kind = TypeCard.RIVER.toString();
+                break;
+            default:
+                print("Qualcosa è andato storto...");
+                break;
+        }
 
         connectionClient.buyCard(kind);
     }

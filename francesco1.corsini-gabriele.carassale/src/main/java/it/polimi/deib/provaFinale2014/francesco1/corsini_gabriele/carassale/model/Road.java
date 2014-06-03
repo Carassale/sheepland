@@ -33,7 +33,7 @@ public class Road {
     }
 
     /**
-     * Metodo per ritornare il 1° territorio annesso
+     * Method per ritornare il 1° territorio annesso
      *
      * @return Terrain adiacente
      */
@@ -42,7 +42,7 @@ public class Road {
     }
 
     /**
-     * Metodo per ritornare il 2° territorio annesso
+     * Method per ritornare il 2° territorio annesso
      *
      * @return Terrain adiacente
      */
@@ -52,7 +52,7 @@ public class Road {
     }
 
     /**
-     * Metodo per vedere se la strada è coperta da Fence
+     * Method per vedere se la strada è coperta da Fence
      *
      * @return true se c'è la fence
      */
@@ -61,7 +61,7 @@ public class Road {
     }
 
     /**
-     * Metodo per mettere una Fence sulla Road
+     * Method per mettere una Fence sulla Road
      *
      * @param val true se si vuole la fence
      */
@@ -70,7 +70,7 @@ public class Road {
     }
 
     /**
-     * Metodo per vedere se la strada è occupata da uno Shepard
+     * Method per vedere se la strada è occupata da uno Shepard
      *
      * @return true se c'è shepard
      */
@@ -79,7 +79,7 @@ public class Road {
     }
 
     /**
-     * Metodo per settare la presenza dello Shepard
+     * Method per settare la presenza dello Shepard
      *
      * @param val true se si vuole shepard
      */
@@ -88,7 +88,7 @@ public class Road {
     }
 
     /**
-     * Metodo per prendere il numero presente sulla strada(quello che si vede
+     * Method per prendere il numero presente sulla strada(quello che si vede
      * nella plancia, non l'id)
      *
      * @return int
@@ -115,7 +115,7 @@ public class Road {
     }
 
     /**
-     * Metodo per prendere l'id proprio della strada
+     * Method per prendere l'id proprio della strada
      *
      * @return int id strada
      */
@@ -124,7 +124,7 @@ public class Road {
     }
 
     /**
-     * Metodo per settare l'id strada
+     * Method per settare l'id strada
      *
      * @param val id che si vuole settare
      */
@@ -133,7 +133,7 @@ public class Road {
     }
 
     /**
-     * Metodo per settare il numero della strada, quello visibile poi sul mappa
+     * Method per settare il numero della strada, quello visibile poi sul mappa
      * del gioco
      *
      * @param val numero che si vuole settare

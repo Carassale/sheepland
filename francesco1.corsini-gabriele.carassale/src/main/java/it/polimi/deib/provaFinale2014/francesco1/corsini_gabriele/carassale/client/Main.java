@@ -102,7 +102,7 @@ public class Main {
         if (doTransfer) {
             serverRMI.reconnect(nickname);
         }
-
+        
         connectionClient.waitLine();
     }
 
@@ -247,7 +247,7 @@ public class Main {
     }
 
     /**
-     * Implementa il metodo superiore e stampa a schermo una stringa
+     * Implementa il method superiore e stampa a schermo una stringa
      *
      * @param string Stringa da stampare
      */

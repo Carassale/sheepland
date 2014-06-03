@@ -37,7 +37,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
-     * avvia col la chiamata al metodo start
+     * avvia col la chiamata al method start
      *
      * @param playerConnection ArrayList contenente i player associati a questa
      * partita
@@ -62,10 +62,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Cicla per il numero di azioni massime consentite il metodo do Action, in
-     * caso di ritorno false dal doAction fa ripetere il metodo finchè non
+     * Cicla per il numero di azioni massime consentite il method do Action, in
+     * caso di ritorno false dal doAction fa ripetere il method finchè non
      * vengono effettuate un numero corretto di azioni, alla fine chiama il
-     * metodo nextPlayerConnection
+     * method nextPlayerConnection
      */
     @Override
     public void startAction() {
@@ -81,7 +81,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
     /**
      * Risveglia il currentPlayer, riceve una string contenente l'azione
-     * richiesta e chiama quindi il metodo associato. Nel caso l'azione sollevi
+     * richiesta e chiama quindi il method associato. Nel caso l'azione sollevi
      * un'eccezione viene inviata al client
      *
      * @return True se l'azione è andata a buon fine
@@ -119,7 +119,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Risveglia un player inviando una stringa, serve per il metodo doAction
+     * Risveglia un player inviando una stringa, serve per il method doAction
      *
      * @param pcs Player da svegliare
      */
@@ -385,7 +385,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Metodo chiamato dal gameController per serializzare la comunicazione
+     * method chiamato dal gameController per serializzare la comunicazione
      * iniziale degli Shepard dei vari giocatori
      *
      * @param idShepard
@@ -419,7 +419,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Invia a tutti i client il pastore aggiunto chiamando il metodo single
+     * Invia a tutti i client il pastore aggiunto chiamando il method single
      * Refresh add shepard
      *
      * @param idShepard Pastore aggiunto
@@ -472,7 +472,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Invia a tutti i client l'animale aggiunto chiamando il metodo single
+     * Invia a tutti i client l'animale aggiunto chiamando il method single
      * Refresh add animal
      *
      * @param idAnimal Animale da aggiungere
