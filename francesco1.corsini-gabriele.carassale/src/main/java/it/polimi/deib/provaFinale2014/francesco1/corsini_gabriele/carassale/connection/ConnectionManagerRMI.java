@@ -275,7 +275,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Cicla per il numero di azioni massime consentite il metodo doAction,
+     * Cicla per il numero di azioni massime consentite il metodo do Action,
      * mette in pausa il ciclo con una variabile, la variabile verra gestita dai
      * metodi chiamati dal client per poter proseguire le azioni alla fine
      * chiama il metodo nextPlayerConnection

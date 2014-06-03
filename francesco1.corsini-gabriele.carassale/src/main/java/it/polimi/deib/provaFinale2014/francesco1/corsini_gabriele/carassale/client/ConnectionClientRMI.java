@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 public class ConnectionClientRMI extends UnicastRemoteObject implements ConnectionClient, ClientRMI {
 
     private TypeOfInteraction typeOfInteraction;
+    private Object objectSyncronize = new Object();
 
     private static final int PORT = 3001;
 
@@ -28,7 +29,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * Questa variabile server solo per il metodo placeShepard, serve per
      * aspettare la scelta del clinet
      */
-    private Object tempRoad = null;
+    private Integer tempRoad = null;
 
     /**
      * È il collegamento allo stub del serve sul quale il client può eseguire
@@ -83,7 +84,10 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @param idRoad Strada scelta
      */
     public void placeShepard(int idRoad) {
-        tempRoad = idRoad;
+        synchronized (objectSyncronize) {
+            tempRoad = idRoad;
+            objectSyncronize.notifyAll();
+        }
     }
 
     /**
@@ -155,7 +159,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             String s = connectionRMI.killSheep(idSheep);
             if (StatusMessage.ACTION_OK.toString().equals(s)
-                    ||Message.IMPOSSIBLE_DICE.toString().equals(s)) {
+                    || Message.IMPOSSIBLE_DICE.toString().equals(s)) {
                 typeOfInteraction.messageText(s);
             } else {
                 typeOfInteraction.errorMessage(s);
@@ -248,7 +252,18 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @throws RemoteException
      */
     public int getPlaceShepard(int idShepard) throws RemoteException {
+        tempRoad = null;
         typeOfInteraction.placeShepard(idShepard);
+
+        synchronized (objectSyncronize) {
+            while (tempRoad == null) {
+                try {
+                    objectSyncronize.wait();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
 
         return Integer.valueOf(tempRoad.toString());
     }
@@ -350,11 +365,27 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         typeOfInteraction.refreshCoin(coins, addCoin);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh fance
+     *
+     * @param idRoad Strada dove posizionare la fance
+     * @throws RemoteException
+     */
     public void refreshAddFence(int idRoad) throws RemoteException {
         typeOfInteraction.refreshAddFence(idRoad);
     }
 
+    /**
+     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
+     * questo caso il metodo è refresh winner e invia la posizione in classifica
+     * e il punteggio
+     *
+     * @param finalPosition Posizione in classifica
+     * @param finalScore Punteggio finale
+     */
     public void refreshWinner(int finalPosition, int finalScore) {
         typeOfInteraction.refreshWinner(finalPosition, finalScore);
     }
+
 }

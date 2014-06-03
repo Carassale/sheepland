@@ -62,7 +62,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Cicla per il numero di azioni massime consentite il metodo doAction, in
+     * Cicla per il numero di azioni massime consentite il metodo do Action, in
      * caso di ritorno false dal doAction fa ripetere il metodo finchè non
      * vengono effettuate un numero corretto di azioni, alla fine chiama il
      * metodo nextPlayerConnection
