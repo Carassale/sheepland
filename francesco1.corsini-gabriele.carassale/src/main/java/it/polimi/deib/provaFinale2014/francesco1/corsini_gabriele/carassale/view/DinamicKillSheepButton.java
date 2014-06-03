@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
@@ -19,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the KillSheep Button
  * @author Francesco Corsini
  */
 public class DinamicKillSheepButton extends JPanel{
@@ -29,6 +24,11 @@ public class DinamicKillSheepButton extends JPanel{
     private final  int terrain;
     private DinamicJoinSheepsButton panel; 
 
+    /**
+     * Standard Constructor
+     * @param aThis GUI Dynamic
+     * @param i the terrain where the button is
+     */
     DinamicKillSheepButton(GUIDinamic aThis, int i) {
        this.terrain = i;
        this.GUI = aThis;

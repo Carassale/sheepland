@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
 /**
- *
+ * Class for the SheepButton in the middle of the terrain
  * @author Francesco Corsini
  */
 public class DinamicSheepButton extends JButton {
@@ -27,6 +27,11 @@ public class DinamicSheepButton extends JButton {
     private int numSheeps = 0;
     private int terrain;
 
+    /**
+     * Constructor
+     * @param gui GUI Dynamic
+     * @param terr territory where to be placed
+     */
     public DinamicSheepButton(GUIDinamic gui, int terr) {
         GUI = gui;
         this.terrain = terr;
@@ -103,6 +108,10 @@ public class DinamicSheepButton extends JButton {
 
     }
 
+    /**
+     * Method that refresh the icon displaying the correct number of sheeps
+     * @param sheepNumber new number of sheeps
+     */
     public void setnumber(int sheepNumber) {
         if (sheepNumber > 5) {
             sheepNumber = 5;
@@ -132,12 +141,13 @@ public class DinamicSheepButton extends JButton {
         }
     }
 
+    /**
+     * Method to understand if there are no sheeps on the terrain
+     * @return true if yes
+     */
     public boolean isIsInvisible() {
         return isInvisible;
     }
 
-    public void setIsInvisible(boolean isInvisible) {
-        this.isInvisible = isInvisible;
-    }
 
 }

@@ -10,12 +10,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 /**
- *
+ * Class for the dynamic button of the Join sheep
  * @author Francesco Corsini
  */
 public class DinamicJoinSheepsButton extends JPanel {
@@ -25,6 +23,11 @@ public class DinamicJoinSheepsButton extends JPanel {
     private final int terrain;
     private DinamicJoinSheepsButton panel; 
 
+    /**
+     * Constructor
+     * @param gui GUI dynamic 
+     * @param ter terrain where is placed
+     */
     public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
         GUI = gui;
         this.terrain = ter;

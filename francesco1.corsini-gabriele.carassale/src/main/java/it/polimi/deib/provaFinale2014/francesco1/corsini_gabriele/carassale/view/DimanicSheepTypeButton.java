@@ -81,7 +81,7 @@ public class DimanicSheepTypeButton extends JPanel {
     }
 
     /**
-     * Method to calculate the types of the sheeps present on the terrain
+     * Method to calculate the types of the sheep present on the terrain
      */
     public void activateTypeButton() {
         for (ViewAnimal ele : GUI.getAnimals()) {

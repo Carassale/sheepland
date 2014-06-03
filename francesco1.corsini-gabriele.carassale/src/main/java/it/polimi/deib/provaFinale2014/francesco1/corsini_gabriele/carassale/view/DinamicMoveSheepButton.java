@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the MoveSheep Button
  * @author Francesco Corsini
  */
 public class DinamicMoveSheepButton extends JPanel {
@@ -33,6 +33,11 @@ public class DinamicMoveSheepButton extends JPanel {
     //serve come contatore per ciclare tra le due immagine nel mouseover
     private int cont;
 
+    /**
+     * Standard Constructor
+     * @param gui GUI Dynamic
+     * @param terr terrain where the button is
+     */
     public DinamicMoveSheepButton(GUIDinamic gui, int terr) {
 
         this.GUI = gui;
@@ -85,6 +90,8 @@ public class DinamicMoveSheepButton extends JPanel {
 
     }
 
+   
+   
     private void activateAnimation() {
 
         //GUI.animationMoveSheep(this.getLocation().x, this.getLocation().y, terrain, cont);

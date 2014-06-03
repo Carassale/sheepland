@@ -8,13 +8,18 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the main background Panel of the GUI
  * @author Francesco Corsini
  */
 public class GUIDinamicPanel extends JPanel {
 
     private BufferedImage image;
 
+    /**
+     * Constructor
+     * @param string the image of the table
+     * @throws IOException if cannot open the table
+     */
     public GUIDinamicPanel(String string) throws IOException {
         super();
         image = ImageIO.read(new File(string));

@@ -6,18 +6,26 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 /**
- *
+ * Class for the Listener of the Drop Down menù
  * @author Francesco Corsini
  */
 public class StaticDropDownSelectionListener extends JFrame implements ActionListener {
 
     private GUISwingStatic GUI;
 
+    /**
+     * Contrusctor
+     * @param GUI GUI Static
+     */
     public StaticDropDownSelectionListener(GUISwingStatic GUI) {
         this.GUI = GUI;
 
     }
 
+    /**
+     * action performed when a click button event is fired
+     * @param e event to handle
+     */
     public void actionPerformed(ActionEvent e) {
 
         JComboBox cb = (JComboBox) e.getSource();

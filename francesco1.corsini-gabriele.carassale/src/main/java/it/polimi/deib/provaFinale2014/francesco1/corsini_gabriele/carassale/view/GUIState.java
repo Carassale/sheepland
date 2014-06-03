@@ -1,7 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 /**
- *
+ * Class representing the various possible states of the GUI
  * @author Francesco Corsini
  */
 public enum GUIState {

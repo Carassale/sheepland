@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
- *
+ * Class for the RoadButton(it will show the shepherds too)
  * @author Francesco Corsini
  */
 public class DinamicRoadButton extends JPanel {
@@ -26,6 +26,12 @@ public class DinamicRoadButton extends JPanel {
     private boolean isMouseOver = false;
     private final BufferedImageContainer imagePool;
 
+    /**
+     * Constructor
+     * @param aThis GUI dynamic
+     * @param num which road is it
+     * @param imagePool Pool of the images
+     */
     DinamicRoadButton(GUIDinamic aThis, int num, BufferedImageContainer imagePool) {
         road = num;
         this.GUI = aThis;
@@ -124,6 +130,10 @@ public class DinamicRoadButton extends JPanel {
 
     }
 
+    /**
+     * Setter with the id to image
+     * @param id is of the shepherd
+     */
     public void setShepard(int id) {
 
         if (id == 0) {
@@ -140,6 +150,9 @@ public class DinamicRoadButton extends JPanel {
         repaint();
     }
 
+    /**
+     * Setter to show the fence
+     */
     public void setFence() {
 
         icon = imagePool.getFence();
@@ -149,10 +162,18 @@ public class DinamicRoadButton extends JPanel {
 
     }
 
+    /**
+     * Method to ask if there is a shepherd on
+     * @return true if there is a shepherd
+     */
     public boolean isIsShepard() {
         return isShepard;
     }
 
+    /**
+     * Setter to set the presence of a shepherd
+     * @param isShepard 
+     */
     public void setIsShepard(boolean isShepard) {
         this.isShepard = isShepard;
     }

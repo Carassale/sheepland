@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
- *
+ * Classe per i Bottoni delle strade nella GUI Statica
  * @author Francesco Corsini
  */
 public class StaticRoadListener extends JFrame implements ActionListener {
@@ -13,12 +13,21 @@ public class StaticRoadListener extends JFrame implements ActionListener {
     private GUISwingStatic GUI;
     private int road;
 
+    /**
+     * Costruttore 
+     * @param GUI GUI Static
+     * @param road id della strada
+     */
     public StaticRoadListener(GUISwingStatic GUI, int road) {
         this.GUI = GUI;
         this.road = road;
 
     }
 
+    /**
+     * action performed when a click button event is fired
+     * @param e event to handle
+     */
     public void actionPerformed(ActionEvent e) {
         GUI.activateRoads(false);
         String command = e.getActionCommand();

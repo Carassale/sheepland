@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
- *
+ * Class Listener for the cards
  * @author Francesco Corsini
  */
 public class GUIDinamicCardListener extends JFrame implements ActionListener {
@@ -14,11 +14,17 @@ public class GUIDinamicCardListener extends JFrame implements ActionListener {
     private int number;
     private String type;
 
-    public GUIDinamicCardListener(GUIDinamic GUI, int terrain, String type) {
+    /**
+     * Constructor
+     * @param GUI GUI Dynaic
+     * @param num the number of card
+     * @param type type of card
+     */
+    public GUIDinamicCardListener(GUIDinamic GUI, int num, String type) {
 
         this.type = type;
         this.GUI = GUI;
-        this.number = terrain;
+        this.number = num;
     }
 
     public void actionPerformed(ActionEvent e) {

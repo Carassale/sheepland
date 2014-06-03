@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
- *
+ * Classe per listener della GUI Statica dei terreni
  * @author Francesco Corsini
  */
 public class StaticTerrainListener extends JFrame implements ActionListener {
@@ -13,12 +13,21 @@ public class StaticTerrainListener extends JFrame implements ActionListener {
     private GUISwingStatic GUI;
     private int terrain;
 
+    /**
+     * Costruttore
+     * @param GUI GUI Static
+     * @param terrain terreno che deve ascoltare
+     */
     public StaticTerrainListener(GUISwingStatic GUI, int terrain) {
         this.GUI = GUI;
         this.terrain = terrain;
 
     }
 
+    /**
+     * action performed when a click button event is fired
+     * @param e event to handle
+     */
     public void actionPerformed(ActionEvent e) {
 
         GUI.activateTerrains(false);

@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
- *
+ * Main class for the Static GUI
  * @author Francesco Corsini
  */
 public class GUISwingStatic extends JFrame implements TypeOfInteraction {
@@ -50,6 +50,10 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     private boolean firstShepard;
     private int sheepSelected, shepardSelected;
 
+    /**
+     * Constructor that get the connection
+     * @param connectionClient the connection to talk to
+     */
     public GUISwingStatic(ConnectionClient connectionClient) {
         GUI = this;
         this.connectionClient = connectionClient;
@@ -596,6 +600,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         GUI.activateActions(true);
     }
 
+    /**
+     * Metodo che converte un id in un animale
+     * @param id dell'animale
+     * @return animale
+     */
     private ViewAnimal idToViewSheep(int id) {
         ViewAnimal sheep = null;
         for (ViewAnimal ele : animals) {
@@ -606,6 +615,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         return sheep;
     }
 
+    /**
+     * Metodo che converte un id in uno shepherd
+     * @param id dello shepherd
+     * @return ViewShepard
+     */
     private ViewShepard idToViewShepard(int id) {
         ViewShepard shepard = null;
         for (ViewShepard ele : shepards) {
@@ -616,18 +630,26 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         return shepard;
     }
 
+    /**
+     * Getter 
+     * @return gui state 
+     */
     public GUIState getGUIState() {
         return state;
     }
 
+    /**
+     * Setter
+     * @param state of the GUI 
+     */
     public void setGUIState(GUIState state) {
         this.state = state;
     }
 
-    public void setNickname() {
-        //TODO setNickname
-    }
-
+    /**
+     * Method per disporre lo shepherd
+     * @param id id of the shepherd
+     */
     public void placeShepard(int id) {
         LAction2.setText("Selezionare strada dove piazzare Pastore");
         state = GUIState.PLACESHEPARD;
@@ -636,122 +658,183 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         }
         tempIdShepard = id;
         activateRoads(true);
-
     }
 
+    /**
+     * Metodo chiamato per mandare alla connessione l'azione buyCard
+     * @param terrainkind tipologia carta comprata
+     */
     public void sendBuyCard(String terrainkind) {
         connectionClient.buyCard(terrainkind);
     }
 
-    public void sendPlaceShepard(int road) {
-        //NON CREARE ANCORA PASTORE, SE DEVI CREARE LO DICE IL SERVER
-        //shepards.add(new ViewShepard(tempIdShepard, road)); //Braaaaavo lelino!!!! tvb tvb...TI ODIO HAI CREATO UN MONTE DI CONFLITTI!!!!
+    /**
+     * Metodo chiamato per mandare alla connessione il posizionamento di un pastore
+     * @param road id strada
+     */
+    public void sendPlaceShepard(int road) {      
         connectionClient.placeShepard(road);
-        //TODO occhio che qui creo il pastore anche se è in una posizione scorretta!
+        
     }
 
+    /**
+     * Metodo chiamato per mandare alla connessione l'azione MoveSheep
+     * @param terrain dove muovere
+     */
     public void sendMoveSheep(int terrain) {
         connectionClient.moveSheep(sheepSelected, terrain);
     }
 
-    public void sendMoveShepard(int terrainTo) {
-        connectionClient.moveShepard(shepardSelected, terrainTo);
+    /**
+     * Metodo chiamato per mandare alla connessione l'azione MoveShepherd
+     * @param roadTo dove muoversi 
+     */
+    public void sendMoveShepard(int roadTo) {
+        connectionClient.moveShepard(shepardSelected, roadTo);
     }
 
+    /**
+     * Setter per scrivere sulla label
+     * @param LAction2 
+     */
+    public void setLAction2(JLabel LAction2) {
+        this.LAction2 = LAction2;
+    }
+    
+    /**
+     * Getter per scrivere
+     * @return Label
+     */
     public JLabel getLAction2() {
         return LAction2;
     }
 
-    public void setLAction2(JLabel LAction2) {
-        this.LAction2 = LAction2;
-    }
-
+    /**
+     * Metodo chiamato per mandare alla connessione l'azione JoinSheeps
+     * @param terrain dove si accoppiano
+     */
     public void sendJoinSheeps(int terrain) {
         connectionClient.joinSheep(terrain);
     }
 
     public void sendKillSheep(int terrain) {
-
+        //TODO
     }
 
+    /**
+     * Getter per il terreno selezionato
+     * @return terreno selezionato
+     */
     public int getTempTerrain() {
         return tempTerrain;
     }
 
+    /**
+     * Setter per il terreno selezionato
+     * @param tempTerrain terr selezionato
+     */
     public void setTempTerrain(int tempTerrain) {
         this.tempTerrain = tempTerrain;
     }
 
+    /**
+     * Getter id shepherd selezionato
+     * @return id shep
+     */
     public int getTempIdShepard() {
         return tempIdShepard;
     }
 
+    /**
+     * setter id shepherd selezionato
+     * @param tempIdShepard 
+     */
     public void setTempIdShepard(int tempIdShepard) {
         this.tempIdShepard = tempIdShepard;
     }
 
+    /**
+     * getter pecora selezionata
+     * @return id pecora
+     */
     public int getTempIdSheep() {
         return tempIdSheep;
     }
 
+    /**
+     * setter pecora selezionata
+     * @param tempIdSheep id pecora
+     */
     public void setTempIdSheep(int tempIdSheep) {
         this.tempIdSheep = tempIdSheep;
     }
 
+    /**
+     * Getter strada selezionata
+     * @return id road
+     */
     public int getTempRoad() {
         return tempRoad;
     }
 
+    /**
+     * Setter strada selezionata
+     * @param tempRoad id road
+     */
     public void setTempRoad(int tempRoad) {
         this.tempRoad = tempRoad;
     }
 
+    /**
+     * Getter connection
+     * @return connection
+     */
     public ConnectionClient getConnectionClient() {
         return connectionClient;
     }
 
-    public void setConnectionClient(ConnectionClient connectionClient) {
-        this.connectionClient = connectionClient;
-    }
-
+    /**
+     * Getter dropDown menù
+     * @return JComboBox
+     */
     public JComboBox getSheepDropDown() {
         return sheepDropDown;
     }
 
-    public void setSheepDropDown(JComboBox sheepDropDown) {
-        this.sheepDropDown = sheepDropDown;
+    /**
+     * Method to update text
+     * @param message text to show
+     */
+    public void messageText(String message) {
+       //TODO
     }
 
-    public int getSheepSelected() {
-        return sheepSelected;
+    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
+       //TODO
+    }
+    
+    public void refreshWinner(int position, int score){
+        //TODO
     }
 
+    public void refreshAddFence(int idRoad) {
+        //TODO
+    }
+    
+    /**
+     * Setter for the selected sheep
+     * @param sheepSelected id of sheep
+     */
     public void setSheepSelected(int sheepSelected) {
         this.sheepSelected = sheepSelected;
     }
 
-    public int getShepardSelected() {
-        return shepardSelected;
-    }
-
+    /**
+     * Setter for the selected shepherd
+     * @param shepardSelected id of sheph
+     */
     public void setShepardSelected(int shepardSelected) {
         this.shepardSelected = shepardSelected;
-    }
-
-    public void messageText(String message) {
-       
-    }
-
-    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
-       
-    }
-    
-    public void refreshWinner(int position, int score){
-        
-    }
-
-    public void refreshAddFence(int idRoad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
