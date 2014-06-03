@@ -293,7 +293,7 @@ public class Main {
      */
     private boolean isNumeric(String str) {
         try {
-            Integer i = Integer.parseInt(str);
+            Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, nfe);
             return false;

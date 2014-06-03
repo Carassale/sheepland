@@ -82,7 +82,7 @@ public class LineCommand implements TypeOfInteraction {
      */
     private boolean isNumeric(String str) {
         try {
-            Integer i = Integer.parseInt(str);
+            Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
             return false;
         }
@@ -211,14 +211,14 @@ public class LineCommand implements TypeOfInteraction {
      * @param idRoad Strada destinazione
      */
     public void refreshMoveShepard(int idShepard, int idRoad) {
-        print("Mosso pastore " + idShepard + " nella strada " + idRoad);
+        print("Mosso pastore " + idShepard + " nella strada  " + idRoad);
     }
 
     /**
      * Esegue un azione chiedendola al giocatore
      */
     public void clickAction() {
-        Integer i = 0;
+        int i = 0;
         do {
             print("Fai la tua mossa:");
             print("");
@@ -229,7 +229,7 @@ public class LineCommand implements TypeOfInteraction {
             print("5 - Uccidi pecora");
             print("");
 
-            i = new Integer(read());
+            i = Integer.valueOf(read());
         } while (i < 1 || i > 5);
 
         switch (i) {
@@ -247,6 +247,9 @@ public class LineCommand implements TypeOfInteraction {
                 break;
             case 5:
                 killSheep();
+                break;
+            default:
+                print("Qualcosa è andato storto...");
                 break;
         }
     }

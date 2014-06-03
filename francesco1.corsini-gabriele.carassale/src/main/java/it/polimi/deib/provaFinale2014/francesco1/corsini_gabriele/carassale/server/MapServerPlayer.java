@@ -29,7 +29,7 @@ public class MapServerPlayer {
      * @param idPlayer Id del giocatore all'interno della partita
      */
     public void addPlayer(String nickname, String typeConnection, int idGame, int idPlayer) {
-        StatusPlayer statusPlayer = new StatusPlayer(nickname, typeConnection, idGame, idPlayer, true);
+        StatusPlayer statusPlayer = new StatusPlayer(typeConnection, idGame, idPlayer, true);
         map.put(nickname, statusPlayer);
     }
 

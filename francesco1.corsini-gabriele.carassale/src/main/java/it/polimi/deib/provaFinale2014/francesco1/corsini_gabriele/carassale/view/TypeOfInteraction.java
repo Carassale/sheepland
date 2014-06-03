@@ -83,7 +83,7 @@ public interface TypeOfInteraction {
      * @param coins Variazione di coin
      * @param addCoin True se deve aggiungere, False se deve levare
      */
-    public void refreshCoin(int coins, boolean addCoin);
+    void refreshCoin(int coins, boolean addCoin);
 
     /**
      * Risveglia l'interfaccia e aggiunge un pastore
@@ -115,6 +115,6 @@ public interface TypeOfInteraction {
      * @param finalPosition Posizione finale in classifica
      * @param finalScore Punteggio finale
      */
-    public void refreshWinner(int finalPosition, int finalScore);
+    void refreshWinner(int finalPosition, int finalScore);
 
 }

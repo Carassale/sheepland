@@ -224,7 +224,6 @@ public class ServerManagerSocket implements ServerManager {
                     swt = new SocketWaitingTimer();
                 }
             } catch (InterruptedException ex) {
-                outVideo.println("Socket: Timer fermato");
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -112,11 +112,8 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @return Status Messagge CORRECT se può collegarsi, NOT CORRECT se non può
      */
     public String checkNickname(String nickname) {
-        if (nickname == null
-                || (map.existPlayer(nickname) && map.isOnLine(nickname))
-                || (map.existPlayer(nickname)
-                && !map.isOnLine(nickname)
-                && map.isTypeConnectionSocket(nickname))) {
+        if ((map.existPlayer(nickname) && map.isOnLine(nickname))
+                || (map.existPlayer(nickname) && !map.isOnLine(nickname) && map.isTypeConnectionSocket(nickname))) {
             return StatusMessage.NOT_CORRECT_NICKNAME.toString();
         } else {
             return StatusMessage.CORRECT_NICKNAME.toString();
@@ -227,7 +224,6 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                     swt = new RMIWaitingTimer();
                 }
             } catch (InterruptedException ex) {
-                outVideo.println("RMI: Timer fermato");
                 Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

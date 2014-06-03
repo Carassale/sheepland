@@ -7,7 +7,6 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
  */
 public class StatusPlayer {
 
-    private String nickname;
     private String typeConnection;
     private int idGame;
     private int idPlayer;
@@ -16,14 +15,12 @@ public class StatusPlayer {
     /**
      * Crea uno status player e setta i parametri
      *
-     * @param nickname Nome del client
      * @param typeConnection Tipo di connessione usata
      * @param idGame Id del gioco
      * @param idPlayer Id del giocatore all'interno del gioco
      * @param onLine Stato on line
      */
-    public StatusPlayer(String nickname, String typeConnection, int idGame, int idPlayer, boolean onLine) {
-        this.nickname = nickname;
+    public StatusPlayer(String typeConnection, int idGame, int idPlayer, boolean onLine) {
         this.typeConnection = typeConnection;
         this.idGame = idGame;
         this.idPlayer = idPlayer;

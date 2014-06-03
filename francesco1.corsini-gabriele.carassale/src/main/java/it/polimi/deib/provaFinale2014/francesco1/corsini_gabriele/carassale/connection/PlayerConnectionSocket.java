@@ -4,10 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
@@ -80,7 +77,7 @@ public class PlayerConnectionSocket {
         if (inSocket.hasNext()) {
             return inSocket.nextLine();
         } else {
-            return (StatusMessage.DISCONNECTED.toString());
+            return StatusMessage.DISCONNECTED.toString();
         }
     }
 

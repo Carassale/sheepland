@@ -661,8 +661,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Gestisce la disconnessione del client e setta lo stato nell'hash Map ofline
-     * @param playerConnection 
+     * Gestisce la disconnessione del client e setta lo stato nell'hash Map
+     * ofline
+     *
+     * @param playerConnection
      */
     public void clientDisconnesso(PlayerConnectionRMI playerConnection) {
         map.setOnLine(playerConnection.getNickname(), false);
