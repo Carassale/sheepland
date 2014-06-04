@@ -22,7 +22,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     private TypeOfInteraction typeOfInteraction;
     private boolean isReady = false;
-    private Object objectSyncronize = new Object();
 
     private static final int PORT = 3001;
 
@@ -31,6 +30,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * aspettare la scelta del clinet
      */
     private Integer tempRoad = null;
+    private Object objectSyncronize = new Object();
 
     /**
      * È il collegamento allo stub del serve sul quale il client può eseguire
@@ -398,6 +398,15 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void refreshWinner(int finalPosition, int finalScore) {
         typeOfInteraction.refreshWinner(finalPosition, finalScore);
+    }
+
+    /**
+     * Questo method serve al server a sapere se il client è ancora collegato,
+     * non fa nulla perchè se il server non riesce a invocare il method ha già
+     * la conferma che è scollegato
+     */
+    public void isAlive() {
+        //non fa nulla, serve al serve a sapere se è collegato
     }
 
 }

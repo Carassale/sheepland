@@ -175,4 +175,11 @@ public interface ClientRMI extends Remote {
      * @throws RemoteException
      */
     boolean isReady() throws RemoteException;
+
+    /**
+     * Controlloa se il client è ancora collegato
+     *
+     * @throws RemoteException
+     */
+    void isAlive() throws RemoteException;
 }
