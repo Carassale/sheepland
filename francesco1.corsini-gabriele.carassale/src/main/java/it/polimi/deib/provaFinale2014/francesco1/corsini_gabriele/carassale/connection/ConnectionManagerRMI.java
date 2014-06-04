@@ -5,6 +5,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -12,11 +13,12 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
     private MapServerPlayer map;
-    private CheckThread checkThread;
+    private CheckThreadRMI checkThread;
 
     private Object objectSyncrinized = new Object();
     private boolean isConnected;
@@ -75,9 +77,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             try {
                 playerConnectionRMI.getClientRMI().setConnectionRMI(this);
             } catch (RemoteException ex) {
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                clientDisconnesso(playerConnectionRMI);
+                clientDisconnected(playerConnectionRMI);
             }
         }
     }
@@ -101,6 +103,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     public void nextPlayerConnections() {
         playerConnections.add(playerConnections.get(0));
         playerConnections.remove(0);
+
         currentPlayer = playerConnections.get(0);
         if (!map.isOnLine(currentPlayer.getNickname())) {
             nextPlayerConnections();
@@ -131,9 +134,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad, isMine);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(playerConnection);
+            clientDisconnected(playerConnection);
         }
     }
 
@@ -149,9 +152,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshMoveShepard(idShepard, idRoad);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -177,9 +180,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(playerConnection);
+            clientDisconnected(playerConnection);
         }
     }
 
@@ -196,9 +199,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshMoveAnimal(idAnimal, idTerrain);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -216,9 +219,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshKillAnimal(idAnimal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -237,9 +240,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshTransformAnimal(idAnimal, kindFinal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -260,9 +263,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshCoin(coins, addCoin);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(playerConnection);
+            clientDisconnected(playerConnection);
         }
     }
 
@@ -281,9 +284,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshCard(kind, isSold);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(playerConnection);
+            clientDisconnected(playerConnection);
         }
     }
 
@@ -306,11 +309,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
     private void waitResponseFromClient() {
         synchronized (objectSyncrinized) {
-            while (canDoAction == false) {
+            while (!canDoAction) {
                 try {
                     objectSyncrinized.wait();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -339,9 +342,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             currentPlayer.getClientRMI().wakeUp();
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(currentPlayer);
+            clientDisconnected(currentPlayer);
         }
     }
 
@@ -358,14 +361,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             //dice al client di piazzare Shepard
             Integer id = currentPlayer.getClientRMI().getPlaceShepard(idShepard);
 
-            //ricava l'oggetto
-            Road roadChoosen = gameController.getGameTable().idToRoad(id);
-
-            return roadChoosen;
+            //ricava l'oggetto e lo invia
+            return gameController.getGameTable().idToRoad(id);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-            clientDisconnesso(currentPlayer);
+            clientDisconnected(currentPlayer);
             return null;
         }
     }
@@ -375,10 +376,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      *
      * @param idShepard Pastore da muovere
      * @param idRoad Destinazione finale
-     * @return Un messaggio di conferma
      * @throws RemoteException
      */
-    public String moveShepard(int idShepard, int idRoad) throws RemoteException {
+    public void moveShepard(int idShepard, int idRoad) throws RemoteException {
         //Converte idShepard nell'oggetto Shepard associato
         Shepard s = gameController.getGameTable().idToShepard(idShepard);
 
@@ -386,7 +386,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         Road r = gameController.getGameTable().idToRoad(idRoad);
 
         if (s == null || r == null) {
-            return Message.IMPOSSIBLE_SELECTION.toString();
+            printImpossibleSelection();
+            return;
         }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEPARD.toString())) {
@@ -396,28 +397,28 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                     refreshCoin = true;
                 }
                 gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
+                printCorrectAction();
                 refreshMoveShepard(idShepard, idRoad);
                 if (refreshCoin) {
                     refreshCoin(1, false);
                 }
                 setCanDoAction(true);
             } catch (MoveException ex) {
-                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return StatusMessage.ERROR_MOVE.toString();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (CoinException ex) {
-                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return ex.getMessage();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            } catch (ShepardException ex) {
+                printErrorMessage(ex.getMessage());
+                setRepeatAction(true);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
-            return StatusMessage.ACTION_OK.toString();
         } else {
             setRepeatAction(true);
-            return StatusMessage.ACTION_ERROR.toString();
+            printUncorectAction();
         }
     }
 
@@ -426,10 +427,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      *
      * @param idSheep Pecora da muovere
      * @param idTerrain Terreno destinazione
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String moveSheep(int idSheep, int idTerrain) throws RemoteException {
+    public void moveSheep(int idSheep, int idTerrain) throws RemoteException {
         //Converte sheep nell'oggetto Sheep associato
         Sheep s = gameController.getGameTable().idToSheep(idSheep);
 
@@ -437,25 +437,24 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (s == null || t == null) {
-            return Message.IMPOSSIBLE_SELECTION.toString();
+            printImpossibleSelection();
+            return;
         }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.MOVE_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().moveSheep(s, t, gameController.getGameTable());
+                printCorrectAction();
                 refreshMoveAnimal(idSheep, idTerrain);
                 setCanDoAction(true);
             } catch (MoveException ex) {
-                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return ex.getMessage();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
-            return StatusMessage.ACTION_OK.toString();
         } else {
             setRepeatAction(true);
-            return StatusMessage.ACTION_ERROR.toString();
+            printUncorectAction();
         }
     }
 
@@ -463,33 +462,28 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * Viene invocato dal connectionClient, compra una carta
      *
      * @param typeOfTerrain Tipo di carta da comprare
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String buyCard(String typeOfTerrain) throws RemoteException {
+    public void buyCard(String typeOfTerrain) throws RemoteException {
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.BUY_CARD.toString())) {
             try {
                 int cost = gameController.getPlayerPool().getFirstPlayer().buyTerrainCard(typeOfTerrain, gameController.getGameTable());
+                printCorrectAction();
                 refreshCard(typeOfTerrain, false);
                 refreshCoin(cost, false);
                 setCanDoAction(true);
             } catch (CoinException ex) {
-                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return StatusMessage.ERROR_COIN.toString();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (CardException ex) {
-                currentPlayer.getClientRMI().errorCard(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return StatusMessage.ERROR_CARD.toString();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
-            return StatusMessage.ACTION_OK.toString();
         } else {
             setRepeatAction(true);
-            return StatusMessage.ACTION_ERROR.toString();
+            printUncorectAction();
         }
     }
 
@@ -497,35 +491,33 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * Viene invocato dal connectionClient, accoppia un montone e una pecora
      *
      * @param idTerrain Terreno di accoppiamento
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String joinSheep(int idTerrain) throws RemoteException {
+    public void joinSheep(int idTerrain) throws RemoteException {
         //Converte terrain nell'oggetto Terrain associato
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (t == null) {
-            return Message.IMPOSSIBLE_SELECTION.toString();
+            printImpossibleSelection();
+            return;
         }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.JOIN_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().joinSheeps(t, gameController.getGameTable());
                 int idAnimal = gameController.getGameTable().getSheeps().get(gameController.getGameTable().getSheeps().size() - 1).getId();
+                printCorrectAction();
                 idAnimal++;
                 refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 setCanDoAction(true);
             } catch (MoveException ex) {
-                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return ex.getMessage();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
-            return StatusMessage.ACTION_OK.toString();
         } else {
             setRepeatAction(true);
-            return StatusMessage.ACTION_ERROR.toString();
+            printUncorectAction();
         }
     }
 
@@ -533,44 +525,84 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * Viene invocato dal connectionClient, uccide una pecora
      *
      * @param idSheep Pecora da uccidere
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    public String killSheep(int idSheep) throws RemoteException {
+    public void killSheep(int idSheep) throws RemoteException {
         //Converte sheep nell'oggetto Sheep associato
         Sheep s = gameController.getGameTable().idToSheep(idSheep);
 
         if (s == null) {
-            return Message.IMPOSSIBLE_SELECTION.toString();
+            printImpossibleSelection();
+            return;
         }
 
         if (gameController.getPlayerPool().getFirstPlayer().isPossibleAction(TypeAction.KILL_SHEEP.toString())) {
             try {
                 gameController.getPlayerPool().getFirstPlayer().killAnimal(s, gameController.getGameTable());
+                printCorrectAction();
                 refreshKillAnimal(idSheep);
                 setCanDoAction(true);
             } catch (CoinException ex) {
-                currentPlayer.getClientRMI().errorCoin(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return ex.getMessage();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (MoveException ex) {
-                currentPlayer.getClientRMI().errorMove(ex.getMessage());
+                printErrorMessage(ex.getMessage());
                 setRepeatAction(true);
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
-                return ex.getMessage();
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.getClientRMI().errorDice(Message.IMPOSSIBLE_DICE.toString());
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
-
+                printCorrectAction();
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 setCanDoAction(true);
             }
-            return StatusMessage.ACTION_OK.toString();
         } else {
             setRepeatAction(true);
-            return StatusMessage.ACTION_ERROR.toString();
+            printUncorectAction();
+        }
+    }
+
+    /**
+     * Invia al current player un messaggio dicendo che la mossa è andata a buon
+     * fine
+     */
+    private void printCorrectAction() {
+        try {
+            currentPlayer.getClientRMI().messageText(Message.ACTION_OK.toString());
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia al current player un messaggio dicendo che la mossa NON è andata a
+     * buon fine
+     */
+    private void printUncorectAction() {
+        try {
+            currentPlayer.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void printImpossibleSelection() {
+        try {
+            currentPlayer.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+
+            clientDisconnected(currentPlayer);
+        }
+    }
+
+    private void printErrorMessage(String message) {
+        try {
+            currentPlayer.getClientRMI().errorMessage(message);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+
+            clientDisconnected(currentPlayer);
         }
     }
 
@@ -580,9 +612,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshAddFence(road.getId());
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -598,12 +630,19 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                     try {
                         playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
                     } catch (RemoteException ex) {
-                        Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
 
-                        clientDisconnesso(playerConnection);
+                        clientDisconnected(playerConnection);
                     }
                 }
             }
+        }
+
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            turnOffGame();
+        } catch (NoSuchObjectException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -628,7 +667,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -708,7 +747,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      *
      * @param playerConnection
      */
-    public void clientDisconnesso(PlayerConnectionRMI playerConnection) {
+    public void clientDisconnected(PlayerConnectionRMI playerConnection) {
         if (playerConnection.getIdPlayer() == currentPlayer.getIdPlayer()) {
             isConnected = false;
             setCanDoAction(true);
@@ -719,6 +758,25 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 player.setOnLine(false);
             }
         }
+
+        checkAllStatus();
+    }
+
+    private void checkAllStatus() {
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.isOnLine()) {
+                //Ne trovo almeno uno online
+                return;
+            }
+        }
+        //else
+        System.out.println("Non ci sono più player collegati\nFine parita!");
+        turnOffGame();
+    }
+
+    private void turnOffGame() {
+        gameController.setConnectionManager(null);
+        gameController = null;
     }
 
     private boolean isAllClientReady() {
@@ -736,7 +794,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 return false;
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
         return true;
     }
@@ -747,16 +805,16 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 System.out.println("In attesa di tutti i giocatori...");
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         System.out.println("Tutto pronto, il gioco ha inizio.");
-        checkThread = new CheckThread();
+        checkThread = new CheckThreadRMI();
     }
 
-    private class CheckThread implements Runnable {
+    private class CheckThreadRMI implements Runnable {
 
-        public CheckThread() {
+        public CheckThreadRMI() {
             Thread thread = new Thread(this);
             thread.start();
         }
@@ -767,7 +825,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -777,11 +835,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().isAlive();
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ConnectionManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
 
-                    clientDisconnesso(playerConnection);
+                    clientDisconnected(playerConnection);
                 }
             }
         }
+
     }
 }

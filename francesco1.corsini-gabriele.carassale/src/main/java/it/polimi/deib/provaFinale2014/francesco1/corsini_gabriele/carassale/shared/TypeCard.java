@@ -14,7 +14,7 @@ public enum TypeCard {
     MOUNTAIN("Mountain"),
     FIELD("Field");
 
-    private String value;
+    private final String value;
 
     private TypeCard(String value) {
         this.value = value;

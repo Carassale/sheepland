@@ -5,12 +5,14 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.GameController;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
@@ -33,6 +35,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
     private MapServerPlayer map;
+    private CheckThreadSocket checkThread;
     private boolean isConnected;
 
     /**
@@ -58,6 +61,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     public void startThread() {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
+        waitOkFromClient();
         gameController.start(playerConnections.size());
     }
 
@@ -102,7 +106,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         } else if (TypeAction.JOIN_SHEEP.toString().equals(actionToDo)) {
             actionDo = joinSheep();
         } else if (StatusMessage.DISCONNECTED.toString().equals(actionToDo)) {
-            clientDisconnesso();
+            clientDisconnected();
             isConnected = false;
             return true;
         }
@@ -159,8 +163,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Road r = gameController.getGameTable().idToRoad(idRoad);
 
         if (s == null || r == null) {
-            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
-            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            printImpossibleSelection();
             return false;
         }
 
@@ -178,16 +181,16 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 }
                 return true;
             } catch (CoinException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (MoveException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
-                currentPlayer.printLn(StatusMessage.ERROR_MOVE.toString());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                return false;
+            } catch (ShepardException ex) {
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -214,8 +217,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (s == null || t == null) {
-            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
-            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            printImpossibleSelection();
             return false;
         }
 
@@ -226,10 +228,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshMoveAnimal(idSheep, idTerrain);
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -256,16 +256,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshCard(kind, false);
                 return true;
             } catch (CoinException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
-                currentPlayer.printLn(StatusMessage.ERROR_COIN.toString());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, StatusMessage.ERROR_COIN.toString(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (CardException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_CARD.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -289,8 +285,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Sheep s = gameController.getGameTable().idToSheep(idSheep);
 
         if (s == null) {
-            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
-            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            printImpossibleSelection();
             return false;
         }
 
@@ -301,22 +296,16 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 refreshKillAnimal(idSheep);
                 return true;
             } catch (CoinException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_COIN.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (MoveException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             } catch (WrongDiceNumberException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_DICE.toString());
-                currentPlayer.printLn(Message.IMPOSSIBLE_DICE.toString());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, Message.IMPOSSIBLE_DICE.toString(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 printCorrectAction();
                 return true;
             }
@@ -339,8 +328,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         Terrain t = gameController.getGameTable().idToTerrain(idTerrain);
 
         if (t == null) {
-            currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
-            currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+            printImpossibleSelection();
             return false;
         }
 
@@ -353,10 +341,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 printCorrectAction();
                 return true;
             } catch (MoveException ex) {
-                currentPlayer.printLn(TypeAction.ERROR_MOVE.toString());
-                currentPlayer.printLn(ex.getMessage());
-                Logger.getLogger(ConnectionManagerSocket.class.getName())
-                        .log(Level.SEVERE, ex.getMessage(), ex);
+                printErrorMessage(ex.getMessage());
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 return false;
             }
         } else {
@@ -371,7 +357,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     private void printCorrectAction() {
         currentPlayer.printLn(TypeAction.MESSAGE_TEXT.toString());
-        currentPlayer.printLn(StatusMessage.ACTION_OK.toString());
+        currentPlayer.printLn(Message.ACTION_OK.toString());
     }
 
     /**
@@ -380,8 +366,26 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     private void printUncorectAction() {
         currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
-        currentPlayer.printLn(StatusMessage.ACTION_ERROR.toString());
+        currentPlayer.printLn(Message.ACTION_ERROR.toString());
+    }
 
+    /**
+     * Invia al current player un messaggio dicendo che gli oggetti selezionati
+     * non esistono
+     */
+    private void printImpossibleSelection() {
+        currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+        currentPlayer.printLn(Message.IMPOSSIBLE_SELECTION.toString());
+    }
+
+    /**
+     * Invia al current player un messagge di errore conentenente un messaggio
+     *
+     * @param message
+     */
+    private void printErrorMessage(String message) {
+        currentPlayer.printLn(TypeAction.ERROR_MESSAGE.toString());
+        currentPlayer.printLn(message);
     }
 
     /**
@@ -398,10 +402,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         currentPlayer.printLn(idShepard);
         //attende risposta 
         Integer id = currentPlayer.getNextInt();
-        //ricava l'oggetto
-        Road roadChoosen = gameController.getGameTable().idToRoad(id);
-
-        return roadChoosen;
+        //ricava l'oggetto e lo invia
+        return gameController.getGameTable().idToRoad(id);
     }
 
     /**
@@ -707,13 +709,89 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * Viene chiamato nel caso il client si sia disconnesso, modifica i valori
      * onLine nella hash map e nel game controller
      */
-    public void clientDisconnesso() {
-        map.setOnLine(currentPlayer.getNickname(), false);
+    public void clientDisconnected() {
+        clientDisconnected(currentPlayer);
+    }
+
+    private void clientDisconnected(PlayerConnectionSocket playerConnection) {
+        map.setOnLine(playerConnection.getNickname(), false);
         for (Player player : gameController.getPlayerPool().getPlayers()) {
-            if (player.getIdPlayer() == currentPlayer.getIdPlayer()) {
+            if (player.getIdPlayer() == playerConnection.getIdPlayer()) {
                 player.setOnLine(false);
             }
         }
+        checkAllStatus();
     }
 
+    private void checkAllStatus() {
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.isOnLine()) {
+                //Ne trovo almeno uno online
+                return;
+            }
+        }
+        //else
+        System.out.println("Non ci sono più player collegati\nFine parita!");
+        turnOffGame();
+    }
+
+    private void turnOffGame() {
+        gameController.setConnectionManager(null);
+        gameController = null;
+    }
+
+    private boolean isAllClientReady() {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            if (!isRadyClient(playerConnection)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isRadyClient(PlayerConnectionSocket playerConnection) {
+        playerConnection.printLn(TypeAction.IS_READY.toString());
+        return Boolean.valueOf(playerConnection.getNextLine());
+    }
+
+    private void waitOkFromClient() {
+        while (!isAllClientReady()) {
+            try {
+                System.out.println("In attesa di tutti i giocatori...");
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println("Tutto pronto, il gioco ha inizio.");
+        checkThread = new CheckThreadSocket();
+    }
+
+    private class CheckThreadSocket implements Runnable {
+
+        public CheckThreadSocket() {
+            Thread thread = new Thread(this);
+            thread.start();
+        }
+
+        public void run() {
+            while (true) {
+                checkStatus();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        private void checkStatus() {
+            for (PlayerConnectionSocket playerConnection : playerConnections) {
+                if (!playerConnection.hasNext()) {
+                    clientDisconnected(playerConnection);
+                }
+            }
+        }
+
+    }
 }

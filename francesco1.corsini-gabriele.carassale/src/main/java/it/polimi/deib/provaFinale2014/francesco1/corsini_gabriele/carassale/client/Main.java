@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
@@ -36,6 +37,9 @@ public class Main {
 
     ConnectionClient connectionClient;
 
+    private Socket socket;
+    private BufferedReader inSocket;
+    private PrintWriter outSocket;
     private BufferedReader inKeyboard;
     private PrintWriter outVideo;
 
@@ -102,7 +106,7 @@ public class Main {
         if (doTransfer) {
             serverRMI.reconnect(nickname);
         }
-        
+
         connectionClient.waitLine();
     }
 
@@ -126,8 +130,6 @@ public class Main {
      */
     public void sendNicknameSocket(Socket socket) throws IOException {
         //Invio il nickname
-        PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-        BufferedReader inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         String s;
         do {
             insertNickName();
@@ -184,9 +186,11 @@ public class Main {
      */
     private void tryConnectionSocket() {
         //Il client tenta di connettersi tramite socket
-        Socket socket = null;
+        socket = null;
         try {
             socket = new Socket(ADDRESS, ConnectionVariable.PORT_SOCKET);
+            outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             sendNicknameSocket(socket);
 
@@ -194,16 +198,14 @@ public class Main {
             connected = true;
         } catch (IOException ex) {
             //Connessione tramite Socket non riuscita
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (connected) {
             try {
                 connectionClient = new ConnectionClientSocket(socket);
             } catch (IOException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -240,9 +242,9 @@ public class Main {
             }
 
         } catch (NotBoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -265,7 +267,7 @@ public class Main {
         try {
             s = inKeyboard.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
     }
@@ -295,7 +297,7 @@ public class Main {
         try {
             Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, nfe);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, nfe);
             return false;
         }
         return true;
@@ -310,7 +312,7 @@ public class Main {
         try {
             new Main();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

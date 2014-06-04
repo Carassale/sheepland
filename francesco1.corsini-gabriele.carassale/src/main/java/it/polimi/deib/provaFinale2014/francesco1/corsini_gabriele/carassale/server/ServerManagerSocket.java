@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -42,6 +43,8 @@ public class ServerManagerSocket implements ServerManager {
     private MapServerPlayer map;
 
     private Socket socket;
+    private BufferedReader inSocket;
+
     private String nickname;
 
     private PrintWriter outVideo;
@@ -74,7 +77,7 @@ public class ServerManagerSocket implements ServerManager {
 
             waitPlayer();
         } catch (IOException ex) {
-            Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -145,15 +148,12 @@ public class ServerManagerSocket implements ServerManager {
     public void checkNickname() throws IOException {
         boolean doRepeat;
         do {
-            BufferedReader inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             nickname = inSocket.readLine();
 
-            if (nickname == null
-                    || (map.existPlayer(nickname) && map.isOnLine(nickname))
-                    || (map.existPlayer(nickname)
-                    && !map.isOnLine(nickname)
-                    && !map.isTypeConnectionSocket(nickname))) {
+            if (playerIsOnLine(nickname)
+                    || playerIsUncorrectType(nickname)) {
                 outSocket.println(StatusMessage.NOT_CORRECT_NICKNAME.toString());
                 outSocket.flush();
                 outSocket.println("Questo nickname è già utilizzato da un altro player, controllare il tipo di connessione");
@@ -167,6 +167,14 @@ public class ServerManagerSocket implements ServerManager {
                 doRepeat = false;
             }
         } while (doRepeat);
+    }
+
+    private boolean playerIsOnLine(String nickname) {
+        return map.existPlayer(nickname) && map.isOnLine(nickname);
+    }
+
+    private boolean playerIsUncorrectType(String nickname) {
+        return map.existPlayer(nickname) && !map.isOnLine(nickname) && !map.isTypeConnectionSocket(nickname);
     }
 
     /**
@@ -221,10 +229,12 @@ public class ServerManagerSocket implements ServerManager {
                 if (playerConnection.size() >= 2) {
                     runNewGame();
                 } else {
-                    swt = new SocketWaitingTimer();
+                    outVideo.println("Socket: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
+                    playerConnection.get(0).printLn(StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString());
+                    playerConnection = new ArrayList<PlayerConnectionSocket>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

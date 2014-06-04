@@ -20,48 +20,20 @@ public interface ClientRMI extends Remote {
     void setConnectionRMI(ConnectionRMI connectionRMI) throws RemoteException;
 
     /**
+     * Viene chiamato dal serverManagerRMI nel caso non ci siano state
+     * abbastanza connessioni e il client si disconnette
+     *
+     * @throws RemoteException
+     */
+    void disconnectForTimout() throws RemoteException;
+
+    /**
      * Viene chiamato dal connectionManagerRMI, risveglia il client e chiede di
      * fare le azioni
      *
      * @throws RemoteException
      */
     void wakeUp() throws RemoteException;
-
-    /**
-     * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
-     * coin
-     *
-     * @param message Messaggio da inviare
-     * @throws RemoteException
-     */
-    void errorCoin(String message) throws RemoteException;
-
-    /**
-     * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
-     * movimento
-     *
-     * @param message Messaggio da inviare
-     * @throws RemoteException
-     */
-    void errorMove(String message) throws RemoteException;
-
-    /**
-     * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
-     * carte
-     *
-     * @param message Messaggio da inviare
-     * @throws RemoteException
-     */
-    void errorCard(String message) throws RemoteException;
-
-    /**
-     * Viene chiamato dal connectionManagerRMI, invia un messaggio di errore
-     * dado
-     *
-     * @param message Messaggio da inviare
-     * @throws RemoteException
-     */
-    void errorDice(String message) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, chiede di posizionare il pastore
@@ -182,4 +154,20 @@ public interface ClientRMI extends Remote {
      * @throws RemoteException
      */
     void isAlive() throws RemoteException;
+
+    /**
+     * Stampa un messaggio di errore
+     *
+     * @param message
+     * @throws RemoteException
+     */
+    void errorMessage(String message) throws RemoteException;
+
+    /**
+     * Stampa un messaggio
+     *
+     * @param message
+     * @throws RemoteException
+     */
+    void messageText(String message) throws RemoteException;
 }

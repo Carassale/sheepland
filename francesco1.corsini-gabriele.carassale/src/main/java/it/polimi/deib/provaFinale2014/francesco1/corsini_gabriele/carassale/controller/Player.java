@@ -73,7 +73,8 @@ public class Player {
 
     /**
      * Setter della posizione finale, il primo ha valore 1
-     * @param finalPosition 
+     *
+     * @param finalPosition
      */
     public void setFinalPosition(int finalPosition) {
         this.finalPosition = finalPosition;
@@ -81,6 +82,7 @@ public class Player {
 
     /**
      * Getter chiamato per calcolare lo score finale
+     *
      * @return score del giocatore
      */
     public int getFinalScore() {
@@ -89,6 +91,7 @@ public class Player {
 
     /**
      * Setter per immettere il punteggio
+     *
      * @param finalScore punteggio
      */
     public void setFinalScore(int finalScore) {
@@ -146,10 +149,10 @@ public class Player {
 
                 return cost;
             } else {
-                throw new CoinException("Non hai abbastanza soldi");
+                throw new CoinException(Message.NO_MONEY.toString());
             }
         } else {
-            throw new CardException("Le carte di questa tipologia sono finite");
+            throw new CardException(Message.NO_OTHER_CARD.toString());
         }
     }
 
@@ -161,27 +164,31 @@ public class Player {
      * @param game gioco su cui si sta giocando
      * @throws CoinException lanciata nel caso soldi insufficenti
      * @throws MoveException lanciata nel caso mossa illegale
+     * @throws ShepardException lanciata nel caso non sia un pastore del player
      */
-    public void moveShepard(Road destination, Shepard shepard, GameTable game) throws CoinException, MoveException {
+    public void moveShepard(Road destination, Shepard shepard, GameTable game) throws CoinException, MoveException, ShepardException {
+        if (shepard.getOwner().getIdPlayer() == getIdPlayer()) {
+            boolean canMove = canMoveShepard(destination);
+            Road shepPos = shepard.getPosition();
 
-        boolean canMove = canMoveShepard(destination);
-        Road shepPos = shepard.getPosition();
-
-        if (canMove) {
-            if (shepard.isExpensiveMove(destination)) {
-                if (coins == 0) {
-                    throw new CoinException(Message.NO_MONEY.toString());
-                } else {
-                    coins--;
+            if (canMove) {
+                if (shepard.isExpensiveMove(destination)) {
+                    if (coins == 0) {
+                        throw new CoinException(Message.NO_MONEY.toString());
+                    } else {
+                        coins--;
+                    }
                 }
+                shepPos.setFence(true);
+                shepPos.setHasShepard(false);
+                shepard.setPosition(destination);
+                shepard.getPosition().setHasShepard(true);
+                game.decreaseFenceNumber();
+            } else {
+                throw new MoveException(Message.ROAD_OCCUPIED.toString());
             }
-            shepPos.setFence(true);
-            shepPos.setHasShepard(false);
-            shepard.setPosition(destination);
-            shepard.getPosition().setHasShepard(true);
-            game.decreaseFenceNumber();
         } else {
-            throw new MoveException();
+            throw new ShepardException(Message.NO_YOUR_SHEPARD.toString());
         }
     }
 
@@ -274,7 +281,7 @@ public class Player {
                     int payment = payShepards(sheepPosition);
                     coins = coins - payment;
                 } else {
-                    throw new WrongDiceNumberException(random);
+                    throw new WrongDiceNumberException(Message.NO_CORRECT_DICE.toString() + random);
                 }
             } else {
                 throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
@@ -567,7 +574,7 @@ public class Player {
                     int payment = payShepards(sheepPosition);
                     coins = coins - payment;
                 } else {
-                    throw new WrongDiceNumberException(num);
+                    throw new WrongDiceNumberException(Message.NO_CORRECT_DICE.toString() + num);
                 }
             } else {
                 throw new MoveException(Message.NO_NEAR_SHEPARD.toString());

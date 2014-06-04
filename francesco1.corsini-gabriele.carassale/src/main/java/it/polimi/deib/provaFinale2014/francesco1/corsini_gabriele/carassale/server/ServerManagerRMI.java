@@ -4,6 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.conn
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.BufferedWriter;
@@ -67,7 +68,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
             outVideo.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
-            Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -83,7 +84,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             try {
                 games.add(new ConnectionManagerRMI(playerConnection, map));
             } catch (RemoteException ex) {
-                Logger.getLogger(ServerManagerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
             outVideo.println("RMI: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnectionRMI>();
@@ -112,12 +113,20 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      * @return Status Messagge CORRECT se può collegarsi, NOT CORRECT se non può
      */
     public String checkNickname(String nickname) {
-        if ((map.existPlayer(nickname) && map.isOnLine(nickname))
-                || (map.existPlayer(nickname) && !map.isOnLine(nickname) && map.isTypeConnectionSocket(nickname))) {
+        if (playerIsOnLine(nickname)
+                || playerIsUncorrectType(nickname)) {
             return StatusMessage.NOT_CORRECT_NICKNAME.toString();
         } else {
             return StatusMessage.CORRECT_NICKNAME.toString();
         }
+    }
+
+    private boolean playerIsOnLine(String nickname) {
+        return map.existPlayer(nickname) && map.isOnLine(nickname);
+    }
+
+    private boolean playerIsUncorrectType(String nickname) {
+        return map.existPlayer(nickname) && !map.isOnLine(nickname) && map.isTypeConnectionSocket(nickname);
     }
 
     /**
@@ -221,10 +230,14 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 if (playerConnection.size() >= 2) {
                     runNewGame();
                 } else {
-                    swt = new RMIWaitingTimer();
+                    outVideo.println("Socket: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
+                    playerConnection.get(0).getClientRMI().disconnectForTimout();
+                    playerConnection = new ArrayList<PlayerConnectionRMI>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(ServerManagerSocket.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

@@ -7,6 +7,13 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 public class WrongDiceNumberException extends Exception {
 
     /**
+     * Solleva un eccezione
+     */
+    public WrongDiceNumberException() {
+        super();
+    }
+
+    /**
      * Solleva un eccezione passando un intero
      *
      * @param diceNumber Intero da sollevare
@@ -16,10 +23,11 @@ public class WrongDiceNumberException extends Exception {
     }
 
     /**
-     * Solleva un eccezione
+     * Solleva un eccezione passando una stringa
+     *
+     * @param s Stringa da sollevare
      */
-    public WrongDiceNumberException() {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+    public WrongDiceNumberException(String s) {
+        super(s);
     }
 }

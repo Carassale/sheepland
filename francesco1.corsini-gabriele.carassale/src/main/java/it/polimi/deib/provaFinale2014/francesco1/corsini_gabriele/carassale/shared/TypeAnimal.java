@@ -15,7 +15,7 @@ public enum TypeAnimal {
     MALE("male"),
     FEMALE("female");
 
-    private String value;
+    private final String value;
 
     private TypeAnimal(String value) {
         this.value = value;

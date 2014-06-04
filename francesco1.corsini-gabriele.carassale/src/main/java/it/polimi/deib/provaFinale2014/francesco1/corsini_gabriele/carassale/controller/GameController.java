@@ -8,6 +8,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
@@ -60,9 +61,8 @@ public class GameController {
     /**
      * Method che crea e chiama i vari Turn dei singoli giocatori nel singolo
      * Round.(se 4 giocatori ==> 4 Turns = 1 Round ) Il isGameOver serve sia
-     * come costruttore del Turn
-     * sia come ritorno al PlayGame che così smetterà di richiamare questo
-     * method
+     * come costruttore del Turn sia come ritorno al PlayGame che così smetterà
+     * di richiamare questo method
      *
      * @return true se il gioco è finito
      */
@@ -357,9 +357,9 @@ public class GameController {
                         alredyPicked[random] = true;
                         playerHasPicked = true;
                     } catch (CoinException ex) {
-                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (CardException ex) {
-                        Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -460,7 +460,7 @@ public class GameController {
             wolf.move(road);
             return true;
         } catch (WrongDiceNumberException ex) {
-            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -532,4 +532,9 @@ public class GameController {
         playGame();
         declareWinner();
     }
+    
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
 }

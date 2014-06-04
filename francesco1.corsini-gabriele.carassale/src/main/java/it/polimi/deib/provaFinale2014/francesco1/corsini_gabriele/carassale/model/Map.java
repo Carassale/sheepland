@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -30,7 +31,7 @@ public class Map {
             try {
                 roads.add(generateRoad(i));
             } catch (TerrainBoundariesExeption ex) {
-            Logger.getLogger(Map.class.getName())
+            Logger.getLogger(DebugLogger.class.getName())
                     .log(Level.SEVERE, "Errore nella creazione delle strade", ex);
             }
         }

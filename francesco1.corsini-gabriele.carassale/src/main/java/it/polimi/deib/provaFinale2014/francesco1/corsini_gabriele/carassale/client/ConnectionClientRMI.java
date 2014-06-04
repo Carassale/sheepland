@@ -2,9 +2,10 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -37,6 +38,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * dei metodi
      */
     private ConnectionRMI connectionRMI;
+    private String nickname;
 
     /**
      * Crea un connection client di tipo RMI passando lo stub del server
@@ -45,12 +47,13 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @throws java.rmi.RemoteException
      */
     public ConnectionClientRMI(String nickname) throws RemoteException {
+        this.nickname = nickname;
         try {
             Registry registry = LocateRegistry.getRegistry(PORT);
             registry.rebind(nickname, this);
 
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -111,14 +114,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void moveShepard(int idShepard, int idRoad) {
         try {
-            String s = connectionRMI.moveShepard(idShepard, idRoad);
-            if (StatusMessage.ACTION_OK.toString().equals(s)) {
-                typeOfInteraction.messageText(s);
-            } else {
-                typeOfInteraction.errorMessage(s);
-            }
+            connectionRMI.moveShepard(idShepard, idRoad);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -131,14 +129,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void moveSheep(int idSheep, int idTerrain) {
         try {
-            String s = connectionRMI.moveSheep(idSheep, idTerrain);
-            if (StatusMessage.ACTION_OK.toString().equals(s)) {
-                typeOfInteraction.messageText(s);
-            } else {
-                typeOfInteraction.errorMessage(s);
-            }
+            connectionRMI.moveSheep(idSheep, idTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -150,14 +143,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void buyCard(String typeOfTerrain) {
         try {
-            String s = connectionRMI.buyCard(typeOfTerrain);
-            if (StatusMessage.ACTION_OK.toString().equals(s)) {
-                typeOfInteraction.messageText(s);
-            } else {
-                typeOfInteraction.errorMessage(s);
-            }
+            connectionRMI.buyCard(typeOfTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -169,15 +157,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void killSheep(int idSheep) {
         try {
-            String s = connectionRMI.killSheep(idSheep);
-            if (StatusMessage.ACTION_OK.toString().equals(s)
-                    || Message.IMPOSSIBLE_DICE.toString().equals(s)) {
-                typeOfInteraction.messageText(s);
-            } else {
-                typeOfInteraction.errorMessage(s);
-            }
+            connectionRMI.killSheep(idSheep);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -189,14 +171,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void joinSheep(int idTerrain) {
         try {
-            String s = connectionRMI.joinSheep(idTerrain);
-            if (StatusMessage.ACTION_OK.toString().equals(s)) {
-                typeOfInteraction.messageText(s);
-            } else {
-                typeOfInteraction.errorMessage(s);
-            }
+            connectionRMI.joinSheep(idTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -209,50 +186,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void wakeUp() throws RemoteException {
         typeOfInteraction.clickAction();
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il method è un messaggio per errore di monete
-     *
-     * @param message Messaggio da mostrare
-     * @throws RemoteException
-     */
-    public void errorCoin(String message) throws RemoteException {
-        typeOfInteraction.errorMessage(message);
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il method è un messaggio per errore di movimento
-     *
-     * @param message Messaggio da mostrare
-     * @throws RemoteException
-     */
-    public void errorMove(String message) throws RemoteException {
-        typeOfInteraction.errorMessage(message);
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il method è un messaggio per errore di fine carte
-     *
-     * @param message Messaggio da mostrare
-     * @throws RemoteException
-     */
-    public void errorCard(String message) throws RemoteException {
-        typeOfInteraction.errorMessage(message);
-    }
-
-    /**
-     * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il method è un messaggio per errore di dado
-     *
-     * @param message Messaggio da mostrare
-     * @throws RemoteException
-     */
-    public void errorDice(String message) throws RemoteException {
-        typeOfInteraction.errorMessage(message);
     }
 
     /**
@@ -272,7 +205,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
                 try {
                     objectSyncronize.wait();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -396,7 +329,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @param finalPosition Posizione in classifica
      * @param finalScore Punteggio finale
      */
-    public void refreshWinner(int finalPosition, int finalScore) {
+    public void refreshWinner(int finalPosition, int finalScore) throws RemoteException {
         typeOfInteraction.refreshWinner(finalPosition, finalScore);
     }
 
@@ -404,9 +337,49 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * Questo method serve al server a sapere se il client è ancora collegato,
      * non fa nulla perchè se il server non riesce a invocare il method ha già
      * la conferma che è scollegato
+     *
+     * @throws java.rmi.RemoteException
      */
-    public void isAlive() {
+    public void isAlive() throws RemoteException {
         //non fa nulla, serve al serve a sapere se è collegato
+    }
+
+    /**
+     * Effettua l'unbind e spegne il client
+     *
+     * @throws RemoteException
+     */
+    public void disconnectForTimout() throws RemoteException {
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            Registry registry = LocateRegistry.getRegistry(PORT);
+            registry.unbind(nickname);
+            System.out.println("Sei stato disconnesso dal server, non è stato raggiunto il numero minimo di giocatori");
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AccessException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Invia un messaggio al client
+     *
+     * @param message
+     * @throws java.rmi.RemoteException
+     */
+    public void messageText(String message) throws RemoteException {
+        typeOfInteraction.messageText(message);
+    }
+
+    /**
+     * Invia un messaggio di errore al client
+     *
+     * @param message
+     * @throws java.rmi.RemoteException
+     */
+    public void errorMessage(String message) throws RemoteException {
+        typeOfInteraction.messageText(message);
     }
 
 }

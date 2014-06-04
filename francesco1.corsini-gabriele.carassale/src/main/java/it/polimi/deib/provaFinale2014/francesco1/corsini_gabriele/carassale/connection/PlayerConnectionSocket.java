@@ -74,7 +74,7 @@ public class PlayerConnectionSocket {
      * @return String
      */
     public String getNextLine() {
-        if (inSocket.hasNext()) {
+        if (hasNext()) {
             return inSocket.nextLine();
         } else {
             return StatusMessage.DISCONNECTED.toString();
@@ -119,4 +119,8 @@ public class PlayerConnectionSocket {
         this.nickname = nickname;
     }
 
+    
+    public boolean hasNext() {
+        return inSocket.hasNext();
+    }
 }

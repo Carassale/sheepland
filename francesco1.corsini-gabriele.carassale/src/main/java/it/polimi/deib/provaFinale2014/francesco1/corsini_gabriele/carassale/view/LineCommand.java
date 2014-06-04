@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.io.BufferedReader;
@@ -55,7 +56,7 @@ public class LineCommand implements TypeOfInteraction {
         try {
             s = inKeyboard.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(LineCommand.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
         return s;
     }
@@ -250,7 +251,7 @@ public class LineCommand implements TypeOfInteraction {
                 killSheep();
                 break;
             default:
-                print("Qualcosa è andato storto...");
+                print("Qualcosa è andato storto... ");
                 break;
         }
     }

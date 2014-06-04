@@ -1,6 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Crea un oggetto contenente la lista dei giocatori
@@ -44,7 +47,7 @@ public class PlayerPool {
     public boolean nextPlayer() {
         players.add(players.get(0));
         players.remove(0);
-        
+
         if (!players.get(0).isOnLine()) {
             return nextPlayer();
         }

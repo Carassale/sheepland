@@ -1,6 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.io.BufferedReader;
@@ -25,18 +25,16 @@ public class ConnectionClientSocket implements ConnectionClient {
     private PrintWriter outSocket;
 
     private TypeOfInteraction typeOfInteraction;
+    private boolean isReady = false;
 
     /**
-     * Imposta il socket passato come parametro e lo rende pubblico alla classe,
-     * inizializza le due printWriter e i due bufferReader, associa una
-     * TableView, fa partire il method waitLine
+     * Crea la print writer e il buffer reader associati al socket
      *
      * @param socket È il socket associato alla connessione con il Server, li
      * viene passato direttamente dal ConnectionClient
      * @throws IOException
-     * @throws ClassNotFoundException
      */
-    public ConnectionClientSocket(Socket socket) throws IOException, ClassNotFoundException {
+    public ConnectionClientSocket(Socket socket) throws IOException {
         this.typeOfInteraction = null;
 
         inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -50,6 +48,16 @@ public class ConnectionClientSocket implements ConnectionClient {
      */
     public void setTypeOfInteraction(TypeOfInteraction typeOfInteraction) {
         this.typeOfInteraction = typeOfInteraction;
+        isReady = true;
+    }
+
+    /**
+     * Viene chiamato dal connection client per sapere se è pronto a ricevere
+     * comandi
+     */
+    public void isReady() {
+        outSocket.print(isReady);
+        outSocket.flush();
     }
 
     /**
@@ -60,16 +68,10 @@ public class ConnectionClientSocket implements ConnectionClient {
         while (!gameFinish) {
             try {
                 String s = inSocket.readLine();
-                if (TypeAction.WAKE_UP.toString().equals(s)) {
+                if (TypeAction.IS_READY.toString().equals(s)) {
+                    isReady();
+                }else if (TypeAction.WAKE_UP.toString().equals(s)) {
                     typeOfInteraction.clickAction();
-                } else if (TypeAction.ERROR_COIN.toString().equals(s)) {
-                    errorCoin();
-                } else if (TypeAction.ERROR_MOVE.toString().equals(s)) {
-                    errorMove();
-                } else if (TypeAction.ERROR_DICE.toString().equals(s)) {
-                    errorDice();
-                } else if (TypeAction.ERROR_CARD.toString().equals(s)) {
-                    errorCard();
                 } else if (TypeAction.ERROR_MESSAGE.toString().equals(s)) {
                     errorMessage();
                 } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
@@ -99,43 +101,9 @@ public class ConnectionClientSocket implements ConnectionClient {
                     gameFinish = true;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }
-
-    /**
-     * Stampa un errore, oggetto: Coin
-     * @throws java.io.IOException
-     */
-    public void errorCoin() throws IOException {
-        String s = inSocket.readLine();
-        typeOfInteraction.errorMessage(s);
-    }
-
-    /**
-     * Stampa un errore, oggetto: Move
-     * @throws java.io.IOException
-     */
-    public void errorMove() throws IOException {
-        String s = inSocket.readLine();
-        typeOfInteraction.errorMessage(s);
-    }
-
-    /**
-     * Stampa un errore, oggetto: Dice
-     * @throws java.io.IOException
-     */
-    public void errorDice() throws IOException {
-        String s = inSocket.readLine();
-        typeOfInteraction.errorMessage(s);
-    }
-
-    /**
-     * Stampa un errore, oggetto: Card
-     */
-    public void errorCard() {
-        typeOfInteraction.errorMessage(Message.IMPOSSIBLE_CARD.toString());
     }
 
     /**
@@ -158,7 +126,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -173,7 +141,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -186,7 +154,7 @@ public class ConnectionClientSocket implements ConnectionClient {
             typeOfInteraction.refreshKillAnimal(idAnimal);
 
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -200,7 +168,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -217,7 +185,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -230,7 +198,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddFence(idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -244,7 +212,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -262,7 +230,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCard(kind, isSold);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -280,7 +248,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCoin(coins, addCoin);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -294,7 +262,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshWinner(finalPosition, finalScore);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -374,24 +342,16 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Invia un messaggio al client
      */
-    private void messageText() {
-        try {
-            String s = inSocket.readLine();
-            typeOfInteraction.messageText(s);
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void messageText() throws IOException {
+        String s = inSocket.readLine();
+        typeOfInteraction.messageText(s);
     }
 
     /**
      * Invia un messaggio di errore al client
      */
-    private void errorMessage() {
-        try {
-            String s = inSocket.readLine();
-            typeOfInteraction.messageText(s);
-        } catch (IOException ex) {
-            Logger.getLogger(ConnectionClientSocket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    private void errorMessage() throws IOException {
+        String s = inSocket.readLine();
+        typeOfInteraction.errorMessage(s);
     }
 }

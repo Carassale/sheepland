@@ -13,10 +13,7 @@ public enum TypeAction {
     KILL_SHEEP("Kill_sheep"),
     JOIN_SHEEP("Join_sheep"),
     WAKE_UP("Wake_up"),
-    ERROR_COIN("Errore_coin"),
-    ERROR_MOVE("Error_move"),
-    ERROR_DICE("Error_dice"),
-    ERROR_CARD("Error_card"),
+    IS_READY("Is_ready"),
     PLACE_SHEPARD("Place_shepard"),
     REFRESH_MOVE_ANIMAL("Refresh_move_animal"),
     REFRESH_ADD_ANIMAL("Refresh_add_animal"),
@@ -31,7 +28,7 @@ public enum TypeAction {
     ERROR_MESSAGE("Error_message:"),
     MESSAGE_TEXT("Message_text:");
 
-    private String value;
+    private final String value;
 
     private TypeAction(String value) {
         this.value = value;

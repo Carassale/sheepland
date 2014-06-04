@@ -135,9 +135,10 @@ public class PlayerTest {
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
+     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException
      */
     @Test(expected = MoveException.class)
-    public void testMoveShepard4() throws MoveException, CoinException {
+    public void testMoveShepard4() throws MoveException, CoinException, ShepardException {
         game.getMap().getRoads().get(13).setFence(true);
         player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
     }
@@ -149,9 +150,10 @@ public class PlayerTest {
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
+     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException
      */
     @Test(expected = MoveException.class)
-    public void testMoveShepard5() throws MoveException, CoinException {
+    public void testMoveShepard5() throws MoveException, CoinException, ShepardException {
         Shepard shepard2 = new Shepard(game.getMap().getRoads().get(13));
         player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
     }

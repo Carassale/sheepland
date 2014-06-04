@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +60,7 @@ public class Terrain {
         try {
             this.animals.remove(this.animals.indexOf(animal));
         } catch (ArrayIndexOutOfBoundsException e) {
-            Logger.getLogger(Terrain.class.getName())
+            Logger.getLogger(DebugLogger.class.getName())
                     .log(Level.SEVERE, "Errore eliminazione animale dal territorio(usato per spostare o uccidere animali", e);
         }
     }

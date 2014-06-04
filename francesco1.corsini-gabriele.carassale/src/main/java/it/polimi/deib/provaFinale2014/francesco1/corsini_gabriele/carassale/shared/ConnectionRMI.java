@@ -15,46 +15,41 @@ public interface ConnectionRMI extends Remote {
      *
      * @param idShepard Pastore da muovere
      * @param idRoad Strada destinazione
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    String moveShepard(int idShepard, int idRoad) throws RemoteException;
+    void moveShepard(int idShepard, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal client, muove la pecora
      *
      * @param idSheep Pecora da muovere
      * @param idTerrain Terreno destinazione
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    String moveSheep(int idSheep, int idTerrain) throws RemoteException;
+    void moveSheep(int idSheep, int idTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, compra una carta
      *
      * @param typeOfTerrain Tipo di carta da comprare
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    String buyCard(String typeOfTerrain) throws RemoteException;
+    void buyCard(String typeOfTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, accoppia pecora e montone
      *
      * @param idTerrain Terreno dove avviene l'accoppiamento
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    String joinSheep(int idTerrain) throws RemoteException;
+    void joinSheep(int idTerrain) throws RemoteException;
 
     /**
      * Viene chiamato dal client, uccide una pecora
      *
      * @param idSheep Pecora da uccidere
-     * @return Messaggio di conferma
      * @throws RemoteException
      */
-    String killSheep(int idSheep) throws RemoteException;
+    void killSheep(int idSheep) throws RemoteException;
 
 }

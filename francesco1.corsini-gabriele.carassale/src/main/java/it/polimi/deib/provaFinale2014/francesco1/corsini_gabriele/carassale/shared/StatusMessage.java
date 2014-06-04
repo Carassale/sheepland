@@ -11,19 +11,15 @@ public enum StatusMessage {
     NO_PLAYER_ADDED("Player non aggiunto"),
     PLAYER_TRANSFER("Player trasferito"),
     CONNECTED("Connesso"),
-    ACTION_OK("Mossa effettuata"),
-    ACTION_ERROR("Non è possibile fare questa mossa, ricorda di muovere il pastore"),
-    ERROR_MOVE("Error_move"),
-    ERROR_DICE("Error_dice"),
-    ERROR_COIN("Error_coin"),
-    ERROR_CARD("Error_card"),
+    DISCONNECTED("Disconnected"),
     TYPE_SOCKET("Type_socket"),
     TYPE_RMI("Type_rmi"),
     CORRECT_NICKNAME("Correct_nickname"),
     NOT_CORRECT_NICKNAME("Not_correct_nickname"),
-    DISCONNECTED("Disconnected");
+    GAME_STARTED("Game_started"),
+    DISCONNECTED_FOR_TIMEOUT("Disconnected_for_timeout");
 
-    private String value;
+    private final String value;
 
     private StatusMessage(String value) {
         this.value = value;
