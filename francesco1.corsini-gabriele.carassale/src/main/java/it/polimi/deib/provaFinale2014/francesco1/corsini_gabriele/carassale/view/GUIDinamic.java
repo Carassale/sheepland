@@ -644,6 +644,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param i the territory to calc
      */
     public void activateSheepTypeButton(int i) {
+        //prima li disattivo(la stringa non importa nel caso false)
         jlabelWhiteSheep[i].activateTypeButton();
         jlabelRam[i].activateTypeButton();
         jlabelLamb[i].activateTypeButton();
