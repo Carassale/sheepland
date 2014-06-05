@@ -20,7 +20,7 @@ public class BufferedImageContainer {
 
     private BufferedImage fence, redShepard, greenShepard, blueShepard,
             yellowShepard, transparent, coins, ram, whiteSheep, lamb,heart,
-            lambPlus1, heartbroken, sadFace, winner;
+            lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop;
 
     /**
      * Standard constructor
@@ -42,6 +42,8 @@ public class BufferedImageContainer {
             heartbroken = ImageIO.read(new File(".\\src\\main\\resources\\heartbroken.png"));
             sadFace = ImageIO.read(new File(".\\src\\main\\resources\\sadFace.png"));
             winner = ImageIO.read(new File(".\\src\\main\\resources\\winner.png"));
+            splat = ImageIO.read(new File(".\\src\\main\\resources\\splat.png"));
+            bloodDrop = ImageIO.read(new File(".\\src\\main\\resources\\bloodDropping.png"));
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -189,6 +191,23 @@ public class BufferedImageContainer {
     public BufferedImage getWinner() {
         return winner;
     }
+
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
+    public BufferedImage getSplat() {
+        return splat;
+    }
+
+    /**
+     * Getter of the image
+     * @return BufferedImage 
+     */
+    public BufferedImage getBloodDrop() {
+        return bloodDrop;
+    }
+    
     
     
     

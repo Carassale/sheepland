@@ -7,10 +7,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
-import java.util.ArrayList;
 import org.junit.After;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -28,8 +27,6 @@ public class GUIDinamicTest {
     @BeforeClass
     public static void setUp() {
         gui = new GUIDinamic();
-        //la nascondo
-        gui.setVisible(false);
     }
     
     @After
@@ -37,6 +34,11 @@ public class GUIDinamicTest {
         gui.getAnimals().clear();
         gui.getShepards().clear();
         gui.setGUIDinamicState(GUIDinamicState.INITIALIZATION);
+    }
+    
+    @AfterClass
+    public void tearDown(){
+        gui.dispose();
     }
 
 

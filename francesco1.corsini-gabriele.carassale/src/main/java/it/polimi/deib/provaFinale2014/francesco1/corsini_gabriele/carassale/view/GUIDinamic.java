@@ -92,6 +92,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         
         state = GUIDinamicState.INITIALIZATION;
         createAndShowGUI(true);
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
     
     /**
@@ -103,6 +106,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         
         state = GUIDinamicState.INITIALIZATION;
         createAndShowGUI(false);
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
     }
     
     /**
@@ -130,8 +136,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-
         //Display the window.
         pack();
         setVisible(showGUI);
@@ -609,6 +613,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         
         layeredPane.add(anim, Integer.valueOf(5));
         anim.setVisible(true);
+        //c'è un offset rispetto al bottone che lo invoca
         anim.setLocation(x + 50, y + 50);
         anim.getRunner().start();
         activateSubMenuSheep(terrain, false);
@@ -625,6 +630,15 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         layeredPane.add(anim, Integer.valueOf(5));
         anim.setVisible(true);
         anim.setLocation(this.getWidth() / 2, this.getHeight() / 2);
+        anim.getRunner().start();
+    }
+    
+    public void animationKillSheep(int x, int y, int terrain){
+        AnimationKillSheep anim = new AnimationKillSheep(imagePool, this.getWidth(),this.getHeight());
+        
+        layeredPane.add(anim, Integer.valueOf(5));
+        anim.setVisible(true);
+        anim.setLocation(0, 0);
         anim.getRunner().start();
     }
     
