@@ -1171,6 +1171,16 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public DinamicRoadButton[] getRoads() {
         return roads;
     }
+
+    /**
+     * Getter used only for testing purpose
+     * @return int number of coins of the player
+     */
+    public int getCoins() {
+        return coins;
+    }
+
+    
     
     
     
