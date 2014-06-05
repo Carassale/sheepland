@@ -15,6 +15,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,8 +28,8 @@ import java.util.logging.Logger;
  */
 public class ServerManagerRMI implements ServerManager, ServerRMI {
 
-    private static ArrayList<PlayerConnectionRMI> playerConnection;
-    private ArrayList<ConnectionManagerRMI> games;
+    private static List<PlayerConnectionRMI> playerConnection;
+    private List<ConnectionManagerRMI> games;
     private RMIWaitingTimer swt;
     private boolean canAccept;
     private MapServerPlayer map;
@@ -230,7 +231,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 if (playerConnection.size() >= 2) {
                     runNewGame();
                 } else {
-                    outVideo.println("Socket: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
+                    outVideo.println("RMI: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
                     playerConnection.get(0).getClientRMI().disconnectForTimout();
                     playerConnection = new ArrayList<PlayerConnectionRMI>();
                 }

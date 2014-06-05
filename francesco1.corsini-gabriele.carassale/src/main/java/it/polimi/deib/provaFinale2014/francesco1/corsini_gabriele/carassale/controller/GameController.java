@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.FinishGame;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
@@ -12,6 +13,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,8 +67,9 @@ public class GameController {
      * di richiamare questo method
      *
      * @return true se il gioco è finito
+     * @throws FinishGame
      */
-    public boolean playRounds() {
+    public boolean playRounds() throws FinishGame {
         boolean isGameOver = false;
 
         do {
@@ -95,8 +98,10 @@ public class GameController {
 
     /**
      * Method che chiama dei Round fino a che il gioco non è finito
+     *
+     * @throws FinishGame
      */
-    public void playGame() {
+    public void playGame() throws FinishGame {
         boolean isGameOver = false;
         while (!(isGameOver)) {
             isGameOver = playRounds();
@@ -108,8 +113,9 @@ public class GameController {
      * Method per effettuare test
      *
      * @param numTurns
+     * @throws FinishGame
      */
-    public void playGame(int numTurns) {
+    public void playGame(int numTurns) throws FinishGame {
         boolean isGameOver = false;
         int i = numTurns;
         while (!(isGameOver) && i != 0) {
@@ -165,7 +171,7 @@ public class GameController {
         //Aggiorno i punteggi di ogni giocatore
         int tempCard;
         int tempScore;
-        ArrayList<Integer> tempArray = new ArrayList<Integer>();
+        List<Integer> tempArray = new ArrayList<Integer>();
         for (Player player : playerPool.getPlayers()) {
             tempScore = player.getCoins();
 
@@ -514,8 +520,9 @@ public class GameController {
      * Avvia la partita
      *
      * @param numberOfPlayers numero di giocatori
+     * @throws FinishGame
      */
-    public void start(int numberOfPlayers) {
+    public void start(int numberOfPlayers) throws FinishGame {
         dice = new Dice();
         inizializeGame(numberOfPlayers);
 
@@ -532,7 +539,7 @@ public class GameController {
         playGame();
         declareWinner();
     }
-    
+
     public void setConnectionManager(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }

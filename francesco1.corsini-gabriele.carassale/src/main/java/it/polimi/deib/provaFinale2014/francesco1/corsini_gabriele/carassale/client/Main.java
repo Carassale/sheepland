@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.FinishGame;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
@@ -56,7 +57,7 @@ public class Main {
      *
      * @throws java.io.IOException
      */
-    public Main() throws IOException {
+    public Main() throws IOException, FinishGame {
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
 
@@ -129,7 +130,7 @@ public class Main {
      * @param socket
      * @throws IOException
      */
-    public void sendNicknameSocket(Socket socket) throws IOException {
+    public void sendNicknameSocket(Socket socket) throws IOException, FinishGame {
         //Invio il nickname
         String s;
         do {
@@ -170,7 +171,7 @@ public class Main {
      *
      * @param typeConnection Tipo di connessione da usare
      */
-    private void connectToServer(String typeConnection) {
+    private void connectToServer(String typeConnection) throws FinishGame {
         connected = false;
         if (SOCKET.equals(typeConnection)) {
             while (!connected) {
@@ -186,7 +187,7 @@ public class Main {
     /**
      * Prova a creare una connessione tramite socket
      */
-    private void tryConnectionSocket() {
+    private void tryConnectionSocket() throws FinishGame {
         //Il client tenta di connettersi tramite socket
         socket = null;
         try {
@@ -305,7 +306,7 @@ public class Main {
         return true;
     }
 
-    private String specialReadLine() {
+    private String specialReadLine() throws FinishGame {
         String s = "";
         try {
             s = inSocket.readLine();
@@ -318,9 +319,8 @@ public class Main {
         return s;
     }
     
-    private void disconnect() {
-        System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
-        System.exit(0);
+    private void disconnect() throws FinishGame {
+        throw new FinishGame(Message.DISCONNECT_FOR_TIMEOUT.toString());
     }
 
     /**
@@ -330,7 +330,11 @@ public class Main {
      */
     public static void main(String[] arg) {
         try {
-            new Main();
+            try {
+                new Main();
+            } catch (FinishGame ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            }
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         }

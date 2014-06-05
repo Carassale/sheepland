@@ -18,7 +18,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,12 +31,12 @@ import java.util.logging.Logger;
 public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
     private static final int NUMACTION = 3;
-    private final ArrayList<PlayerConnectionSocket> playerConnections;
+    private final List<PlayerConnectionSocket> playerConnections;
     private PlayerConnectionSocket currentPlayer;
     private GameController gameController;
     private MapServerPlayer map;
-    private CheckThreadSocket checkThread;
     private boolean isConnected;
+    private boolean isFinishGame = false;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -46,7 +46,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * partita
      * @param map
      */
-    public ConnectionManagerSocket(ArrayList<PlayerConnectionSocket> playerConnection, MapServerPlayer map) {
+    public ConnectionManagerSocket(List<PlayerConnectionSocket> playerConnection, MapServerPlayer map) {
         this.map = map;
         this.playerConnections = playerConnection;
         Thread thread = new Thread(this);
@@ -62,7 +62,11 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         waitOkFromClient();
-        gameController.start(playerConnections.size());
+        try {
+            gameController.start(playerConnections.size());
+        } catch (FinishGame ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
 
     /**
@@ -70,9 +74,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * caso di ritorno false dal doAction fa ripetere il method finchè non
      * vengono effettuate un numero corretto di azioni, alla fine chiama il
      * method nextPlayerConnection
+     * @throws FinishGame
      */
     @Override
-    public void startAction() {
+    public void startAction() throws FinishGame {
         isConnected = true;
         int i = 0;
         while (i < NUMACTION && isConnected) {
@@ -81,6 +86,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             }
         }
         nextPlayerConnections();
+        checkIsFinishGame();
     }
 
     /**
@@ -118,7 +124,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      *
      * @return ArrayList di PlayerConnectionSocket
      */
-    public ArrayList<PlayerConnectionSocket> getPlayerConnections() {
+    public List<PlayerConnectionSocket> getPlayerConnections() {
         return playerConnections;
     }
 
@@ -693,10 +699,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 player.setOnLine(true);
             }
         }
-        
+
         printMessage(thisPlayer, Message.RECONNECTED.toString());
     }
-    
+
     private void printMessage(PlayerConnectionSocket playerConnection, String message) {
         playerConnection.printLn(TypeAction.MESSAGE_TEXT.toString());
         playerConnection.printLn(message);
@@ -738,13 +744,19 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             }
         }
         //else
-        System.out.println("Non ci sono più player collegati\nFine parita!");
+        System.out.println("Socket: Non ci sono più player collegati");
         turnOffGame();
     }
 
+    private void checkIsFinishGame() throws FinishGame {
+        if (isFinishGame) {
+            throw new FinishGame("Socket: Partita finita");
+        }
+    }
+
     private void turnOffGame() {
-        gameController.setConnectionManager(null);
-        gameController = null;
+        System.out.println("Socket: Fine parita!");
+        isFinishGame = true;
     }
 
     private boolean isAllClientReady() {
@@ -764,14 +776,14 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private void waitOkFromClient() {
         while (!isAllClientReady()) {
             try {
-                System.out.println("In attesa di tutti i giocatori...");
+                System.out.println("Socket: In attesa di tutti i giocatori...");
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.println("Tutto pronto, il gioco ha inizio.");
-        checkThread = new CheckThreadSocket();
+        System.out.println("Socket: Tutto pronto, il gioco ha inizio.");
+        new CheckThreadSocket();
     }
 
     private class CheckThreadSocket implements Runnable {
@@ -782,7 +794,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
 
         public void run() {
-            while (true) {
+            while (!isFinishGame) {
                 checkStatus();
                 try {
                     Thread.sleep(5000);

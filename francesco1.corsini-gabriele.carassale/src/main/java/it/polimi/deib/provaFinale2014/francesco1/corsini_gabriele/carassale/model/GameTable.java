@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe che unisce tutti i componenti della plancia di gioco. Utile poichè
@@ -12,12 +13,12 @@ import java.util.ArrayList;
 public class GameTable {
 
     private int fenceNumber;
-    private ArrayList<Sheep> sheeps = new ArrayList<Sheep>();
+    private List<Sheep> sheeps = new ArrayList<Sheep>();
     private final BlackSheep blacksheep;
     private final Wolf wolf;
     private final Map map;
-    private ArrayList<ArrayList<TerrainCard>> terrainCardPool = new ArrayList<ArrayList<TerrainCard>>();
-    private ArrayList<Shepard> shepards = new ArrayList<Shepard>();
+    private List<List<TerrainCard>> terrainCardPool = new ArrayList<List<TerrainCard>>();
+    private List<Shepard> shepards = new ArrayList<Shepard>();
     private Dice dice;
 
     /**
@@ -81,7 +82,7 @@ public class GameTable {
      *
      * @return ArrayList contenente pecore
      */
-    public ArrayList<Sheep> getSheeps() {
+    public List<Sheep> getSheeps() {
         return sheeps;
     }
 
@@ -90,7 +91,7 @@ public class GameTable {
      *
      * @return ArrayList contenente pastori
      */
-    public ArrayList<Shepard> getShepards() {
+    public List<Shepard> getShepards() {
         return shepards;
     }
 
@@ -100,7 +101,7 @@ public class GameTable {
      * @param string tipologia terreno della carta
      * @return ArrayList TerrainCard che si desidera
      */
-    public ArrayList<TerrainCard> getTerrainCardPool(String string) {
+    public List<TerrainCard> getTerrainCardPool(String string) {
         if (TypeCard.PLAIN.toString().equals(string)) {
             return terrainCardPool.get(0);
         } else if (TypeCard.FOREST.toString().equals(string)) {
@@ -141,7 +142,7 @@ public class GameTable {
      */
     private void initializeTerrainCards() {
         for (int i = 0; i < 6; i++) {
-            ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
+            List<TerrainCard> list = new ArrayList<TerrainCard>();
             terrainCardPool.add(list);
         }
 

@@ -20,8 +20,10 @@ public interface ConnectionManager {
      * Inserito qui per creare un method guida, dice al connectionManager di
      * comunicare al Client che può eseguire le azioni e gestisce quindi le
      * chiamate Client-Server
+     *
+     * @throws FinishGame
      */
-    void startAction();
+    void startAction() throws FinishGame;
 
     /**
      * Inserito qui per creare un method guida, dice al client di posizionareve

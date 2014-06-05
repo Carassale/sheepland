@@ -1,8 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
@@ -10,7 +7,11 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe che modellizza il Giocatore come controllore, rendendo disponibili le
@@ -20,8 +21,8 @@ import java.util.ArrayList;
  */
 public class Player {
 
-    private ArrayList<Shepard> shepards;
-    private ArrayList<ArrayList<TerrainCard>> terrainCardsOwned;
+    private List<Shepard> shepards;
+    private List<List<TerrainCard>> terrainCardsOwned;
     private int coins;
     private boolean isFirstPlayer;
     private int idPlayer;
@@ -45,7 +46,7 @@ public class Player {
         onLine = true;
 
         shepards = new ArrayList<Shepard>();
-        terrainCardsOwned = new ArrayList<ArrayList<TerrainCard>>();
+        terrainCardsOwned = new ArrayList<List<TerrainCard>>();
 
         actionDone = new String[3];
         for (int i = 0; i < 3; i++) {
@@ -57,7 +58,7 @@ public class Player {
 
         //serve per inizializzare la lista di liste dell TerrainCardPool
         for (int i = 0; i < 6; i++) {
-            ArrayList<TerrainCard> list = new ArrayList<TerrainCard>();
+            List<TerrainCard> list = new ArrayList<TerrainCard>();
             terrainCardsOwned.add(list);
         }
     }
@@ -103,7 +104,7 @@ public class Player {
      *
      * @return Arrey di pastori
      */
-    public ArrayList<Shepard> getShepards() {
+    public List<Shepard> getShepards() {
         return shepards;
     }
 
@@ -113,7 +114,7 @@ public class Player {
      * @param string tipologia territorio
      * @return lista dei territori di quella tipologia
      */
-    public ArrayList<TerrainCard> getTerrainCardsOwned(String string) {
+    public List<TerrainCard> getTerrainCardsOwned(String string) {
         if (TypeCard.PLAIN.toString().equals(string)) {
             return terrainCardsOwned.get(0);
         } else if (TypeCard.FOREST.toString().equals(string)) {
@@ -340,8 +341,8 @@ public class Player {
         boolean isShepard = false;
         Road shepPos = null;
 
-        ArrayList<Road> roadsTerrainSheeps = terrainSheep.getAdjacentRoads();
-        ArrayList<Road> roadsTerrainDestinations = terrainDestination.getAdjacentRoads();
+        List<Road> roadsTerrainSheeps = terrainSheep.getAdjacentRoads();
+        List<Road> roadsTerrainDestinations = terrainDestination.getAdjacentRoads();
 
         for (Road roadsTerrainSheep : roadsTerrainSheeps) {
             for (Road roadsTerrainDestination : roadsTerrainDestinations) {

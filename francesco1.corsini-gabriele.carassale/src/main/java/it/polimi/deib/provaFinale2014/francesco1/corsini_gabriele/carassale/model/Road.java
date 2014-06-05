@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Strada, contiene i terreni adiacenti e le strade adiacenti,
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 public class Road {
 
     private Terrain[] adjacentTerrain = new Terrain[2];
-    private ArrayList<Road> adjacentRoad = new ArrayList<Road>();
+    private List<Road> adjacentRoad = new ArrayList<Road>();
     private boolean hasFence;
     private boolean hasShepard;
     private int roadNumber;
@@ -147,7 +148,7 @@ public class Road {
      *
      * @return ArrayList contenente strade
      */
-    public ArrayList<Road> getAdjacentRoad() {
+    public List<Road> getAdjacentRoad() {
         return adjacentRoad;
     }
 

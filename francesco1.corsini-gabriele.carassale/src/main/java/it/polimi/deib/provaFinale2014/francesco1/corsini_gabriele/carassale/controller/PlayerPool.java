@@ -1,9 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 
 /**
  * Crea un oggetto contenente la lista dei giocatori
@@ -12,7 +10,7 @@ import java.util.logging.Logger;
  */
 public class PlayerPool {
 
-    private ArrayList<Player> players;
+    private List<Player> players;
 
     /**
      * Crea l'oggetto e inizializza l'ArreyList contenente i player
@@ -60,7 +58,7 @@ public class PlayerPool {
      *
      * @return Arrey di player
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 

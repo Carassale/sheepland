@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManager;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.FinishGame;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.BlackSheep;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
@@ -61,8 +62,9 @@ public class Turn {
      *
      * @return True se i cancelli sono finiti e il round che ha avviato il turno
      * deve diventare l'ultimo round
+     * @throws FinishGame
      */
-    public boolean playTurn() {
+    public boolean playTurn() throws FinishGame {
         moveBlackSheep();
         growUpLambs();
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)

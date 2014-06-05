@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * È la mappa utilizzata per le connessioni dei client, registra il nickname e
@@ -11,7 +12,7 @@ import java.util.HashMap;
  */
 public class MapServerPlayer {
 
-    private HashMap<String, StatusPlayer> map;
+    private Map<String, StatusPlayer> map;
 
     /**
      * Crea l'oggetto e inizializza l'hash map

@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,10 +13,10 @@ import java.util.logging.Logger;
  */
 public class Terrain {
 
-    private ArrayList<Road> adjacentRoads = new ArrayList<Road>();
+    private List<Road> adjacentRoads = new ArrayList<Road>();
     private boolean sheepsbourg;
     private String terrainType;
-    private ArrayList<Animal> animals = new ArrayList<Animal>();
+    private List<Animal> animals = new ArrayList<Animal>();
     private int id;
 
     /**
@@ -29,7 +30,7 @@ public class Terrain {
      *
      * @return ArrayList con le strade adiacenti
      */
-    public ArrayList<Road> getAdjacentRoads() {
+    public List<Road> getAdjacentRoads() {
         return adjacentRoads;
     }
 
@@ -38,7 +39,7 @@ public class Terrain {
      *
      * @return ArrayList contenente gli animali
      */
-    public ArrayList<Animal> getAnimals() {
+    public List<Animal> getAnimals() {
         return animals;
     }
 

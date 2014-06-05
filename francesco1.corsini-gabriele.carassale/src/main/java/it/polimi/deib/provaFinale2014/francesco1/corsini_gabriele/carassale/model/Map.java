@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,8 +15,8 @@ import java.util.logging.Logger;
  */
 public class Map {
 
-    private ArrayList<Road> roads = new ArrayList<Road>();
-    private ArrayList<Terrain> terrain = new ArrayList<Terrain>();
+    private List<Road> roads = new ArrayList<Road>();
+    private List<Terrain> terrain = new ArrayList<Terrain>();
 
     /**
      * In questo costruttore viene creata la mappa vera e propria inizializzando
@@ -48,7 +49,7 @@ public class Map {
      *
      * @return ArrayList conenente le strade della mappa
      */
-    public ArrayList<Road> getRoads() {
+    public List<Road> getRoads() {
         return roads;
     }
 
@@ -57,7 +58,7 @@ public class Map {
      *
      * @return ArrayList conenente i terreni della mappa
      */
-    public ArrayList<Terrain> getTerrain() {
+    public List<Terrain> getTerrain() {
         return terrain;
     }
 

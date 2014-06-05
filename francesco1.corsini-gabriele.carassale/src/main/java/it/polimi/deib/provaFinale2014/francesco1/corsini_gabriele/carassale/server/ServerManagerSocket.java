@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,11 +33,11 @@ public class ServerManagerSocket implements ServerManager {
      * static perchè condivisa con il thread parallelo per l'avvio forzato della
      * partita
      */
-    private static ArrayList<PlayerConnectionSocket> playerConnection;
+    private static List<PlayerConnectionSocket> playerConnection;
     /**
      * È la lista delle parite avviate
      */
-    private ArrayList<ConnectionManagerSocket> games;
+    private List<ConnectionManagerSocket> games;
     private SocketWaitingTimer swt;
     private boolean canAcceptSocket;
     private ServerSocket serverSocket;
@@ -156,7 +157,7 @@ public class ServerManagerSocket implements ServerManager {
                     || playerIsUncorrectType(nickname)) {
                 outSocket.println(StatusMessage.NOT_CORRECT_NICKNAME.toString());
                 outSocket.flush();
-                outSocket.println("Questo nickname è già utilizzato da un altro player, controllare il tipo di connessione");
+                outSocket.println("Socket: Questo nickname è già utilizzato da un altro player, controllare il tipo di connessione");
                 outSocket.flush();
 
                 doRepeat = true;

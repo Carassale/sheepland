@@ -21,7 +21,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,16 +34,16 @@ import java.util.logging.Logger;
 public class ConnectionManagerRMI extends UnicastRemoteObject implements ConnectionManager, ConnectionRMI, Runnable {
 
     private static final int NUMACTION = 3;
-    private final ArrayList<PlayerConnectionRMI> playerConnections;
+    private final List<PlayerConnectionRMI> playerConnections;
     private PlayerConnectionRMI currentPlayer;
     private GameController gameController;
     private MapServerPlayer map;
-    private CheckThreadRMI checkThread;
 
     private Object objectSyncrinized = new Object();
     private boolean isConnected;
     private boolean canDoAction;
     private int actionDone;
+    private boolean isFinishGame = false;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -54,7 +54,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @param map
      * @throws java.rmi.RemoteException
      */
-    public ConnectionManagerRMI(ArrayList<PlayerConnectionRMI> playerConnections, MapServerPlayer map) throws RemoteException {
+    public ConnectionManagerRMI(List<PlayerConnectionRMI> playerConnections, MapServerPlayer map) throws RemoteException {
         this.map = map;
         this.playerConnections = playerConnections;
 
@@ -64,7 +64,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         thread.start();
     }
 
-    public ArrayList<PlayerConnectionRMI> getPlayerConnections() {
+    public List<PlayerConnectionRMI> getPlayerConnections() {
         return playerConnections;
     }
 
@@ -93,7 +93,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         waitOkFromClient();
-        gameController.start(playerConnections.size());
+        try {
+            gameController.start(playerConnections.size());
+        } catch (FinishGame ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
 
     /**
@@ -297,7 +301,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * chiama il method nextPlayerConnection
      */
     @Override
-    public void startAction() {
+    public void startAction() throws FinishGame {
         isConnected = true;
         for (actionDone = 0; actionDone < NUMACTION && isConnected; actionDone++) {
             setCanDoAction(false);
@@ -305,6 +309,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             waitResponseFromClient();
         }
         nextPlayerConnections();
+        checkIsFinishGame();
     }
 
     private void waitResponseFromClient() {
@@ -784,13 +789,19 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             }
         }
         //else
-        System.out.println("Non ci sono più player collegati\nFine parita!");
+        System.out.println("RMI: Non ci sono più player collegati");
         turnOffGame();
     }
 
+    private void checkIsFinishGame() throws FinishGame {
+        if (isFinishGame) {
+            throw new FinishGame("RMI: Partita finita");
+        }
+    }
+
     private void turnOffGame() {
-        gameController.setConnectionManager(null);
-        gameController = null;
+        System.out.println("RMI: Fine parita!");
+        isFinishGame = true;
     }
 
     private boolean isAllClientReady() {
@@ -816,14 +827,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private void waitOkFromClient() {
         while (!isAllClientReady()) {
             try {
-                System.out.println("In attesa di tutti i giocatori...");
+                System.out.println("RMI: In attesa di tutti i giocatori...");
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.println("Tutto pronto, il gioco ha inizio.");
-        checkThread = new CheckThreadRMI();
+        System.out.println("RMI: Tutto pronto, il gioco ha inizio.");
+        new CheckThreadRMI();
     }
 
     private class CheckThreadRMI implements Runnable {

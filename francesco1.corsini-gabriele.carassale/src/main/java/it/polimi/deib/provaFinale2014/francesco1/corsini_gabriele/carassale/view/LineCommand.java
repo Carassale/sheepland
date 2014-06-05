@@ -86,6 +86,7 @@ public class LineCommand implements TypeOfInteraction {
         try {
             Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Non è stato inserito un valore numerico", nfe);
             return false;
         }
         return true;
