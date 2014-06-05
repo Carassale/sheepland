@@ -230,6 +230,7 @@ public class ServerManagerSocket implements ServerManager {
                 if (playerConnection.size() >= 2) {
                     runNewGame();
                 } else {
+                    map.removePlayer(nickname);
                     outVideo.println("Socket: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
                     playerConnection.get(0).printLn(StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString());
                     playerConnection = new ArrayList<PlayerConnectionSocket>();

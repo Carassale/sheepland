@@ -56,6 +56,7 @@ public class Main {
      * connessione e il tipo di interazione.
      *
      * @throws java.io.IOException
+     * @throws FinishGame
      */
     public Main() throws IOException, FinishGame {
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
@@ -129,6 +130,7 @@ public class Main {
      *
      * @param socket
      * @throws IOException
+     * @throws FinishGame
      */
     public void sendNicknameSocket(Socket socket) throws IOException, FinishGame {
         //Invio il nickname
@@ -318,7 +320,7 @@ public class Main {
         }
         return s;
     }
-    
+
     private void disconnect() throws FinishGame {
         throw new FinishGame(Message.DISCONNECT_FOR_TIMEOUT.toString());
     }

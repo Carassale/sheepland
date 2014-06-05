@@ -231,6 +231,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 if (playerConnection.size() >= 2) {
                     runNewGame();
                 } else {
+                    map.removePlayer(playerConnection.get(0).getNickname());
                     outVideo.println("RMI: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
                     playerConnection.get(0).getClientRMI().disconnectForTimout();
                     playerConnection = new ArrayList<PlayerConnectionRMI>();

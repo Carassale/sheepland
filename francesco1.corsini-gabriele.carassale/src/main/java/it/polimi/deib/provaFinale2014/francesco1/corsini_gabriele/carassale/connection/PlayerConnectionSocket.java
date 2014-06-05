@@ -1,9 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -72,12 +72,13 @@ public class PlayerConnectionSocket {
      * Restituisce la prossima line ricevuta dal client via socket
      *
      * @return String
+     * @throws PlayerDisconnect
      */
-    public String getNextLine() {
-        if (hasNext()) {
+    public String getNextLine() throws PlayerDisconnect {
+        try {
             return inSocket.nextLine();
-        } else {
-            return StatusMessage.DISCONNECTED.toString();
+        } catch (NoSuchElementException e) {
+            throw new PlayerDisconnect("Player scollegato");
         }
     }
 
@@ -85,9 +86,14 @@ public class PlayerConnectionSocket {
      * Restituisce il prossimo numero ricevuto dal client via socket
      *
      * @return int
+     * @throws PlayerDisconnect
      */
-    public int getNextInt() {
-        return Integer.valueOf(inSocket.nextLine());
+    public int getNextInt() throws PlayerDisconnect {
+        try {
+            return Integer.valueOf(inSocket.nextLine());
+        } catch (NoSuchElementException e) {
+            throw new PlayerDisconnect("Player scollegato");
+        }
     }
 
     /**
@@ -119,8 +125,8 @@ public class PlayerConnectionSocket {
         this.nickname = nickname;
     }
 
-    
     public boolean hasNext() {
-        return inSocket.hasNext();
+        outSocket.print("String prova");
+        return !outSocket.checkError();
     }
 }

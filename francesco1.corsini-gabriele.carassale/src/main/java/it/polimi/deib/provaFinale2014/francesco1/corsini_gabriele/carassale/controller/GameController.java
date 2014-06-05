@@ -314,22 +314,32 @@ public class GameController {
             }
 
             for (; shepardsPerPlayer < 2; shepardsPerPlayer++) {
-                boolean playerHasPlacedShepard = false;
+                boolean playerHasPlacedShepard;
+                boolean skip;
                 Player currentPlayer = playerPool.getFirstPlayer();
 
                 do {
+                    playerHasPlacedShepard = false;
+                    skip = false;
+
                     roadChoosen = connectionManager.getPlacedShepard(idShepard);
-                    if (!roadChoosen.hasShepard()) {
+                    if (roadChoosen != null) {
+                        if (!roadChoosen.hasShepard()) {
+                            playerHasPlacedShepard = true;
+                        }
+                    } else {
                         playerHasPlacedShepard = true;
+                        skip = true;
                     }
                 } while (!playerHasPlacedShepard);
 
-                Shepard shepard = new Shepard(roadChoosen, currentPlayer, idShepard);
-                currentPlayer.getShepards().add(shepard);
-                gameTable.getShepards().add(shepard);
+                if (!skip) {
+                    Shepard shepard = new Shepard(roadChoosen, currentPlayer, idShepard);
+                    currentPlayer.getShepards().add(shepard);
+                    gameTable.getShepards().add(shepard);
 
-                connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
-
+                    connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
+                }
                 idShepard++;
             }
 

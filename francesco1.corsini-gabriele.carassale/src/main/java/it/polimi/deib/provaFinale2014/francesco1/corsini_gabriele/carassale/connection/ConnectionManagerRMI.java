@@ -644,12 +644,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             }
         }
 
-        try {
-            UnicastRemoteObject.unexportObject(this, true);
-            turnOffGame();
-        } catch (NoSuchObjectException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cleanMap();
+        unbind();
     }
 
     /**
@@ -735,20 +731,19 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 player.setOnLine(true);
             }
         }
-        
+
         printMessage(thisPlayer, Message.RECONNECTED.toString());
     }
-    
+
     private void printMessage(PlayerConnectionRMI playerConnection, String message) {
         try {
             playerConnection.getClientRMI().messageText(message);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-            
+
             clientDisconnected(playerConnection);
         }
     }
-
 
     /**
      * Questa classe implementa un Runnable, le due classi che la estendono
@@ -799,7 +794,24 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    private void cleanMap() {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            map.removePlayer(playerConnection.getNickname());
+        }
+    }
+
+    private void unbind() {
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            turnOffGame();
+        } catch (NoSuchObjectException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void turnOffGame() {
+        cleanMap();
+        unbind();
         System.out.println("RMI: Fine parita!");
         isFinishGame = true;
     }

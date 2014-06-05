@@ -46,10 +46,30 @@ public class PlayerPool {
         players.add(players.get(0));
         players.remove(0);
 
-        if (!players.get(0).isOnLine()) {
-            return nextPlayer();
-        }
+        boolean firstReturn = false;
+        boolean secondReturn = false;
 
+        if (players.get(0).isFirstPlayer()) {
+            firstReturn = true;
+        }
+        if (!players.get(0).isOnLine()) {
+            secondReturn = nextPlayer();
+        }
+        return firstReturn || secondReturn;
+    }
+
+    /**
+     * OBSOLETO
+     *
+     * @return
+     */
+    private boolean oldNextPlayer() {
+        players.add(players.get(0));
+        players.remove(0);
+
+        if (!players.get(0).isOnLine()) {
+            return oldNextPlayer();
+        }
         return players.get(0).isFirstPlayer();
     }
 

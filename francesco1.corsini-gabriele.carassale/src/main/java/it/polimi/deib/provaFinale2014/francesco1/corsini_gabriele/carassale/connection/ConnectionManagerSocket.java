@@ -74,6 +74,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * caso di ritorno false dal doAction fa ripetere il method finchè non
      * vengono effettuate un numero corretto di azioni, alla fine chiama il
      * method nextPlayerConnection
+     *
      * @throws FinishGame
      */
     @Override
@@ -97,26 +98,29 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @return True se l'azione è andata a buon fine
      */
     public boolean doAction() {
-        wakeUpPlayer(currentPlayer);
-        String actionToDo = currentPlayer.getNextLine();
+        try {
+            wakeUpPlayer(currentPlayer);
+            String actionToDo = currentPlayer.getNextLine();
 
-        boolean actionDo = false;
-        if (TypeAction.MOVE_SHEPARD.toString().equals(actionToDo)) {
-            actionDo = moveShepard();
-        } else if (TypeAction.MOVE_SHEEP.toString().equals(actionToDo)) {
-            actionDo = moveSheep();
-        } else if (TypeAction.BUY_CARD.toString().equals(actionToDo)) {
-            actionDo = buyCard();
-        } else if (TypeAction.KILL_SHEEP.toString().equals(actionToDo)) {
-            actionDo = killSheep();
-        } else if (TypeAction.JOIN_SHEEP.toString().equals(actionToDo)) {
-            actionDo = joinSheep();
-        } else if (StatusMessage.DISCONNECTED.toString().equals(actionToDo)) {
+            boolean actionDo = false;
+            if (TypeAction.MOVE_SHEPARD.toString().equals(actionToDo)) {
+                actionDo = moveShepard();
+            } else if (TypeAction.MOVE_SHEEP.toString().equals(actionToDo)) {
+                actionDo = moveSheep();
+            } else if (TypeAction.BUY_CARD.toString().equals(actionToDo)) {
+                actionDo = buyCard();
+            } else if (TypeAction.KILL_SHEEP.toString().equals(actionToDo)) {
+                actionDo = killSheep();
+            } else if (TypeAction.JOIN_SHEEP.toString().equals(actionToDo)) {
+                actionDo = joinSheep();
+            }
+            return actionDo;
+        } catch (PlayerDisconnect ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             clientDisconnected();
             isConnected = false;
             return true;
         }
-        return actionDo;
     }
 
     /**
@@ -157,7 +161,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @throws MoveException Impossibile muovere
      * @throws CoinException Soldi insufficienti
      */
-    private boolean moveShepard() {
+    private boolean moveShepard() throws PlayerDisconnect {
         //Riceve via socket l'ID dello shepard
         Integer idShepard = currentPlayer.getNextInt();
         //Converte shepard nell'oggetto Shepard associato
@@ -211,7 +215,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @return True se la mossa va a buon fine
      * @throws MoveException Impossiblie muovere
      */
-    private boolean moveSheep() {
+    private boolean moveSheep() throws PlayerDisconnect {
         //Riceve via socket l'ID della sheep
         Integer idSheep = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
@@ -250,7 +254,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @return True se l'azione va a buon fine
      * @throws CoinException Soldi insufficienti
      */
-    private boolean buyCard() {
+    private boolean buyCard() throws PlayerDisconnect {
         //Riceve via socket il tipo di TerrainCard
         String kind = currentPlayer.getNextLine();
 
@@ -284,7 +288,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @throws MoveException Mossa non consentita
      * @throws WrongDiceNumberException Errore lancio dado
      */
-    private boolean killSheep() {
+    private boolean killSheep() throws PlayerDisconnect {
         //Riceve via socket l'ID della sheep
         Integer idSheep = currentPlayer.getNextInt();
         //Converte sheep nell'oggetto Sheep associato
@@ -327,7 +331,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      * @return True se l'azione va a buon fine
      * @throws MoveException Movimento non consentito
      */
-    private boolean joinSheep() {
+    private boolean joinSheep() throws PlayerDisconnect {
         //Riceve via socket l'ID del Terrain
         Integer idTerrain = currentPlayer.getNextInt();
         //Converte terrain nell'oggetto Terrain associato
@@ -403,13 +407,19 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public Road getPlacedShepard(int idShepard) {
-        //dice al client di piazzare Shepard
-        currentPlayer.printLn(TypeAction.PLACE_SHEPARD.toString());
-        currentPlayer.printLn(idShepard);
-        //attende risposta 
-        Integer id = currentPlayer.getNextInt();
-        //ricava l'oggetto e lo invia
-        return gameController.getGameTable().idToRoad(id);
+        try {
+            //dice al client di piazzare Shepard
+            currentPlayer.printLn(TypeAction.PLACE_SHEPARD.toString());
+            currentPlayer.printLn(idShepard);
+            //attende risposta
+            Integer id = currentPlayer.getNextInt();
+            //ricava l'oggetto e lo invia
+            return gameController.getGameTable().idToRoad(id);
+        } catch (PlayerDisconnect ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            clientDisconnected();
+        }
+        return null;
     }
 
     /**
@@ -625,6 +635,7 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 }
             }
         }
+        cleanMap();
     }
 
     /**
@@ -754,23 +765,35 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    private void cleanMap() {
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            map.removePlayer(playerConnection.getNickname());
+        }
+    }
+
     private void turnOffGame() {
+        cleanMap();
         System.out.println("Socket: Fine parita!");
         isFinishGame = true;
     }
 
     private boolean isAllClientReady() {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
-            if (!isRadyClient(playerConnection)) {
+            if (!isClientReady(playerConnection)) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isRadyClient(PlayerConnectionSocket playerConnection) {
+    private boolean isClientReady(PlayerConnectionSocket playerConnection) {
         playerConnection.printLn(TypeAction.IS_READY.toString());
-        return Boolean.valueOf(playerConnection.getNextLine());
+        try {
+            return Boolean.valueOf(playerConnection.getNextLine());
+        } catch (PlayerDisconnect ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return true;
+        }
     }
 
     private void waitOkFromClient() {

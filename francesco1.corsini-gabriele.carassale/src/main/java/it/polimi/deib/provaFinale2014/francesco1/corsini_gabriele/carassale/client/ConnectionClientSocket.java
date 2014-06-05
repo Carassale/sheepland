@@ -58,7 +58,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      * comandi
      */
     public void isReady() {
-        outSocket.print(isReady);
+        outSocket.println(String.valueOf(isReady));
         outSocket.flush();
     }
 
@@ -106,7 +106,8 @@ public class ConnectionClientSocket implements ConnectionClient {
                     gameFinish = true;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Si è spento il server.. bye bye", ex);
+                gameFinish = true;
             }
         }
     }

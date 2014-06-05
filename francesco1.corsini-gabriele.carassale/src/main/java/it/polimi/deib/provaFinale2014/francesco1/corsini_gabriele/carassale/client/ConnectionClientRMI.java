@@ -380,7 +380,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @throws java.rmi.RemoteException
      */
     public void errorMessage(String message) throws RemoteException {
-        typeOfInteraction.messageText(message);
+        typeOfInteraction.errorMessage(message);
     }
 
 }
