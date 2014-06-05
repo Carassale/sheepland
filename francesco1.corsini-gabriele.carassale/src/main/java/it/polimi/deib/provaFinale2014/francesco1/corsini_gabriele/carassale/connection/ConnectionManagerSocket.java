@@ -693,6 +693,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
                 player.setOnLine(true);
             }
         }
+        
+        printMessage(thisPlayer, Message.RECONNECTED.toString());
+    }
+    
+    private void printMessage(PlayerConnectionSocket playerConnection, String message) {
+        playerConnection.printLn(TypeAction.MESSAGE_TEXT.toString());
+        playerConnection.printLn(message);
     }
 
     /**

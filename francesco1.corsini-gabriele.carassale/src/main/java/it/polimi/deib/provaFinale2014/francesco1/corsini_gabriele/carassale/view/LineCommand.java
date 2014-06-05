@@ -356,7 +356,7 @@ public class LineCommand implements TypeOfInteraction {
      * @param message Messaggio da stampare
      */
     public void errorMessage(String message) {
-        print("ERRORE!!!");
+        print("Errore:");
         print(message);
     }
 

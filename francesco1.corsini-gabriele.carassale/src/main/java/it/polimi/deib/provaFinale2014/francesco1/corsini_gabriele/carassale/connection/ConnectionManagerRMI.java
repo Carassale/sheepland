@@ -77,7 +77,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             try {
                 playerConnectionRMI.getClientRMI().setConnectionRMI(this);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                 clientDisconnected(playerConnectionRMI);
             }
@@ -134,7 +134,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad, isMine);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(playerConnection);
         }
@@ -152,7 +152,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshMoveShepard(idShepard, idRoad);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                     clientDisconnected(playerConnection);
                 }
@@ -180,7 +180,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(playerConnection);
         }
@@ -199,7 +199,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshMoveAnimal(idAnimal, idTerrain);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                     clientDisconnected(playerConnection);
                 }
@@ -219,7 +219,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshKillAnimal(idAnimal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                     clientDisconnected(playerConnection);
                 }
@@ -240,7 +240,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshTransformAnimal(idAnimal, kindFinal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                     clientDisconnected(playerConnection);
                 }
@@ -263,7 +263,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshCoin(coins, addCoin);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(playerConnection);
         }
@@ -284,7 +284,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             playerConnection.getClientRMI().refreshCard(kind, isSold);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(playerConnection);
         }
@@ -326,10 +326,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
-    private void setRepeatAction(boolean b) {
-        if (b) {
+    private void setRepeatAction(boolean doRepeat) {
+        if (doRepeat) {
             actionDone--;
         }
+        setCanDoAction(true);
     }
 
     /**
@@ -342,7 +343,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             currentPlayer.getClientRMI().wakeUp();
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(currentPlayer);
         }
@@ -364,7 +365,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             //ricava l'oggetto e lo invia
             return gameController.getGameTable().idToRoad(id);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(currentPlayer);
             return null;
@@ -590,7 +591,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             currentPlayer.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(currentPlayer);
         }
@@ -600,7 +601,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         try {
             currentPlayer.getClientRMI().errorMessage(message);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
             clientDisconnected(currentPlayer);
         }
@@ -612,7 +613,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 try {
                     playerConnection.getClientRMI().refreshAddFence(road.getId());
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                     clientDisconnected(playerConnection);
                 }
@@ -630,7 +631,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                     try {
                         playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
                     } catch (RemoteException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Client disconnesso", ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
                         clientDisconnected(playerConnection);
                     }
@@ -729,7 +730,20 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 player.setOnLine(true);
             }
         }
+        
+        printMessage(thisPlayer, Message.RECONNECTED.toString());
     }
+    
+    private void printMessage(PlayerConnectionRMI playerConnection, String message) {
+        try {
+            playerConnection.getClientRMI().messageText(message);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            
+            clientDisconnected(playerConnection);
+        }
+    }
+
 
     /**
      * Questa classe implementa un Runnable, le due classi che la estendono

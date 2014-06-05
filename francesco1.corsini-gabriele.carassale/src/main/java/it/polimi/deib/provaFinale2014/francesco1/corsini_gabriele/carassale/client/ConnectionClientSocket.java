@@ -1,6 +1,8 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.io.BufferedReader;
@@ -68,9 +70,12 @@ public class ConnectionClientSocket implements ConnectionClient {
         while (!gameFinish) {
             try {
                 String s = inSocket.readLine();
-                if (TypeAction.IS_READY.toString().equals(s)) {
+                if (StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString().equals(s)) {
+                    disconnect();
+                    gameFinish = true;
+                } else if (TypeAction.IS_READY.toString().equals(s)) {
                     isReady();
-                }else if (TypeAction.WAKE_UP.toString().equals(s)) {
+                } else if (TypeAction.WAKE_UP.toString().equals(s)) {
                     typeOfInteraction.clickAction();
                 } else if (TypeAction.ERROR_MESSAGE.toString().equals(s)) {
                     errorMessage();
@@ -353,5 +358,10 @@ public class ConnectionClientSocket implements ConnectionClient {
     private void errorMessage() throws IOException {
         String s = inSocket.readLine();
         typeOfInteraction.errorMessage(s);
+    }
+
+    private void disconnect() {
+        System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
+        System.exit(0);
     }
 }

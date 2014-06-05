@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ServerRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.GUIDinamic;
@@ -136,12 +137,13 @@ public class Main {
             outSocket.println(nickname);
             outSocket.flush();
 
-            s = inSocket.readLine();
+            s = specialReadLine();
 
             if (StatusMessage.NOT_CORRECT_NICKNAME.toString().equals(s)) {
                 s = inSocket.readLine();
                 print(s);
             }
+
         } while (!StatusMessage.CORRECT_NICKNAME.toString().equals(s));
     }
 
@@ -301,6 +303,24 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    private String specialReadLine() {
+        String s = "";
+        try {
+            s = inSocket.readLine();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString().equals(s)) {
+            disconnect();
+        }
+        return s;
+    }
+    
+    private void disconnect() {
+        System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
+        System.exit(0);
     }
 
     /**

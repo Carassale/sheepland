@@ -3,6 +3,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -354,7 +355,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             UnicastRemoteObject.unexportObject(this, true);
             Registry registry = LocateRegistry.getRegistry(PORT);
             registry.unbind(nickname);
-            System.out.println("Sei stato disconnesso dal server, non è stato raggiunto il numero minimo di giocatori");
+            System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
         } catch (NotBoundException ex) {
             Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (AccessException ex) {

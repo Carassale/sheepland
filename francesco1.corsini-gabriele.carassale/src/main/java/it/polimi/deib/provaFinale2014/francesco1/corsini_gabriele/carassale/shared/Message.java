@@ -19,7 +19,10 @@ public enum Message {
     ACTION_OK("Mossa effettuata."),
     ACTION_ERROR("Non è possibile fare questa mossa, ricorda di muovere il pastore e che non è consentito fare due mosse consecutive uguali."),
     NO_CORRECT_DICE("Lancio del dado fallito. È uscito il numero: "),
-    IMPOSSIBLE_SELECTION("Selezionare oggetti esistenti.");
+    IMPOSSIBLE_SELECTION("Selezionare oggetti esistenti."),
+    DISCONNECT_FOR_TIMEOUT("Sei stato disconnesso dal server, non è stato raggiunto il numero minimo di giocatori."),
+    RECONNECTED("Sei stato ricollegato alla partita."),
+    DISCONNECTED("Client disconnesso.");
 
     private final String value;
 
