@@ -193,16 +193,15 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             } catch (ShepardException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            return false;
         } else {
             printUncorectAction();
             return false;
@@ -240,8 +239,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            return false;
         } else {
             printUncorectAction();
             return false;
@@ -268,12 +268,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             } catch (CardException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            return false;
         } else {
             printUncorectAction();
             return false;
@@ -308,17 +308,17 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             } catch (WrongDiceNumberException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 printCorrectAction();
                 return true;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            return false;
         } else {
             printUncorectAction();
             return false;
@@ -353,8 +353,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                return false;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            return false;
         } else {
             printUncorectAction();
             return false;

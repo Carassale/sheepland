@@ -126,7 +126,7 @@ public class PlayerConnectionSocket {
     }
 
     public boolean hasNext() {
-        outSocket.print("String prova");
+        outSocket.println("String prova");
         return !outSocket.checkError();
     }
 }

@@ -409,19 +409,19 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                     refreshCoin(1, false);
                 }
                 setCanDoAction(true);
+                return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (CoinException ex) {
-                printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
+                printErrorMessage(ex.getMessage());;
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (ShepardException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            setRepeatAction(true);
         } else {
             setRepeatAction(true);
             printUncorectAction();
@@ -453,11 +453,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 printCorrectAction();
                 refreshMoveAnimal(idSheep, idTerrain);
                 setCanDoAction(true);
+                return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            setRepeatAction(true);
         } else {
             setRepeatAction(true);
             printUncorectAction();
@@ -478,15 +480,16 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 refreshCard(typeOfTerrain, false);
                 refreshCoin(cost, false);
                 setCanDoAction(true);
+                return;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (CardException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            setRepeatAction(true);
         } else {
             setRepeatAction(true);
             printUncorectAction();
@@ -516,11 +519,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 idAnimal++;
                 refreshAddAnimal(idAnimal, idTerrain, TypeAnimal.LAMB.toString());
                 setCanDoAction(true);
+                return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            setRepeatAction(true);
         } else {
             setRepeatAction(true);
             printUncorectAction();
@@ -548,20 +553,22 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 printCorrectAction();
                 refreshKillAnimal(idSheep);
                 setCanDoAction(true);
+                return;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                setRepeatAction(true);
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (WrongDiceNumberException ex) {
                 printCorrectAction();
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 setCanDoAction(true);
+                return;
             }
+            gameController.getPlayerPool().getFirstPlayer().clearLastAction();
+            setRepeatAction(true);
         } else {
             setRepeatAction(true);
             printUncorectAction();

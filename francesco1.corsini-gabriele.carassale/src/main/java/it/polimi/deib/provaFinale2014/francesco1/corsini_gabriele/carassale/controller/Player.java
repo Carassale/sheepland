@@ -513,6 +513,10 @@ public class Player {
      * @return True se può effettuare la mossa
      */
     public boolean isPossibleAction(String action) {
+        if (!"".equals(actionDone[2])) {
+            cleanActionDone();
+        }
+
         if ("".equals(actionDone[0])) {
             actionDone[0] = action;
             return true;
@@ -528,14 +532,14 @@ public class Player {
 
         if ("".equals(actionDone[2])) {
             if (action.equals(actionDone[1]) && TypeAction.MOVE_SHEPARD.toString().equals(action)) {
-                cleanActionDone();
+                actionDone[2] = action;
                 return true;
             }
 
             if (TypeAction.MOVE_SHEPARD.toString().equals(action)
                     || (TypeAction.MOVE_SHEPARD.toString().equals(actionDone[0]) && !action.equals(actionDone[1]))
                     || (TypeAction.MOVE_SHEPARD.toString().equals(actionDone[1]))) {
-                cleanActionDone();
+                actionDone[2] = action;
                 return true;
             }
         }
@@ -550,6 +554,15 @@ public class Player {
         actionDone = new String[3];
         for (int i = 0; i < 3; i++) {
             actionDone[i] = "";
+        }
+    }
+
+    public void clearLastAction() {
+        for (int i = 2; i >= 0; i--) {
+            if (actionDone[i] != "") {
+                actionDone[i] = "";
+                return;
+            }
         }
     }
 
