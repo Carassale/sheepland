@@ -91,24 +91,24 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         fenceNumber = 20;
         
         state = GUIDinamicState.INITIALIZATION;
-        createAndShowGUI();
+        createAndShowGUI(true);
     }
     
     /**
-     * Costruttore usato solo nei test
+     * Costruttore usato solo nei test(non c'è connessione e non si vede gui)
      */
     public GUIDinamic(){
         imagePool = new BufferedImageContainer();
         fenceNumber = 20;
         
         state = GUIDinamicState.INITIALIZATION;
-        createAndShowGUI();
+        createAndShowGUI(false);
     }
     
     /**
      * service method that supports the constructor in the creation of the GUI components
      */
-    private void createAndShowGUI() {
+    private void createAndShowGUI(boolean showGUI) {
         Dimension dim = new Dimension(950, 650);
         setSize(dim);
         
@@ -134,7 +134,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         //Display the window.
         pack();
-        setVisible(true);
+        setVisible(showGUI);
     }
     
     /**
@@ -1171,6 +1171,16 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public DinamicRoadButton[] getRoads() {
         return roads;
     }
+
+    /**
+     * Getter used only for testing purpose
+     * @return int number of coins of the player
+     */
+    public int getCoins() {
+        return coins;
+    }
+
+    
     
     
     

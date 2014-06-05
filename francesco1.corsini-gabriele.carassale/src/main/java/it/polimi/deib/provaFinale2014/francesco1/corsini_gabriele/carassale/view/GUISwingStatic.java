@@ -24,7 +24,7 @@ import javax.swing.*;
  */
 public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
-    private final ConnectionClient connectionClient;
+    private ConnectionClient connectionClient;
     private final GUISwingStatic GUI;
 
     private GUIState state;
@@ -57,7 +57,16 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     public GUISwingStatic(ConnectionClient connectionClient) {
         GUI = this;
         this.connectionClient = connectionClient;
-        initUI();
+        initUI(true);
+
+    }
+    
+    /**
+     * Costruttore usato solo per i test(fa a meno della connessione)
+     */
+    public GUISwingStatic() {
+        GUI = this;
+        initUI(false);
 
     }
 
@@ -65,7 +74,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * Metodo creatore principale della GUI che inizializza tutti i pannelli e
      * divide la frame
      */
-    private void initUI() {
+    private void initUI(boolean showGUI) {
 
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -92,40 +101,57 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         pMainWest.add(pMain = new JPanel(), BorderLayout.NORTH);
 
         pMain.setLayout(new BorderLayout());
-        pMain.add(pNorth = new JPanel(), BorderLayout.NORTH);
+        pNorth = new JPanel();
+        pMain.add(pNorth, BorderLayout.NORTH);
         pNorth.setLayout(new BorderLayout());
-        pNorth.add(pTerrain = new JPanel(), BorderLayout.NORTH);
+        pTerrain = new JPanel();
+        pNorth.add(pTerrain, BorderLayout.NORTH);
         pTerrain.setLayout(new GridLayout(3, 7));
-        pNorth.add(pTerrainType = new JPanel(), BorderLayout.SOUTH);
+        pTerrainType = new JPanel();
+        pNorth.add(pTerrainType, BorderLayout.SOUTH);
         pTerrainType.setLayout(new FlowLayout());
-        pMain.add(pLabelAction = new JPanel(), BorderLayout.WEST);
+        pLabelAction = new JPanel();
+        pMain.add(pLabelAction, BorderLayout.WEST);
         pLabelAction.setLayout(new GridLayout(3, 1));
-        pMain.add(pActions = new JPanel(), BorderLayout.CENTER);
+        pActions = new JPanel();
+        pMain.add(pActions, BorderLayout.CENTER);
         pActions.setLayout(new GridLayout(2, 3));
-        pMain.add(pLabelStatus = new JPanel(), BorderLayout.EAST);
+        pLabelStatus = new JPanel();
+        pMain.add(pLabelStatus, BorderLayout.EAST);
         pLabelStatus.setLayout(new GridLayout(6, 1));
-        pMain.add(pSounth = new JPanel(), BorderLayout.SOUTH);
+        pSounth = new JPanel();
+        pMain.add(pSounth, BorderLayout.SOUTH);
         pSounth.setLayout(new BorderLayout());
-        pSounth.add(pRoads = new JPanel(), BorderLayout.NORTH);
+        pRoads = new JPanel();
+        pSounth.add(pRoads, BorderLayout.NORTH);
         pRoads.setLayout(new GridLayout(6, 7));
-        pSounth.add(sheepDropDown = new JComboBox(), BorderLayout.SOUTH);
+        sheepDropDown = new JComboBox();
+        pSounth.add(sheepDropDown, BorderLayout.SOUTH);
         pMainEast.setLayout(new BorderLayout());
-        pMainEast.add(pMainEastNorth = new JPanel(), BorderLayout.NORTH);
+        pMainEastNorth = new JPanel();
+        pMainEast.add(pMainEastNorth, BorderLayout.NORTH);
         pMainEastNorth.setLayout(new GridLayout(4, 1));
 
         try {
-            pMainEast.add(pSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png"), BorderLayout.CENTER);
+            pSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png");
+            pMainEast.add(pSounth, BorderLayout.CENTER);
         } catch (IOException ex) {
             Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
-        pLabelAction.add(lAction1 = new JLabel("Non è il tuo turno"));
-        pLabelAction.add(lAction2 = new JLabel("Attendi..."));
-        pLabelAction.add(lAction3 = new JLabel(" "));
+        lAction1 = new JLabel("Non è il tuo turno");
+        pLabelAction.add(lAction1);
+        lAction2 = new JLabel("Attendi...");
+        pLabelAction.add(lAction2);
+        lAction3 = new JLabel(" ");
+        pLabelAction.add(lAction3);
 
-        pMainEastNorth.add(lCoins = new JLabel("Monete :" + coins));
-        pMainEastNorth.add(lShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato"));
-        pMainEastNorth.add(lShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato"));
+        lCoins = new JLabel("Monete :" + coins);
+        pMainEastNorth.add(lCoins);
+        lShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato");
+        pMainEastNorth.add(lShepard1);
+        lShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato");
+        pMainEastNorth.add(lShepard2);
 
         sheepDropDown.addActionListener(new StaticDropDownSelectionListener(this));
         sheepDropDown.setEnabled(false);
@@ -138,18 +164,19 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             cards[i] = 0;
 
             if (i == 0) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Pianura: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Pianura: " + cards[i]);
             } else if (i == 1) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Foresta: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Foresta: " + cards[i]);
             } else if (i == 2) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Fiume: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Fiume: " + cards[i]);
             } else if (i == 3) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Deserto: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Deserto: " + cards[i]);
             } else if (i == 4) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Montagna: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Montagna: " + cards[i]);
             } else if (i == 5) {
-                pLabelStatus.add(lTerrainCards[i] = new JLabel("Carte Campi: " + cards[i]));
+                lTerrainCards[i] = new JLabel("Carte Campi: " + cards[i]);
             }
+            pLabelStatus.add(lTerrainCards[i]);
         }
 
         bMoveShepard = new JButton("Muovi Pastore");
@@ -240,8 +267,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         setTitle("SheepLand");
 
         Toolkit tk = Toolkit.getDefaultToolkit();
-        int xSize = ((int) tk.getScreenSize().getWidth());
-        int ySize = ((int) tk.getScreenSize().getHeight());
+        int xSize = (int) tk.getScreenSize().getWidth();
+        int ySize = (int) tk.getScreenSize().getHeight();
         Dimension dim = new Dimension(xSize, ySize);
 
         setMaximumSize(dim);
@@ -249,7 +276,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
+        setVisible(showGUI);
         pack();
 
         Dimension size = bMoveShepard.getSize();
@@ -808,7 +835,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param message text to show
      */
     public void messageText(String message) {
-       //TODO
+        lAction3.setText(message);
     }
 
     /**
@@ -818,7 +845,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param isMine 
      */
     public void refreshAddShepard(int idShepard, int road, boolean isMine) {
-       //TODO
+       refreshAddShepard(idShepard,road);
     }
     
     /**
@@ -827,7 +854,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param score 
      */
     public void refreshWinner(int position, int score){
-        //TODO
+        if(position == 1){
+            lAction3.setText("SEI IL VINCITORE CON " + score +" PUNTI");
+        } else {
+            lAction3.setText("NON HAI VINTO CON " + score +" PUNTI");
+        }
+            
     }
 
     /**
@@ -835,7 +867,8 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param idRoad 
      */
     public void refreshAddFence(int idRoad) {
-        //TODO
+        bRoad.get(idRoad).setEnabled(false);
+        bRoad.get(idRoad).setText("Fence");
     }
     
     /**
