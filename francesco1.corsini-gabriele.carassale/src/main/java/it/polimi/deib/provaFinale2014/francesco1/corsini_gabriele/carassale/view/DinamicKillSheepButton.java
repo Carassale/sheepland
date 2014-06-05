@@ -50,7 +50,7 @@ public class DinamicKillSheepButton extends JPanel{
              */
             public void mouseClicked(MouseEvent e) {
                 
-                //activateAnimation();
+                activateAnimation();
                 GUI.sendKillSheep();
                 GUI.activateSubMenuSheep(terrain, false);
                 GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
@@ -91,6 +91,11 @@ public class DinamicKillSheepButton extends JPanel{
                 //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
         });
+    }
+    
+    private void activateAnimation(){
+        
+        GUI.animationKillSheep( this.getLocation().x,this.getLocation().y, terrain);
     }
     
     @Override
