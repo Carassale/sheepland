@@ -98,12 +98,12 @@ public class DinamicSheepButton extends JButton {
             public void mouseClicked(MouseEvent e) {
 
                 if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
-                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
+                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                     GUI.sendMoveSheep(terrain);
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                     GUI.activateSheepTypeButton(terrain);
                     GUI.setSubMenuOpen(terrain);
-                    GUI.setGUIDinamicState((GUIDinamicState.SUBMENUOPEN));
+                    GUI.setGUIDinamicState(GUIDinamicState.SUBMENUOPEN);
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
                     int i = GUI.getSubMenuOpen();
                     if (i == terrain) {
@@ -118,13 +118,13 @@ public class DinamicSheepButton extends JButton {
                         GUI.activateSheepType(i, false, TypeAnimal.LAMB.toString());
                         GUI.setSubMenuOpen(terrain);
                     }
-                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORPLAYER));
+                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORPLAYER);
                 } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
                     GUI.activateSubMenuSheep(terrain, false);
                     GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
                     GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
                     GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
-                    GUI.setGUIDinamicState((GUIDinamicState.WAITINGFORSERVER));
+                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                     GUI.sendMoveSheep(terrain);
                     //TODO GUI.animation
                 }
