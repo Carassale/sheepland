@@ -107,8 +107,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         state = GUIDinamicState.INITIALIZATION;
         createAndShowGUI(false);
         
+        //se test allora faccio la disclose per uscire
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
     }
     
     /**

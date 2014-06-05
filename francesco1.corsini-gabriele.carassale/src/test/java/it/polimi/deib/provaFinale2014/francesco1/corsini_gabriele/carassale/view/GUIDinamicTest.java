@@ -37,12 +37,9 @@ public class GUIDinamicTest {
     }
     
     @AfterClass
-    public void tearDown(){
+    public static void tearDown(){
         gui.dispose();
     }
-
-
-
 
     /**
      * Test per vedere che il Lupo View si muova correttamente quando comandato dalla connection
@@ -61,7 +58,6 @@ public class GUIDinamicTest {
         //non avendo logica, posso spostarlo anche in territorio non adiacente
         gui.activateWolf(2);
         assertEquals(2,wolf.getPosition());
-       
     }
 
     /**
