@@ -44,6 +44,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     private boolean canDoAction;
     private int actionDone;
     private boolean isFinishGame = false;
+    private int shepardToPlace = 0;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -302,6 +303,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public void startAction() throws FinishGame {
+        if (shepardToPlace > 0) {
+            placeShepard(currentPlayer);
+        }
+
         isConnected = true;
         for (actionDone = 0; actionDone < NUMACTION && isConnected; actionDone++) {
             setCanDoAction(false);
@@ -661,18 +666,26 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @param idPlayer
      */
     public void reconnectPlayer(int idPlayer) {
-        PlayerConnectionRMI thisPlayer = null;
+        PlayerConnectionRMI thisRMIPlayer = null;
+        Player thisGamePlayer = null;
 
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             if (playerConnection.getIdPlayer() == idPlayer) {
-                thisPlayer = playerConnection;
+                thisRMIPlayer = playerConnection;
+                break;
+            }
+        }
+
+        for (Player player : gameController.getPlayerPool().getPlayers()) {
+            if (player.getIdPlayer() == idPlayer) {
+                thisGamePlayer = player;
                 break;
             }
         }
 
         boolean isReady = false;
         while (!isReady) {
-            isReady = isRadyClient(thisPlayer);
+            isReady = isRadyClient(thisRMIPlayer);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
@@ -689,57 +702,56 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             } else {
                 kind = TypeAnimal.WHITE_SHEEP.toString();
             }
-            singleRefreshAddAnimal(thisPlayer, sheep.getId(), sheep.getPosition().getID(), kind);
+            singleRefreshAddAnimal(thisRMIPlayer, sheep.getId(), sheep.getPosition().getID(), kind);
         }
 
         kind = TypeAnimal.WOLF.toString();
-        singleRefreshAddAnimal(thisPlayer, -2, gameController.getGameTable().getWolf().getPosition().getID(), kind);
+        singleRefreshAddAnimal(thisRMIPlayer, -2, gameController.getGameTable().getWolf().getPosition().getID(), kind);
 
         kind = TypeAnimal.BLACK_SHEEP.toString();
-        singleRefreshAddAnimal(thisPlayer, -1, gameController.getGameTable().getBlacksheep().getPosition().getID(), kind);
+        singleRefreshAddAnimal(thisRMIPlayer, -1, gameController.getGameTable().getBlacksheep().getPosition().getID(), kind);
 
         boolean isMine;
         for (Shepard shepard : gameController.getGameTable().getShepards()) {
             isMine = shepard.getOwner().getIdPlayer() == idPlayer;
-            singeRefreshAddShepard(thisPlayer, shepard.getId(), shepard.getPosition().getId(), isMine);
+            singeRefreshAddShepard(thisRMIPlayer, shepard.getId(), shepard.getPosition().getId(), isMine);
         }
 
-        for (Player player : gameController.getPlayerPool().getPlayers()) {
-            if (player.getIdPlayer() == idPlayer) {
-                refreshCoin(thisPlayer, player.getCoins(), true);
+        refreshCoin(thisRMIPlayer, thisGamePlayer.getCoins(), true);
 
-                int i;
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.DESERT.toString(), false);
-                }
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FIELD.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.FIELD.toString(), false);
-                }
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.FOREST.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.FOREST.toString(), false);
-                }
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.MOUNTAIN.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.MOUNTAIN.toString(), false);
-                }
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.PLAIN.toString(), false);
-                }
-                for (i = 0; i < player.getTerrainCardsOwned(TypeCard.RIVER.toString()).size(); i++) {
-                    refreshCard(thisPlayer, TypeCard.RIVER.toString(), false);
-                }
-            }
+        int i;
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.DESERT.toString(), false);
+        }
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.FIELD.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.FIELD.toString(), false);
+        }
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.FOREST.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.FOREST.toString(), false);
+        }
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.MOUNTAIN.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.MOUNTAIN.toString(), false);
+        }
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.PLAIN.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.PLAIN.toString(), false);
+        }
+        for (i = 0; i < thisGamePlayer.getTerrainCardsOwned(TypeCard.RIVER.toString()).size(); i++) {
+            refreshCard(thisRMIPlayer, TypeCard.RIVER.toString(), false);
         }
 
-        refreshAllFence(thisPlayer);
+        refreshAllFence(thisRMIPlayer);
 
-        map.setOnLine(thisPlayer.getNickname(), true);
-        for (Player player : gameController.getPlayerPool().getPlayers()) {
-            if (player.getIdPlayer() == thisPlayer.getIdPlayer()) {
-                player.setOnLine(true);
-            }
+        map.setOnLine(thisRMIPlayer.getNickname(), true);
+        thisGamePlayer.setOnLine(true);
+
+        if (thisGamePlayer.getShepards().isEmpty()) {
+            shepardToPlace = 1;
+        }
+        if (playerConnections.size() == 2 && thisGamePlayer.getShepards().isEmpty()) {
+            shepardToPlace = 2;
         }
 
-        printMessage(thisPlayer, Message.RECONNECTED.toString());
+        printMessage(thisRMIPlayer, Message.RECONNECTED.toString());
     }
 
     private void printMessage(PlayerConnectionRMI playerConnection, String message) {
@@ -854,6 +866,51 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
         System.out.println("RMI: Tutto pronto, il gioco ha inizio.");
         new CheckThreadRMI();
+    }
+
+    private void placeShepard(PlayerConnectionRMI player) {
+        Player playerGame = null;
+        for (Player player1 : gameController.getPlayerPool().getPlayers()) {
+            if (player1.getIdPlayer() == player.getIdPlayer()) {
+                playerGame = player1;
+                break;
+            }
+        }
+
+        int idShepard = gameController.getGameTable().getShepards().get(gameController.getGameTable().getShepards().size() - 1).getId();
+        while (shepardToPlace > 0) {
+            idShepard++;
+
+            //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
+            Road roadChoosen = new Road(100);
+            boolean playerHasPlacedShepard;
+            boolean skip;
+
+            do {
+                playerHasPlacedShepard = false;
+                skip = false;
+
+                roadChoosen = getPlacedShepard(idShepard);
+                if (roadChoosen != null) {
+                    if (!roadChoosen.hasShepard()) {
+                        playerHasPlacedShepard = true;
+                    }
+                } else {
+                    playerHasPlacedShepard = true;
+                    skip = true;
+                }
+            } while (!playerHasPlacedShepard);
+
+            if (!skip) {
+                Shepard shepard = new Shepard(roadChoosen, playerGame, idShepard);
+                playerGame.getShepards().add(shepard);
+                gameController.getGameTable().getShepards().add(shepard);
+
+                refreshAddShepard(idShepard, roadChoosen.getId());
+            }
+
+            shepardToPlace--;
+        }
     }
 
     private class CheckThreadRMI implements Runnable {
