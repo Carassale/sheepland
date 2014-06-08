@@ -48,7 +48,7 @@ public class BufferedImageContainer {
             moveSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
             killSheep1 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
             killSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep2.png"));
-                    
+
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -285,7 +285,5 @@ public class BufferedImageContainer {
     public BufferedImage getKillSheep2() {
         return killSheep2;
     }
-    
-    
 
 }

@@ -30,7 +30,6 @@ public class StaticActionListener extends JFrame implements ActionListener {
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
-
         String command = e.getActionCommand();
         gui.activateActions(false);
 
@@ -43,7 +42,6 @@ public class StaticActionListener extends JFrame implements ActionListener {
             gui.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");
             gui.setGUIState(GUIState.MOVESHEEPFROM);
             gui.activateTerrains(true);
-
         } else if (TypeAction.BUY_CARD.toString().equals(command)) {
             gui.getLAction2().setText("Selezione la tipologia di carta da comprare");
             gui.setGUIState(GUIState.BUYCARD);
@@ -52,7 +50,6 @@ public class StaticActionListener extends JFrame implements ActionListener {
             gui.getLAction2().setText("Selezione il terreno dove accoppiare");
             gui.activateTerrains(true);
             gui.setGUIState(GUIState.JOINSHEEPS);
-
         } else if (TypeAction.KILL_SHEEP.toString().equals(command)) {
             gui.getLAction2().setText("Selezione il territorio dove è l'ovino da abbattere");
             gui.setGUIState(GUIState.KILLSHEEP);

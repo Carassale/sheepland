@@ -32,6 +32,7 @@ public class Sheep extends Animal {
         if (!initialization) {
             age = 0;
             sex = randomSex();
+            old = false;
         } else {
             sex = randomSex();
             old = Math.random() >= 0.3;

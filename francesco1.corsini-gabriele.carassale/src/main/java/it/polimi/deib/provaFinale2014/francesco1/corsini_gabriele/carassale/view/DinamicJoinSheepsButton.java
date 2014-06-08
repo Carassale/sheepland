@@ -5,11 +5,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -20,35 +17,34 @@ import javax.swing.JPanel;
 public class DinamicJoinSheepsButton extends JPanel {
 
     private BufferedImage icon;
-    
+
     private BufferedImage[] image = new BufferedImage[2];
 
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
     private final int terrain;
     private boolean isMouseOver;
     //serve come contatore per ciclare tra le due immagine nel mouseover
     private int cont;
-    
 
     /**
      * Constructor
      *
-     * @param gui GUI dynamic
+     * @param guiD GUI dynamic
      * @param ter terrain where is placed
      */
-    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter, BufferedImageContainer pool) {
-        GUI = gui;
+    public DinamicJoinSheepsButton(GUIDinamic guiD, final int ter, BufferedImageContainer pool) {
+        this.gui = guiD;
         this.terrain = ter;
-        
+
         image[0] = pool.getJoinSheeps1();
         image[1] = pool.getJoinSheeps2();
-        
+
         this.setLayout(null);
         this.setOpaque(false);
         this.setVisible(false);
         this.setToolTipText("Accoppia Ovini");
         isMouseOver = false;
-        
+
         icon = image[0];
 
         this.addMouseListener(new MouseListener() {
@@ -59,13 +55,12 @@ public class DinamicJoinSheepsButton extends JPanel {
              * @param e event
              */
             public void mouseClicked(MouseEvent e) {
-
                 activateAnimation();
-                GUI.sendJoinSheeps(terrain);
-                GUI.activateSubMenuSheep(terrain, false);
-                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                gui.sendJoinSheeps(terrain);
+                gui.activateSubMenuSheep(terrain, false);
+                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
             /**
@@ -111,8 +106,7 @@ public class DinamicJoinSheepsButton extends JPanel {
     }
 
     private void activateAnimation() {
-
-        GUI.animationJoinSheeps(this.getLocation().x, this.getLocation().y, terrain);
+        gui.animationJoinSheeps(this.getLocation().x, this.getLocation().y, terrain);
     }
 
     protected void paintComponent(Graphics g) {
@@ -120,7 +114,7 @@ public class DinamicJoinSheepsButton extends JPanel {
         g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
 
     }
-    
+
     private class DinamicJoinSheepsButtonCicle implements Runnable {
 
         /**

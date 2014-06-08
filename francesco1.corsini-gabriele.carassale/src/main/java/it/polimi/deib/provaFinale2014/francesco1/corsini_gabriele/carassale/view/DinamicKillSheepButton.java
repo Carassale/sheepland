@@ -5,11 +5,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+;
 import javax.swing.JPanel;
 
 /**
@@ -17,11 +15,13 @@ import javax.swing.JPanel;
  *
  * @author Francesco Corsini
  */
+
+
 public class DinamicKillSheepButton extends JPanel {
 
     private BufferedImage icon;
     private BufferedImage[] image = new BufferedImage[2];
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
     private final int terrain;
     private boolean isMouseOver;
     //serve come contatore per ciclare tra le due immagine nel mouseover
@@ -35,7 +35,7 @@ public class DinamicKillSheepButton extends JPanel {
      */
     DinamicKillSheepButton(GUIDinamic aThis, int i, BufferedImageContainer pool) {
         this.terrain = i;
-        this.GUI = aThis;
+        this.gui = aThis;
         isMouseOver = false;
 
         image[0] = pool.getKillSheep1();
@@ -57,12 +57,12 @@ public class DinamicKillSheepButton extends JPanel {
             public void mouseClicked(MouseEvent e) {
 
                 activateAnimation();
-                GUI.sendKillSheep();
-                GUI.activateSubMenuSheep(terrain, false);
-                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
-                GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                gui.sendKillSheep();
+                gui.activateSubMenuSheep(terrain, false);
+                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
             }
 
             /**
@@ -107,8 +107,7 @@ public class DinamicKillSheepButton extends JPanel {
     }
 
     private void activateAnimation() {
-
-        GUI.animationKillSheep(this.getLocation().x, this.getLocation().y, terrain);
+        gui.animationKillSheep(this.getLocation().x, this.getLocation().y, terrain);
     }
 
     @Override

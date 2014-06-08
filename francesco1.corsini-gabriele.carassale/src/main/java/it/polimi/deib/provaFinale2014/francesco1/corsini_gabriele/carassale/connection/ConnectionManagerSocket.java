@@ -39,8 +39,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private boolean isFinishGame = false;
     private int shepardToPlace = 0;
 
-    private Object objectSyncronyzed = new Object();
-
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
      * avvia col la chiamata al method start

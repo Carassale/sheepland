@@ -84,7 +84,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private ViewAnimal sheepSelected;
 
-    private final static String FONT_FANTASY = "fantasy";
+    private static final String FONT_FANTASY = "fantasy";
 
     /**
      * Constructor that initializes the GUI. It creates the
@@ -1232,7 +1232,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @param animals arraylist of the animals
      */
-    public void setAnimals(ArrayList<ViewAnimal> animals) {
+    public void setAnimals(List<ViewAnimal> animals) {
         this.animals = animals;
     }
 

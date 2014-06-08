@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public class AnimationJoinSheeps extends JPanel implements Runnable {
 
     private BufferedImage heart;
-    private static final int maxDim = 100, minDim = 50;
+    private static final int MAX_DIM = 100, MIN_DIM = 50;
     private Thread runner;
 
     /**
@@ -40,7 +40,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
      * Run is called when the animation needs to be started
      */
     public void run() {
-        for (int i = 0; i <= maxDim; i++) {
+        for (int i = 0; i <= MAX_DIM; i++) {
             this.setSize(i * 2, i * 2);
             this.setLocation(this.getLocation().x - 1, this.getLocation().y - 1);
             repaint();
@@ -51,7 +51,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
             }
         }
         for (int j = 0; j <= 2; j++) {
-            for (int i = maxDim; i >= minDim; i--) {
+            for (int i = MAX_DIM; i >= MIN_DIM; i--) {
                 this.setSize(i * 2, i * 2);
                 this.setLocation(this.getLocation().x + 1, this.getLocation().y + 1);
                 repaint();
@@ -61,7 +61,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
                     Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
             }
-            for (int i = minDim; i <= maxDim; i++) {
+            for (int i = MIN_DIM; i <= MAX_DIM; i++) {
                 this.setSize(i * 2, i * 2);
                 this.setLocation(this.getLocation().x - 1, this.getLocation().y - 1);
                 repaint();
@@ -72,7 +72,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
                 }
             }
         }
-        for (int i = maxDim; i >= 0; i--) {
+        for (int i = MAX_DIM; i >= 0; i--) {
             this.setSize(i * 2, i * 2);
             this.setLocation(this.getLocation().x + 1, this.getLocation().y + 1);
             repaint();
