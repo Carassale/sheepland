@@ -41,5 +41,20 @@ public class GameTableTest {
     public void testWolf() {
         assertSame(game.getWolf().getPosition(), game.getMap().getTerrain().get(18));
     }
+    
+    /**
+     * Test per vedere se la trasformazione da id a oggetto è giusta
+     */
+    @Test
+    public void testGetId(){
+        int number = (int) ((Math.random() * 41) + 1);
+        assertSame(game.idToRoad(number),game.getMap().getRoads().get(number));
+        
+        number = (int) ((Math.random() * 17) + 1);
+        assertSame(game.idToTerrain(number),game.getMap().getTerrain().get(number));
+        
+        number = (int) ((Math.random() * 17) + 1);
+        assertSame(game.idToSheep(number), game.getSheeps().get(number));
+    }
 
 }

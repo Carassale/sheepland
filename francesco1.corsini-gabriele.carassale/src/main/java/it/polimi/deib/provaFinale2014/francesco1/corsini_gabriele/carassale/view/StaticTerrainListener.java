@@ -39,12 +39,10 @@ public class StaticTerrainListener extends JFrame implements ActionListener {
             gui.setGUIState(GUIState.MOVESHEEPSELECTION);
             gui.activateSheepSelection(true, terrain);
             gui.getLAction2().setText("Seleziona quale ovino si vuole muovere");
-            //TODO finire questo metodo: deve aggiornare nella GUI tempIdSheep
         } else if (gui.getGUIState() == GUIState.KILLSHEEP) {
             gui.setGUIState(GUIState.KILLSHEEPSELECTION);
             gui.activateSheepSelection(true, terrain);
             gui.getLAction2().setText("Seleziona quale ovino vuoi abbatere");
-            //TODO finire questo metodo: deve aggiornare nella GUI tempIdSheep
         } else if (gui.getGUIState() == GUIState.JOINSHEEPS) {
             gui.setGUIState(GUIState.KILLSHEEPSELECTION);
             gui.sendJoinSheeps(terrain);

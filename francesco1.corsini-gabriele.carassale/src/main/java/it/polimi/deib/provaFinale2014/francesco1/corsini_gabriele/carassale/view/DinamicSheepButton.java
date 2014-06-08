@@ -131,7 +131,6 @@ public class DinamicSheepButton extends JButton {
                 GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
                 GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                 GUI.sendMoveSheep(terrain);
-                //TODO GUI.animation
             }
         }
 

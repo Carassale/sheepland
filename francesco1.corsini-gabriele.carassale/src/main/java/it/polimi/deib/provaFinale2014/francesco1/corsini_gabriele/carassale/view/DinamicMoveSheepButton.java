@@ -34,16 +34,14 @@ public class DinamicMoveSheepButton extends JPanel {
      * @param guiD GUI Dynamic
      * @param terr terrain where the button is
      */
-    public DinamicMoveSheepButton(GUIDinamic guiD, int terr) {
+    public DinamicMoveSheepButton(GUIDinamic guiD, int terr, BufferedImageContainer pool) {
 
         this.gui = guiD;
         this.terrain = terr;
-        try {
-            image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
-            image[1] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-        }
+
+        image[0] = pool.getMoveSheep1();
+        image[1] = pool.getMoveSheep2();
+
         this.setLayout(null);
         this.setOpaque(false);
         this.setVisible(false);

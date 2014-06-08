@@ -49,6 +49,11 @@ public class StaticDropDownSelectionListener extends JFrame implements ActionLis
             int num = Integer.parseInt(command);
             gui.setShepardSelected(num);
         }
+        else{
+            command = command.replaceAll("[^\\d.]", "");
+            int num = Integer.parseInt(command);
+            gui.setShepardSelected(num);
+        }
 
     }
 

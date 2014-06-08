@@ -233,9 +233,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             jlabelLamb[i] = new DimanicSheepTypeButton(this, i, TypeAnimal.LAMB.toString(), imagePool);
             jlabelWhiteSheep[i] = new DimanicSheepTypeButton(this, i, TypeAnimal.WHITE_SHEEP.toString(), imagePool);
             jlabelRam[i] = new DimanicSheepTypeButton(this, i, TypeAnimal.RAM.toString(), imagePool);
-            jbuttonKillSheep[i] = new DinamicKillSheepButton(this, i);
-            jbuttonJoinSheeps[i] = new DinamicJoinSheepsButton(this, i);
-            jbuttonMoveSheep[i] = new DinamicMoveSheepButton(this, i);
+            jbuttonKillSheep[i] = new DinamicKillSheepButton(this, i, imagePool);
+            jbuttonJoinSheeps[i] = new DinamicJoinSheepsButton(this, i, imagePool);
+            jbuttonMoveSheep[i] = new DinamicMoveSheepButton(this, i, imagePool);
             layeredPane.add(jbuttonKillSheep[i], Integer.valueOf(5));
             layeredPane.add(jbuttonJoinSheeps[i], Integer.valueOf(5));
             layeredPane.add(jbuttonMoveSheep[i], Integer.valueOf(5));
@@ -816,7 +816,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
                     activateWolf(idTerrain);
                 }
             }
-            //TODO animazione
         } else if (idAnimal == -1) {
             //caso blacksheep
             for (ViewAnimal ele : animals) {
@@ -825,7 +824,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
                     activateBlackSheep(idTerrain);
                 }
             }
-            //TODO animazione
         } else {
             //caso pecore
             for (ViewAnimal ele : animals) {
@@ -836,7 +834,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
                     activateSheep(idTerrain);
                 }
             }
-            //TODO animazione
         }
     }
 

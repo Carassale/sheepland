@@ -20,8 +20,12 @@ import javax.swing.JPanel;
 public class DinamicKillSheepButton extends JPanel {
 
     private BufferedImage icon;
+    private BufferedImage[] image = new BufferedImage[2];
     private GUIDinamic GUI;
     private final int terrain;
+    private boolean isMouseOver;
+    //serve come contatore per ciclare tra le due immagine nel mouseover
+    private int cont;
 
     /**
      * Standard Constructor
@@ -29,15 +33,15 @@ public class DinamicKillSheepButton extends JPanel {
      * @param aThis GUI Dynamic
      * @param i the terrain where the button is
      */
-    DinamicKillSheepButton(GUIDinamic aThis, int i) {
+    DinamicKillSheepButton(GUIDinamic aThis, int i, BufferedImageContainer pool) {
         this.terrain = i;
         this.GUI = aThis;
+        isMouseOver = false;
 
-        try {
-            icon = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-        }
+        image[0] = pool.getKillSheep1();
+        image[1] = pool.getKillSheep2();
+
+        icon = image[0];
         this.setLayout(null);
         this.setOpaque(false);
         this.setVisible(false);
@@ -85,7 +89,10 @@ public class DinamicKillSheepButton extends JPanel {
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                isMouseOver = true;
+                cont = 1;
+                Thread runner = new Thread(new DinamicKillSHeepButtonCicle());
+                runner.start();
             }
 
             /**
@@ -94,7 +101,7 @@ public class DinamicKillSheepButton extends JPanel {
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                isMouseOver = false;
             }
         });
     }
@@ -108,6 +115,32 @@ public class DinamicKillSheepButton extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+
+    }
+
+    private class DinamicKillSHeepButtonCicle implements Runnable {
+
+        /**
+         * Thread chiamata per animazione
+         */
+        public void run() {
+            //cicla tra le due immagini
+            while (isMouseOver) {
+                icon = image[cont % 2];
+                cont++;
+                repaint();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
+
+            }
+
+            //quando esco rimetto immagine standard
+            icon = image[0];
+            repaint();
+        }
 
     }
 

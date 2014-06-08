@@ -20,8 +20,15 @@ import javax.swing.JPanel;
 public class DinamicJoinSheepsButton extends JPanel {
 
     private BufferedImage icon;
+    
+    private BufferedImage[] image = new BufferedImage[2];
+
     private GUIDinamic GUI;
     private final int terrain;
+    private boolean isMouseOver;
+    //serve come contatore per ciclare tra le due immagine nel mouseover
+    private int cont;
+    
 
     /**
      * Constructor
@@ -29,18 +36,20 @@ public class DinamicJoinSheepsButton extends JPanel {
      * @param gui GUI dynamic
      * @param ter terrain where is placed
      */
-    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
+    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter, BufferedImageContainer pool) {
         GUI = gui;
         this.terrain = ter;
-        try {
-            icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        image[0] = pool.getJoinSheeps1();
+        image[1] = pool.getJoinSheeps2();
+        
         this.setLayout(null);
         this.setOpaque(false);
         this.setVisible(false);
         this.setToolTipText("Accoppia Ovini");
+        isMouseOver = false;
+        
+        icon = image[0];
 
         this.addMouseListener(new MouseListener() {
 
@@ -83,7 +92,10 @@ public class DinamicJoinSheepsButton extends JPanel {
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                isMouseOver = true;
+                cont = 1;
+                Thread runner = new Thread(new DinamicJoinSheepsButtonCicle());
+                runner.start();
             }
 
             /**
@@ -92,7 +104,7 @@ public class DinamicJoinSheepsButton extends JPanel {
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                isMouseOver = false;
             }
         });
 
@@ -106,6 +118,32 @@ public class DinamicJoinSheepsButton extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+
+    }
+    
+    private class DinamicJoinSheepsButtonCicle implements Runnable {
+
+        /**
+         * Thread chiamata per animazione
+         */
+        public void run() {
+            //cicla tra le due immagini
+            while (isMouseOver) {
+                icon = image[cont % 2];
+                cont++;
+                repaint();
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
+
+            }
+
+            //quando esco rimetto immagine standard
+            icon = image[0];
+            repaint();
+        }
 
     }
 

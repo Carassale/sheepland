@@ -16,7 +16,9 @@ public class BufferedImageContainer {
 
     private BufferedImage fence, redShepard, greenShepard, blueShepard,
             yellowShepard, transparent, coins, ram, whiteSheep, lamb, heart,
-            lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop;
+            lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop,
+            joinSheeps1, joinSheeps2, moveSheep1, moveSheep2, killSheep1,
+            killSheep2;
 
     /**
      * Standard constructor
@@ -40,6 +42,13 @@ public class BufferedImageContainer {
             winner = ImageIO.read(new File(".\\src\\main\\resources\\winner.png"));
             splat = ImageIO.read(new File(".\\src\\main\\resources\\splat.png"));
             bloodDrop = ImageIO.read(new File(".\\src\\main\\resources\\bloodDropping.png"));
+            joinSheeps1 = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
+            joinSheeps2 = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps2.png"));
+            moveSheep1 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
+            moveSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
+            killSheep1 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
+            killSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep2.png"));
+                    
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -222,5 +231,61 @@ public class BufferedImageContainer {
     public BufferedImage getBloodDrop() {
         return bloodDrop;
     }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getJoinSheeps1() {
+        return joinSheeps1;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getJoinSheeps2() {
+        return joinSheeps2;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getMoveSheep1() {
+        return moveSheep1;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getMoveSheep2() {
+        return moveSheep2;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getKillSheep1() {
+        return killSheep1;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getKillSheep2() {
+        return killSheep2;
+    }
+    
+    
 
 }

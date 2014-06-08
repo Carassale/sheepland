@@ -14,12 +14,4 @@ public class TerrainBoundariesExeption extends Exception {
         super();
     }
 
-    /**
-     * Solleva un eccezione passandole la stringa dell'errore
-     *
-     * @param s Errore da sollevare
-     */
-    public TerrainBoundariesExeption(String s) {
-        super(s);
-    }
 }
