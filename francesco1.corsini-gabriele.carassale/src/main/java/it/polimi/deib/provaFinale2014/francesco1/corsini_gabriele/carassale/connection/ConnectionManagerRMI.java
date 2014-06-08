@@ -13,6 +13,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
@@ -397,13 +398,18 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @return True se l'azione è andata a buon fine
      */
     private void doAction() {
-        try {
-            currentPlayer.getClientRMI().wakeUp();
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+        boolean repeat = false;
+        do {
+            try {
+                currentPlayer.getClientRMI().wakeUp();
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
-            clientDisconnected(currentPlayer);
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
     }
 
     /**
@@ -415,18 +421,23 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      */
     @Override
     public Road getPlacedShepard(int idShepard) {
-        try {
-            //dice al client di piazzare Shepard
-            Integer id = currentPlayer.getClientRMI().getPlaceShepard(idShepard);
+        boolean repeat = false;
+        do {
+            try {
+                //dice al client di piazzare Shepard
+                Integer id = currentPlayer.getClientRMI().getPlaceShepard(idShepard);
 
-            //ricava l'oggetto e lo invia
-            return gameController.getGameTable().idToRoad(id);
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                //ricava l'oggetto e lo invia
+                return gameController.getGameTable().idToRoad(id);
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
-            clientDisconnected(currentPlayer);
-            return null;
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
+        return null;
     }
 
     /**
@@ -632,13 +643,18 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * fine
      */
     private void printCorrectAction() {
-        try {
-            currentPlayer.getClientRMI().messageText(Message.ACTION_OK.toString());
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        boolean repeat = false;
+        do {
+            try {
+                currentPlayer.getClientRMI().messageText(Message.ACTION_OK.toString());
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
 
-            clientDisconnected(currentPlayer);
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
     }
 
     /**
@@ -646,13 +662,18 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * buon fine
      */
     private void printUncorectAction() {
-        try {
-            currentPlayer.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        boolean repeat = false;
+        do {
+            try {
+                currentPlayer.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
 
-            clientDisconnected(currentPlayer);
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
     }
 
     /**
@@ -660,13 +681,18 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * effettuare l'azione con gli oggetti selezionati
      */
     private void printImpossibleSelection() {
-        try {
-            currentPlayer.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+        boolean repeat = false;
+        do {
+            try {
+                currentPlayer.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
-            clientDisconnected(currentPlayer);
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
     }
 
     /**
@@ -675,13 +701,18 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @param message Messaggio da stampare
      */
     private void printErrorMessage(String message) {
-        try {
-            currentPlayer.getClientRMI().errorMessage(message);
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+        boolean repeat = false;
+        do {
+            try {
+                currentPlayer.getClientRMI().errorMessage(message);
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
-            clientDisconnected(currentPlayer);
-        }
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
     }
 
     /**
@@ -752,6 +783,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             }
         }
 
+        map.setOnLine(thisRMIPlayer.getNickname(), true);
+        thisGamePlayer.setOnLine(true);
+
         boolean isReady = false;
         while (!isReady) {
             isReady = isRadyClient(thisRMIPlayer);
@@ -810,14 +844,17 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
         refreshAllFence(thisRMIPlayer);
 
-        map.setOnLine(thisRMIPlayer.getNickname(), true);
-        thisGamePlayer.setOnLine(true);
-
         if (thisGamePlayer.getShepards().isEmpty()) {
             shepardToPlace = 1;
         }
         if (playerConnections.size() == 2 && thisGamePlayer.getShepards().isEmpty()) {
             shepardToPlace = 2;
+        }
+
+        try {
+            thisRMIPlayer.getClientRMI().setConnectionRMI(this);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         printMessage(thisRMIPlayer, Message.RECONNECTED.toString());
@@ -847,6 +884,38 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     @Override
     public void run() {
         startThread();
+    }
+
+    /**
+     * Viene chiamato nel caso il currentPlayer si sia disconnesso, prima di
+     * effettuare la disconnessione fa partire un timer
+     *
+     * @return True se si è ricollegato in tempo
+     */
+    public boolean checkCurrentClientDisconnected() {
+        map.setOnLine(currentPlayer.getNickname(), false);
+
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            try {
+                playerConnection.getClientRMI().messageText("Un player si è disconnesso, rimani in attesa...");
+            } catch (RemoteException ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }
+
+        //Faccio partire un timer per aspettare la riconnessione
+        try {
+            Thread.sleep(ConnectionVariable.TIME_MAX);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        //Se alla fine del timer il player è acnora offline allora procedo alla disconnessione nei vari punti
+        if (!map.isOnLine(currentPlayer.getNickname())) {
+            clientDisconnected(currentPlayer);
+            return false;
+        }
+        return true;
     }
 
     /**

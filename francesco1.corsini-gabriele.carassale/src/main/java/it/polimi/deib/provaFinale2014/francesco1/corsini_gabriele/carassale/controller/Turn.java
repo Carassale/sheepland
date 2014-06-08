@@ -34,7 +34,6 @@ public class Turn {
         connectionManager = null;
 
         forceLastRound = isLastTurn;
-        //TODO vedere come questo isLastTurn si immette per le Fence Finali
 
         dice = new Dice();
         game = gameTable;
@@ -51,7 +50,6 @@ public class Turn {
         this.connectionManager = connectionManager;
 
         forceLastRound = isLastTurn;
-        //TODO vedere come questo isLastTurn si immette per le Fence Finali
 
         dice = new Dice();
         game = gameTable;
@@ -70,7 +68,7 @@ public class Turn {
         if (connectionManager != null) {
             connectionManager.startAction();
         }
-        
+
         //Alla fine delle azioni del player crescono gli animali
         growUpLambs();
 

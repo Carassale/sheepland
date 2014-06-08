@@ -124,9 +124,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             return actionDo;
         } catch (PlayerDisconnect ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            clientDisconnected();
-            isConnected = false;
-            return true;
+            if (checkCurrentClientDisconnected()) {
+                return false;
+            } else {
+                isConnected = false;
+                return true;
+            }
         }
     }
 
@@ -416,18 +419,24 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     @Override
     public Road getPlacedShepard(int idShepard) {
-        try {
-            //dice al client di piazzare Shepard
-            currentPlayer.printLn(TypeAction.PLACE_SHEPARD.toString());
-            currentPlayer.printLn(idShepard);
-            //attende risposta
-            Integer id = currentPlayer.getNextInt();
-            //ricava l'oggetto e lo invia
-            return gameController.getGameTable().idToRoad(id);
-        } catch (PlayerDisconnect ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            clientDisconnected();
-        }
+        boolean repeat = false;
+        do {
+            try {
+                //dice al client di piazzare Shepard
+                currentPlayer.printLn(TypeAction.PLACE_SHEPARD.toString());
+                currentPlayer.printLn(idShepard);
+                //attende risposta
+                Integer id = currentPlayer.getNextInt();
+                //ricava l'oggetto e lo invia
+                return gameController.getGameTable().idToRoad(id);
+            } catch (PlayerDisconnect ex) {
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+
+                if (checkCurrentClientDisconnected()) {
+                    repeat = true;
+                }
+            }
+        } while (repeat);
         return null;
     }
 
@@ -672,6 +681,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             }
         }
 
+        map.setOnLine(thisSocketPlayer.getNickname(), true);
+        thisGamePlayer.setOnLine(true);
+
         String kind;
         for (Sheep sheep : gameController.getGameTable().getSheeps()) {
             if (sheep.isLamb()) {
@@ -720,9 +732,6 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
 
         refreshAllFence(thisSocketPlayer);
 
-        map.setOnLine(thisSocketPlayer.getNickname(), true);
-        thisGamePlayer.setOnLine(true);
-
         if (thisGamePlayer.getShepards().isEmpty()) {
             shepardToPlace = 1;
         }
@@ -755,11 +764,31 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Viene chiamato nel caso il client si sia disconnesso, modifica i valori
-     * onLine nella hash map e nel game controller
+     * Viene chiamato nel caso il currentPlayer si sia disconnesso, prima di
+     * effettuare la disconnessione fa partire un timer
+     *
+     * @return True se si è ricollegato in tempo
      */
-    public void clientDisconnected() {
-        clientDisconnected(currentPlayer);
+    public boolean checkCurrentClientDisconnected() {
+        map.setOnLine(currentPlayer.getNickname(), false);
+
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            printMessage(playerConnection, "Un player si è disconnesso, rimani in attesa...");
+        }
+
+        //Faccio partire un timer per aspettare la riconnessione
+        try {
+            Thread.sleep(ConnectionVariable.TIME_MAX);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+
+        //Se alla fine del timer il player è acnora offline allora procedo alla disconnessione nei vari punti
+        if (!map.isOnLine(currentPlayer.getNickname())) {
+            clientDisconnected(currentPlayer);
+            return false;
+        }
+        return true;
     }
 
     /**
