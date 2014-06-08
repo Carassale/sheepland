@@ -6,39 +6,41 @@ import javax.swing.JFrame;
 
 /**
  * Classe per i Bottoni delle strade nella GUI Statica
+ *
  * @author Francesco Corsini
  */
 public class StaticRoadListener extends JFrame implements ActionListener {
 
-    private final GUISwingStatic GUI;
+    private final GUISwingStatic gui;
     private final int road;
 
     /**
-     * Costruttore 
+     * Costruttore
+     *
      * @param gui GUI Static
      * @param road id della strada
      */
     public StaticRoadListener(GUISwingStatic gui, int road) {
-        this.GUI = gui;
+        this.gui = gui;
         this.road = road;
 
     }
 
     /**
      * action performed when a click button event is fired
+     *
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
-        GUI.activateRoads(false);
-        String command = e.getActionCommand();
+        gui.activateRoads(false);
 
-        if (GUI.getGUIState() == GUIState.PLACESHEPARD) {
-            GUI.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
-            GUI.sendPlaceShepard(road);
-        } else if (GUI.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
-            GUI.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
-            GUI.activateDropDown(false);
-            GUI.sendMoveShepard(road);
+        if (gui.getGUIState() == GUIState.PLACESHEPARD) {
+            gui.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
+            gui.sendPlaceShepard(road);
+        } else if (gui.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
+            gui.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
+            gui.activateDropDown(false);
+            gui.sendMoveShepard(road);
         }
 
     }

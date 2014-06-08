@@ -644,7 +644,9 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     }
 
     /**
-     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato:
+     * invia le carte e le monete possedute, la posizione di tutti i pastori,
+     * degli animali e delle fance
      *
      * @param idPlayer
      */
@@ -727,6 +729,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         printMessage(thisSocketPlayer, Message.RECONNECTED.toString());
     }
 
+    /**
+     * stampa un mesaggio a un player scelto
+     *
+     * @param playerConnection player a cui inviare il messaggio
+     * @param message Messaggio da inviare
+     */
     private void printMessage(PlayerConnectionSocket playerConnection, String message) {
         playerConnection.printLn(TypeAction.MESSAGE_TEXT.toString());
         playerConnection.printLn(message);
@@ -750,6 +758,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         clientDisconnected(currentPlayer);
     }
 
+    /**
+     * Gestisce la disconnessione del client e setta lo stato nell'hash Map
+     * ofline
+     *
+     * @param playerConnection
+     */
     private void clientDisconnected(PlayerConnectionSocket playerConnection) {
         map.setOnLine(playerConnection.getNickname(), false);
         for (Player player : gameController.getPlayerPool().getPlayers()) {
@@ -760,6 +774,11 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         checkAllStatus();
     }
 
+    /**
+     * Controlla se tutti i player sono collegati effettuando la chiamata al
+     * metodo isOnline del player, nel caso in cui siano tutti disconnessi
+     * effettua la chiamata al metodo turnOffGame per terminare il gioco
+     */
     private void checkAllStatus() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.isOnLine()) {
@@ -772,24 +791,42 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         turnOffGame();
     }
 
+    /**
+     * Contolla se la variabile is finish game è settata a true, in tal caso
+     * solleva un'eccezione Finish Game
+     *
+     * @throws FinishGame
+     */
     private void checkIsFinishGame() throws FinishGame {
         if (isFinishGame) {
             throw new FinishGame("Socket: Partita finita");
         }
     }
 
+    /**
+     * Leva dall'Hash map il nickname di tutti i player di questa partita
+     */
     private void cleanMap() {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             map.removePlayer(playerConnection.getNickname());
         }
     }
 
+    /**
+     * Pulische l'hash map e setta la variabile isFinishGame a true
+     */
     private void turnOffGame() {
         cleanMap();
         System.out.println("Socket: Fine parita!");
         isFinishGame = true;
     }
 
+    /**
+     * Controlla se tutti i client sono pronti effettuando una chiamata al
+     * metodo isReadyClient
+     *
+     * @return
+     */
     private boolean isAllClientReady() {
         for (PlayerConnectionSocket playerConnection : playerConnections) {
             if (!isClientReady(playerConnection)) {
@@ -799,6 +836,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         return true;
     }
 
+    /**
+     * Controlla se il player passato come parametro è pronto a giocare
+     *
+     * @param playerConnection
+     * @return
+     */
     private boolean isClientReady(PlayerConnectionSocket playerConnection) {
         playerConnection.printLn(TypeAction.IS_READY.toString());
         try {
@@ -809,6 +852,10 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * Chiama il metodo isAllClientReady finchè non ritorna true, in seguito
+     * crea un CheckThreadSocket e fa proseguire il processo del gioco
+     */
     private void waitOkFromClient() {
         while (!isAllClientReady()) {
             try {
@@ -822,6 +869,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         new CheckThreadSocket();
     }
 
+    /**
+     * Nel caso in cui il player riconnesso non ha ancora piazzato il pastore,
+     * viene chiamato questo metodo per permettere il posizionamento del pastore
+     * sulla mappa
+     *
+     * @param player
+     */
     private void placeShepard(PlayerConnectionSocket player) {
         Player playerGame = null;
         for (Player player1 : gameController.getPlayerPool().getPlayers()) {
@@ -867,13 +921,24 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         }
     }
 
+    /**
+     * È un thread parallelo che controlla ogni 5 secondi se qualche client si è
+     * disconnesso
+     */
     private class CheckThreadSocket implements Runnable {
 
+        /**
+         * Crea l'oggetto, crea un thread passandoli this come parametro e fa la
+         * start
+         */
         public CheckThreadSocket() {
             Thread thread = new Thread(this);
             thread.start();
         }
 
+        /**
+         * Controlla finchè il gioco non è finito lo stato dei player
+         */
         public void run() {
             while (!isFinishGame) {
                 checkStatus();
@@ -885,9 +950,13 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             }
         }
 
+        /**
+         * Chiama per ogni player il metodo isStillConnected per controllare se
+         * sono ancora connessi
+         */
         private void checkStatus() {
             for (PlayerConnectionSocket playerConnection : playerConnections) {
-                if (!playerConnection.hasNext()) {
+                if (!playerConnection.isStillConnected()) {
                     clientDisconnected(playerConnection);
                 }
             }

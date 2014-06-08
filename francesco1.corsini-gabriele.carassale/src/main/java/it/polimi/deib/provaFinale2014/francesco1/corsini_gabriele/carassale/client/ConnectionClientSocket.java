@@ -363,6 +363,5 @@ public class ConnectionClientSocket implements ConnectionClient {
 
     private void disconnect() {
         System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
-        System.exit(0);
     }
 }

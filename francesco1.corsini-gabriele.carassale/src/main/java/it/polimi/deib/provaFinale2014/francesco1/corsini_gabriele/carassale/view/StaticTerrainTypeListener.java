@@ -6,32 +6,35 @@ import javax.swing.JFrame;
 
 /**
  * Classe listener che ascolta le tipologie di terreni
+ *
  * @author Francesco Corsini
  */
 public class StaticTerrainTypeListener extends JFrame implements ActionListener {
 
-    private final GUISwingStatic GUI;
+    private final GUISwingStatic gui;
 
     /**
      * Costruttore
+     *
      * @param gui GUI statica
      */
     public StaticTerrainTypeListener(GUISwingStatic gui) {
-        this.GUI = gui;
+        this.gui = gui;
 
     }
 
     /**
      * action performed when a click button event is fired
+     *
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
 
         String command = e.getActionCommand();
-        GUI.activateTerrainType(false);
+        gui.activateTerrainType(false);
 
-        if (GUI.getGUIState() == GUIState.BUYCARD) {
-            GUI.sendBuyCard(command);
+        if (gui.getGUIState() == GUIState.BUYCARD) {
+            gui.sendBuyCard(command);
         }
 
     }

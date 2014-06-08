@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import java.awt.Graphics;
@@ -18,7 +13,7 @@ import javax.swing.JPanel;
  */
 public class DinamicRoadButton extends JPanel {
 
-    private final GUIDinamic GUI;
+    private final GUIDinamic gui;
     private BufferedImage icon;
     private final int road;
     private int idShepard;
@@ -37,9 +32,9 @@ public class DinamicRoadButton extends JPanel {
      */
     DinamicRoadButton(GUIDinamic aThis, int num, BufferedImageContainer imagePool) {
         road = num;
-        this.GUI = aThis;
+        this.gui = aThis;
         this.imagePool = imagePool;
-        
+
         hasFence = false;
         isShepard = false;
         icon = imagePool.getTransparent();
@@ -121,23 +116,22 @@ public class DinamicRoadButton extends JPanel {
     }
 
     /**
-     * Getter used mainly for testing purpose 
+     * Getter used mainly for testing purpose
+     *
      * @return true if it has fence
      */
     public boolean isHasFence() {
         return hasFence;
     }
-    
+
     /**
-     * Setter used mainly for testing purpose 
+     * Setter used mainly for testing purpose
+     *
      * @param val val to set
      */
     public void setHasFence(boolean val) {
         hasFence = val;
     }
-    
-    
-    
 
     private class DinamicRoadButtonListener implements MouseListener {
 
@@ -147,34 +141,32 @@ public class DinamicRoadButton extends JPanel {
          * @param e event
          */
         public void mouseClicked(MouseEvent e) {
-            if (GUI.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
+            if (gui.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
 
                 if (!isShepard) {
-                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    GUI.sendPlaceShepard(road);
+                    gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                    gui.sendPlaceShepard(road);
                 } else {
-                    GUI.updateText("C'è un altro pastore su questa Strada!");
+                    gui.updateText("C'è un altro pastore su questa Strada! ");
                 }
 
-            } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+            } else if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                 if (isShepard) {
-                    for (ViewShepard ele : GUI.getShepards()) {
+                    for (ViewShepard ele : gui.getShepards()) {
                         if (ele.getIsOwned() && ele.getPostition() == road) {
-                            GUI.updateText("Selezionare strada dove spostarlo");
-                            GUI.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
-                            GUI.setTempRoad(road);
-                            GUI.setTempIdShepard(idShepard);
+                            gui.updateText("Selezionare strada dove spostarlo");
+                            gui.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
+                            gui.setTempRoad(road);
+                            gui.setTempIdShepard(idShepard);
                         }
                     }
                 }
-            } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO) {
-                if (road != GUI.getTempRoad()) {
-                    if (!isShepard) {
-                        GUI.sendMoveShepard(road);
-                        GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    } else {
-                        GUI.updateText("C'è un altro pastore su questa Strada!");
-                    }
+            } else if (gui.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO && road != gui.getTempRoad()) {
+                if (!isShepard) {
+                    gui.sendMoveShepard(road);
+                    gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                } else {
+                    gui.updateText("C'è un altro pastore su questa Strada!");
                 }
             }
         }
@@ -203,9 +195,9 @@ public class DinamicRoadButton extends JPanel {
          * @param e event
          */
         public void mouseEntered(MouseEvent e) {
-            if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+            if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                 if (isShepard) {
-                    for (ViewShepard ele : GUI.getShepards()) {
+                    for (ViewShepard ele : gui.getShepards()) {
                         if (ele.getIsOwned() && ele.getPostition() == road) {
                             isMouseOver = true;
                             changeSize();

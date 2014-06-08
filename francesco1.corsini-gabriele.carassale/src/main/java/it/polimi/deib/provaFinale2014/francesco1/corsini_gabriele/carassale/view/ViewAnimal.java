@@ -1,7 +1,9 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 /**
- * Classe rappresentate un animale nella View(pecora, agnello,montone, lupo, black)
+ * Classe rappresentate un animale nella View(pecora, agnello,montone, lupo,
+ * black)
+ *
  * @author Francesco Corsini
  */
 public class ViewAnimal {
@@ -12,6 +14,7 @@ public class ViewAnimal {
 
     /**
      * costruttore per GUI Statica
+     *
      * @param id id animale
      * @param position posizione dove inizializzarlo
      */
@@ -22,6 +25,7 @@ public class ViewAnimal {
 
     /**
      * Costruttore per GUI Dynamic
+     *
      * @param id id animale
      * @param position posizione dove inizializzarlo
      * @param type tipologia di animale
@@ -33,16 +37,18 @@ public class ViewAnimal {
     }
 
     /**
-     * getter 
-     * @return id animale 
+     * getter
+     *
+     * @return id animale
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Setter 
-     * @param id id animale 
+     * Setter
+     *
+     * @param id id animale
      */
     public void setId(int id) {
         this.id = id;
@@ -50,7 +56,8 @@ public class ViewAnimal {
 
     /**
      * Getter
-     * @return posizione 
+     *
+     * @return posizione
      */
     public int getPosition() {
         return position;
@@ -58,7 +65,8 @@ public class ViewAnimal {
 
     /**
      * Setter
-     * @param position id posizione 
+     *
+     * @param position id posizione
      */
     public void setPosition(int position) {
         this.position = position;
@@ -66,7 +74,8 @@ public class ViewAnimal {
 
     /**
      * Getter
-     * @return tipologia animale 
+     *
+     * @return tipologia animale
      */
     public String getType() {
         return type;
@@ -74,6 +83,7 @@ public class ViewAnimal {
 
     /**
      * Setter
+     *
      * @param type tipologia animale
      */
     public void setType(String type) {

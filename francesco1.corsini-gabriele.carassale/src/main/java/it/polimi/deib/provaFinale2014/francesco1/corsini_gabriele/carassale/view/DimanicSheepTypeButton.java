@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -13,13 +8,15 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
- * Class for the buttons representing the types of the sheeps(lamb,ram,white sheep)
+ * Class for the buttons representing the types of the sheeps(lamb,ram,white
+ * sheep)
+ *
  * @author Francesco Corsini
  */
 public class DimanicSheepTypeButton extends JPanel {
 
     private int terrain;
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
     private final BufferedImage icon;
     private final BufferedImageContainer imagePool;
     private final String type;
@@ -28,6 +25,7 @@ public class DimanicSheepTypeButton extends JPanel {
 
     /**
      * Constructor
+     *
      * @param aThis GUI dinamic
      * @param terr terrain where the button has to be created
      * @param t type of the button
@@ -35,7 +33,7 @@ public class DimanicSheepTypeButton extends JPanel {
      */
     public DimanicSheepTypeButton(GUIDinamic aThis, int terr, String t, BufferedImageContainer pool) {
         terrain = terr;
-        GUI = aThis;
+        gui = aThis;
         imagePool = pool;
         type = t;
         isVisible = false;
@@ -58,16 +56,18 @@ public class DimanicSheepTypeButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseClicked(MouseEvent e) {
-                GUI.setSheepSelected(selectedAnimal);
-                GUI.activateSubMenuSheep(terrain, true);
-                GUI.setSubMenuOpen(terrain);
+                gui.setSheepSelected(selectedAnimal);
+                gui.activateSubMenuSheep(terrain, true);
+                gui.setSubMenuOpen(terrain);
             }
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mousePressed(MouseEvent e) {
@@ -76,6 +76,7 @@ public class DimanicSheepTypeButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseReleased(MouseEvent e) {
@@ -84,6 +85,7 @@ public class DimanicSheepTypeButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
@@ -92,6 +94,7 @@ public class DimanicSheepTypeButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
@@ -105,21 +108,21 @@ public class DimanicSheepTypeButton extends JPanel {
      * Method to calculate the types of the sheep present on the terrain
      */
     public void activateTypeButton() {
-        
-        for (ViewAnimal ele : GUI.getAnimals()) {
+
+        for (ViewAnimal ele : gui.getAnimals()) {
             if (TypeAnimal.WHITE_SHEEP.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
-                        selectedAnimal = ele;
-                        GUI.activateSheepType(terrain, true, TypeAnimal.WHITE_SHEEP.toString());
-                        isVisible = true;
+                selectedAnimal = ele;
+                gui.activateSheepType(terrain, true, TypeAnimal.WHITE_SHEEP.toString());
+                isVisible = true;
             } else if (TypeAnimal.LAMB.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.LAMB.toString())) {
-                        selectedAnimal = ele;
-                        GUI.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
-                        isVisible = true;          
+                selectedAnimal = ele;
+                gui.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
+                isVisible = true;
             } else if (TypeAnimal.RAM.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.RAM.toString())) {
-                        selectedAnimal = ele;
-                        GUI.activateSheepType(terrain, true,TypeAnimal.RAM.toString());
-                        isVisible = true;
-                    
+                selectedAnimal = ele;
+                gui.activateSheepType(terrain, true, TypeAnimal.RAM.toString());
+                isVisible = true;
+
             }
         }
     }

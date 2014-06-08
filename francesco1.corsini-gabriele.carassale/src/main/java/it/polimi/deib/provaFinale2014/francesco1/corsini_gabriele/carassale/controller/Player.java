@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -137,6 +138,7 @@ public class Player {
      * @param game il gameTable su cui si sta giocando
      * @return Il costo della carta
      * @throws CoinException se i soldi non sono sufficenti a comprare la carta
+     * @throws CardException
      */
     public int buyTerrainCard(String terrainKind, GameTable game) throws CoinException, CardException {
         int cardLeft = game.getTerrainCardPool(terrainKind).size();
@@ -215,7 +217,6 @@ public class Player {
         }
     }
 
-    //TODO lancio dado per vedere se si accoppiano
     /**
      * Method per fare accoppiare una pecora ed un montone e generare un agnello
      *
@@ -557,9 +558,13 @@ public class Player {
         }
     }
 
+    /**
+     * Nel caso in cui l'ultima azione non sia andata a buon fine viene chiamato
+     * questo metodo per rimuovere l'ultima azione effettuata
+     */
     public void clearLastAction() {
         for (int i = 2; i >= 0; i--) {
-            if (actionDone[i] != "") {
+            if ("".equals(actionDone[i])) {
                 actionDone[i] = "";
                 return;
             }
@@ -599,10 +604,20 @@ public class Player {
 
     }
 
+    /**
+     * Restituisce lo status del player
+     *
+     * @return True se è online
+     */
     public boolean isOnLine() {
         return onLine;
     }
 
+    /**
+     * Setta lo status del player
+     *
+     * @param onLine True se è online
+     */
     public void setOnLine(boolean onLine) {
         this.onLine = onLine;
     }

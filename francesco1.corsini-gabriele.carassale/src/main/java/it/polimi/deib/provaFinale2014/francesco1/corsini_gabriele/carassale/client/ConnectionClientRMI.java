@@ -332,6 +332,16 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void refreshWinner(int finalPosition, int finalScore) throws RemoteException {
         typeOfInteraction.refreshWinner(finalPosition, finalScore);
+        
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            Registry registry = LocateRegistry.getRegistry(PORT);
+            registry.unbind(nickname);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AccessException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

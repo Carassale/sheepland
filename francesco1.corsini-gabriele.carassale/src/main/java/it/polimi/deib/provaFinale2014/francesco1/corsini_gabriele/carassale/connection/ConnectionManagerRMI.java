@@ -65,6 +65,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         thread.start();
     }
 
+    /**
+     * Restituisce l'arrey dei player collegati
+     *
+     * @return
+     */
     public List<PlayerConnectionRMI> getPlayerConnections() {
         return playerConnections;
     }
@@ -134,6 +139,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Invia al player passato come parametro il pastore aggiunto
+     *
+     * @param playerConnection Player a cui inviare
+     * @param idShepard Id del pastore
+     * @param idRoad strada in cui aggiungere
+     * @param isMine True se è del player a cui invia
+     */
     private void singeRefreshAddShepard(PlayerConnectionRMI playerConnection,
             int idShepard, int idRoad, boolean isMine) {
         try {
@@ -181,6 +194,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Invia al player passato come parametro il l'animale aggiunto
+     *
+     * @param playerConnection Player a cui inviare
+     * @param idAnimal id dell'animale da aggiungere
+     * @param idTerrain terreno in cui aggiungere
+     * @param kind tipo dell'animale
+     */
     private void singleRefreshAddAnimal(PlayerConnectionRMI playerConnection, int idAnimal, int idTerrain, String kind) {
         try {
             playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
@@ -264,6 +285,14 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         refreshCoin(currentPlayer, coins, addCoin);
     }
 
+    /**
+     * Invia al player passato come parametro le monete da aggiungere o
+     * rimuovere
+     *
+     * @param playerConnection Player a cui inviare
+     * @param coins Valore dei coin
+     * @param addCoin True se vanno aggiunti
+     */
     private void refreshCoin(PlayerConnectionRMI playerConnection, int coins, boolean addCoin) {
         try {
             playerConnection.getClientRMI().refreshCoin(coins, addCoin);
@@ -285,6 +314,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         refreshCard(currentPlayer, kind, isSold);
     }
 
+    /**
+     * Invia al player passato come parametro la carta comprata o venduta
+     *
+     * @param playerConnection Player a cui inviare
+     * @param kind tipo di carta
+     * @param isSold True se è venduta
+     */
     private void refreshCard(PlayerConnectionRMI playerConnection, String kind, boolean isSold) {
         try {
             playerConnection.getClientRMI().refreshCard(kind, isSold);
@@ -297,9 +333,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
 
     /**
      * Cicla per il numero di azioni massime consentite il method do Action,
-     * mette in pausa il ciclo con una variabile, la variabile verra gestita dai
-     * metodi chiamati dal client per poter proseguire le azioni alla fine
-     * chiama il method nextPlayerConnection
+     * mette in pausa il ciclo chimando il metodo wait response,alla fine chiama
+     * il method nextPlayerConnection
      */
     @Override
     public void startAction() throws FinishGame {
@@ -317,6 +352,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         checkIsFinishGame();
     }
 
+    /**
+     * Effettua la syncronized su un oggetto e aspetta finchè la viariabile can
+     * do action non torna a true
+     */
     private void waitResponseFromClient() {
         synchronized (objectSyncrinized) {
             while (!canDoAction) {
@@ -329,6 +368,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Effettua la syncronized su un oggetto e imposta la viaribile can do
+     * action come il parametro passato, infine fa una notify sull'oggetto
+     *
+     * @param b
+     */
     private void setCanDoAction(boolean b) {
         synchronized (objectSyncrinized) {
             canDoAction = b;
@@ -336,6 +381,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Se il parametro passato è true, abbassa di uno il numero di azioni
+     * effettuate
+     *
+     * @param doRepeat
+     */
     private void setRepeatAction(boolean doRepeat) {
         if (doRepeat) {
             actionDone--;
@@ -419,7 +470,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (CoinException ex) {
-                printErrorMessage(ex.getMessage());;
+                printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (ShepardException ex) {
                 printErrorMessage(ex.getMessage());
@@ -589,6 +640,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             currentPlayer.getClientRMI().messageText(Message.ACTION_OK.toString());
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+
+            clientDisconnected(currentPlayer);
         }
     }
 
@@ -601,9 +654,15 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             currentPlayer.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+
+            clientDisconnected(currentPlayer);
         }
     }
 
+    /**
+     * Invia al current player un messaggio dicendo che non è possibile
+     * effettuare l'azione con gli oggetti selezionati
+     */
     private void printImpossibleSelection() {
         try {
             currentPlayer.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
@@ -614,6 +673,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Stampa un messaggio di errore al current player
+     *
+     * @param message Messaggio da stampare
+     */
     private void printErrorMessage(String message) {
         try {
             currentPlayer.getClientRMI().errorMessage(message);
@@ -624,6 +688,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Invia al player passato come parametro il refresh di tutte le fance
+     * presenti sulla plancia
+     *
+     * @param playerConnection
+     */
     private void refreshAllFence(PlayerConnectionRMI playerConnection) {
         for (Road road : gameController.getGameTable().getMap().getRoads()) {
             if (road.hasFence()) {
@@ -639,7 +709,8 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Invia ad ogni player lo stato finale del giocatore
+     * Invia ad ogni player lo stato finale del giocatore: Punteggio e posizione
+     * in classifica
      */
     public void refreshWinner() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
@@ -661,7 +732,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
     }
 
     /**
-     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato
+     * Refresh di tutto il game table nel caso un giocatore si sia ricollegato:
+     * invia le carte e le monete possedute, la posizione di tutti i pastori,
+     * degli animali e delle fance
      *
      * @param idPlayer
      */
@@ -754,6 +827,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         printMessage(thisRMIPlayer, Message.RECONNECTED.toString());
     }
 
+    /**
+     * Invia un messaggio al player scelto
+     *
+     * @param playerConnection Player a cui inviare
+     * @param message Messaggio da inviare
+     */
     private void printMessage(PlayerConnectionRMI playerConnection, String message) {
         try {
             playerConnection.getClientRMI().messageText(message);
@@ -795,6 +874,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         checkAllStatus();
     }
 
+    /**
+     * Controlla se tutti i player sono collegati effettuando la chiamata al
+     * metodo isOnline del player, nel caso in cui siano tutti disconnessi
+     * effettua la chiamata al metodo turnOffGame per terminare il gioco
+     */
     private void checkAllStatus() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
             if (player.isOnLine()) {
@@ -807,18 +891,30 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         turnOffGame();
     }
 
+    /**
+     * Contolla se la variabile is finish game è settata a true, in tal caso
+     * solleva un'eccezione Finish Game
+     *
+     * @throws FinishGame
+     */
     private void checkIsFinishGame() throws FinishGame {
         if (isFinishGame) {
             throw new FinishGame("RMI: Partita finita");
         }
     }
 
+    /**
+     * Leva dall'Hash map il nickname di tutti i player di questa partita
+     */
     private void cleanMap() {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             map.removePlayer(playerConnection.getNickname());
         }
     }
 
+    /**
+     * Effettua l'unicast
+     */
     private void unbind() {
         try {
             UnicastRemoteObject.unexportObject(this, true);
@@ -828,6 +924,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * Pulische l'hash map, effettua l'unbind e setta la variabile isFinishGame
+     * a true
+     */
     private void turnOffGame() {
         cleanMap();
         unbind();
@@ -835,6 +935,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         isFinishGame = true;
     }
 
+    /**
+     * Controlla se tutti i client sono pronti effettuando una chiamata al
+     * metodo isReadyClient
+     *
+     * @return
+     */
     private boolean isAllClientReady() {
         for (PlayerConnectionRMI playerConnection : playerConnections) {
             if (!isRadyClient(playerConnection)) {
@@ -844,6 +950,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         return true;
     }
 
+    /**
+     * Controlla se il player passato come parametro è pronto a giocare
+     *
+     * @param playerConnection
+     * @return
+     */
     private boolean isRadyClient(PlayerConnectionRMI playerConnection) {
         try {
             if (!playerConnection.getClientRMI().isReady()) {
@@ -855,6 +967,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         return true;
     }
 
+    /**
+     * Chiama il metodo isAllClientReady finchè non ritorna true, in seguito
+     * crea un CheckThreadRMI e fa proseguire il processo del gioco
+     */
     private void waitOkFromClient() {
         while (!isAllClientReady()) {
             try {
@@ -868,6 +984,13 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         new CheckThreadRMI();
     }
 
+    /**
+     * Nel caso in cui il player riconnesso non ha ancora piazzato il pastore,
+     * viene chiamato questo metodo per permettere il posizionamento del pastore
+     * sulla mappa
+     *
+     * @param player
+     */
     private void placeShepard(PlayerConnectionRMI player) {
         Player playerGame = null;
         for (Player player1 : gameController.getPlayerPool().getPlayers()) {
@@ -913,15 +1036,26 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         }
     }
 
+    /**
+     * È un thread parallelo che controlla ogni 5 secondi se qualche client si è
+     * disconnesso
+     */
     private class CheckThreadRMI implements Runnable {
 
+        /**
+         * Crea l'oggetto, crea un thread passandoli this come parametro e fa la
+         * start
+         */
         public CheckThreadRMI() {
             Thread thread = new Thread(this);
             thread.start();
         }
 
+        /**
+         * Controlla finchè il gioco non è finito lo stato dei player
+         */
         public void run() {
-            while (true) {
+            while (!isFinishGame) {
                 checkStatus();
                 try {
                     Thread.sleep(5000);
@@ -931,6 +1065,10 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             }
         }
 
+        /**
+         * Chiama per ogni player il metodo isAlive per controllare se sono
+         * ancora connessi
+         */
         private void checkStatus() {
             for (PlayerConnectionRMI playerConnection : playerConnections) {
                 try {

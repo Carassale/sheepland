@@ -10,6 +10,7 @@ public enum StatusMessage {
     PLAYER_ADDED("Player aggiunto"),
     NO_PLAYER_ADDED("Player non aggiunto"),
     PLAYER_TRANSFER("Player trasferito"),
+    PLAYER_DISCONNECTED("Player disconnesso"),
     CONNECTED("Connesso"),
     DISCONNECTED("Disconnected"),
     TYPE_SOCKET("Type_socket"),

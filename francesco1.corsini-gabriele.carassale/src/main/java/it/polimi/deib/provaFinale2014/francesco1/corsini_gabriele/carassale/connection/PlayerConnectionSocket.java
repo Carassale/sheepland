@@ -1,10 +1,14 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
@@ -77,8 +81,9 @@ public class PlayerConnectionSocket {
     public String getNextLine() throws PlayerDisconnect {
         try {
             return inSocket.nextLine();
-        } catch (NoSuchElementException e) {
-            throw new PlayerDisconnect("Player scollegato");
+        } catch (NoSuchElementException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            throw new PlayerDisconnect(StatusMessage.PLAYER_DISCONNECTED.toString());
         }
     }
 
@@ -91,8 +96,9 @@ public class PlayerConnectionSocket {
     public int getNextInt() throws PlayerDisconnect {
         try {
             return Integer.valueOf(inSocket.nextLine());
-        } catch (NoSuchElementException e) {
-            throw new PlayerDisconnect("Player scollegato");
+        } catch (NoSuchElementException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            throw new PlayerDisconnect(StatusMessage.PLAYER_DISCONNECTED.toString());
         }
     }
 
@@ -117,15 +123,30 @@ public class PlayerConnectionSocket {
         outSocket.flush();
     }
 
+    /**
+     * Restituisce il nickname del player
+     *
+     * @return
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Setta il nickname del player
+     *
+     * @param nickname Nickname da settare
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public boolean hasNext() {
+    /**
+     * Serve a controlare se il plyaer è ancora connesso
+     *
+     * @return True se è connesso
+     */
+    public boolean isStillConnected() {
         outSocket.println("String prova");
         return !outSocket.checkError();
     }

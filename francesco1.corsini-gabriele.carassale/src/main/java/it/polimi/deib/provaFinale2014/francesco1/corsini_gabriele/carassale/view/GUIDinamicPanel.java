@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 /**
  * Class for the main background Panel of the GUI
+ *
  * @author Francesco Corsini
  */
 public class GUIDinamicPanel extends JPanel {
@@ -17,6 +18,7 @@ public class GUIDinamicPanel extends JPanel {
 
     /**
      * Constructor
+     *
      * @param string the image of the table
      * @throws IOException if cannot open the table
      */

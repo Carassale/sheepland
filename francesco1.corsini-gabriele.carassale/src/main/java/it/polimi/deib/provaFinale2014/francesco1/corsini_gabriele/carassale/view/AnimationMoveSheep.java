@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import java.awt.Graphics;
@@ -17,15 +11,17 @@ import javax.swing.JPanel;
 
 /**
  * Class for the animation of the Sheep when the action MoveSheep is performed
+ *
  * @author Francesco Corsini
  */
-public class AnimationMoveSheep extends JPanel implements Runnable{
+public class AnimationMoveSheep extends JPanel implements Runnable {
 
     private BufferedImage icon;
     private BufferedImage[] image = new BufferedImage[2];
-    
+
     /**
      * Standard contructor
+     *
      * @param cont which image was displaying when the animation was started
      */
     public AnimationMoveSheep(int cont) {
@@ -40,16 +36,17 @@ public class AnimationMoveSheep extends JPanel implements Runnable{
         this.setVisible(false);
         icon = image[cont];
         repaint();
-        
+
     }
 
     /**
      * Run is called when the animation needs to be started
      */
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

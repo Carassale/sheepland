@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -19,6 +14,7 @@ import javax.swing.JPanel;
 
 /**
  * Class for the MoveSheep Button
+ *
  * @author Francesco Corsini
  */
 public class DinamicMoveSheepButton extends JPanel {
@@ -26,7 +22,7 @@ public class DinamicMoveSheepButton extends JPanel {
     private BufferedImage icon;
     private BufferedImage[] image = new BufferedImage[2];
 
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
     private int terrain;
     private boolean isMouseOver;
     //serve come contatore per ciclare tra le due immagine nel mouseover
@@ -34,12 +30,13 @@ public class DinamicMoveSheepButton extends JPanel {
 
     /**
      * Standard Constructor
-     * @param gui GUI Dynamic
+     *
+     * @param guiD GUI Dynamic
      * @param terr terrain where the button is
      */
-    public DinamicMoveSheepButton(GUIDinamic gui, int terr) {
+    public DinamicMoveSheepButton(GUIDinamic guiD, int terr) {
 
-        this.GUI = gui;
+        this.gui = guiD;
         this.terrain = terr;
         try {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
@@ -58,19 +55,21 @@ public class DinamicMoveSheepButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseClicked(MouseEvent e) {
-                GUI.updateText("Selezionare territorio dove spostare la pecora");
-                GUI.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
-                GUI.activateSubMenuSheep(terrain, false);
-                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                gui.updateText("Selezionare territorio dove spostare la pecora");
+                gui.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
+                gui.activateSubMenuSheep(terrain, false);
+                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mousePressed(MouseEvent e) {
@@ -79,6 +78,7 @@ public class DinamicMoveSheepButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseReleased(MouseEvent e) {
@@ -87,6 +87,7 @@ public class DinamicMoveSheepButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
@@ -98,24 +99,18 @@ public class DinamicMoveSheepButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
                 isMouseOver = false;
-
             }
 
         });
 
     }
 
-   
-   
-    private void activateAnimation() {
-
-        //GUI.animationMoveSheep(this.getLocation().x, this.getLocation().y, terrain, cont);
-    }
-
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
@@ -135,7 +130,7 @@ public class DinamicMoveSheepButton extends JPanel {
                 repaint();
                 try {
                     Thread.sleep(300);
-                } catch (Exception ex) {
+                } catch (InterruptedException ex) {
                     Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
 

@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 /**
  * Classe rappresentante uno Shepard nella View
+ *
  * @author Francesco Corsini
  */
 public class ViewShepard {
@@ -13,6 +14,7 @@ public class ViewShepard {
 
     /**
      * costruttore
+     *
      * @param id id shepherd
      * @param road id road dove posizionarlo
      */
@@ -23,15 +25,17 @@ public class ViewShepard {
 
     /**
      * Getter
-     * @return id shepherd 
+     *
+     * @return id shepherd
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Setter 
-     * @param id id shepherd 
+     * Setter
+     *
+     * @param id id shepherd
      */
     public void setId(int id) {
         this.id = id;
@@ -39,6 +43,7 @@ public class ViewShepard {
 
     /**
      * Getter
+     *
      * @return id road
      */
     public int getPostition() {
@@ -47,7 +52,8 @@ public class ViewShepard {
 
     /**
      * Setter
-     * @param postition id road 
+     *
+     * @param postition id road
      */
     public void setPostition(int postition) {
         this.position = postition;
@@ -55,6 +61,7 @@ public class ViewShepard {
 
     /**
      * Getter
+     *
      * @return true se posseduto
      */
     public boolean getIsOwned() {
@@ -63,6 +70,7 @@ public class ViewShepard {
 
     /**
      * Setter
+     *
      * @param isOwned true se posseduto
      */
     public void setIsOwned(boolean isOwned) {
@@ -71,7 +79,8 @@ public class ViewShepard {
 
     /**
      * Getter
-     * @return true se è primo 
+     *
+     * @return true se è primo
      */
     public boolean isIsFirst() {
         return isFirst;
@@ -79,7 +88,8 @@ public class ViewShepard {
 
     /**
      * Setter
-     * @param isFirst true se è primo 
+     *
+     * @param isFirst true se è primo
      */
     public void setIsFirst(boolean isFirst) {
         this.isFirst = isFirst;

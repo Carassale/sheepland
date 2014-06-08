@@ -332,13 +332,11 @@ public class Main {
      */
     public static void main(String[] arg) {
         try {
-            try {
-                new Main();
-            } catch (FinishGame ex) {
-                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            }
+            new Main();
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FinishGame ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 }

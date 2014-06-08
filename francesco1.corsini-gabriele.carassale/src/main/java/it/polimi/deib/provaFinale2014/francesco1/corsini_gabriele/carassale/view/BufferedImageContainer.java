@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import java.awt.image.BufferedImage;
@@ -14,12 +9,13 @@ import javax.imageio.ImageIO;
 
 /**
  * Class the holds all the image files
+ *
  * @author Francesco Corsini
  */
 public class BufferedImageContainer {
 
     private BufferedImage fence, redShepard, greenShepard, blueShepard,
-            yellowShepard, transparent, coins, ram, whiteSheep, lamb,heart,
+            yellowShepard, transparent, coins, ram, whiteSheep, lamb, heart,
             lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop;
 
     /**
@@ -51,7 +47,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getFence() {
 
@@ -60,7 +57,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getRedShepard() {
 
@@ -69,7 +67,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getGreenShepard() {
 
@@ -78,7 +77,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getBlueShepard() {
 
@@ -87,7 +87,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getYellowShepard() {
 
@@ -96,24 +97,27 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getTransparent() {
 
         return transparent;
     }
-    
+
     /**
      * Getter of the fence image
+     *
      * @param num the number of fences remaining
      * @return BufferedImage with the correct fence number
      */
-    public BufferedImage getFenceNumber(int num){
+    public BufferedImage getFenceNumber(int num) {
         try {
-            if(num < 0)
+            if (num < 0) {
                 num = 0;
-            BufferedImage fenceNum = ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
-            return fenceNum;
+            }
+
+            return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -122,15 +126,17 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
-    public BufferedImage getCoins(){
+    public BufferedImage getCoins() {
         return coins;
     }
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getRam() {
         return ram;
@@ -138,7 +144,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getWhiteSheep() {
         return whiteSheep;
@@ -146,7 +153,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getLamb() {
         return lamb;
@@ -154,7 +162,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getHeart() {
         return heart;
@@ -162,7 +171,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getLambPlus1() {
         return lambPlus1;
@@ -170,7 +180,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getHeartbroken() {
         return heartbroken;
@@ -178,7 +189,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getSadFace() {
         return sadFace;
@@ -186,7 +198,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getWinner() {
         return winner;
@@ -194,7 +207,8 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getSplat() {
         return splat;
@@ -202,13 +216,11 @@ public class BufferedImageContainer {
 
     /**
      * Getter of the image
-     * @return BufferedImage 
+     *
+     * @return BufferedImage
      */
     public BufferedImage getBloodDrop() {
         return bloodDrop;
     }
-    
-    
-    
-    
+
 }

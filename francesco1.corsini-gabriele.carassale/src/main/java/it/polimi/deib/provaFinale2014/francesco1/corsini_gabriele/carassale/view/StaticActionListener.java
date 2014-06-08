@@ -7,53 +7,56 @@ import javax.swing.JFrame;
 
 /**
  * Class to listen to the Static Action GUI
+ *
  * @author Francesco Corsini
  */
 public class StaticActionListener extends JFrame implements ActionListener {
 
-    private final GUISwingStatic GUI;
+    private final GUISwingStatic gui;
 
     /**
      * Constructor
+     *
      * @param gui GUI Static
      */
     public StaticActionListener(GUISwingStatic gui) {
-        this.GUI = gui;
+        this.gui = gui;
 
     }
 
     /**
      * action performed when a click button event is fired
+     *
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
 
         String command = e.getActionCommand();
-        GUI.activateActions(false);
+        gui.activateActions(false);
 
         if (TypeAction.MOVE_SHEPARD.toString().equals(command)) {
-            GUI.getLAction2().setText("Seleziona quale Pastore muovere");
-            GUI.setGUIState((GUIState.MOVESHEPARDSELECTION));
-            GUI.activateShepardSelection(true);
-            GUI.activateRoads(true);
+            gui.getLAction2().setText("Seleziona quale Pastore muovere");
+            gui.setGUIState(GUIState.MOVESHEPARDSELECTION);
+            gui.activateShepardSelection(true);
+            gui.activateRoads(true);
         } else if (TypeAction.MOVE_SHEEP.toString().equals(command)) {
-            GUI.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");
-            GUI.setGUIState(GUIState.MOVESHEEPFROM);
-            GUI.activateTerrains(true);
+            gui.getLAction2().setText("Selezione da quale territorio si vuole muovere l'ovino");
+            gui.setGUIState(GUIState.MOVESHEEPFROM);
+            gui.activateTerrains(true);
 
         } else if (TypeAction.BUY_CARD.toString().equals(command)) {
-            GUI.getLAction2().setText("Selezione la tipologia di carta da comprare");
-            GUI.setGUIState(GUIState.BUYCARD);
-            GUI.activateTerrainType(true);
+            gui.getLAction2().setText("Selezione la tipologia di carta da comprare");
+            gui.setGUIState(GUIState.BUYCARD);
+            gui.activateTerrainType(true);
         } else if (TypeAction.JOIN_SHEEP.toString().equals(command)) {
-            GUI.getLAction2().setText("Selezione il terreno dove accoppiare");
-            GUI.activateTerrains(true);
-            GUI.setGUIState(GUIState.JOINSHEEPS);
+            gui.getLAction2().setText("Selezione il terreno dove accoppiare");
+            gui.activateTerrains(true);
+            gui.setGUIState(GUIState.JOINSHEEPS);
 
         } else if (TypeAction.KILL_SHEEP.toString().equals(command)) {
-            GUI.getLAction2().setText("Selezione il territorio dove è l'ovino da abbattere");
-            GUI.setGUIState(GUIState.KILLSHEEP);
-            GUI.activateTerrains(true);
+            gui.getLAction2().setText("Selezione il territorio dove è l'ovino da abbattere");
+            gui.setGUIState(GUIState.KILLSHEEP);
+            gui.activateTerrains(true);
 
         }
     }

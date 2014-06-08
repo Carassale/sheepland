@@ -7,23 +7,26 @@ import javax.swing.JFrame;
 
 /**
  * Class for the Listener of the Drop Down menù
+ *
  * @author Francesco Corsini
  */
 public class StaticDropDownSelectionListener extends JFrame implements ActionListener {
 
-    private final GUISwingStatic GUI;
+    private final GUISwingStatic gui;
 
     /**
      * Contrusctor
+     *
      * @param gui GUI Static
      */
     public StaticDropDownSelectionListener(GUISwingStatic gui) {
-        this.GUI = gui;
+        this.gui = gui;
 
     }
 
     /**
      * action performed when a click button event is fired
+     *
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
@@ -31,20 +34,20 @@ public class StaticDropDownSelectionListener extends JFrame implements ActionLis
         JComboBox cb = (JComboBox) e.getSource();
         String command = (String) cb.getSelectedItem();
 
-        if (GUI.getGUIState() == GUIState.MOVESHEEPSELECTION) {
+        if (gui.getGUIState() == GUIState.MOVESHEEPSELECTION) {
 
-            GUI.getLAction2().setText("Dove si vuole muovere l'Ovino");
-
-            command = command.replaceAll("[^\\d.]", "");
-            int num = Integer.parseInt(command);
-            GUI.setSheepSelected(num);
-        } else if (GUI.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
-
-            GUI.getLAction2().setText("Dove si vuole spostare il Pastore");
+            gui.getLAction2().setText("Dove si vuole muovere l'Ovino");
 
             command = command.replaceAll("[^\\d.]", "");
             int num = Integer.parseInt(command);
-            GUI.setShepardSelected(num);
+            gui.setSheepSelected(num);
+        } else if (gui.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
+
+            gui.getLAction2().setText("Dove si vuole spostare il Pastore");
+
+            command = command.replaceAll("[^\\d.]", "");
+            int num = Integer.parseInt(command);
+            gui.setShepardSelected(num);
         }
 
     }

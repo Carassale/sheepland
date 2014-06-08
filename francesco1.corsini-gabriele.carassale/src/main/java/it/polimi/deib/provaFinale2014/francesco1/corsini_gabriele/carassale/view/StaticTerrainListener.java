@@ -6,51 +6,52 @@ import javax.swing.JFrame;
 
 /**
  * Classe per listener della GUI Statica dei terreni
+ *
  * @author Francesco Corsini
  */
 public class StaticTerrainListener extends JFrame implements ActionListener {
 
-    private final GUISwingStatic GUI;
+    private final GUISwingStatic gui;
     private final int terrain;
 
     /**
      * Costruttore
+     *
      * @param gui GUI Static
      * @param terrain terreno che deve ascoltare
      */
     public StaticTerrainListener(GUISwingStatic gui, int terrain) {
-        this.GUI = gui;
+        this.gui = gui;
         this.terrain = terrain;
 
     }
 
     /**
      * action performed when a click button event is fired
+     *
      * @param e event to handle
      */
     public void actionPerformed(ActionEvent e) {
+        gui.activateTerrains(false);
 
-        GUI.activateTerrains(false);
-        String command = e.getActionCommand();
-
-        if (GUI.getGUIState() == GUIState.MOVESHEEPFROM) {
-            GUI.activateTerrains(true);
-            GUI.setGUIState(GUIState.MOVESHEEPSELECTION);
-            GUI.activateSheepSelection(true, terrain);
-            GUI.getLAction2().setText("Seleziona quale ovino si vuole muovere");
-            //TODO finire sto metodo deve aggiornare nella GUI tempIdSheep
-        } else if (GUI.getGUIState() == GUIState.KILLSHEEP) {
-            GUI.setGUIState(GUIState.KILLSHEEPSELECTION);
-            GUI.activateSheepSelection(true, terrain);
-            GUI.getLAction2().setText("Seleziona quale ovino vuoi abbatere");
-            //TODO finire sto metodo deve aggiornare nella GUI tempIdSheep
-        } else if (GUI.getGUIState() == GUIState.JOINSHEEPS) {
-            GUI.setGUIState(GUIState.KILLSHEEPSELECTION);
-            GUI.sendJoinSheeps(terrain);
-        } else if (GUI.getGUIState() == GUIState.MOVESHEEPTO) {
-            GUI.activateDropDown(false);
-            GUI.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
-            GUI.sendMoveSheep(terrain);
+        if (gui.getGUIState() == GUIState.MOVESHEEPFROM) {
+            gui.activateTerrains(true);
+            gui.setGUIState(GUIState.MOVESHEEPSELECTION);
+            gui.activateSheepSelection(true, terrain);
+            gui.getLAction2().setText("Seleziona quale ovino si vuole muovere");
+            //TODO finire questo metodo: deve aggiornare nella GUI tempIdSheep
+        } else if (gui.getGUIState() == GUIState.KILLSHEEP) {
+            gui.setGUIState(GUIState.KILLSHEEPSELECTION);
+            gui.activateSheepSelection(true, terrain);
+            gui.getLAction2().setText("Seleziona quale ovino vuoi abbatere");
+            //TODO finire questo metodo: deve aggiornare nella GUI tempIdSheep
+        } else if (gui.getGUIState() == GUIState.JOINSHEEPS) {
+            gui.setGUIState(GUIState.KILLSHEEPSELECTION);
+            gui.sendJoinSheeps(terrain);
+        } else if (gui.getGUIState() == GUIState.MOVESHEEPTO) {
+            gui.activateDropDown(false);
+            gui.setGUIState(GUIState.WAITINGFOROTHERPLAYER);
+            gui.sendMoveSheep(terrain);
         }
 
     }

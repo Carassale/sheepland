@@ -1,6 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,12 +11,13 @@ import javax.swing.JPanel;
 
 /**
  * Class for the animation of the Sheep when the action JoinSheeps is performed
+ *
  * @author Francesco Corsini
  */
 public class AnimationJoinSheeps extends JPanel implements Runnable {
 
     private BufferedImage heart;
-    private final int maxDim = 100, minDim = 50;
+    private static final int maxDim = 100, minDim = 50;
     private Thread runner;
 
     /**
@@ -85,7 +85,6 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
         this.setVisible(false);
     }
 
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -95,11 +94,11 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
 
     /**
      * Getter of the thread of the animation
+     *
      * @return the thread
      */
     public Thread getRunner() {
         return runner;
     }
-
 
 }

@@ -14,21 +14,23 @@ import javax.swing.JPanel;
 
 /**
  * Class for the dynamic button of the Join sheep
+ *
  * @author Francesco Corsini
  */
 public class DinamicJoinSheepsButton extends JPanel {
 
     private BufferedImage icon;
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
     private final int terrain;
 
     /**
      * Constructor
-     * @param gui GUI dynamic 
+     *
+     * @param guiD GUI dynamic
      * @param ter terrain where is placed
      */
-    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
-        GUI = gui;
+    public DinamicJoinSheepsButton(GUIDinamic guiD, final int ter) {
+        guiD = guiD;
         this.terrain = ter;
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
@@ -36,36 +38,39 @@ public class DinamicJoinSheepsButton extends JPanel {
             Logger.getLogger(DinamicJoinSheepsButton.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setLayout(null);
-	this.setOpaque(false);
+        this.setOpaque(false);
         this.setVisible(false);
         this.setToolTipText("Accoppia Ovini");
-        
+
         this.addMouseListener(new MouseListener() {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseClicked(MouseEvent e) {
-                
+
                 activateAnimation();
-                GUI.sendJoinSheeps(terrain);
-                GUI.activateSubMenuSheep(terrain, false);
-                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                gui.sendJoinSheeps(terrain);
+                gui.activateSubMenuSheep(terrain, false);
+                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mousePressed(MouseEvent e) {
-               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseReleased(MouseEvent e) {
@@ -74,36 +79,34 @@ public class DinamicJoinSheepsButton extends JPanel {
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
-               //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
 
             /**
              * Mouse event
+             *
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
                 //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
             }
         });
-        
+
     }
-    
-    private void activateAnimation(){
-        
-        GUI.animationJoinSheeps( this.getLocation().x,this.getLocation().y, terrain);
+
+    private void activateAnimation() {
+
+        gui.animationJoinSheeps(this.getLocation().x, this.getLocation().y, terrain);
     }
-    
-    
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-            g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
-        
+        g.drawImage(icon, 0, 0, getWidth(), getHeight(), this);
+
     }
-    
-    
-    
 
 }

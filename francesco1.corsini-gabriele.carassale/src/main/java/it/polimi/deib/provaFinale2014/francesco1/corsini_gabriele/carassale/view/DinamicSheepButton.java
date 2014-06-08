@@ -14,13 +14,14 @@ import javax.swing.JButton;
 
 /**
  * Class for the SheepButton in the middle of the terrain
+ *
  * @author Francesco Corsini
  */
 public class DinamicSheepButton extends JButton {
 
     private BufferedImage icon;
     private final BufferedImage[] sheepImagesSmall = new BufferedImage[6];
-    private GUIDinamic GUI;
+    private GUIDinamic gui;
 
     private boolean isBig = false;
     private boolean isInvisible;
@@ -28,11 +29,12 @@ public class DinamicSheepButton extends JButton {
 
     /**
      * Constructor
+     *
      * @param gui GUI Dynamic
      * @param terr territory where to be placed
      */
     public DinamicSheepButton(GUIDinamic gui, int terr) {
-        GUI = gui;
+        gui = gui;
         this.terrain = terr;
         for (int i = 0; i <= 5; i++) {
             try {
@@ -51,6 +53,7 @@ public class DinamicSheepButton extends JButton {
 
     /**
      * Method that refresh the icon displaying the correct number of sheeps
+     *
      * @param sheepNumber new number of sheeps
      */
     public void setnumber(int sheepNumber) {
@@ -83,93 +86,97 @@ public class DinamicSheepButton extends JButton {
 
     /**
      * Method to understand if there are no sheeps on the terrain
+     *
      * @return true if yes
      */
     public boolean isIsInvisible() {
         return isInvisible;
     }
-    
-    private class DinamicSheepButtonListener implements MouseListener{
-        
-            /**
-             * Mouse event
-             * @param e event
-             */
-            public void mouseClicked(MouseEvent e) {
 
-                if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
-                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    GUI.sendMoveSheep(terrain);
-                } else if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
-                    GUI.activateSheepTypeButton(terrain);
-                    GUI.setSubMenuOpen(terrain);
-                    GUI.setGUIDinamicState(GUIDinamicState.SUBMENUOPEN);
-                } else if (GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
-                    int i = GUI.getSubMenuOpen();
-                    if (i == terrain) {
-                        GUI.activateSubMenuSheep(terrain, false);
-                        GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                        GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                        GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
-                    } else {
-                        GUI.activateSubMenuSheep(i, false);
-                        GUI.activateSheepType(i, false, TypeAnimal.WHITE_SHEEP.toString());
-                        GUI.activateSheepType(i, false, TypeAnimal.RAM.toString());
-                        GUI.activateSheepType(i, false, TypeAnimal.LAMB.toString());
-                        GUI.setSubMenuOpen(terrain);
-                    }
-                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORPLAYER);
-                } else if (GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
-                    GUI.activateSubMenuSheep(terrain, false);
-                    GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                    GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                    GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
-                    GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    GUI.sendMoveSheep(terrain);
-                    //TODO GUI.animation
+    private class DinamicSheepButtonListener implements MouseListener {
+
+        /**
+         * Mouse event
+         *
+         * @param e event
+         */
+        public void mouseClicked(MouseEvent e) {
+
+            if (gui.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
+                gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                gui.sendMoveSheep(terrain);
+            } else if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
+                gui.activateSheepTypeButton(terrain);
+                gui.setSubMenuOpen(terrain);
+                gui.setGUIDinamicState(GUIDinamicState.SUBMENUOPEN);
+            } else if (gui.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
+                int i = gui.getSubMenuOpen();
+                if (i == terrain) {
+                    gui.activateSubMenuSheep(terrain, false);
+                    gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                    gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                    gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                } else {
+                    gui.activateSubMenuSheep(i, false);
+                    gui.activateSheepType(i, false, TypeAnimal.WHITE_SHEEP.toString());
+                    gui.activateSheepType(i, false, TypeAnimal.RAM.toString());
+                    gui.activateSheepType(i, false, TypeAnimal.LAMB.toString());
+                    gui.setSubMenuOpen(terrain);
                 }
+                gui.setGUIDinamicState(GUIDinamicState.WAITINGFORPLAYER);
+            } else if (gui.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
+                gui.activateSubMenuSheep(terrain, false);
+                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                gui.sendMoveSheep(terrain);
+                //TODO GUI.animation
             }
+        }
 
-            /**
-             * Mouse event
-             * @param e event
-             */
-            public void mousePressed(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
-            }
+        /**
+         * Mouse event
+         *
+         * @param e event
+         */
+        public void mousePressed(MouseEvent e) {
+            //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+        }
 
-            /**
-             * Mouse event
-             * @param e event
-             */
-            public void mouseReleased(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
-            }
+        /**
+         * Mouse event
+         *
+         * @param e event
+         */
+        public void mouseReleased(MouseEvent e) {
+            //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+        }
 
-            /**
-             * Mouse event
-             * @param e event
-             */
-            public void mouseEntered(MouseEvent e) {
-                if (GUI.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER || 
-                        GUI.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN ||
-                        GUI.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
-                    isBig = true;
-                    repaint();
-                }
-            }
-
-            /**
-             * Mouse event
-             * @param e event
-             */
-            public void mouseExited(MouseEvent e) {
-                isBig = false;
+        /**
+         * Mouse event
+         *
+         * @param e event
+         */
+        public void mouseEntered(MouseEvent e) {
+            if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER
+                    || gui.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN
+                    || gui.getGUIDinamicState() == GUIDinamicState.MOVESHEEP) {
+                isBig = true;
                 repaint();
             }
-
         }
-    
 
+        /**
+         * Mouse event
+         *
+         * @param e event
+         */
+        public void mouseExited(MouseEvent e) {
+            isBig = false;
+            repaint();
+        }
+
+    }
 
 }
