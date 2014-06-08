@@ -82,6 +82,13 @@ public class PlayerPool {
         return players;
     }
 
+    /**
+     * Controlla se il giocatore con l'id passato come parametro è online o no,
+     * nel caso non sia presente restituisce comunque false
+     *
+     * @param idPlayer Id del player
+     * @return True se è online
+     */
     public boolean isOnLinePlayer(int idPlayer) {
         for (Player player : players) {
             if (player.getIdPlayer() == idPlayer) {
