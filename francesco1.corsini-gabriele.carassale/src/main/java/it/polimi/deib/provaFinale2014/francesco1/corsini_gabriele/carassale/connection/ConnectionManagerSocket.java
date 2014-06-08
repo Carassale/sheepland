@@ -12,6 +12,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
@@ -37,6 +38,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
     private boolean isConnected;
     private boolean isFinishGame = false;
     private int shepardToPlace = 0;
+
+    private Object objectSyncronyzed = new Object();
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -153,7 +156,8 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         playerConnections.add(playerConnections.get(0));
         playerConnections.remove(0);
         currentPlayer = playerConnections.get(0);
-        if (!map.isOnLine(currentPlayer.getNickname())) {
+
+        if (!gameController.getPlayerPool().isOnLinePlayer(currentPlayer.getIdPlayer())) {
             nextPlayerConnections();
         }
     }

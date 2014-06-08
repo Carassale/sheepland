@@ -142,6 +142,18 @@ public class MapServerPlayerTest {
 
         assertEquals(false, map.existPlayer(nickname));
     }
+    
+    /**
+     * Test of existPlayer method, of class MapServerPlayer.
+     */
+    @Test
+    public void testExistPlayer3() {
+        String nickname = "mario";
+        map.addPlayer(nickname, StatusMessage.TYPE_RMI.toString(), 0, 1);
+        map.removePlayer(nickname);
+
+        assertEquals(false, map.existPlayer(""));
+    }
 
     /**
      * Test of isTypeConnectionSocket method, of class MapServerPlayer.

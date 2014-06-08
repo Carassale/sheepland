@@ -18,7 +18,8 @@ public enum StatusMessage {
     CORRECT_NICKNAME("Correct_nickname"),
     NOT_CORRECT_NICKNAME("Not_correct_nickname"),
     GAME_STARTED("Game_started"),
-    DISCONNECTED_FOR_TIMEOUT("Disconnected_for_timeout");
+    DISCONNECTED_FOR_TIMEOUT("Disconnected_for_timeout"),
+    SERVER_OFF("Si è spento il server.. bye bye");
 
     private final String value;
 

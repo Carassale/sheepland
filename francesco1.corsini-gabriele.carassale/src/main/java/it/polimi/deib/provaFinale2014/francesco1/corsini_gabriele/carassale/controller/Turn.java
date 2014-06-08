@@ -66,11 +66,13 @@ public class Turn {
      */
     public boolean playTurn() throws FinishGame {
         moveBlackSheep();
-        growUpLambs();
         //questo controllo serve per poter utilizzare i test senza connessioni(nel caso di Test non esistono i Client connessi)
         if (connectionManager != null) {
             connectionManager.startAction();
         }
+        
+        //Alla fine delle azioni del player crescono gli animali
+        growUpLambs();
 
         if (game.getFenceNumber() <= 0) {
             forceLastRound = true;

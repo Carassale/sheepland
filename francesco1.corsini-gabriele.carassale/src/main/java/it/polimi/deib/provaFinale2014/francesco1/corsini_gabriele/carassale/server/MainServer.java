@@ -7,9 +7,9 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
  *
  * @author Carassale Gabriele
  */
-public class Main {
+public class MainServer {
 
-    private Main() {
+    private MainServer() {
         //non fa nulla
     }
 

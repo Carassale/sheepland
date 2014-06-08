@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class DinamicKillSheepButton extends JPanel {
 
     private BufferedImage icon;
-    private GUIDinamic gui;
+    private GUIDinamic GUI;
     private final int terrain;
 
     /**
@@ -31,7 +31,7 @@ public class DinamicKillSheepButton extends JPanel {
      */
     DinamicKillSheepButton(GUIDinamic aThis, int i) {
         this.terrain = i;
-        this.gui = aThis;
+        this.GUI = aThis;
 
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
@@ -53,12 +53,12 @@ public class DinamicKillSheepButton extends JPanel {
             public void mouseClicked(MouseEvent e) {
 
                 activateAnimation();
-                gui.sendKillSheep();
-                gui.activateSubMenuSheep(terrain, false);
-                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
-                gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
+                GUI.sendKillSheep();
+                GUI.activateSubMenuSheep(terrain, false);
+                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                GUI.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
             }
 
             /**
@@ -101,7 +101,7 @@ public class DinamicKillSheepButton extends JPanel {
 
     private void activateAnimation() {
 
-        gui.animationKillSheep(this.getLocation().x, this.getLocation().y, terrain);
+        GUI.animationKillSheep(this.getLocation().x, this.getLocation().y, terrain);
     }
 
     @Override

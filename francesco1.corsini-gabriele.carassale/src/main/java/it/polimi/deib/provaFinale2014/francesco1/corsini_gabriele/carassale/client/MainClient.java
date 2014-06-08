@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class Main {
+public class MainClient {
 
     private static final String ADDRESS = "localhost";
 
@@ -58,7 +58,7 @@ public class Main {
      * @throws java.io.IOException
      * @throws FinishGame
      */
-    public Main() throws IOException, FinishGame {
+    public MainClient() throws IOException, FinishGame {
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
 
@@ -313,7 +313,7 @@ public class Main {
         try {
             s = inSocket.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString().equals(s)) {
             disconnect();
@@ -332,11 +332,11 @@ public class Main {
      */
     public static void main(String[] arg) {
         try {
-            new Main();
+            new MainClient();
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FinishGame ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 }

@@ -4,8 +4,10 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view.TypeOfInteraction;
 import java.rmi.AccessException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -54,7 +56,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             registry.rebind(nickname, this);
 
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -117,7 +120,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             connectionRMI.moveShepard(idShepard, idRoad);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -132,7 +136,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             connectionRMI.moveSheep(idSheep, idTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -146,7 +151,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             connectionRMI.buyCard(typeOfTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -160,7 +166,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             connectionRMI.killSheep(idSheep);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -174,7 +181,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         try {
             connectionRMI.joinSheep(idTerrain);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
+            turnOff();
         }
     }
 
@@ -332,16 +340,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void refreshWinner(int finalPosition, int finalScore) throws RemoteException {
         typeOfInteraction.refreshWinner(finalPosition, finalScore);
-        
-        try {
-            UnicastRemoteObject.unexportObject(this, true);
-            Registry registry = LocateRegistry.getRegistry(PORT);
-            registry.unbind(nickname);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AccessException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        turnOff();
     }
 
     /**
@@ -361,16 +361,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * @throws RemoteException
      */
     public void disconnectForTimout() throws RemoteException {
-        try {
-            UnicastRemoteObject.unexportObject(this, true);
-            Registry registry = LocateRegistry.getRegistry(PORT);
-            registry.unbind(nickname);
-            System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
-        } catch (NotBoundException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AccessException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
+        turnOff();
     }
 
     /**
@@ -391,6 +383,20 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      */
     public void errorMessage(String message) throws RemoteException {
         typeOfInteraction.errorMessage(message);
+    }
+
+    private void turnOff() {
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            Registry registry = LocateRegistry.getRegistry(PORT);
+            registry.unbind(nickname);
+        } catch (NoSuchObjectException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

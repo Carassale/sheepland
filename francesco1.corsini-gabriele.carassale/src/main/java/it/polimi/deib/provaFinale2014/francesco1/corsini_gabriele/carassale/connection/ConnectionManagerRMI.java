@@ -59,8 +59,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         this.map = map;
         this.playerConnections = playerConnections;
 
-        changeReferenceToClient();
-
         Thread thread = new Thread(this);
         thread.start();
     }
@@ -84,8 +82,6 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 playerConnectionRMI.getClientRMI().setConnectionRMI(this);
             } catch (RemoteException ex) {
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                clientDisconnected(playerConnectionRMI);
             }
         }
     }
@@ -115,7 +111,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         playerConnections.remove(0);
 
         currentPlayer = playerConnections.get(0);
-        if (!map.isOnLine(currentPlayer.getNickname())) {
+        if (!gameController.getPlayerPool().isOnLinePlayer(currentPlayer.getIdPlayer())) {
             nextPlayerConnections();
         }
     }
@@ -980,6 +976,9 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        changeReferenceToClient();
+
         System.out.println("RMI: Tutto pronto, il gioco ha inizio.");
         new CheckThreadRMI();
     }

@@ -20,17 +20,17 @@ import javax.swing.JPanel;
 public class DinamicJoinSheepsButton extends JPanel {
 
     private BufferedImage icon;
-    private GUIDinamic gui;
+    private GUIDinamic GUI;
     private final int terrain;
 
     /**
      * Constructor
      *
-     * @param guiD GUI dynamic
+     * @param gui GUI dynamic
      * @param ter terrain where is placed
      */
-    public DinamicJoinSheepsButton(GUIDinamic guiD, final int ter) {
-        guiD = guiD;
+    public DinamicJoinSheepsButton(GUIDinamic gui, final int ter) {
+        GUI = gui;
         this.terrain = ter;
         try {
             icon = ImageIO.read(new File(".\\src\\main\\resources\\joinSheeps.png"));
@@ -52,11 +52,11 @@ public class DinamicJoinSheepsButton extends JPanel {
             public void mouseClicked(MouseEvent e) {
 
                 activateAnimation();
-                gui.sendJoinSheeps(terrain);
-                gui.activateSubMenuSheep(terrain, false);
-                gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
-                gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
-                gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
+                GUI.sendJoinSheeps(terrain);
+                GUI.activateSubMenuSheep(terrain, false);
+                GUI.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                GUI.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
             }
 
             /**
@@ -100,7 +100,7 @@ public class DinamicJoinSheepsButton extends JPanel {
 
     private void activateAnimation() {
 
-        gui.animationJoinSheeps(this.getLocation().x, this.getLocation().y, terrain);
+        GUI.animationJoinSheeps(this.getLocation().x, this.getLocation().y, terrain);
     }
 
     protected void paintComponent(Graphics g) {

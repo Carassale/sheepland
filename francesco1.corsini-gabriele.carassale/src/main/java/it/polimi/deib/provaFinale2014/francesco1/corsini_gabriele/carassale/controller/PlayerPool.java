@@ -82,4 +82,12 @@ public class PlayerPool {
         return players;
     }
 
+    public boolean isOnLinePlayer(int idPlayer) {
+        for (Player player : players) {
+            if (player.getIdPlayer() == idPlayer) {
+                return player.isOnLine();
+            }
+        }
+        return false;
+    }
 }
