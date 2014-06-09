@@ -63,10 +63,23 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         waitOkFromClient();
+        sendsInitialMessage();
         try {
             gameController.start(playerConnections.size());
         } catch (FinishGame ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private void sendsInitialMessage() {
+        for (PlayerConnectionSocket currentPlayerConnection : playerConnections) {
+            for (PlayerConnectionSocket playerConnection : playerConnections) {
+                //Invia quello di tutti tranne il suo
+                if (currentPlayerConnection.getIdPlayer() != playerConnection.getIdPlayer()) {
+                    printMessage(currentPlayerConnection,
+                            playerConnection.getNickname() + " si è connesso alla parita. Il suo id è: " + playerConnection.getIdPlayer());
+                }
+            }
         }
     }
 
@@ -737,6 +750,11 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
             shepardToPlace = 2;
         }
 
+        for (PlayerConnectionSocket playerConnection : playerConnections) {
+            if (playerConnection.getIdPlayer() != thisSocketPlayer.getIdPlayer()) {
+                printMessage(playerConnection, "Il player " + thisSocketPlayer.getNickname() + " si è riconnesso.");
+            }
+        }
         printMessage(thisSocketPlayer, Message.RECONNECTED.toString());
     }
 

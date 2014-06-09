@@ -231,11 +231,11 @@ public class Player {
                 int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();
 
                 //e inizializza la nuova pecora con l'id successivo
-                new Sheep(terrain, false, i + 1);
+                Sheep sheep = new Sheep(terrain, false, i + 1);
+                game.getSheeps().add(sheep);
             } else {
                 throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
             }
-
         } else {
             throw new MoveException(Message.NO_JOINABLE_ANIMAL.toString());
         }

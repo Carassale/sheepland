@@ -96,10 +96,23 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         waitOkFromClient();
+        sendsInitialMessage();
         try {
             gameController.start(playerConnections.size());
         } catch (FinishGame ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private void sendsInitialMessage() {
+        for (PlayerConnectionRMI currentPlayerConnection : playerConnections) {
+            for (PlayerConnectionRMI playerConnection : playerConnections) {
+                //Invia quello di tutti tranne il suo
+                if (currentPlayerConnection.getIdPlayer() != playerConnection.getIdPlayer()) {
+                    printMessage(currentPlayerConnection,
+                            playerConnection.getNickname() + " si è connesso alla parita. Il suo id è: " + playerConnection.getIdPlayer());
+                }
+            }
         }
     }
 
@@ -857,6 +870,11 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            if (playerConnection.getIdPlayer() != thisRMIPlayer.getIdPlayer()) {
+                printMessage(playerConnection, "Il player " + thisRMIPlayer.getNickname() + " si è riconnesso.");
+            }
+        }
         printMessage(thisRMIPlayer, Message.RECONNECTED.toString());
     }
 
@@ -896,11 +914,7 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
         map.setOnLine(currentPlayer.getNickname(), false);
 
         for (PlayerConnectionRMI playerConnection : playerConnections) {
-            try {
-                playerConnection.getClientRMI().messageText("Un player si è disconnesso, rimani in attesa...");
-            } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            }
+            printMessage(playerConnection, "Un player si è disconnesso, rimani in attesa...");
         }
 
         //Faccio partire un timer per aspettare la riconnessione
