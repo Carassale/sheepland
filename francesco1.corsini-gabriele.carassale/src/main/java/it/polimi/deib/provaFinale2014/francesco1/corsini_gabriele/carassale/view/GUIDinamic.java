@@ -6,7 +6,9 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shar
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,53 +174,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Service method to create the sheep buttons on the territories
      */
     private void createSheepButtons() {
-        int offset = 20;
+
         for (int i = 0; i <= 18; i++) {
             jbuttonSheeps[i] = new DinamicSheepButton(this, i);
             setBackGroundInvisible(jbuttonSheeps[i]);
             layeredPane.add(jbuttonSheeps[i], Integer.valueOf(3));
             jbuttonSheeps[i].setSize(100, 100);
-            // la prima è la x, la seconda è la y(parte dall'alto)
-            if (i == 0) {
-                jbuttonSheeps[i].setLocation(165 + offset, 110 + offset);
-            } else if (i == 1) {
-                jbuttonSheeps[i].setLocation(220 + offset, 280 + offset);
-            } else if (i == 2) {
-                jbuttonSheeps[i].setLocation(340 + offset, 350 + offset);
-            } else if (i == 3) {
-                jbuttonSheeps[i].setLocation(220 + offset, 410 + offset);
-            } else if (i == 4) {
-                jbuttonSheeps[i].setLocation(320 + offset, 460 + offset);
-            } else if (i == 5) {
-                jbuttonSheeps[i].setLocation(450 + offset, 380 + offset);
-            } else if (i == 6) {
-                jbuttonSheeps[i].setLocation(440 + offset, 500 + offset);
-            } else if (i == 7) {
-                jbuttonSheeps[i].setLocation(570 + offset, 460 + offset);
-            } else if (i == 8) {
-                jbuttonSheeps[i].setLocation(570 + offset, 330 + offset);
-            } else if (i == 9) {
-                jbuttonSheeps[i].setLocation(660 + offset, 380 + offset);
-            } else if (i == 10) {
-                jbuttonSheeps[i].setLocation(690 + offset, 270 + offset);
-            } else if (i == 11) {
-                jbuttonSheeps[i].setLocation(585 + offset, 220 + offset);
-            } else if (i == 12) {
-                jbuttonSheeps[i].setLocation(690 + offset, 165 + offset);
-            } else if (i == 13) {
-                jbuttonSheeps[i].setLocation(600 + offset, 120 + offset);
-            } else if (i == 14) {
-                jbuttonSheeps[i].setLocation(465 + offset, 165 + offset);
-            } else if (i == 15) {
-                jbuttonSheeps[i].setLocation(500 + offset, 60 + offset);
-            } else if (i == 16) {
-                jbuttonSheeps[i].setLocation(330 + offset, 100 + offset);
-            } else if (i == 17) {
-                jbuttonSheeps[i].setLocation(340 + offset, 200 + offset);
-            } else if (i == 18) {
-                jbuttonSheeps[i].setLocation(450 + offset, 270 + offset);
-            }
-
         }
         //serve ad inizializzare le pecore su sheapsbourg a 0
         jbuttonSheeps[18].setnumber(0);
@@ -413,100 +374,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Service method to create the Roads buttons around the map
      */
     private void createRoadLabels() {
-        int offsetx = -35;
-        int offsety = -55;
+
         for (int i = 0; i <= 41; i++) {
             roads[i] = new DinamicRoadButton(this, i, imagePool);
             layeredPane.add(roads[i], Integer.valueOf(4));
             roads[i].setSize(50, 50);
             roads[i].setVisible(true);
-
-            if (i == 0) {
-                roads[i].setLocation(298 + offsetx, 208 + offsety);
-            } else if (i == 1) {
-                roads[i].setLocation(344 + offsetx, 257 + offsety);
-            } else if (i == 2) {
-                roads[i].setLocation(233 + offsetx, 285 + offsety);
-            } else if (i == 3) {
-                roads[i].setLocation(344 + offsetx, 314 + offsety);
-            } else if (i == 4) {
-                roads[i].setLocation(344 + offsetx, 379 + offsety);
-            } else if (i == 5) {
-                roads[i].setLocation(289 + offsetx, 412 + offsety);
-            } else if (i == 6) {
-                roads[i].setLocation(352 + offsetx, 449 + offsety);
-            } else if (i == 7) {
-                roads[i].setLocation(299 + offsetx, 556 + offsety);
-            } else if (i == 8) {
-                roads[i].setLocation(398 + offsetx, 495 + offsety);
-            } else if (i == 9) {
-                roads[i].setLocation(456 + offsetx, 513 + offsety);
-            } else if (i == 10) {
-                roads[i].setLocation(398 + offsetx, 610 + offsety);
-            } else if (i == 11) {
-                roads[i].setLocation(509 + offsetx, 535 + offsety);
-            } else if (i == 12) {
-                roads[i].setLocation(568 + offsetx, 585 + offsety);
-            } else if (i == 13) {
-                roads[i].setLocation(566 + offsetx, 509 + offsety);
-            } else if (i == 14) {
-                roads[i].setLocation(613 + offsetx, 480 + offsety);
-            } else if (i == 15) {
-                roads[i].setLocation(679 + offsetx, 526 + offsety);
-            } else if (i == 16) {
-                roads[i].setLocation(669 + offsetx, 439 + offsety);
-            } else if (i == 17) {
-                roads[i].setLocation(761 + offsetx, 413 + offsety);
-            } else if (i == 18) {
-                roads[i].setLocation(696 + offsetx, 374 + offsety);
-            } else if (i == 19) {
-                roads[i].setLocation(698 + offsetx, 320 + offsety);
-            } else if (i == 20) {
-                roads[i].setLocation(782 + offsetx, 284 + offsety);
-            } else if (i == 21) {
-                roads[i].setLocation(710 + offsetx, 269 + offsety);
-            } else if (i == 22) {
-                roads[i].setLocation(734 + offsetx, 203 + offsety);
-            } else if (i == 23) {
-                roads[i].setLocation(651 + offsetx, 251 + offsety);
-            } else if (i == 24) {
-                roads[i].setLocation(604 + offsetx, 227 + offsety);
-            } else if (i == 25) {
-                roads[i].setLocation(634 + offsetx, 151 + offsety);
-            } else if (i == 26) {
-                roads[i].setLocation(552 + offsetx, 200 + offsety);
-            } else if (i == 27) {
-                roads[i].setLocation(498 + offsetx, 145 + offsety);
-            } else if (i == 28) {
-                roads[i].setLocation(491 + offsetx, 211 + offsety);
-            } else if (i == 29) {
-                roads[i].setLocation(418 + offsetx, 234 + offsety);
-            } else if (i == 30) {
-                roads[i].setLocation(470 + offsetx, 264 + offsety);
-            } else if (i == 31) {
-                roads[i].setLocation(445 + offsetx, 324 + offsety);
-            } else if (i == 32) {
-                roads[i].setLocation(393 + offsetx, 352 + offsety);
-            } else if (i == 33) {
-                roads[i].setLocation(452 + offsetx, 377 + offsety);
-            } else if (i == 34) {
-                roads[i].setLocation(461 + offsetx, 445 + offsety);
-            } else if (i == 35) {
-                roads[i].setLocation(515 + offsetx, 399 + offsety);
-            } else if (i == 36) {
-                roads[i].setLocation(566 + offsetx, 433 + offsety);
-            } else if (i == 37) {
-                roads[i].setLocation(568 + offsetx, 374 + offsety);
-            } else if (i == 38) {
-                roads[i].setLocation(618 + offsetx, 355 + offsety);
-            } else if (i == 39) {
-                roads[i].setLocation(563 + offsetx, 323 + offsety);
-            } else if (i == 40) {
-                roads[i].setLocation(584 + offsetx, 274 + offsety);
-            } else if (i == 41) {
-                roads[i].setLocation(504 + offsetx, 298 + offsety);
-            }
-
         }
     }
 

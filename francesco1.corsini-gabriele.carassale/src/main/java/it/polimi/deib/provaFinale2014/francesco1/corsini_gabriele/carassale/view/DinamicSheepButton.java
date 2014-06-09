@@ -36,9 +36,9 @@ public class DinamicSheepButton extends JButton {
     public DinamicSheepButton(GUIDinamic gui, int terr) {
         this.gui = gui;
         this.terrain = terr;
-        for (int i = 0; i <= 5; i++) {
+        for (int terrain = 0; terrain <= 5; terrain++) {
             try {
-                sheepImagesSmall[i] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\sheep_small_" + i + ".png"));
+                sheepImagesSmall[terrain] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\sheep_small_" + terrain + ".png"));
 
             } catch (IOException ex) {
                 Logger.getLogger(DinamicSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
@@ -47,6 +47,8 @@ public class DinamicSheepButton extends JButton {
         this.setLayout(null);
         this.setOpaque(false);
         this.setBounds(0, 0, 100, 100);
+        
+        placeButton();
 
         this.addMouseListener(new DinamicSheepButtonListener());
     }
@@ -92,6 +94,50 @@ public class DinamicSheepButton extends JButton {
     public boolean isIsInvisible() {
         return isInvisible;
     }
+    
+    private void placeButton(){
+        // la prima è la x, la seconda è la y(parte dall'alto)
+        int offset = 20;
+            if (terrain == 0) {
+                this.setLocation(165 + offset, 110 + offset);
+            } else if (terrain == 1) {
+                this.setLocation(220 + offset, 280 + offset);
+            } else if (terrain == 2) {
+                this.setLocation(340 + offset, 350 + offset);
+            } else if (terrain == 3) {
+                this.setLocation(220 + offset, 410 + offset);
+            } else if (terrain == 4) {
+                this.setLocation(320 + offset, 460 + offset);
+            } else if (terrain == 5) {
+                this.setLocation(450 + offset, 380 + offset);
+            } else if (terrain == 6) {
+                this.setLocation(440 + offset, 500 + offset);
+            } else if (terrain == 7) {
+                this.setLocation(570 + offset, 460 + offset);
+            } else if (terrain == 8) {
+                this.setLocation(570 + offset, 330 + offset);
+            } else if (terrain == 9) {
+                this.setLocation(660 + offset, 380 + offset);
+            } else if (terrain == 10) {
+                this.setLocation(690 + offset, 270 + offset);
+            } else if (terrain == 11) {
+                this.setLocation(585 + offset, 220 + offset);
+            } else if (terrain == 12) {
+                this.setLocation(690 + offset, 165 + offset);
+            } else if (terrain == 13) {
+                this.setLocation(600 + offset, 120 + offset);
+            } else if (terrain == 14) {
+                this.setLocation(465 + offset, 165 + offset);
+            } else if (terrain == 15) {
+                this.setLocation(500 + offset, 60 + offset);
+            } else if (terrain == 16) {
+                this.setLocation(330 + offset, 100 + offset);
+            } else if (terrain == 17) {
+                this.setLocation(340 + offset, 200 + offset);
+            } else if (terrain == 18) {
+                this.setLocation(450 + offset, 270 + offset);
+            }
+    }
 
     private class DinamicSheepButtonListener implements MouseListener {
 
@@ -110,17 +156,17 @@ public class DinamicSheepButton extends JButton {
                 gui.setSubMenuOpen(terrain);
                 gui.setGUIDinamicState(GUIDinamicState.SUBMENUOPEN);
             } else if (gui.getGUIDinamicState() == GUIDinamicState.SUBMENUOPEN) {
-                int i = gui.getSubMenuOpen();
-                if (i == terrain) {
+                int terrain = gui.getSubMenuOpen();
+                if (terrain == terrain) {
                     gui.activateSubMenuSheep(terrain, false);
                     gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
                     gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
                     gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
                 } else {
-                    gui.activateSubMenuSheep(i, false);
-                    gui.activateSheepType(i, false, TypeAnimal.WHITE_SHEEP.toString());
-                    gui.activateSheepType(i, false, TypeAnimal.RAM.toString());
-                    gui.activateSheepType(i, false, TypeAnimal.LAMB.toString());
+                    gui.activateSubMenuSheep(terrain, false);
+                    gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());
+                    gui.activateSheepType(terrain, false, TypeAnimal.RAM.toString());
+                    gui.activateSheepType(terrain, false, TypeAnimal.LAMB.toString());
                     gui.setSubMenuOpen(terrain);
                 }
                 gui.setGUIDinamicState(GUIDinamicState.WAITINGFORPLAYER);
