@@ -29,11 +29,7 @@ public class Sheep extends Animal {
     public Sheep(Terrain terrain, boolean initialization, int num) {
         position = terrain;
         id = num;
-        if (!initialization) {
-            age = 0;
-            sex = randomSex();
-            old = false;
-        } else {
+        if (initialization) {
             sex = randomSex();
             old = Math.random() >= 0.3;
             if (old) {
@@ -41,6 +37,10 @@ public class Sheep extends Animal {
             } else {
                 age = 0;
             }
+        } else {
+            age = 0;
+            sex = randomSex();
+            old = false;
         }
         position.addAnimal(this);
     }
@@ -51,7 +51,7 @@ public class Sheep extends Animal {
      *
      * @return Stringa con maschi o femmina
      */
-    public String randomSex() {
+    private String randomSex() {
         //è public poichè vedi doc.
         if (Math.random() < 0.5) {
             return TypeAnimal.FEMALE.toString();
