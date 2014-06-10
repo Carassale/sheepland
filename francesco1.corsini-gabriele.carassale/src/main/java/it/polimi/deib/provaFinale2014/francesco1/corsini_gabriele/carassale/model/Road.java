@@ -23,10 +23,10 @@ public class Road {
      * inizializzo con il numero di strada. I territori confinanti saranno
      * collegati solo quando tutti gli oggetti Terrain saranno costruiti
      *
-     * @param number
+     * @param id
      */
-    public Road(int number) {
-        roadNumber = number;
+    public Road(int id) {
+        this.id = id;
         adjacentTerrain[0] = null;
         adjacentTerrain[1] = null;
         hasFence = false;

@@ -1,32 +1,24 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-/**
- * Classe Mappa che serve ad inizializzare e collegare tra loro i territori e le
- * strade
- *
- * @author Francesco Corsini
- */
-public class Map {
+public class ReadXMLFile {
 
-    private List<Road> roads = new ArrayList<Road>();
-    private List<Terrain> terrain = new ArrayList<Terrain>();
+    public static void main(String argv[]) {
 
-    /**
-     * Viene creata la mappa leggendola da un file xml
-     */
-    public Map() {
+        List<Road> roads = new ArrayList<Road>();
+        List<Terrain> terrain = new ArrayList<Terrain>();
+
         try {
-            File fXmlFile = new File(".\\src\\main\\resources\\file.xml");
+            File fXmlFile = new File("C:\\file.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -95,24 +87,6 @@ public class Map {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Restituisce l'Array conenente le strade della mappa
-     *
-     * @return ArrayList conenente le strade della mappa
-     */
-    public List<Road> getRoads() {
-        return roads;
-    }
-
-    /**
-     * Restituisce l'Array conenente i terreni della mappa
-     *
-     * @return ArrayList conenente i terreni della mappa
-     */
-    public List<Terrain> getTerrain() {
-        return terrain;
     }
 
 }
