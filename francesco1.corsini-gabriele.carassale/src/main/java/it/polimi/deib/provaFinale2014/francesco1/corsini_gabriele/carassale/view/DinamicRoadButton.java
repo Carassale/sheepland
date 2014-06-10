@@ -292,7 +292,7 @@ public class DinamicRoadButton extends JPanel {
          * @param e event
          */
         public void mouseReleased(MouseEvent e) {
-            //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+            //Ã¨ presente ma non utilizzato poichÃ¨ non mi serve ma sto implementando un interfaccia che ha questo metodo
         }
 
         /**
