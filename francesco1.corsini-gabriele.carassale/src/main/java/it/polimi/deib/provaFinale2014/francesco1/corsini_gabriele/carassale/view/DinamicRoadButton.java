@@ -2,10 +2,19 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -316,6 +325,12 @@ public class DinamicRoadButton extends JPanel {
                 }
                 repaint();
             }
+            if (gui.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD || gui.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO) {
+                
+                    Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor2(), new Point(0, 0), "Custom cursor2");
+                    gui.setCursor(cursor);     
+                
+            }
         }
 
         /**
@@ -332,6 +347,10 @@ public class DinamicRoadButton extends JPanel {
                 changeOpacity(false);
             }
             repaint();
+            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor(), new Point(0, 0), "Custom cursor2");
+            gui.setCursor(cursor);  
+            
+            
         }
 
     }

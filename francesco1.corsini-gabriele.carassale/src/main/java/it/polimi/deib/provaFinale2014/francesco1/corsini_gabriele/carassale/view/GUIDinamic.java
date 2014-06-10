@@ -4,11 +4,13 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.clie
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +146,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createFenceCounter();
         createMoney();
         createWinnerScene();
+        createMouse();
 
         setLocationRelativeTo(null);
         //Display the window.
@@ -169,6 +172,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         layeredPane.add(panel, Integer.valueOf(0));
         newContentPane.addMouseListener(null);
     }
+
+    
 
     /**
      * Service method to create the sheep buttons on the territories
@@ -463,6 +468,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         sadFace.setVisible(false);
     }
 
+    private void createMouse() {
+
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor(), new Point(0, 0), "Custom cursor");
+        setCursor(cursor);
+    }
+    
     /**
      * Method that updates the text written on the message Label
      *
@@ -498,7 +509,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         layeredPane.add(anim, Integer.valueOf(5));
         anim.setVisible(true);
         //c'è un offset rispetto al bottone che lo invoca
-        anim.setLocation(x + 50, y + 50);
+        anim.setLocation(x + 60, y + 130);
         anim.getRunner().start();
         activateSubMenuSheep(terrain, false);
         activateSheepType(terrain, false, null);

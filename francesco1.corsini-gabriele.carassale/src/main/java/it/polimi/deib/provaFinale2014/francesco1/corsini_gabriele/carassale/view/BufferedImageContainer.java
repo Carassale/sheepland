@@ -18,7 +18,7 @@ public class BufferedImageContainer {
             yellowShepard, transparent, coins, ram, whiteSheep, lamb, heart,
             lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop,
             joinSheeps1, joinSheeps2, moveSheep1, moveSheep2, killSheep1,
-            killSheep2;
+            killSheep2, cursor, cursor2;
 
     /**
      * Standard constructor
@@ -48,7 +48,8 @@ public class BufferedImageContainer {
             moveSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
             killSheep1 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep.png"));
             killSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep2.png"));
-
+            cursor = ImageIO.read(new File(".\\src\\main\\resources\\cursor.png"));
+            cursor2 = ImageIO.read(new File(".\\src\\main\\resources\\cursor2.png"));
         } catch (IOException ex) {
             Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -286,4 +287,23 @@ public class BufferedImageContainer {
         return killSheep2;
     }
 
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getCursor() {
+        return cursor;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getCursor2() {
+        return cursor2;
+    }
+
+    
 }
