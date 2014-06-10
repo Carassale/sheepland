@@ -7,9 +7,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.PointerInfo;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,10 +47,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DimanicSheepTypeButton[] jlabelRam = new DimanicSheepTypeButton[19];
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
-    private JLabel textLabel, errorLabel;
-    private JLabel fenceCounter;
-    private JLabel coinPicture, coinNumber;
-    private JLabel winner, sadFace;
+    private JLabel textLabel, errorLabel, fenceCounter, coinPicture, coinNumber, winner, sadFace;
+    private final ArrayList<JLabel> sideLabels = new ArrayList<JLabel>();
+    
+    private ArrayList<String> messages = new ArrayList<String>();
 
     private final ImageIcon[] plainCards = new ImageIcon[6];
     private final ImageIcon[] forestCards = new ImageIcon[6];
@@ -128,12 +126,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * components
      */
     private void createAndShowGUI(boolean showGUI) {
-        Dimension dim = new Dimension(950, 650);
+        Dimension dim = new Dimension(1200, 650);
         setSize(dim);
 
         layeredPane = new JLayeredPane();
         layeredPane.setBackground(new Color(36, 159, 245));
-        layeredPane.setPreferredSize(new Dimension(950, 650));
+        layeredPane.setPreferredSize(new Dimension(1200, 650));
 
         createTable();
         createSheepButtons();
@@ -172,8 +170,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         layeredPane.add(panel, Integer.valueOf(0));
         newContentPane.addMouseListener(null);
     }
-
-    
 
     /**
      * Service method to create the sheep buttons on the territories
@@ -394,10 +390,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private void createTextLabel() {
         textLabel = new JLabel("");
         errorLabel = new JLabel("");
-        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 25));
-        errorLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 25));
-        textLabel.setForeground(Color.red);
-        errorLabel.setForeground(Color.red);
+        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
+        errorLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
+        textLabel.setForeground(Color.black);
+        errorLabel.setForeground(Color.black);
         layeredPane.add(textLabel, Integer.valueOf(10));
         layeredPane.add(errorLabel, Integer.valueOf(10));
         textLabel.setLocation(120, 1);
@@ -406,6 +402,22 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         errorLabel.setSize(errorLabel.getPreferredSize());
         textLabel.setVisible(true);
         errorLabel.setVisible(true);
+
+        for (int i = 0; i <= 9; i++) {
+            JLabel ele = new JLabel("");
+            if(i == 0){
+                ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 18));
+                ele.setForeground(Color.red);
+            } else{
+                ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
+                ele.setForeground(Color.black);
+            }
+            layeredPane.add(ele, Integer.valueOf(10));
+            ele.setLocation(850, 150 + (i * 35));
+            ele.setSize(ele.getPreferredSize());
+            ele.setVisible(true);
+            sideLabels.add(ele);
+        }
 
     }
 
@@ -473,7 +485,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor(), new Point(0, 0), "Custom cursor");
         setCursor(cursor);
     }
-    
+
     /**
      * Method that updates the text written on the message Label
      *
@@ -668,9 +680,16 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         if (waitingForAddAnimal) {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(false);
-        } else {
-            updateError(message);
+        } 
+        if (messages.size() == 10){
+            messages.remove(0);
+            messages.add(message);            
         }
+        //altrimenti
+        else{
+            messages.add(message); 
+        }
+        updateSideLabels();
     }
 
     /**
@@ -948,7 +967,17 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param message to be written
      */
     public void messageText(String message) {
-        updateError(message);
+        
+        //se la lista messaggi è piena
+        if (messages.size() == 10){
+            messages.remove(0);
+            messages.add(message);            
+        }
+        //altrimenti
+        else{
+            messages.add(message); 
+        }
+        updateSideLabels();
     }
 
     /**
@@ -1136,6 +1165,16 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public int getCoins() {
         return coins;
+    }
+    
+    private void updateSideLabels(){
+        for(int i = 0; i < messages.size(); i++){
+            //per stampare da alto verso basso
+            int j = messages.size() -1 - i;
+            sideLabels.get(i).setText(messages.get(j));
+            sideLabels.get(i).setSize(sideLabels.get(i).getPreferredSize());
+        }
+        
     }
 
 }
