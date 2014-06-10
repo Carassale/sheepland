@@ -1,7 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Animal;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Dice;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
@@ -141,6 +140,9 @@ public class Player {
      * @throws CardException
      */
     public int buyTerrainCard(String terrainKind, GameTable game) throws CoinException, CardException {
+        if (!canBuy(terrainKind)) {
+            throw new CardException(Message.NO_SHEPARD_BUY_CARD.toString());
+        }
         int cardLeft = game.getTerrainCardPool(terrainKind).size();
         if (cardLeft != 0) {
             int cost = 5 - cardLeft;
@@ -156,6 +158,22 @@ public class Player {
             }
         } else {
             throw new CardException(Message.NO_OTHER_CARD.toString());
+        }
+    }
+
+    private boolean canBuy(String kind) {
+        if (!shepards.isEmpty()) {
+            for (Shepard shepard : shepards) {
+                if (shepard.getPosition().getAdjacentTerrain1().getTerrainType().equals(kind)) {
+                    return true;
+                }
+                if (shepard.getPosition().getAdjacentTerrain2().getTerrainType().equals(kind)) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            return true;
         }
     }
 

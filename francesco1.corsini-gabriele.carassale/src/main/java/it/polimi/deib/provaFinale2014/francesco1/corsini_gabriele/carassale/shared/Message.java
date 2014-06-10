@@ -15,6 +15,7 @@ public enum Message {
     NO_ROAD_COMUNICANT("Non esiste strada che comunica tra questi due territori."),
     NO_YOUR_SHEPARD("Non è il tuo pastore."),
     NO_OTHER_CARD("Le carte di questa tipologia sono finite."),
+    NO_SHEPARD_BUY_CARD("I terreni adiacenti al pastore non sono del tipo della carta scelta."),
     ROAD_OCCUPIED("La strada di destinazione è già occuopata."),
     ACTION_OK("Mossa effettuata."),
     ACTION_ERROR("Non è possibile fare questa mossa, ricorda di muovere il pastore e che non è consentito fare due mosse consecutive uguali."),

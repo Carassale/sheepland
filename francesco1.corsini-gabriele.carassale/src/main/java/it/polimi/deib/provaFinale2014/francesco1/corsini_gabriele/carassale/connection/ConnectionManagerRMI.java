@@ -411,6 +411,12 @@ public class ConnectionManagerRMI extends UnicastRemoteObject implements Connect
      * @return True se l'azione è andata a buon fine
      */
     private void doAction() {
+        for (PlayerConnectionRMI playerConnection : playerConnections) {
+            if (playerConnection.getIdPlayer() != currentPlayer.getIdPlayer()) {
+                printMessage(playerConnection, "È il turno di " + currentPlayer.getNickname());
+            }
+        }
+
         boolean repeat = false;
         do {
             try {

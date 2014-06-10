@@ -160,6 +160,12 @@ public class ConnectionManagerSocket implements ConnectionManager, Runnable {
      */
     public void wakeUpPlayer(PlayerConnectionSocket pcs) {
         pcs.printLn(TypeAction.WAKE_UP.toString());
+        
+        for(PlayerConnectionSocket playerConnection : playerConnections) {
+            if (playerConnection.getIdPlayer() != pcs.getIdPlayer()) {
+                printMessage(playerConnection, "È il turno di " + pcs.getNickname());
+            }
+        }
     }
 
     /**
