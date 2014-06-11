@@ -17,7 +17,7 @@ import org.w3c.dom.Element;
 public class WriteXMLFile {
 
     public static void main(String argv[]) {
-        VECCHIADIMERDAMap map = new VECCHIADIMERDAMap();
+        Map map = new Map();
 
         try {
 
@@ -93,7 +93,7 @@ public class WriteXMLFile {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("C:\\file.xml"));
+            StreamResult result = new StreamResult(new File("C:\\file2.xml"));
 
             // Output to console for testing
             // StreamResult result = new StreamResult(System.out);

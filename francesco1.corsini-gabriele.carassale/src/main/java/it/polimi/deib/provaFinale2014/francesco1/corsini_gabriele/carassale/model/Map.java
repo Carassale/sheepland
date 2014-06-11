@@ -81,13 +81,15 @@ public class Map {
                 }
             }
 
-            NodeList roadToRoadList = doc.getElementsByTagName("adjacentRoadToRoad>");
+            NodeList roadToRoadList = doc.getElementsByTagName("adjacentRoadToRoad");
             for (int temp = 0; temp < roadToRoadList.getLength(); temp++) {
                 Node roadNode = roadToRoadList.item(temp);
 
                 if (roadNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) roadNode;
-                    int idStrada1 = Integer.valueOf(((Element) eElement.getParentNode()).getAttribute("id"));
+                    Element a = ((Element) eElement.getParentNode());
+                    Element b = ((Element) a.getParentNode());
+                    int idStrada1 = Integer.valueOf(b.getAttribute("id"));
                     int idStrada2 = Integer.valueOf(eElement.getTextContent());
                     roads.get(idStrada1).getAdjacentRoad().add(roads.get(idStrada2));
                 }

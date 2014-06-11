@@ -92,6 +92,7 @@ public class RoadTest {
      */
     @Test
     public void testGetRoadNumber() {
+        road.setRoadNumber(1);
         assertEquals(1, road.getRoadNumber());
     }
 
