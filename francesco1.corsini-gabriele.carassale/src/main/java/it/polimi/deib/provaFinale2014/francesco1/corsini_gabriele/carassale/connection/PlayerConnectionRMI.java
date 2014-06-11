@@ -1,7 +1,11 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Questa classe serve a mantenere la connessione con il singolo client nel caso
@@ -9,7 +13,7 @@ import java.io.Serializable;
  *
  * @author Carassale Gabriele
  */
-public class PlayerConnectionRMI implements Serializable {
+public class PlayerConnectionRMI extends PlayerConnection implements Serializable {
 
     private ClientRMI clientRMI;
     private int idPlayer;
@@ -57,6 +61,16 @@ public class PlayerConnectionRMI implements Serializable {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public boolean isStillConnected() {
+        try {
+            getClientRMI().isAlive();
+            return true;
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            return false;
+        }
     }
 
 }

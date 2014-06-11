@@ -56,7 +56,7 @@ public class LineCommand implements TypeOfInteraction {
         try {
             s = inKeyboard.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         return s;
     }

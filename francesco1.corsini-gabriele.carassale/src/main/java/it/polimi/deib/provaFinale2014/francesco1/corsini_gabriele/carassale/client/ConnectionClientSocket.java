@@ -132,7 +132,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -147,7 +147,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -160,7 +160,7 @@ public class ConnectionClientSocket implements ConnectionClient {
             typeOfInteraction.refreshKillAnimal(idAnimal);
 
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -174,7 +174,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -191,7 +191,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -204,7 +204,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddFence(idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -218,7 +218,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -236,7 +236,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCard(kind, isSold);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -254,7 +254,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCoin(coins, addCoin);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -268,7 +268,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshWinner(finalPosition, finalScore);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 

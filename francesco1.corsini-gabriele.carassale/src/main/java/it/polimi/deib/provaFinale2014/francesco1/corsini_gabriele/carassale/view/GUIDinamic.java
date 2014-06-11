@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Color;
@@ -48,9 +49,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
     private JLabel textLabel, errorLabel, fenceCounter, coinPicture, coinNumber, winner, sadFace;
-    private final ArrayList<JLabel> sideLabels = new ArrayList<JLabel>();
-    
-    private ArrayList<String> messages = new ArrayList<String>();
+    private final List<JLabel> sideLabels = new ArrayList<JLabel>();
+
+    private List<String> messages = new ArrayList<String>();
 
     private final ImageIcon[] plainCards = new ImageIcon[6];
     private final ImageIcon[] forestCards = new ImageIcon[6];
@@ -162,7 +163,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         try {
             panel = new GUIDinamicPanel("src\\main\\resources\\Table.png");
         } catch (IOException ex) {
-            Logger.getLogger(GUIDinamic.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         panel.setLocation(100, 0);
         Dimension dim2 = new Dimension(750, 700);
@@ -405,10 +406,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
         for (int i = 0; i <= 9; i++) {
             JLabel ele = new JLabel("");
-            if(i == 0){
+            if (i == 0) {
                 ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 18));
                 ele.setForeground(Color.red);
-            } else{
+            } else {
                 ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
                 ele.setForeground(Color.black);
             }
@@ -680,14 +681,13 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         if (waitingForAddAnimal) {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(false);
-        } 
-        if (messages.size() == 10){
-            messages.remove(0);
-            messages.add(message);            
         }
-        //altrimenti
-        else{
-            messages.add(message); 
+        if (messages.size() == 10) {
+            messages.remove(0);
+            messages.add(message);
+        } else {
+            //altrimenti
+            messages.add(message);
         }
         updateSideLabels();
     }
@@ -967,15 +967,14 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param message to be written
      */
     public void messageText(String message) {
-        
+
         //se la lista messaggi è piena
-        if (messages.size() == 10){
+        if (messages.size() == 10) {
             messages.remove(0);
-            messages.add(message);            
-        }
-        //altrimenti
-        else{
-            messages.add(message); 
+            messages.add(message);
+        } else {
+            //altrimenti
+            messages.add(message);
         }
         updateSideLabels();
     }
@@ -1166,15 +1165,15 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public int getCoins() {
         return coins;
     }
-    
-    private void updateSideLabels(){
-        for(int i = 0; i < messages.size(); i++){
+
+    private void updateSideLabels() {
+        for (int i = 0; i < messages.size(); i++) {
             //per stampare da alto verso basso
-            int j = messages.size() -1 - i;
+            int j = messages.size() - 1 - i;
             sideLabels.get(i).setText(messages.get(j));
             sideLabels.get(i).setSize(sideLabels.get(i).getPreferredSize());
         }
-        
+
     }
 
 }

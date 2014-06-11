@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -129,7 +130,7 @@ public class DinamicJoinSheepsButton extends JPanel {
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
 
             }

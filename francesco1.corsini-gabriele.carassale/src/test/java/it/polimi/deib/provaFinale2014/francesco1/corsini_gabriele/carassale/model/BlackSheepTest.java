@@ -95,7 +95,7 @@ public class BlackSheepTest {
             road = bsheep.hasToMove(2);
             assertSame(road1, road);
         } catch (WrongDiceNumberException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
     }

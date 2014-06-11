@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
@@ -43,7 +44,7 @@ public class AnimationKillSheep extends JPanel implements Runnable {
                     Thread.sleep(300);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
             state++;
         }

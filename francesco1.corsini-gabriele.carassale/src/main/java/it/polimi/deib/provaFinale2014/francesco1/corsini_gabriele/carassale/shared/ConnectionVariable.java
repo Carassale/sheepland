@@ -25,10 +25,11 @@ public final class ConnectionVariable {
     public static final String SERVER_NAME = "ServerManagerRMI";
 
     /**
-     * È il tempo massimo di attesa del client disconnesso. 60*60*2 = -> 2
-     * minuti
+     * È il tempo massimo di attesa del client disconnesso. 1.000*30 = -> 30
+     * secondi
      */
-    public static final int TIME_MAX = 7200;
+    //TODO 
+    public static final int TIME_MAX = 30000;
 
     /**
      * Nasconde il costruttor di base

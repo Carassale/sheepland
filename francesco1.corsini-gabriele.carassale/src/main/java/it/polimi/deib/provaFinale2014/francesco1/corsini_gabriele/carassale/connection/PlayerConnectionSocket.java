@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Carassale Gabriele
  */
-public class PlayerConnectionSocket {
+public class PlayerConnectionSocket extends PlayerConnection {
 
     private Socket socket;
     private Scanner inSocket;

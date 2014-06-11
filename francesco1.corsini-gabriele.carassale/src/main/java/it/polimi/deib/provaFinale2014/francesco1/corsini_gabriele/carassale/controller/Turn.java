@@ -98,8 +98,8 @@ public class Turn {
             }
 
             return true;
-        } catch (WrongDiceNumberException e) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, e);
+        } catch (WrongDiceNumberException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
 

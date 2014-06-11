@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,7 +30,7 @@ public class AnimationMoveSheep extends JPanel implements Runnable {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
             image[1] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));
         } catch (IOException ex) {
-            Logger.getLogger(DinamicMoveSheepButton.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         this.setLayout(null);
         this.setOpaque(false);

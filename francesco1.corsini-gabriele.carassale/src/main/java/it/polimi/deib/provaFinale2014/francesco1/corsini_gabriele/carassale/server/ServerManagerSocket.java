@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerSocket;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionSocket;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
@@ -33,7 +34,7 @@ public class ServerManagerSocket implements ServerManager {
      * static perchè condivisa con il thread parallelo per l'avvio forzato della
      * partita
      */
-    private static List<PlayerConnectionSocket> playerConnection;
+    private static List<PlayerConnection> playerConnection;
     /**
      * È la lista delle parite avviate
      */
@@ -78,7 +79,7 @@ public class ServerManagerSocket implements ServerManager {
 
             waitPlayer();
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -90,7 +91,7 @@ public class ServerManagerSocket implements ServerManager {
      * @throws java.io.IOException
      */
     public void waitPlayer() throws IOException {
-        playerConnection = new ArrayList<PlayerConnectionSocket>();
+        playerConnection = new ArrayList<PlayerConnection>();
         int id;
         while (canAcceptSocket) {
             socket = serverSocket.accept();
@@ -134,7 +135,7 @@ public class ServerManagerSocket implements ServerManager {
         if (playerConnection.size() >= 2) {
             games.add(new ConnectionManagerSocket(playerConnection, map));
             outVideo.println("Socket: Gioco avviato, " + games.size());
-            playerConnection = new ArrayList<PlayerConnectionSocket>();
+            playerConnection = new ArrayList<PlayerConnection>();
         }
         canAcceptSocket = true;
     }
@@ -190,7 +191,9 @@ public class ServerManagerSocket implements ServerManager {
     private void pushToCorrectPlayer(String nickname, Socket socket) throws IOException {
         int idGame = map.getIdGame(nickname);
         int idPlayer = map.getIdPlayer(nickname);
-        for (PlayerConnectionSocket playerConnectionSocket : games.get(idGame).getPlayerConnections()) {
+        for (PlayerConnection player : games.get(idGame).getPlayerConnections()) {
+            PlayerConnectionSocket playerConnectionSocket = (PlayerConnectionSocket) player;
+
             if (playerConnectionSocket.getIdPlayer() == idPlayer) {
                 playerConnectionSocket.setSocket(socket);
                 games.get(idGame).reconnectPlayer(idPlayer);
@@ -232,11 +235,11 @@ public class ServerManagerSocket implements ServerManager {
                 } else {
                     map.removePlayer(nickname);
                     outVideo.println("Socket: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
-                    playerConnection.get(0).printLn(StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString());
-                    playerConnection = new ArrayList<PlayerConnectionSocket>();
+                    ((PlayerConnectionSocket) playerConnection.get(0)).printLn(StatusMessage.DISCONNECTED_FOR_TIMEOUT.toString());
+                    playerConnection = new ArrayList<PlayerConnection>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
 

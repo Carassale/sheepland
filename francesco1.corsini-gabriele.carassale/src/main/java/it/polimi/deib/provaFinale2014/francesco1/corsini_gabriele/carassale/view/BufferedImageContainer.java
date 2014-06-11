@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class BufferedImageContainer {
             cursor = ImageIO.read(new File(".\\src\\main\\resources\\cursor.png"));
             cursor2 = ImageIO.read(new File(".\\src\\main\\resources\\cursor2.png"));
         } catch (IOException ex) {
-            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -124,12 +125,12 @@ public class BufferedImageContainer {
     public BufferedImage getFenceNumber(int num) {
         try {
             if (num < 0) {
-                num = 0;
+                return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + 0 + ".png"));
+            } else {
+                return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
             }
-
-            return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
         } catch (IOException ex) {
-            Logger.getLogger(BufferedImageContainer.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         return null;
     }
@@ -305,5 +306,4 @@ public class BufferedImageContainer {
         return cursor2;
     }
 
-    
 }

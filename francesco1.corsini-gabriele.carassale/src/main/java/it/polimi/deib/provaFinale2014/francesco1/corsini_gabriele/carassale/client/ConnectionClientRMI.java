@@ -213,7 +213,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
                 try {
                     objectSyncronize.wait();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
             }
         }
@@ -390,11 +390,11 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Registry registry = LocateRegistry.getRegistry(PORT);
             registry.unbind(nickname);
         } catch (NoSuchObjectException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         } catch (RemoteException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         } catch (NotBoundException ex) {
-            Logger.getLogger(ConnectionClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 

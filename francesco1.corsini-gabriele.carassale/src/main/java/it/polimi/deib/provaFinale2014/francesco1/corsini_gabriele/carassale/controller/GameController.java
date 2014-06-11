@@ -82,8 +82,6 @@ public class GameController {
             tryEatSheep();
         }
 
-        market();
-
         return isGameOver;
     }
 
@@ -373,9 +371,9 @@ public class GameController {
                         alredyPicked[random] = true;
                         playerHasPicked = true;
                     } catch (CoinException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                     } catch (CardException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                     }
 
                 }
@@ -476,7 +474,7 @@ public class GameController {
             wolf.move(road);
             return true;
         } catch (WrongDiceNumberException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
     }
@@ -517,13 +515,6 @@ public class GameController {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Method per gestire il market di fine round
-     */
-    private void market() {
-        //TODO market
     }
 
     /**

@@ -1,14 +1,21 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Classe Mappa che serve ad inizializzare e collegare tra loro i territori e le
@@ -26,7 +33,7 @@ public class Map {
      */
     public Map() {
         try {
-            File fXmlFile = new File(".\\src\\main\\resources\\file.xml");
+            File fXmlFile = new File(".\\src\\main\\resources\\map.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -41,12 +48,12 @@ public class Map {
                     Element eElement = (Element) terrainNode;
                     Terrain t = new Terrain();
                     t.setID(Integer.valueOf(eElement.getAttribute("id")));
-                    if (Boolean.valueOf(eElement.getElementsByTagName("sheepsbourg").item(0).getTextContent())) {
+                    t.setTerrainType(eElement.getElementsByTagName("terrainType").item(0).getTextContent());
+                    if ("Sheepsbourg".equals(t.getTerrainType())) {
                         t.setSheepsbourg(true);
                     } else {
                         t.setSheepsbourg(false);
                     }
-                    t.setTerrainType(eElement.getElementsByTagName("terrainType").item(0).getTextContent());
                     terrain.add(t);
                 }
             }
@@ -87,15 +94,25 @@ public class Map {
 
                 if (roadNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) roadNode;
-                    Element a = ((Element) eElement.getParentNode());
-                    Element b = ((Element) a.getParentNode());
+                    Element a = (Element) eElement.getParentNode();
+                    Element b = (Element) a.getParentNode();
                     int idStrada1 = Integer.valueOf(b.getAttribute("id"));
                     int idStrada2 = Integer.valueOf(eElement.getTextContent());
                     roads.get(idStrada1).getAdjacentRoad().add(roads.get(idStrada2));
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        } catch (SAXException e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        } catch (IOException e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        } catch (NumberFormatException e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        } catch (DOMException e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        } catch (TerrainBoundariesExeption e) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
 

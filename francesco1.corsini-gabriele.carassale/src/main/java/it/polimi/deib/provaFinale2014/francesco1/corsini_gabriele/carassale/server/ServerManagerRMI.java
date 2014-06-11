@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.ConnectionManagerRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnection;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.connection.PlayerConnectionRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
@@ -28,7 +29,7 @@ import java.util.logging.Logger;
  */
 public class ServerManagerRMI implements ServerManager, ServerRMI {
 
-    private static List<PlayerConnectionRMI> playerConnection;
+    private static List<PlayerConnection> playerConnection;
     private List<ConnectionManagerRMI> games;
     private RMIWaitingTimer swt;
     private boolean canAccept;
@@ -56,7 +57,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
      */
     public void run() {
         games = new ArrayList<ConnectionManagerRMI>();
-        playerConnection = new ArrayList<PlayerConnectionRMI>();
+        playerConnection = new ArrayList<PlayerConnection>();
         canAccept = true;
 
         try {
@@ -69,7 +70,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
             outVideo.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
@@ -85,10 +86,10 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             try {
                 games.add(new ConnectionManagerRMI(playerConnection, map));
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
             outVideo.println("RMI: Gioco avviato, " + games.size());
-            playerConnection = new ArrayList<PlayerConnectionRMI>();
+            playerConnection = new ArrayList<PlayerConnection>();
         }
         canAccept = true;
     }
@@ -179,7 +180,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
     private void pushToCorrectPlayer(String nickname, ClientRMI clientRMI) {
         int idGame = map.getIdGame(nickname);
         int idPlayer = map.getIdPlayer(nickname);
-        for (PlayerConnectionRMI playerConnectionRMI : games.get(idGame).getPlayerConnections()) {
+        for (PlayerConnection player : games.get(idGame).getPlayerConnections()) {
+            PlayerConnectionRMI playerConnectionRMI = (PlayerConnectionRMI) player;
+
             if (playerConnectionRMI.getIdPlayer() == idPlayer) {
                 playerConnectionRMI.setClientRMI(clientRMI);
                 return;
@@ -233,13 +236,13 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                 } else {
                     map.removePlayer(playerConnection.get(0).getNickname());
                     outVideo.println("RMI: Non è stato raggiunto il minimo di giocatori, lista d'attesa azzerata");
-                    playerConnection.get(0).getClientRMI().disconnectForTimout();
-                    playerConnection = new ArrayList<PlayerConnectionRMI>();
+                    ((PlayerConnectionRMI) playerConnection.get(0)).getClientRMI().disconnectForTimout();
+                    playerConnection = new ArrayList<PlayerConnection>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
 

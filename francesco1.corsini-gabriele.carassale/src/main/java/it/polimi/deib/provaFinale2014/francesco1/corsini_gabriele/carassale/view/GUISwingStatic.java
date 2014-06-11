@@ -1,6 +1,7 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAction;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
@@ -135,7 +136,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             pSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png");
             pMainEast.add(pSounth, BorderLayout.CENTER);
         } catch (IOException ex) {
-            Logger.getLogger(GUISwingStatic.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         lAction1 = new JLabel("Non è il tuo turno");

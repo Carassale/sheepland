@@ -7,9 +7,9 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.ser
  */
 public class StatusPlayer {
 
-    private String typeConnection;
-    private int idGame;
-    private int idPlayer;
+    private final String typeConnection;
+    private final int idGame;
+    private final int idPlayer;
     private boolean onLine;
 
     /**

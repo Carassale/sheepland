@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,7 +28,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
         try {
             heart = ImageIO.read(new File(".\\src\\main\\resources\\heart.png"));
         } catch (IOException ex) {
-            Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
         this.setLayout(null);
         this.setOpaque(false);
@@ -47,7 +48,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
             try {
                 Thread.sleep(10);
             } catch (Exception ex) {
-                Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
         for (int j = 0; j <= 2; j++) {
@@ -58,7 +59,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
                 try {
                     Thread.sleep(15);
                 } catch (Exception ex) {
-                    Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
             }
             for (int i = MIN_DIM; i <= MAX_DIM; i++) {
@@ -68,7 +69,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
                 try {
                     Thread.sleep(15);
                 } catch (Exception ex) {
-                    Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
                 }
             }
         }
@@ -79,7 +80,7 @@ public class AnimationJoinSheeps extends JPanel implements Runnable {
             try {
                 Thread.sleep(10);
             } catch (Exception ex) {
-                Logger.getLogger(AnimationJoinSheeps.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
         this.setVisible(false);
