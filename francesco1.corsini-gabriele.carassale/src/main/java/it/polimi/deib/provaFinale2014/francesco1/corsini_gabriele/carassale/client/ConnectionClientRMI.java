@@ -398,4 +398,20 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    public void refreshAddPlayer(String nickname, int idPlayer) throws RemoteException {
+        typeOfInteraction.refreshAddPlayer(nickname, idPlayer);
+    }
+
+    public void refreshWaitPlayer(int idPlayer) throws RemoteException {
+        typeOfInteraction.refreshWaitPlayer(idPlayer);
+    }
+
+    public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) throws RemoteException {
+        typeOfInteraction.refreshTurnOffPlayer(idPlayer, turnOff);
+    }
+
+    public void refreshTurnPlayer(int idPlayer) throws RemoteException {
+        typeOfInteraction.refreshTurnPlayer(idPlayer);
+    }
+
 }

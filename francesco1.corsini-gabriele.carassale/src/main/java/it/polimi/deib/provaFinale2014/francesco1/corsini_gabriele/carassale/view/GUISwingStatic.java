@@ -922,4 +922,19 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         this.shepardSelected = shepardSelected;
     }
 
+    public void refreshAddPlayer(String nickname, int idPlayer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshWaitPlayer(int idPlayer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void refreshTurnPlayer(int idPlayer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

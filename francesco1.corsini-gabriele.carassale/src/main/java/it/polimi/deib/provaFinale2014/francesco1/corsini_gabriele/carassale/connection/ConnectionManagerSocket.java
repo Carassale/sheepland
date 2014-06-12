@@ -53,7 +53,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
             placeShepard(currentPlayer);
         }
 
-        printTurnOf();
+        refreshTurnPlayer();
 
         isConnected = true;
         int i = 0;
@@ -389,6 +389,8 @@ public class ConnectionManagerSocket extends ConnectionManager {
      */
     @Override
     public Road getPlacedShepard(int idShepard) {
+        refreshTurnPlayer();
+
         PlayerConnectionSocket player = (PlayerConnectionSocket) currentPlayer;
 
         boolean repeat = false;
@@ -632,6 +634,40 @@ public class ConnectionManagerSocket extends ConnectionManager {
             }
         }
         cleanMap();
+    }
+
+    @Override
+    public void refreshSingleAddPlayer(PlayerConnection player, String nikcname, int idPlayer) {
+        PlayerConnectionSocket playerConnection = (PlayerConnectionSocket) player;
+
+        playerConnection.printLn(TypeAction.REFRESH_ADD_PLAYER.toString());
+        playerConnection.printLn(nikcname);
+        playerConnection.printLn(idPlayer);
+    }
+
+    @Override
+    public void refreshSingleWaitPlayer(PlayerConnection player, int idPlayer) {
+        PlayerConnectionSocket playerConnection = (PlayerConnectionSocket) player;
+
+        playerConnection.printLn(TypeAction.REFRESH_WAIT_PLAYER.toString());
+        playerConnection.printLn(idPlayer);
+    }
+
+    @Override
+    public void refreshSingleTurnOffPlayer(PlayerConnection player, int idPlayer, boolean turnOff) {
+        PlayerConnectionSocket playerConnection = (PlayerConnectionSocket) player;
+
+        playerConnection.printLn(TypeAction.REFRESH_TURN_OFF_PLAYER.toString());
+        playerConnection.printLn(idPlayer);
+        playerConnection.printLn(String.valueOf(turnOff));
+    }
+
+    @Override
+    public void refreshSingleTurnPlayer(PlayerConnection player, int idPlayer) {
+        PlayerConnectionSocket playerConnection = (PlayerConnectionSocket) player;
+
+        playerConnection.printLn(TypeAction.REFRESH_TURN_PLAYER.toString());
+        playerConnection.printLn(idPlayer);
     }
 
     /**

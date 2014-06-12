@@ -62,7 +62,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             placeShepard(currentPlayer);
         }
 
-        printTurnOf();
+        refreshTurnPlayer();
 
         isConnected = true;
         for (actionDone = 0; actionDone < NUMACTION && isConnected && !isFinishGame; actionDone++) {
@@ -380,6 +380,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
      */
     @Override
     public Road getPlacedShepard(int idShepard) {
+        refreshTurnPlayer();
+        
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
         boolean repeat;
@@ -658,6 +660,59 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
         cleanMap();
         unbind();
+    }
+
+    @Override
+    public void refreshSingleAddPlayer(PlayerConnection player, String nikcname, int idPlayer) {
+        try {
+            PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
+
+            playerConnection.getClientRMI().refreshAddPlayer(nikcname, idPlayer);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+
+            clientDisconnected(player);
+        }
+    }
+
+    @Override
+    public void refreshSingleWaitPlayer(PlayerConnection player, int idPlayer) {
+        try {
+            PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
+
+            playerConnection.getClientRMI().refreshWaitPlayer(idPlayer);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+
+            clientDisconnected(player);
+        }
+    }
+
+    @Override
+    public void refreshSingleTurnOffPlayer(PlayerConnection player, int idPlayer, boolean turnOff) {
+        try {
+            PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
+
+            playerConnection.getClientRMI().refreshTurnOffPlayer(idPlayer, turnOff);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+
+            clientDisconnected(player);
+        }
+    }
+
+    @Override
+    public void refreshSingleTurnPlayer(PlayerConnection player, int idPlayer) {
+        try {
+            PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
+
+            playerConnection.getClientRMI().refreshTurnPlayer(idPlayer);
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+
+            clientDisconnected(player);
+        }
+
     }
 
     /**

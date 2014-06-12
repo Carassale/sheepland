@@ -16,10 +16,10 @@ import javax.imageio.ImageIO;
 public class BufferedImageContainer {
 
     private BufferedImage fence, redShepard, greenShepard, blueShepard,
-            yellowShepard, transparent, coins, ram, whiteSheep, lamb, heart,
-            lambPlus1, heartbroken, sadFace, winner, splat, bloodDrop,
-            joinSheeps1, joinSheeps2, moveSheep1, moveSheep2, killSheep1,
-            killSheep2, cursor, cursor2;
+            yellowShepard, transparent, coins, border_right, ram, whiteSheep,
+            lamb, heart, lambPlus1, heartbroken, sadFace, winner, splat,
+            bloodDrop, joinSheeps1, joinSheeps2, moveSheep1, moveSheep2,
+            killSheep1, killSheep2, cursor, cursor2, backCurrentPlayer, backPlayer;
 
     /**
      * Standard constructor
@@ -33,6 +33,7 @@ public class BufferedImageContainer {
             yellowShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardYellowSmall.png"));
             transparent = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
             coins = ImageIO.read(new File(".\\src\\main\\resources\\coins.png"));
+            border_right = ImageIO.read(new File(".\\src\\main\\resources\\border_right.png"));
             ram = ImageIO.read(new File(".\\src\\main\\resources\\ram.png"));
             whiteSheep = ImageIO.read(new File(".\\src\\main\\resources\\whiteSheep.png"));
             lamb = ImageIO.read(new File(".\\src\\main\\resources\\lamb.png"));
@@ -51,6 +52,8 @@ public class BufferedImageContainer {
             killSheep2 = ImageIO.read(new File(".\\src\\main\\resources\\killSheep2.png"));
             cursor = ImageIO.read(new File(".\\src\\main\\resources\\cursor.png"));
             cursor2 = ImageIO.read(new File(".\\src\\main\\resources\\cursor2.png"));
+            backCurrentPlayer = ImageIO.read(new File(".\\src\\main\\resources\\back_current_player.png"));
+            backPlayer = ImageIO.read(new File(".\\src\\main\\resources\\back_player.png"));
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -142,6 +145,33 @@ public class BufferedImageContainer {
      */
     public BufferedImage getCoins() {
         return coins;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getBorder_right() {
+        return border_right;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getBackCurrentPlayer() {
+        return backCurrentPlayer;
+    }
+
+    /**
+     * Getter of the image
+     *
+     * @return BufferedImage
+     */
+    public BufferedImage getBackPlayer() {
+        return backPlayer;
     }
 
     /**

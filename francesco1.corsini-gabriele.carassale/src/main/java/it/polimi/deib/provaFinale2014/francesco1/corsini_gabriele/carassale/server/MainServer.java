@@ -1,7 +1,5 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server;
 
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
-
 /**
  * La classe Main è quella che viene avviata per prima, ha solo il compito di
  * far scegliere al gestore del server il tipo di connessione Client-Server che

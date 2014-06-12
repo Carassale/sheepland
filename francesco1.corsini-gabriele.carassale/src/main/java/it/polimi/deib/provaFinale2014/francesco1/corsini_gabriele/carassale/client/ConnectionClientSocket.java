@@ -83,6 +83,14 @@ public class ConnectionClientSocket implements ConnectionClient {
                     messageText();
                 } else if (TypeAction.PLACE_SHEPARD.toString().equals(s)) {
                     typeOfInteraction.placeShepard(Integer.valueOf(inSocket.readLine()));
+                } else if (TypeAction.REFRESH_ADD_PLAYER.toString().equals(s)) {
+                    refreshAddPlayer();
+                } else if (TypeAction.REFRESH_WAIT_PLAYER.toString().equals(s)) {
+                    refreshWaitPlayer();
+                } else if (TypeAction.REFRESH_TURN_OFF_PLAYER.toString().equals(s)) {
+                    refreshTurnOffPlayer();
+                } else if (TypeAction.REFRESH_TURN_PLAYER.toString().equals(s)) {
+                    refreshTurnPlayer();
                 } else if (TypeAction.REFRESH_MOVE_ANIMAL.toString().equals(s)) {
                     refreshMoveAnimal();
                 } else if (TypeAction.REFRESH_ADD_ANIMAL.toString().equals(s)) {
@@ -363,5 +371,47 @@ public class ConnectionClientSocket implements ConnectionClient {
 
     private void disconnect() {
         System.out.println(Message.DISCONNECT_FOR_TIMEOUT.toString());
+    }
+
+    private void refreshAddPlayer() {
+        try {
+            String nickname = inSocket.readLine();
+            int idPlayer = Integer.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshAddPlayer(nickname, idPlayer);
+        } catch (IOException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private void refreshWaitPlayer() {
+        try {
+            int idPlayer = Integer.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshWaitPlayer(idPlayer);
+        } catch (IOException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private void refreshTurnOffPlayer() {
+        try {
+            int idPlayer = Integer.valueOf(inSocket.readLine());
+            boolean turnOff = Boolean.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshTurnOffPlayer(idPlayer, turnOff);
+        } catch (IOException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
+    }
+
+    private void refreshTurnPlayer() {
+        try {
+            int idPlayer = Integer.valueOf(inSocket.readLine());
+
+            typeOfInteraction.refreshTurnPlayer(idPlayer);
+        } catch (IOException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
 }

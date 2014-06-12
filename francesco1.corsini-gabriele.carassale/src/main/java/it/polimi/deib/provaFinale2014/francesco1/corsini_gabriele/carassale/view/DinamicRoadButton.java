@@ -84,9 +84,12 @@ public class DinamicRoadButton extends JPanel {
      * Setter with the id to image
      *
      * @param id is of the shepherd
+     * @param twoPlayer
      */
-    public void setShepard(int id) {
-
+    public void setShepard(int id, boolean twoPlayer) {
+        if (twoPlayer) {
+            id = (int) id / 2;
+        }
         if (id == 0) {
             icon = imagePool.getRedShepard();
         } else if (id == 1) {

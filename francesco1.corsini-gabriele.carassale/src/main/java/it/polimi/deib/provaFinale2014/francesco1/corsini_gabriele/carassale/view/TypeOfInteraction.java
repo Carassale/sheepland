@@ -117,4 +117,12 @@ public interface TypeOfInteraction {
      */
     void refreshWinner(int finalPosition, int finalScore);
 
+    void refreshAddPlayer(String nickname, int idPlayer);
+
+    void refreshWaitPlayer(int idPlayer);
+
+    void refreshTurnOffPlayer(int idPlayer, boolean turnOff);
+
+    void refreshTurnPlayer(int idPlayer);
+
 }

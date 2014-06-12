@@ -23,7 +23,8 @@ public enum Message {
     IMPOSSIBLE_SELECTION("Selezionare oggetti esistenti."),
     DISCONNECT_FOR_TIMEOUT("Sei stato disconnesso dal server, non è stato raggiunto il numero minimo di giocatori."),
     RECONNECTED("Sei stato ricollegato alla partita."),
-    DISCONNECTED("Client disconnesso.");
+    DISCONNECTED("Client disconnesso."),
+    ISTRUCTION("Come effettuare le mosse:\n\n- Muvoi pastore: clicca sul pastore che desideri spostare\ne poi sulla strada di destinazione\n\n- Compra una carta: clicca direttamente sul tipo di carta\nche desideri comprare\n\n- Muovi/Accoppia/Uccidi pecora: clicca sulla pecora di\nun terreno, clicca sul tipo di pecora, infine clicca sull'azione\nda compiere");
 
     private final String value;
 

@@ -139,6 +139,14 @@ public interface ClientRMI extends Remote {
      */
     void refreshWinner(int finalPosition, int finalScore) throws RemoteException;
 
+    void refreshAddPlayer(String nickname, int idPlayer) throws RemoteException;
+
+    void refreshWaitPlayer(int idPlayer) throws RemoteException;
+
+    void refreshTurnOffPlayer(int idPlayer, boolean turnOff) throws RemoteException;
+
+    void refreshTurnPlayer(int idPlayer) throws RemoteException;
+
     /**
      * Viene chiamato dal connectionManagerRMI, controlla se il client è pronto
      * a ricevere comandi

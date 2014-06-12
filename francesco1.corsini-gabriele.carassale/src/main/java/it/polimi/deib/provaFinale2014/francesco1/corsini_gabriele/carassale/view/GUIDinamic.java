@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.vie
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.client.ConnectionClient;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
 import java.awt.Color;
@@ -22,6 +23,8 @@ import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 /**
  * Classe principale per la GUI Dinamica. Questa classe fa da raccoglitore di
@@ -48,7 +51,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DimanicSheepTypeButton[] jlabelRam = new DimanicSheepTypeButton[19];
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
-    private JLabel textLabel, errorLabel, fenceCounter, coinPicture, coinNumber, winner, sadFace;
+    private JLabel textLabel, coinNumber, coinPicture, fenceCounter, borderPicture, winner, sadFace;
+    private JTextArea istructionLabel;
+    private JLabel[] backPlayer = new JLabel[4];
+    private JLabel[] nicknamePlayer = new JLabel[4];
     private final List<JLabel> sideLabels = new ArrayList<JLabel>();
 
     private List<String> messages = new ArrayList<String>();
@@ -86,6 +92,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private int fenceNumber;
 
     private ViewAnimal sheepSelected;
+    private boolean twoPlayer = true;
 
     private static final String FONT_FANTASY = "fantasy";
 
@@ -105,7 +112,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createAndShowGUI(true);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
     /**
@@ -144,6 +150,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         createTextLabel();
         createFenceCounter();
         createMoney();
+        createBorder();
+        createStatusPlayer();
         createWinnerScene();
         createMouse();
 
@@ -176,7 +184,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Service method to create the sheep buttons on the territories
      */
     private void createSheepButtons() {
-
         for (int i = 0; i <= 18; i++) {
             jbuttonSheeps[i] = new DinamicSheepButton(this, i);
             setBackGroundInvisible(jbuttonSheeps[i]);
@@ -191,7 +198,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Service method to create the action submenu on the sheep button
      */
     private void createSheepSubMenu() {
-
         for (int i = 0; i <= 18; i++) {
             jlabelLamb[i] = new DimanicSheepTypeButton(this, i, TypeAnimal.LAMB.toString(), imagePool);
             jlabelWhiteSheep[i] = new DimanicSheepTypeButton(this, i, TypeAnimal.WHITE_SHEEP.toString(), imagePool);
@@ -390,31 +396,35 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     private void createTextLabel() {
         textLabel = new JLabel("");
-        errorLabel = new JLabel("");
-        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
-        errorLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
-        textLabel.setForeground(Color.black);
-        errorLabel.setForeground(Color.black);
+        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 22));
+        textLabel.setForeground(Color.WHITE);
         layeredPane.add(textLabel, Integer.valueOf(10));
-        layeredPane.add(errorLabel, Integer.valueOf(10));
-        textLabel.setLocation(120, 1);
-        errorLabel.setLocation(140, 610);
+        textLabel.setLocation(995, 30);
         textLabel.setSize(textLabel.getPreferredSize());
-        errorLabel.setSize(errorLabel.getPreferredSize());
         textLabel.setVisible(true);
-        errorLabel.setVisible(true);
+
+        istructionLabel = new JTextArea(Message.ISTRUCTION.toString());
+        istructionLabel.setFont(new Font(FONT_FANTASY, Font.PLAIN, 15));
+        istructionLabel.setOpaque(true);
+        istructionLabel.setForeground(Color.WHITE);
+        istructionLabel.setBackground(new Color(36, 159, 245));
+        istructionLabel.setEditable(false);
+        layeredPane.add(istructionLabel, 1);
+        istructionLabel.setLocation(995, 475);
+        istructionLabel.setSize(istructionLabel.getPreferredSize());
+        istructionLabel.setVisible(true);
 
         for (int i = 0; i <= 9; i++) {
             JLabel ele = new JLabel("");
             if (i == 0) {
-                ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 18));
-                ele.setForeground(Color.red);
+                ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
+                ele.setForeground(Color.WHITE);
             } else {
-                ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
-                ele.setForeground(Color.black);
+                ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 20));
+                ele.setForeground(Color.WHITE);
             }
             layeredPane.add(ele, Integer.valueOf(10));
-            ele.setLocation(850, 150 + (i * 35));
+            ele.setLocation(995, 150 + (i * 35));
             ele.setSize(ele.getPreferredSize());
             ele.setVisible(true);
             sideLabels.add(ele);
@@ -464,6 +474,55 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     /**
+     * Service method to create the border right
+     */
+    private void createBorder() {
+        ImageIcon fen = new ImageIcon(imagePool.getBorder_right());
+        borderPicture = new JLabel(fen);
+        layeredPane.add(borderPicture, 1);
+        borderPicture.setSize(13, 705);
+        borderPicture.setLocation(975, 0);
+        borderPicture.setVisible(true);
+    }
+
+    private void createStatusPlayer() {
+        ImageIcon fen = new ImageIcon(imagePool.getBackPlayer());
+
+        for (int i = 0; i < 4; i++) {
+            int y = 130 + (105 * i);
+
+            nicknamePlayer[i] = new JLabel();
+            layeredPane.add(nicknamePlayer[i], 104 + i);
+            nicknamePlayer[i].setSize(80, 20);
+            nicknamePlayer[i].setLocation(905, y + 70);
+            nicknamePlayer[i].setFont(new Font(FONT_FANTASY, Font.BOLD, 15));
+            nicknamePlayer[i].setForeground(Color.WHITE);
+
+            nicknamePlayer[i].setOpaque(true);
+            if (i == 0) {
+                nicknamePlayer[i].setBackground(new Color(255, 0, 0, 180));
+            } else if (i == 1) {
+                nicknamePlayer[i].setBackground(new Color(0, 0, 255, 180));
+            } else if (i == 2) {
+                nicknamePlayer[i].setBackground(new Color(255, 255, 0, 180));
+            } else if (i == 3) {
+                nicknamePlayer[i].setBackground(new Color(0, 255, 0, 180));
+            }
+
+            nicknamePlayer[i].setHorizontalAlignment(SwingConstants.CENTER);
+            nicknamePlayer[i].setVisible(false);
+
+            backPlayer[i] = new JLabel(fen);
+            layeredPane.add(backPlayer[i], 100 + i);
+            backPlayer[i].setHorizontalAlignment(SwingConstants.RIGHT);
+            backPlayer[i].setSize(150, 100);
+            backPlayer[i].setLocation(825, y);
+            backPlayer[i].setVisible(false);
+
+        }
+    }
+
+    /**
      * Service method to create the winner or looser panels
      */
     private void createWinnerScene() {
@@ -496,17 +555,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setText(text);
         textLabel.setSize(textLabel.getPreferredSize());
         textLabel.repaint();
-    }
-
-    /**
-     * Method that updates the text written on the error Label
-     *
-     * @param text what needs to be written
-     */
-    public void updateError(String text) {
-        errorLabel.setText(text);
-        errorLabel.setSize(errorLabel.getPreferredSize());
-        errorLabel.repaint();
     }
 
     /**
@@ -798,7 +846,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             animals.remove(sheepToKill);
             activateSheep(pos);
         } else {
-            updateError("ERROR KILL SHEEP");
+            errorMessage("ERROR KILL SHEEP");
         }
     }
 
@@ -879,6 +927,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         String num = String.valueOf(coins);
         coinNumber.setText(num);
         coinNumber.setSize(coinNumber.getPreferredSize());
+        coinNumber.setVisible(true);
     }
 
     /**
@@ -892,7 +941,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public void refreshAddShepard(int idShepard, int road, boolean isMine) {
 
         ViewShepard shep = new ViewShepard(idShepard, road);
-        roads[road].setShepard(idShepard);
+        roads[road].setShepard(idShepard, twoPlayer);
         if (isMine) {
             shep.setIsOwned(true);
             updateText("Posizionato");
@@ -916,7 +965,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         for (ViewShepard ele : shepards) {
             if (ele.getId() == idShepard) {
                 roads[ele.getPostition()].setFence();
-                roads[roadTo].setShepard(idShepard);
+                roads[roadTo].setShepard(idShepard, twoPlayer);
                 ele.setPostition(roadTo);
             }
         }
@@ -967,7 +1016,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param message to be written
      */
     public void messageText(String message) {
-
         //se la lista messaggi è piena
         if (messages.size() == 10) {
             messages.remove(0);
@@ -986,7 +1034,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void sendBuyCard(String terrainType) {
         connectionClient.buyCard(terrainType);
-        updateError("");
         updateText("");
     }
 
@@ -1000,9 +1047,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             int id = sheepSelected.getId();
             connectionClient.moveSheep(id, terrain);
             sheepSelected = null;
-            updateError("");
         } else {
-            updateError("ERROR");
+            errorMessage("ERROR");
         }
         updateText("");
 
@@ -1017,7 +1063,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         state = GUIDinamicState.WAITINGFORSERVER;
         connectionClient.moveShepard(tempIdShepard, roadTo);
         updateText("");
-        updateError("");
     }
 
     /**
@@ -1029,7 +1074,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         waitingForAddAnimal = true;
         connectionClient.joinSheep(terrain);
         updateText("");
-        updateError("");
     }
 
     /**
@@ -1041,9 +1085,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             int id = sheepSelected.getId();
             connectionClient.killSheep(id);
             sheepSelected = null;
-            updateError("");
         } else {
-            updateError("ERROR ");
+            errorMessage("ERROR ");
         }
         updateText("");
     }
@@ -1174,6 +1217,37 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             sideLabels.get(i).setSize(sideLabels.get(i).getPreferredSize());
         }
 
+    }
+
+    public void refreshAddPlayer(String nickname, int idPlayer) {
+        nicknamePlayer[idPlayer].setText(nickname);
+        nicknamePlayer[idPlayer].setVisible(true);
+
+        backPlayer[idPlayer].setVisible(true);
+        
+        if (idPlayer > 2) {
+            twoPlayer = false;
+        }
+    }
+
+    public void refreshWaitPlayer(int idPlayer) {
+        //TODO
+    }
+
+    public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
+        //TODO
+    }
+
+    public void refreshTurnPlayer(int idPlayer) {
+        ImageIcon fen = new ImageIcon(imagePool.getBackPlayer());
+        for (int i = 0; i < 4; i++) {
+            backPlayer[i].setIcon(fen);
+            backPlayer[i].repaint();
+        }
+
+        fen = new ImageIcon(imagePool.getBackCurrentPlayer());
+        backPlayer[idPlayer].setIcon(fen);
+        backPlayer[idPlayer].repaint();
     }
 
 }

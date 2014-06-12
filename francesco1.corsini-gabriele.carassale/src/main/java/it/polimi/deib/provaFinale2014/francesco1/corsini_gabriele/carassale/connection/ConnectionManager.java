@@ -63,7 +63,7 @@ public abstract class ConnectionManager implements Runnable {
         currentPlayer = playerConnections.get(0);
         gameController = new GameController(this);
         waitOkFromClient();
-        sendsInitialMessage();
+        refreshAddPlayer();
         try {
             gameController.start(playerConnections.size());
         } catch (FinishGame ex) {
@@ -98,16 +98,21 @@ public abstract class ConnectionManager implements Runnable {
         checkThread = new CheckThread();
     }
 
-    public void sendsInitialMessage() {
-        for (PlayerConnection currentPlayerConnection : playerConnections) {
-            for (PlayerConnection playerConnection : playerConnections) {
-                //Invia quello di tutti tranne il suo
-                if (currentPlayerConnection.getIdPlayer() != playerConnection.getIdPlayer()) {
-                    printMessage(currentPlayerConnection,
-                            playerConnection.getNickname() + " si è connesso alla parita. Il suo id è: " + playerConnection.getIdPlayer());
-                }
+    public void refreshAddPlayer() {
+        for (PlayerConnection playerConnection1 : playerConnections) {
+            for (PlayerConnection playerConnection2 : playerConnections) {
+                refreshSingleAddPlayer(playerConnection1, playerConnection2.getNickname(), playerConnection2.getIdPlayer());
             }
         }
+    }
+
+    public void refreshSingleAddPlayer(PlayerConnection player, String nickname, int idPlayer) {
+    }
+
+    public void refreshSingleWaitPlayer(PlayerConnection player, int idPlayer) {
+    }
+
+    public void refreshSingleTurnOffPlayer(PlayerConnection player, int idPlayer, boolean turnOff) {
     }
 
     public void printMessage(PlayerConnection playerConnection, String message) {
@@ -277,7 +282,7 @@ public abstract class ConnectionManager implements Runnable {
 
         for (PlayerConnection playerConnection : playerConnections) {
             if (playerConnection.getIdPlayer() != thisPlayer.getIdPlayer()) {
-                printMessage(playerConnection, "Il player " + thisPlayer.getNickname() + " si è riconnesso.");
+                refreshSingleTurnOffPlayer(playerConnection, thisPlayer.getIdPlayer(), false);
             }
         }
         printMessage(thisPlayer, Message.RECONNECTED.toString());
@@ -353,12 +358,13 @@ public abstract class ConnectionManager implements Runnable {
 
     }
 
-    public void printTurnOf() {
+    public void refreshTurnPlayer() {
         for (PlayerConnection playerConnection : playerConnections) {
-            if (playerConnection.getIdPlayer() != currentPlayer.getIdPlayer()) {
-                printMessage(playerConnection, "È il turno di " + currentPlayer.getNickname());
-            }
+            refreshSingleTurnPlayer(playerConnection, currentPlayer.getIdPlayer());
         }
+    }
+
+    public void refreshSingleTurnPlayer(PlayerConnection player, int idPlayer) {
     }
 
     /**
@@ -371,7 +377,7 @@ public abstract class ConnectionManager implements Runnable {
         map.setOnLine(currentPlayer.getNickname(), false);
 
         for (PlayerConnection playerConnection : playerConnections) {
-            printMessage(playerConnection, "il player " + currentPlayer.getNickname() + " si è disconnesso, rimani in attesa...");
+            refreshSingleWaitPlayer(playerConnection, currentPlayer.getIdPlayer());
         }
 
         synchronized (objectSyncronized) {
@@ -402,6 +408,9 @@ public abstract class ConnectionManager implements Runnable {
             if (player.getIdPlayer() == playerConnection.getIdPlayer()) {
                 player.setOnLine(false);
             }
+        }
+        for (PlayerConnection player : playerConnections) {
+            refreshSingleTurnOffPlayer(player, playerConnection.getIdPlayer(), true);
         }
         checkAllStatus();
     }
