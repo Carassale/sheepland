@@ -54,6 +54,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private JLabel textLabel, coinNumber, coinPicture, fenceCounter, borderPicture, winner, sadFace;
     private JTextArea istructionLabel;
     private JLabel[] backPlayer = new JLabel[4];
+    private JLabel[] iconPlayer = new JLabel[4];
     private JLabel[] nicknamePlayer = new JLabel[4];
     private final List<JLabel> sideLabels = new ArrayList<JLabel>();
 
@@ -487,9 +488,26 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private void createStatusPlayer() {
         ImageIcon fen = new ImageIcon(imagePool.getBackPlayer());
+        ImageIcon ico = null;
 
         for (int i = 0; i < 4; i++) {
             int y = 130 + (105 * i);
+
+            if (i == 0) {
+                ico = new ImageIcon(imagePool.getRedPlayer());
+            } else if (i == 1) {
+                ico = new ImageIcon(imagePool.getBluPlayer());
+            } else if (i == 2) {
+                ico = new ImageIcon(imagePool.getYellowPlayer());
+            } else if (i == 3) {
+                ico = new ImageIcon(imagePool.getGreenPlayer());
+            }
+
+            iconPlayer[i] = new JLabel(ico);
+            layeredPane.add(iconPlayer[i], 108 + i);
+            iconPlayer[i].setSize(80, 50);
+            iconPlayer[i].setLocation(905, y + 20);
+            iconPlayer[i].setVisible(false);
 
             nicknamePlayer[i] = new JLabel();
             layeredPane.add(nicknamePlayer[i], 104 + i);
@@ -514,9 +532,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
             backPlayer[i] = new JLabel(fen);
             layeredPane.add(backPlayer[i], 100 + i);
-            backPlayer[i].setHorizontalAlignment(SwingConstants.RIGHT);
             backPlayer[i].setSize(150, 100);
             backPlayer[i].setLocation(825, y);
+            backPlayer[i].setHorizontalAlignment(SwingConstants.RIGHT);
             backPlayer[i].setVisible(false);
         }
     }
@@ -1222,6 +1240,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         nicknamePlayer[idPlayer].setVisible(true);
 
         backPlayer[idPlayer].setVisible(true);
+        iconPlayer[idPlayer].setVisible(true);
 
         if (idPlayer > 2) {
             twoPlayer = false;
