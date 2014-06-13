@@ -57,7 +57,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private JLabel[] nicknamePlayer = new JLabel[4];
     private final List<JLabel> sideLabels = new ArrayList<JLabel>();
 
-    private List<String> messages = new ArrayList<String>();
+    private final List<String> messages = new ArrayList<String>();
 
     private final ImageIcon[] plainCards = new ImageIcon[6];
     private final ImageIcon[] forestCards = new ImageIcon[6];
@@ -518,7 +518,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             backPlayer[i].setSize(150, 100);
             backPlayer[i].setLocation(825, y);
             backPlayer[i].setVisible(false);
-
         }
     }
 
@@ -939,7 +938,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param isMine if this player owns the shepherd
      */
     public void refreshAddShepard(int idShepard, int road, boolean isMine) {
-
         ViewShepard shep = new ViewShepard(idShepard, road);
         roads[road].setShepard(idShepard, twoPlayer);
         if (isMine) {
@@ -1224,7 +1222,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         nicknamePlayer[idPlayer].setVisible(true);
 
         backPlayer[idPlayer].setVisible(true);
-        
+
         if (idPlayer > 2) {
             twoPlayer = false;
         }

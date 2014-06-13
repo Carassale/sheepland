@@ -87,16 +87,17 @@ public class DinamicRoadButton extends JPanel {
      * @param twoPlayer
      */
     public void setShepard(int id, boolean twoPlayer) {
+        int i = id;
         if (twoPlayer) {
-            id = (int) id / 2;
+            i = (int) i / 2;
         }
-        if (id == 0) {
+        if (i == 0) {
             icon = imagePool.getRedShepard();
-        } else if (id == 1) {
+        } else if (i == 1) {
             icon = imagePool.getBlueShepard();
-        } else if (id == 2) {
+        } else if (i == 2) {
             icon = imagePool.getYellowShepard();
-        } else if (id == 3) {
+        } else if (i == 3) {
             icon = imagePool.getGreenShepard();
         }
         isShepard = true;
