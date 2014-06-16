@@ -55,7 +55,7 @@ public class DinamicMoveSheepButton extends JPanel {
              * @param e event
              */
             public void mouseClicked(MouseEvent e) {
-                gui.updateText("Selezionare territorio dove spostare la pecora");
+                gui.messageText("Selezionare territorio dove spostare la pecora");
                 gui.setGUIDinamicState(GUIDinamicState.MOVESHEEP);
                 gui.activateSubMenuSheep(terrain, false);
                 gui.activateSheepType(terrain, false, TypeAnimal.WHITE_SHEEP.toString());

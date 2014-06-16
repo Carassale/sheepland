@@ -260,14 +260,14 @@ public class DinamicRoadButton extends JPanel {
                     gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                     gui.sendPlaceShepherd(road);
                 } else {
-                    gui.updateText("C'è un altro pastore su questa Strada! ");
+                    gui.messageText("C'è un altro pastore su questa Strada! ");
                 }
 
             } else if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
                 if (isShepherd) {
                     for (ViewShepherd ele : gui.getShepherds()) {
                         if (ele.getIsOwned() && ele.getPostition() == road) {
-                            gui.updateText("Selezionare strada dove spostarlo");
+                            gui.messageText("Selezionare strada dove spostarlo");
                             gui.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
                             gui.setTempRoad(road);
                             gui.setTempIdShepherd(idShepherd);
@@ -279,7 +279,7 @@ public class DinamicRoadButton extends JPanel {
                     gui.sendMoveShepherd(road);
                     gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                 } else {
-                    gui.updateText("C'è un altro pastore su questa Strada!");
+                    gui.messageText("C'è un altro pastore su questa Strada!");
                 }
             }
         }

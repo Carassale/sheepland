@@ -310,6 +310,11 @@ public abstract class ConnectionManager implements Runnable {
             }
         }
 
+        for (PlayerConnection playerConnection : playerConnections) {
+            refreshSingleAddPlayer(thisPlayer, playerConnection.getNickname(), playerConnection.getIdPlayer());
+        }
+        refreshSingleTurnPlayer(thisPlayer, currentPlayer.getIdPlayer());
+
         reconnectRefreshAddAnimal(thisPlayer);
         reconnectRefreshAddShepherd(thisPlayer, idPlayer);
         refreshCoin(thisPlayer, thisGamePlayer.getCoins(), true);
@@ -328,6 +333,7 @@ public abstract class ConnectionManager implements Runnable {
                 refreshSingleTurnOffPlayer(playerConnection, thisPlayer.getIdPlayer(), false);
             }
         }
+
         printMessage(thisPlayer, Message.RECONNECTED.toString());
 
         synchronized (objectSyncronized) {
