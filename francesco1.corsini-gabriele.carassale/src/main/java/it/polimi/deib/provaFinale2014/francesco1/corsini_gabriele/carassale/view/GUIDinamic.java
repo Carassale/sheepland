@@ -552,10 +552,10 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         sadFace = new JLabel(sadf);
         layeredPane.add(winner, Integer.valueOf(11));
         layeredPane.add(sadFace, Integer.valueOf(11));
-        winner.setSize(200, 200);
-        sadFace.setSize(200, 200);
-        winner.setLocation(getWidth() / 2, getHeight() / 2);
-        sadFace.setLocation(getWidth() / 2, getHeight() / 2);
+        winner.setSize(250, 250);
+        sadFace.setSize(250, 250);
+        winner.setLocation(getWidth() *2 / 3, getHeight() *2 / 3);
+        sadFace.setLocation(getWidth() *2 / 3, getHeight() *2 / 3);
         winner.setVisible(false);
         sadFace.setVisible(false);
     }
@@ -1060,6 +1060,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void sendBuyCard(String terrainType) {
         connectionClient.buyCard(terrainType);
+        state = GUIDinamicState.WAITINGFORSERVER;
         updateText("");
     }
 
@@ -1073,11 +1074,11 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             int id = sheepSelected.getId();
             connectionClient.moveSheep(id, terrain);
             sheepSelected = null;
+            state = GUIDinamicState.WAITINGFORSERVER;
         } else {
             errorMessage("ERROR");
         }
         updateText("");
-
     }
 
     /**
@@ -1100,6 +1101,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         waitingForAddAnimal = true;
         connectionClient.joinSheep(terrain);
         updateText("");
+        state = GUIDinamicState.WAITINGFORSERVER;
     }
 
     /**
@@ -1110,6 +1112,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         if (sheepSelected != null) {
             int id = sheepSelected.getId();
             connectionClient.killSheep(id);
+            state = GUIDinamicState.WAITINGFORSERVER;
             sheepSelected = null;
         } else {
             errorMessage("ERROR ");
@@ -1124,6 +1127,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void sendPlaceShepherd(int road) {
         connectionClient.placeShepherd(road);
+        state = GUIDinamicState.WAITINGFORSERVER;
         updateText("");
     }
 
@@ -1298,5 +1302,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         backPlayer[idPlayer].setIcon(fen);
         backPlayer[idPlayer].repaint();
     }
+
+
+
 
 }
