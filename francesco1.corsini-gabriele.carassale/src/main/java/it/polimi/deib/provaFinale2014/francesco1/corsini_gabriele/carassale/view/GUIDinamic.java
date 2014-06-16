@@ -397,7 +397,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     private void createTextLabel() {
         textLabel = new JLabel("");
-        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 22));
+        textLabel.setFont(new Font(FONT_FANTASY, Font.BOLD, 18));
         textLabel.setForeground(Color.WHITE);
         layeredPane.add(textLabel, Integer.valueOf(10));
         textLabel.setLocation(995, 30);
@@ -405,23 +405,23 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setVisible(true);
 
         istructionLabel = new JTextArea(Message.ISTRUCTION.toString());
-        istructionLabel.setFont(new Font(FONT_FANTASY, Font.PLAIN, 15));
+        istructionLabel.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
         istructionLabel.setOpaque(true);
         istructionLabel.setForeground(Color.WHITE);
         istructionLabel.setBackground(new Color(36, 159, 245));
         istructionLabel.setEditable(false);
         layeredPane.add(istructionLabel, 1);
-        istructionLabel.setLocation(995, 475);
+        istructionLabel.setLocation(995, 420);
         istructionLabel.setSize(istructionLabel.getPreferredSize());
         istructionLabel.setVisible(true);
 
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 6; i++) {
             JLabel ele = new JLabel("");
             if (i == 0) {
-                ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 20));
+                ele.setFont(new Font(FONT_FANTASY, Font.BOLD, 12));
                 ele.setForeground(Color.WHITE);
             } else {
-                ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 20));
+                ele.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
                 ele.setForeground(Color.WHITE);
             }
             layeredPane.add(ele, Integer.valueOf(10));
@@ -461,7 +461,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         coinPicture = new JLabel(fen);
         layeredPane.add(coinPicture, Integer.valueOf(2));
         coinPicture.setSize(80, 80);
-        coinPicture.setLocation(845, 550);
+        coinPicture.setLocation(825, 550);
         coinPicture.setVisible(true);
 
         coinNumber = new JLabel("");
@@ -1043,7 +1043,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void messageText(String message) {
         //se la lista messaggi è piena
-        if (messages.size() == 10) {
+        if (messages.size() == 7) {
             messages.remove(0);
             messages.add(message);
         } else {
