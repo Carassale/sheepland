@@ -135,7 +135,8 @@ public class PlayerTest {
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
-     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
      */
     @Test(expected = MoveException.class)
     public void testMoveShepherd4() throws MoveException, CoinException, ShepherdException {
@@ -150,7 +151,8 @@ public class PlayerTest {
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
-     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
+     * @throws
+     * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
      */
     @Test(expected = MoveException.class)
     public void testMoveShepherd5() throws MoveException, CoinException, ShepherdException {
@@ -305,7 +307,7 @@ public class PlayerTest {
     @Test(expected = CoinException.class)
     public void testKillAnimal1() throws CoinException, MoveException, WrongDiceNumberException {
 
-        Player player2 = new Player(false, 0);
+        Player player2 = new Player(false, 1);
         player.setCoins(3);
         Shepherd shepherd1 = new Shepherd(game.getMap().getRoads().get(1), player2, 1);
         Shepherd shepherd2 = new Shepherd(game.getMap().getRoads().get(2), player2, 2);

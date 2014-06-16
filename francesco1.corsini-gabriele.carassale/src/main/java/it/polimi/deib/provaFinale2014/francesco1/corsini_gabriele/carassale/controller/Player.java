@@ -293,7 +293,6 @@ public class Player {
      * desiderato
      */
     public void killAnimal(Sheep sheepToKill, GameTable game) throws CoinException, MoveException, WrongDiceNumberException {
-
         int shepherdNearNumber = countShepherdNear(sheepToKill.getPosition());
         Terrain sheepPosition = sheepToKill.getPosition();
 
@@ -306,7 +305,7 @@ public class Player {
                     int payment = payShepherds(sheepPosition);
                     coins = coins - payment;
                 } else {
-                    throw new WrongDiceNumberException(Message.NO_CORRECT_DICE.toString() + random);
+                    throw new WrongDiceNumberException("<html>" + Message.NO_CORRECT_DICE.toString() + random + "</html>");
                 }
             } else {
                 throw new MoveException(Message.NO_NEAR_SHEPARD.toString());
@@ -460,11 +459,12 @@ public class Player {
         int number = 0;
         for (Road road : terrain.getAdjacentRoads()) {
             if (road.hasShepherd()) {
-                number++;
+                if (road.getShepherd().getOwner().getIdPlayer() != idPlayer) {
+                    number++;
+                }
             }
         }
-
-        return number - 1;
+        return number;
     }
 
     /**
@@ -587,7 +587,7 @@ public class Player {
      */
     public void clearLastAction() {
         for (int i = 2; i >= 0; i--) {
-            if ("".equals(actionDone[i])) {
+            if (!"".equals(actionDone[i])) {
                 actionDone[i] = "";
                 return;
             }

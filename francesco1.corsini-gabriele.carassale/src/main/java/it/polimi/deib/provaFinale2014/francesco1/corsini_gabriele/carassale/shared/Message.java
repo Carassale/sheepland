@@ -19,7 +19,7 @@ public enum Message {
     ROAD_OCCUPIED("La strada di destinazione è già occuopata."),
     ACTION_OK("Mossa Effettuata"),
     ACTION_ERROR("<html>Non è possibile fare questa mossa, ricorda di muovere<br /> il pastore e che non è consentito fare due mosse consecutive uguali.</html>"),
-    NO_CORRECT_DICE("<html>Lancio del dado fallito.<br /> È uscito il numero:</html>"),
+    NO_CORRECT_DICE("Lancio del dado fallito.<br /> È uscito il numero: "),
     IMPOSSIBLE_SELECTION("Selezionare oggetti esistenti."),
     DISCONNECT_FOR_TIMEOUT("<html>Sei stato disconnesso dal server, non è stato<br /> raggiunto il numero minimo di giocatori.</html>"),
     RECONNECTED("Sei stato ricollegato alla partita."),
