@@ -1,11 +1,11 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.view;
 
 /**
- * Classe rappresentante uno Shepard nella View
+ * Classe rappresentante uno Shepherd nella View
  *
  * @author Francesco Corsini
  */
-public class ViewShepard {
+public class ViewShepherd {
 
     private int id;
     private int position;
@@ -18,7 +18,7 @@ public class ViewShepard {
      * @param id id shepherd
      * @param road id road dove posizionarlo
      */
-    public ViewShepard(int id, int road) {
+    public ViewShepherd(int id, int road) {
         this.id = id;
         this.position = road;
     }

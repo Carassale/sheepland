@@ -56,6 +56,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
      *
      * @return int IdPlayer
      */
+    @Override
     public int getIdPlayer() {
         return idPlayer;
     }
@@ -128,6 +129,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
      *
      * @return
      */
+    @Override
     public String getNickname() {
         return nickname;
     }
@@ -146,6 +148,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
      *
      * @return True se è connesso
      */
+    @Override
     public boolean isStillConnected() {
         outSocket.println("String prova");
         return !outSocket.checkError();

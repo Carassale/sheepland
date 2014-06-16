@@ -51,18 +51,41 @@ public class PlayerConnectionRMI extends PlayerConnection implements Serializabl
         this.clientRMI = clientRMI;
     }
 
+    /**
+     * Restituisce l'id player
+     *
+     * @return int IdPlayer
+     */
+    @Override
     public int getIdPlayer() {
         return idPlayer;
     }
 
+    /**
+     * Restituisce il nickname del player
+     *
+     * @return
+     */
+    @Override
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * Setta il nickname del player
+     *
+     * @param nickname Nickname da settare
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * Serve a controlare se il plyaer è ancora connesso
+     *
+     * @return True se è connesso
+     */
+    @Override
     public boolean isStillConnected() {
         try {
             getClientRMI().isAlive();

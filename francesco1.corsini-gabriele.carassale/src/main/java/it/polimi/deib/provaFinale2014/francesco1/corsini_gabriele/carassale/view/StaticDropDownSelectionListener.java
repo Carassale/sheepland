@@ -38,22 +38,26 @@ public class StaticDropDownSelectionListener extends JFrame implements ActionLis
 
             gui.getLAction2().setText("Dove si vuole muovere l'Ovino");
 
-            command = command.replaceAll("[^\\d.]", "");
+            command = replaceNull(command);
             int num = Integer.parseInt(command);
             gui.setSheepSelected(num);
         } else if (gui.getGUIState() == GUIState.MOVESHEPARDSELECTION) {
 
             gui.getLAction2().setText("Dove si vuole spostare il Pastore");
 
-            command = command.replaceAll("[^\\d.]", "");
+            command = replaceNull(command);
             int num = Integer.parseInt(command);
-            gui.setShepardSelected(num);
+            gui.setShepherdSelected(num);
         } else {
-            command = command.replaceAll("[^\\d.]", "");
+            command = replaceNull(command);
             int num = Integer.parseInt(command);
-            gui.setShepardSelected(num);
+            gui.setShepherdSelected(num);
         }
 
+    }
+
+    private String replaceNull(String str) {
+        return str.replaceAll("[^\\d.]", "");
     }
 
 }

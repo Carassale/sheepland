@@ -9,7 +9,7 @@ public enum Message {
 
     NO_MONEY("Non hai abbastanza soldi."),
     NO_MONEY_FOR_MAFIA("Non abbastanza soldi per comprare silenzio di tutti i pastori."),
-    NO_SHEPARD_ON_THE_ROAD("Non c'è Shepard sulla strada."),
+    NO_SHEPARD_ON_THE_ROAD("Non c'è Shepherd sulla strada."),
     NO_NEAR_SHEPARD("Non c'è vicino un pastore."),
     NO_JOINABLE_ANIMAL("Non ci sono una pecora ed un montone nel territorio."),
     NO_ROAD_COMUNICANT("Non esiste strada che comunica tra questi due territori."),

@@ -4,11 +4,11 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.WrongDiceNumberException;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepherd;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
@@ -51,15 +51,15 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
     /**
      * Cicla per il numero di azioni massime consentite il method do Action,
-     * mette in pausa il ciclo chimando il metodo wait response,alla fine chiama
+     * mette in pausa il ciclo chimando il method wait response,alla fine chiama
      * il method nextPlayerConnection
      *
      * @throws FinishGame
      */
     @Override
     public void startAction() throws FinishGame {
-        if (shepardToPlace > 0) {
-            placeShepard(currentPlayer);
+        if (shepherdToPlace > 0) {
+            placeShepherd(currentPlayer);
         }
 
         refreshTurnPlayer();
@@ -99,13 +99,13 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     /**
      * Viene invocato dal connectionClient, muove il pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Destinazione finale
      * @throws RemoteException
      */
-    public void moveShepard(int idShepard, int idRoad) throws RemoteException {
-        //Converte idShepard nell'oggetto Shepard associato
-        Shepard s = gameController.getGameTable().idToShepard(idShepard);
+    public void moveShepherd(int idShepherd, int idRoad) throws RemoteException {
+        //Converte idShepherd nell'oggetto Shepherd associato
+        Shepherd s = gameController.getGameTable().idToShepherd(idShepherd);
 
         //Converte idRoad nell'oggetto Road associato
         Road r = gameController.getGameTable().idToRoad(idRoad);
@@ -121,9 +121,9 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 if (s.isExpensiveMove(r)) {
                     refreshCoin = true;
                 }
-                gameController.getPlayerPool().getFirstPlayer().moveShepard(r, s, gameController.getGameTable());
+                gameController.getPlayerPool().getFirstPlayer().moveShepherd(r, s, gameController.getGameTable());
                 printCorrectAction();
-                refreshMoveShepard(idShepard, idRoad);
+                refreshMoveShepherd(idShepherd, idRoad);
                 if (refreshCoin) {
                     refreshCoin(1, false);
                 }
@@ -135,7 +135,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            } catch (ShepardException ex) {
+            } catch (ShepherdException ex) {
                 printErrorMessage(ex.getMessage());
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
@@ -373,22 +373,22 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
     /**
      * Method chiamato dal gameController per serializzare la comunicazione
-     * iniziale degli Shepard dei vari giocatori
+     * iniziale degli Shepherd dei vari giocatori
      *
-     * @param idShepard
-     * @return Road dove posizionare lo Shepard
+     * @param idShepherd
+     * @return Road dove posizionare lo Shepherd
      */
     @Override
-    public Road getPlacedShepard(int idShepard) {
+    public Road getPlacedShepherd(int idShepherd) {
         refreshTurnPlayer();
-        
+
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
         boolean repeat;
         do {
             try {
-                //dice al client di piazzare Shepard
-                Integer id = player.getClientRMI().getPlaceShepard(idShepard);
+                //dice al client di piazzare Shepherd
+                Integer id = player.getClientRMI().getPlaceShepherd(idShepherd);
 
                 //ricava l'oggetto e lo invia
                 return gameController.getGameTable().idToRoad(id);
@@ -404,16 +404,16 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     /**
      * Invia a tutti i client il movimento del pastore
      *
-     * @param idShepard Pastore spostato
+     * @param idShepherd Pastore spostato
      * @param idRoad Strada destinazione
      */
-    public void refreshMoveShepard(int idShepard, int idRoad) {
+    public void refreshMoveShepherd(int idShepherd, int idRoad) {
         for (PlayerConnection player : playerConnections) {
             PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
 
             if (map.isOnLine(playerConnection.getNickname())) {
                 try {
-                    playerConnection.getClientRMI().refreshMoveShepard(idShepard, idRoad);
+                    playerConnection.getClientRMI().refreshMoveShepherd(idShepherd, idRoad);
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
@@ -426,20 +426,20 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     /**
      * Invia a tutti i client il pastore aggiunto
      *
-     * @param idShepard Pastore aggiunto
+     * @param idShepherd Pastore aggiunto
      * @param idRoad Strada posizionamento
      */
     @Override
-    public void refreshAddShepard(int idShepard, int idRoad) {
-        Shepard s;
+    public void refreshAddShepherd(int idShepherd, int idRoad) {
+        Shepherd s;
         boolean isMine;
         for (PlayerConnection player : playerConnections) {
             PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
 
             if (map.isOnLine(playerConnection.getNickname())) {
-                s = gameController.getGameTable().idToShepard(idShepard);
+                s = gameController.getGameTable().idToShepherd(idShepherd);
                 isMine = playerConnection.getIdPlayer() == s.getOwner().getIdPlayer();
-                singeRefreshAddShepard(playerConnection, idShepard, idRoad, isMine);
+                singeRefreshAddShepherd(playerConnection, idShepherd, idRoad, isMine);
             }
         }
     }
@@ -448,16 +448,16 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
      * Invia al player passato come parametro il pastore aggiunto
      *
      * @param player Player a cui inviare
-     * @param idShepard Id del pastore
+     * @param idShepherd Id del pastore
      * @param idRoad strada in cui aggiungere
      * @param isMine True se è del player a cui invia
      */
     @Override
-    public void singeRefreshAddShepard(PlayerConnection player, int idShepard, int idRoad, boolean isMine) {
+    public void singeRefreshAddShepherd(PlayerConnection player, int idShepherd, int idRoad, boolean isMine) {
         PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) player;
 
         try {
-            playerConnection.getClientRMI().refreshAddShepard(idShepard, idRoad, isMine);
+            playerConnection.getClientRMI().refreshAddShepherd(idShepherd, idRoad, isMine);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
@@ -614,7 +614,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     }
 
     /**
-     * Invia al player passato come parametro il refresh di tutte le fance
+     * Invia al player passato come parametro il refresh di tutte le fence
      * presenti sulla plancia
      *
      * @param player
@@ -647,19 +647,23 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 PlayerConnectionRMI playerConnection = (PlayerConnectionRMI) playerC;
 
                 if (player.getIdPlayer() == playerConnection.getIdPlayer()) {
-                    try {
-                        playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
-                    } catch (RemoteException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                        clientDisconnected(playerConnection);
-                    }
+                    refreshSingleWinner(playerConnection, player);
                 }
             }
         }
 
         cleanMap();
         unbind();
+    }
+
+    private void refreshSingleWinner(PlayerConnectionRMI playerConnection, Player player) {
+        try {
+            playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
+        } catch (RemoteException ex) {
+            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+
+            clientDisconnected(playerConnection);
+        }
     }
 
     @Override
@@ -799,7 +803,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     /**
      * Refresh di tutto il game table nel caso un giocatore si sia ricollegato:
      * invia le carte e le monete possedute, la posizione di tutti i pastori,
-     * degli animali e delle fance
+     * degli animali e delle fence
      *
      * @param idPlayer
      */

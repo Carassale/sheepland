@@ -28,8 +28,7 @@ public final class ConnectionVariable {
      * È il tempo massimo di attesa del client disconnesso. 1.000*30 = -> 30
      * secondi
      */
-    //TODO 
-    public static final int TIME_MAX = 30000;
+    public static final int TIME_MAX = 120000;
 
     /**
      * Nasconde il costruttor di base

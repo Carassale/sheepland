@@ -7,7 +7,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepherd;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeCard;
@@ -23,15 +23,15 @@ public class PlayerTest {
 
     private GameTable game;
     private Player player;
-    private Shepard shepard;
+    private Shepherd shepherd;
     private Sheep sheep;
 
     @Before
     public void setUp() {
         game = new GameTable();
         player = new Player(false, 0);
-        shepard = new Shepard(game.getMap().getRoads().get(0), player, 0);
-        player.getShepards().add(shepard);
+        shepherd = new Shepherd(game.getMap().getRoads().get(0), player, 0);
+        player.getShepherds().add(shepherd);
         sheep = new Sheep(game.getMap().getTerrain().get(0), true, 0);
 
     }
@@ -92,70 +92,70 @@ public class PlayerTest {
     }
 
     /**
-     * Test che muove shepard in strada adiacente senza pagare
+     * Test che muove shepherd in strada adiacente senza pagare
      *
      * @throws Exception
      */
     @Test
-    public void testMoveShepard() throws Exception {
-        assertSame(shepard.getPosition(), game.getMap().getRoads().get(0));
-        player.moveShepard(game.getMap().getRoads().get(1), shepard, game);
-        assertSame(shepard.getPosition(), game.getMap().getRoads().get(1));
+    public void testMoveShepherd() throws Exception {
+        assertSame(shepherd.getPosition(), game.getMap().getRoads().get(0));
+        player.moveShepherd(game.getMap().getRoads().get(1), shepherd, game);
+        assertSame(shepherd.getPosition(), game.getMap().getRoads().get(1));
         assertEquals(20, player.getCoins());
     }
 
     /**
-     * Test che muove shepard in strada adiacente pagando
+     * Test che muove shepherd in strada adiacente pagando
      *
      * @throws Exception
      */
     @Test
-    public void testMoveShepard2() throws Exception {
-        assertSame(shepard.getPosition(), game.getMap().getRoads().get(0));
-        player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
-        assertSame(shepard.getPosition(), game.getMap().getRoads().get(13));
+    public void testMoveShepherd2() throws Exception {
+        assertSame(shepherd.getPosition(), game.getMap().getRoads().get(0));
+        player.moveShepherd(game.getMap().getRoads().get(13), shepherd, game);
+        assertSame(shepherd.getPosition(), game.getMap().getRoads().get(13));
         assertEquals(19, player.getCoins());
     }
 
     /**
-     * Test che muove shepard non avendo soldi sufficenti
+     * Test che muove shepherd non avendo soldi sufficenti
      *
      * @throws Exception
      */
     @Test(expected = CoinException.class)
-    public void testMoveShepard3() throws Exception {
+    public void testMoveShepherd3() throws Exception {
         player.setCoins(0);
-        player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
+        player.moveShepherd(game.getMap().getRoads().get(13), shepherd, game);
     }
 
     /**
-     * Test che muove shepard in strada con una Fence sopra
+     * Test che muove shepherd in strada con una Fence sopra
      *
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
-     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException
+     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
      */
     @Test(expected = MoveException.class)
-    public void testMoveShepard4() throws MoveException, CoinException, ShepardException {
+    public void testMoveShepherd4() throws MoveException, CoinException, ShepherdException {
         game.getMap().getRoads().get(13).setFence(true);
-        player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
+        player.moveShepherd(game.getMap().getRoads().get(13), shepherd, game);
     }
 
     /**
-     * Test che muove shepard in strada con uno Shepard sopra
+     * Test che muove shepherd in strada con uno Shepherd sopra
      *
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.MoveException
      * @throws
      * it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.CoinException
-     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepardException
+     * @throws it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.ShepherdException
      */
     @Test(expected = MoveException.class)
-    public void testMoveShepard5() throws MoveException, CoinException, ShepardException {
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(13));
-        player.moveShepard(game.getMap().getRoads().get(13), shepard, game);
+    public void testMoveShepherd5() throws MoveException, CoinException, ShepherdException {
+        Shepherd shepherd2 = new Shepherd(game.getMap().getRoads().get(13));
+        player.moveShepherd(game.getMap().getRoads().get(13), shepherd, game);
     }
 
     /**
@@ -173,7 +173,7 @@ public class PlayerTest {
     }
 
     /**
-     * Test che muove sheep e fallisce poichè non c'è shepard sulla strada
+     * Test che muove sheep e fallisce poichè non c'è shepherd sulla strada
      *
      * @throws MoveException
      * @throws CoinException
@@ -181,7 +181,7 @@ public class PlayerTest {
     @Test(expected = MoveException.class)
     public void testMoveSheep2() throws MoveException, CoinException {
         Terrain destination = game.getMap().getTerrain().get(16);
-        shepard.setPosition(game.getMap().getRoads().get(10));
+        shepherd.setPosition(game.getMap().getRoads().get(10));
 
         player.moveSheep(sheep, destination, game);
 
@@ -281,10 +281,10 @@ public class PlayerTest {
         Player player2 = new Player(false, 0);
         player.setCoins(20);
         player2.setCoins(20);
-        player.getShepards().clear();
-        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1), player, 1);
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2), player2, 2);
-        player.getShepards().add(shepard1);
+        player.getShepherds().clear();
+        Shepherd shepherd1 = new Shepherd(game.getMap().getRoads().get(1), player, 1);
+        Shepherd shepherd2 = new Shepherd(game.getMap().getRoads().get(2), player2, 2);
+        player.getShepherds().add(shepherd1);
 
         try {
             player.killAnimal(sheepToKill, game);
@@ -307,8 +307,8 @@ public class PlayerTest {
 
         Player player2 = new Player(false, 0);
         player.setCoins(3);
-        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1), player2, 1);
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2), player2, 2);
+        Shepherd shepherd1 = new Shepherd(game.getMap().getRoads().get(1), player2, 1);
+        Shepherd shepherd2 = new Shepherd(game.getMap().getRoads().get(2), player2, 2);
 
         Sheep sheepToKill = (Sheep) game.getMap().getTerrain().get(0).getAnimals().get(0);
 
@@ -325,7 +325,7 @@ public class PlayerTest {
      */
     @Test(expected = MoveException.class)
     public void testKillAnimal2() throws CoinException, MoveException, WrongDiceNumberException {
-        player.getShepards().clear();
+        player.getShepherds().clear();
 
         Sheep sheepToKill = (Sheep) game.getMap().getTerrain().get(0).getAnimals().get(0);
 
@@ -338,15 +338,15 @@ public class PlayerTest {
         terrain.getAnimals().clear();
         Sheep sheepToKill = new Sheep(terrain, true, 5);
 
-        player.getShepards().clear();
+        player.getShepherds().clear();
         player.setCoins(20);
-        Shepard shepard1 = new Shepard(game.getMap().getRoads().get(1), player, 1);
-        player.getShepards().add(shepard1);
+        Shepherd shepherd1 = new Shepherd(game.getMap().getRoads().get(1), player, 1);
+        player.getShepherds().add(shepherd1);
 
         Player player2 = new Player(false, 0);
         player2.setCoins(20);
-        Shepard shepard2 = new Shepard(game.getMap().getRoads().get(2), player2, 2);
-        player2.getShepards().add(shepard2);
+        Shepherd shepherd2 = new Shepherd(game.getMap().getRoads().get(2), player2, 2);
+        player2.getShepherds().add(shepherd2);
 
         player.killAnimal(sheepToKill, game, 3);
 

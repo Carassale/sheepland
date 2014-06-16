@@ -71,20 +71,20 @@ public class RoadTest {
     }
 
     /**
-     * Test of hasShepard method, of class Road.
+     * Test of hasShepherd method, of class Road.
      */
     @Test
-    public void testHasShepard() {
-        assertFalse(road.hasShepard());
+    public void testHasShepherd() {
+        assertFalse(road.hasShepherd());
     }
 
     /**
-     * Test of setHasShepard method, of class Road.
+     * Test of setHasShepherd method, of class Road.
      */
     @Test
-    public void testSetShepard() {
-        road.setHasShepard(true);
-        assertTrue(road.hasShepard());
+    public void testSetShepherd() {
+        road.setHasShepherd(true);
+        assertTrue(road.hasShepherd());
     }
 
     /**

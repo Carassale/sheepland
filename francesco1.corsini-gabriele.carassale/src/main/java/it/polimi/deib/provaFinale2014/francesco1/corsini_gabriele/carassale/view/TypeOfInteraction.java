@@ -25,9 +25,9 @@ public interface TypeOfInteraction {
     /**
      * Risveglia l'interfaccia e fa posizionare il pastore
      *
-     * @param idShepard Pastore da posizionare
+     * @param idShepherd Pastore da posizionare
      */
-    void placeShepard(int idShepard);
+    void placeShepherd(int idShepherd);
 
     /**
      * Risveglia l'interfaccia e muove l'animale
@@ -88,19 +88,19 @@ public interface TypeOfInteraction {
     /**
      * Risveglia l'interfaccia e aggiunge un pastore
      *
-     * @param idShepard Pastore da aggiungere
+     * @param idShepherd Pastore da aggiungere
      * @param road Strada dove posizionare
      * @param isMine
      */
-    void refreshAddShepard(int idShepard, int road, boolean isMine);
+    void refreshAddShepherd(int idShepherd, int road, boolean isMine);
 
     /**
      * Risveglia l'interfaccia e muove un pastore
      *
-     * @param idShepard Pastore da muoverer
+     * @param idShepherd Pastore da muoverer
      * @param road Strada destinazione
      */
-    void refreshMoveShepard(int idShepard, int road);
+    void refreshMoveShepherd(int idShepherd, int road);
 
     /**
      * Riceve un messaggio da far viusalizzare
@@ -117,12 +117,34 @@ public interface TypeOfInteraction {
      */
     void refreshWinner(int finalPosition, int finalScore);
 
+    /**
+     * Riceve il player aggiunto
+     *
+     * @param nickname Nickname del player
+     * @param idPlayer Id del player
+     */
     void refreshAddPlayer(String nickname, int idPlayer);
 
+    /**
+     * Riceve il player in attesa di riconnessione
+     *
+     * @param idPlayer Id del player
+     */
     void refreshWaitPlayer(int idPlayer);
 
+    /**
+     * Riceve il player disconnesso/riconnesso
+     *
+     * @param idPlayer Id del player
+     * @param turnOff True se disconnesso, false se riconnesso
+     */
     void refreshTurnOffPlayer(int idPlayer, boolean turnOff);
 
+    /**
+     * Riceve il player a cui tocca effettuare le azioni
+     *
+     * @param idPlayer Id del player
+     */
     void refreshTurnPlayer(int idPlayer);
 
 }

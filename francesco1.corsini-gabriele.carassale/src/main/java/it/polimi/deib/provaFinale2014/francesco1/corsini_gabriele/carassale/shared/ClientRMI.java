@@ -38,11 +38,11 @@ public interface ClientRMI extends Remote {
     /**
      * Viene chiamato dal connectionManagerRMI, chiede di posizionare il pastore
      *
-     * @param idShepard Pastore da posizionare
+     * @param idShepherd Pastore da posizionare
      * @return Strada dove viene posizionato
      * @throws RemoteException
      */
-    int getPlaceShepard(int idShepard) throws RemoteException;
+    int getPlaceShepherd(int idShepherd) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha il movimento
@@ -94,22 +94,22 @@ public interface ClientRMI extends Remote {
      * Viene chiamato dal connectionManagerRMI, refresha l'aggiunta di un
      * pastore
      *
-     * @param idShepard Pastore da aggiungere
+     * @param idShepherd Pastore da aggiungere
      * @param idRoad Strada dove posizionare
      * @param isMine
      * @throws RemoteException
      */
-    void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException;
+    void refreshAddShepherd(int idShepherd, int idRoad, boolean isMine) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha il movimento di un
      * pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      * @throws RemoteException
      */
-    void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException;
+    void refreshMoveShepherd(int idShepherd, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, refresha le carta
@@ -139,12 +139,38 @@ public interface ClientRMI extends Remote {
      */
     void refreshWinner(int finalPosition, int finalScore) throws RemoteException;
 
+    /**
+     * Invia il nickname e l'id del player collegato
+     *
+     * @param nickname
+     * @param idPlayer
+     * @throws RemoteException
+     */
     void refreshAddPlayer(String nickname, int idPlayer) throws RemoteException;
 
+    /**
+     * Invia l'id del player che si è momentaneamente disconnesso
+     *
+     * @param idPlayer
+     * @throws RemoteException
+     */
     void refreshWaitPlayer(int idPlayer) throws RemoteException;
 
+    /**
+     * Invia l'id del player che si è disconnesso
+     *
+     * @param idPlayer
+     * @param turnOff
+     * @throws RemoteException
+     */
     void refreshTurnOffPlayer(int idPlayer, boolean turnOff) throws RemoteException;
 
+    /**
+     * Invia l'id del current player
+     *
+     * @param idPlayer
+     * @throws RemoteException
+     */
     void refreshTurnPlayer(int idPlayer) throws RemoteException;
 
     /**

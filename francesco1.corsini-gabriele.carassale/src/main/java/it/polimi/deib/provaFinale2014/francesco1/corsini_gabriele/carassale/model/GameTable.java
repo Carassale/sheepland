@@ -18,7 +18,7 @@ public class GameTable {
     private final Wolf wolf;
     private final Map map;
     private List<List<TerrainCard>> terrainCardPool = new ArrayList<List<TerrainCard>>();
-    private List<Shepard> shepards = new ArrayList<Shepard>();
+    private List<Shepherd> shepherds = new ArrayList<Shepherd>();
     private Dice dice;
 
     /**
@@ -91,8 +91,8 @@ public class GameTable {
      *
      * @return ArrayList contenente pastori
      */
-    public List<Shepard> getShepards() {
-        return shepards;
+    public List<Shepherd> getShepherds() {
+        return shepherds;
     }
 
     /**
@@ -183,10 +183,10 @@ public class GameTable {
      * @param id intero univoco per l'identificazione
      * @return oggetto identificato
      */
-    public Shepard idToShepard(int id) {
-        for (Shepard shepard : shepards) {
-            if (shepard.getId() == id) {
-                return shepard;
+    public Shepherd idToShepherd(int id) {
+        for (Shepherd shepherd : shepherds) {
+            if (shepherd.getId() == id) {
+                return shepherd;
             }
         }
         return null;

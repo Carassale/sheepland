@@ -71,7 +71,7 @@ public class DimanicSheepTypeButton extends JPanel {
              * @param e event
              */
             public void mousePressed(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
 
             /**
@@ -80,7 +80,7 @@ public class DimanicSheepTypeButton extends JPanel {
              * @param e event
              */
             public void mouseReleased(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
 
             /**
@@ -89,7 +89,7 @@ public class DimanicSheepTypeButton extends JPanel {
              * @param e event
              */
             public void mouseEntered(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
 
             /**
@@ -98,7 +98,7 @@ public class DimanicSheepTypeButton extends JPanel {
              * @param e event
              */
             public void mouseExited(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
         });
         repaint();

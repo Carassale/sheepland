@@ -82,7 +82,7 @@ public class ConnectionClientSocket implements ConnectionClient {
                 } else if (TypeAction.MESSAGE_TEXT.toString().equals(s)) {
                     messageText();
                 } else if (TypeAction.PLACE_SHEPARD.toString().equals(s)) {
-                    typeOfInteraction.placeShepard(Integer.valueOf(inSocket.readLine()));
+                    typeOfInteraction.placeShepherd(Integer.valueOf(inSocket.readLine()));
                 } else if (TypeAction.REFRESH_ADD_PLAYER.toString().equals(s)) {
                     refreshAddPlayer();
                 } else if (TypeAction.REFRESH_WAIT_PLAYER.toString().equals(s)) {
@@ -100,11 +100,11 @@ public class ConnectionClientSocket implements ConnectionClient {
                 } else if (TypeAction.REFRESH_TRANSFORM_ANIMAL.toString().equals(s)) {
                     refreshTransformAnimal();
                 } else if (TypeAction.REFRESH_ADD_SHEPARD.toString().equals(s)) {
-                    refreshAddShepard();
+                    refreshAddShepherd();
                 } else if (TypeAction.REFRESH_ADD_FENCE.toString().equals(s)) {
                     refreshAddFence();
                 } else if (TypeAction.REFRESH_MOVE_SHEPARD.toString().equals(s)) {
-                    refreshMoveShepard();
+                    refreshMoveShepherd();
                 } else if (TypeAction.REFRESH_CARD.toString().equals(s)) {
                     refreshCard();
                 } else if (TypeAction.REFRESH_COIN.toString().equals(s)) {
@@ -125,7 +125,7 @@ public class ConnectionClientSocket implements ConnectionClient {
      *
      * @param idRoad Strada dove posizionare
      */
-    public void placeShepard(int idRoad) {
+    public void placeShepherd(int idRoad) {
         outSocket.println(idRoad);
         outSocket.flush();
     }
@@ -189,15 +189,15 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Invia al typeOfInteraction il pastore aggiunto
      */
-    private void refreshAddShepard() {
+    private void refreshAddShepherd() {
         try {
-            int idShepard = Integer.valueOf(inSocket.readLine());
+            int idShepherd = Integer.valueOf(inSocket.readLine());
             int idRoad = Integer.valueOf(inSocket.readLine());
             int intIsMine = Integer.valueOf(inSocket.readLine());
 
             boolean isMine = intIsMine == 0;
 
-            typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
+            typeOfInteraction.refreshAddShepherd(idShepherd, idRoad, isMine);
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -219,12 +219,12 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Invia al typeOfInteraction il movimento del pastore
      */
-    private void refreshMoveShepard() {
+    private void refreshMoveShepherd() {
         try {
-            int idShepard = Integer.valueOf(inSocket.readLine());
+            int idShepherd = Integer.valueOf(inSocket.readLine());
             int idRoad = Integer.valueOf(inSocket.readLine());
 
-            typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
+            typeOfInteraction.refreshMoveShepherd(idShepherd, idRoad);
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -283,14 +283,14 @@ public class ConnectionClientSocket implements ConnectionClient {
     /**
      * Muove il pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      */
-    public void moveShepard(int idShepard, int idRoad) {
+    public void moveShepherd(int idShepherd, int idRoad) {
         outSocket.println(TypeAction.MOVE_SHEPARD.toString());
         outSocket.flush();
 
-        outSocket.println(idShepard);
+        outSocket.println(idShepherd);
         outSocket.flush();
 
         outSocket.println(idRoad);

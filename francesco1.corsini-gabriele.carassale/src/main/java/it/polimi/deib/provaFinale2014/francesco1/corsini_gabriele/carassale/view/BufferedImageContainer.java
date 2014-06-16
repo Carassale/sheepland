@@ -15,8 +15,8 @@ import javax.imageio.ImageIO;
  */
 public class BufferedImageContainer {
 
-    private BufferedImage fence, redShepard, greenShepard, blueShepard,
-            yellowShepard, transparent, coins, border_right, ram, whiteSheep,
+    private BufferedImage fence, redShepherd, greenShepherd, blueShepherd,
+            yellowShepherd, transparent, coins, borderRight, ram, whiteSheep,
             lamb, heart, lambPlus1, heartbroken, sadFace, winner, splat,
             bloodDrop, joinSheeps1, joinSheeps2, moveSheep1, moveSheep2,
             killSheep1, killSheep2, cursor, cursor2, backCurrentPlayer, backPlayer,
@@ -28,13 +28,13 @@ public class BufferedImageContainer {
     public BufferedImageContainer() {
         try {
             fence = ImageIO.read(new File(".\\src\\main\\resources\\fence.png"));
-            redShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardRedSmall.png"));
-            greenShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardGreenSmall.png"));
-            blueShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardBlueSmall.png"));
-            yellowShepard = ImageIO.read(new File(".\\src\\main\\resources\\shepardYellowSmall.png"));
+            redShepherd = ImageIO.read(new File(".\\src\\main\\resources\\shepherdRedSmall.png"));
+            greenShepherd = ImageIO.read(new File(".\\src\\main\\resources\\shepherdGreenSmall.png"));
+            blueShepherd = ImageIO.read(new File(".\\src\\main\\resources\\shepherdBlueSmall.png"));
+            yellowShepherd = ImageIO.read(new File(".\\src\\main\\resources\\shepherdYellowSmall.png"));
             transparent = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
             coins = ImageIO.read(new File(".\\src\\main\\resources\\coins.png"));
-            border_right = ImageIO.read(new File(".\\src\\main\\resources\\border_right.png"));
+            borderRight = ImageIO.read(new File(".\\src\\main\\resources\\border_right.png"));
             ram = ImageIO.read(new File(".\\src\\main\\resources\\ram.png"));
             whiteSheep = ImageIO.read(new File(".\\src\\main\\resources\\whiteSheep.png"));
             lamb = ImageIO.read(new File(".\\src\\main\\resources\\lamb.png"));
@@ -79,9 +79,9 @@ public class BufferedImageContainer {
      *
      * @return BufferedImage
      */
-    public BufferedImage getRedShepard() {
+    public BufferedImage getRedShepherd() {
 
-        return redShepard;
+        return redShepherd;
     }
 
     /**
@@ -89,9 +89,9 @@ public class BufferedImageContainer {
      *
      * @return BufferedImage
      */
-    public BufferedImage getGreenShepard() {
+    public BufferedImage getGreenShepherd() {
 
-        return greenShepard;
+        return greenShepherd;
     }
 
     /**
@@ -99,9 +99,9 @@ public class BufferedImageContainer {
      *
      * @return BufferedImage
      */
-    public BufferedImage getBlueShepard() {
+    public BufferedImage getBlueShepherd() {
 
-        return blueShepard;
+        return blueShepherd;
     }
 
     /**
@@ -109,9 +109,9 @@ public class BufferedImageContainer {
      *
      * @return BufferedImage
      */
-    public BufferedImage getYellowShepard() {
+    public BufferedImage getYellowShepherd() {
 
-        return yellowShepard;
+        return yellowShepherd;
     }
 
     /**
@@ -132,11 +132,11 @@ public class BufferedImageContainer {
      */
     public BufferedImage getFenceNumber(int num) {
         try {
+            int i = num;
             if (num < 0) {
-                return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + 0 + ".png"));
-            } else {
-                return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + num + ".png"));
+                i = 0;
             }
+            return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + i + ".png"));
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -157,8 +157,8 @@ public class BufferedImageContainer {
      *
      * @return BufferedImage
      */
-    public BufferedImage getBorder_right() {
-        return border_right;
+    public BufferedImage getBorderRight() {
+        return borderRight;
     }
 
     /**

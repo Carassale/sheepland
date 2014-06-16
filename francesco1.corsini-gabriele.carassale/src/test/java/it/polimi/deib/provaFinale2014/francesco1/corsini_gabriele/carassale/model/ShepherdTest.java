@@ -13,41 +13,41 @@ import static org.junit.Assert.*;
  *
  * @author Francesco Corsini
  */
-public class ShepardTest {
+public class ShepherdTest {
 
     private Map map;
-    private Shepard shepard;
+    private Shepherd shepherd;
 
     @Before
     public void setUp() {
         map = new Map();
-        shepard = new Shepard(map.getRoads().get(1));
+        shepherd = new Shepherd(map.getRoads().get(1));
 
     }
 
     /**
-     * Test of getPosition method, of class Shepard.
+     * Test of getPosition method, of class Shepherd.
      */
     @Test
     public void testGetPosition() {
-        assertSame(map.getRoads().get(1), shepard.getPosition());
+        assertSame(map.getRoads().get(1), shepherd.getPosition());
     }
 
     /**
-     * Test of setPosition method, of class Shepard.
+     * Test of setPosition method, of class Shepherd.
      */
     @Test
     public void testSetPosition() {
-        shepard.setPosition(map.getRoads().get(13));
-        assertSame(map.getRoads().get(13), shepard.getPosition());
+        shepherd.setPosition(map.getRoads().get(13));
+        assertSame(map.getRoads().get(13), shepherd.getPosition());
     }
 
     /**
-     * Test of isExpensiveMove method, of class Shepard.
+     * Test of isExpensiveMove method, of class Shepherd.
      */
     @Test
     public void testIsExpensiveMove() {
-        assertTrue(shepard.isExpensiveMove(map.getRoads().get(13)));
+        assertTrue(shepherd.isExpensiveMove(map.getRoads().get(13)));
     }
 
 }

@@ -23,7 +23,7 @@ public interface ConnectionClient {
      *
      * @param idRoad Strada dove posizionare
      */
-    void placeShepard(int idRoad);
+    void placeShepherd(int idRoad);
 
     /**
      * Definisce il method per aspettare un comando dal server
@@ -33,10 +33,10 @@ public interface ConnectionClient {
     /**
      * Definisce il method per muovere il pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada dove posizionare
      */
-    void moveShepard(int idShepard, int idRoad);
+    void moveShepherd(int idShepherd, int idRoad);
 
     /**
      * Definisce il method per muovere la pecora

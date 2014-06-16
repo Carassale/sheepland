@@ -32,25 +32,25 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     private JPanel pMainEast, pMainEastNorth, pMainWest, pMain, pNorth, pSounth,
             pTerrain, pRoads, pActions, pTerrainType, pLabelAction, pLabelStatus;
-    private JLabel lAction1, lAction2, lAction3, lCoins, lShepard1, lShepard2;
+    private JLabel lAction1, lAction2, lAction3, lCoins, lShepherd1, lShepherd2;
     private final JLabel[] lTerrainCards = new JLabel[6];
     private JMenu file;
-    private JButton bMoveShepard, bMoveSheep, bBuyCard, bJoinSheeps, bKillSheep;
+    private JButton bMoveShepherd, bMoveSheep, bBuyCard, bJoinSheeps, bKillSheep;
     private JButton bPlain, bForest, bRiver, bDesert, bMountain, bField;
     private final List<JButton> bTerrain = new ArrayList<JButton>();
     private final List<JButton> bRoad = new ArrayList<JButton>();
     private final List<ViewAnimal> animalsInDropDown = new ArrayList<ViewAnimal>();
-    private final List<ViewShepard> shepardsInDropDown = new ArrayList<ViewShepard>();
+    private final List<ViewShepherd> shepherdsInDropDown = new ArrayList<ViewShepherd>();
     private JComboBox sheepDropDown;
 
     private final List<ViewAnimal> animals = new ArrayList<ViewAnimal>();
-    private final List<ViewShepard> shepards = new ArrayList<ViewShepard>();
+    private final List<ViewShepherd> shepherds = new ArrayList<ViewShepherd>();
     private final int[] cards = new int[6];
     private final boolean[] roadsWithFence = new boolean[42];
     private int coins = 0;
-    private int tempTerrain, tempRoad, tempIdShepard = -1, tempIdSheep;
-    private boolean firstShepard;
-    private int sheepSelected = -1, shepardSelected;
+    private int tempTerrain, tempRoad, tempIdShepherd = -1, tempIdSheep;
+    private boolean firstShepherd;
+    private int sheepSelected = -1, shepherdSelected;
 
     /**
      * Constructor that get the connection
@@ -74,7 +74,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo creatore principale della GUI che inizializza tutti i pannelli e
+     * Method creatore principale della GUI che inizializza tutti i pannelli e
      * divide la frame
      */
     private void initUI(boolean showGUI) {
@@ -148,10 +148,10 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         lCoins = new JLabel("Monete :" + coins);
         pMainEastNorth.add(lCoins);
-        lShepard1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato");
-        pMainEastNorth.add(lShepard1);
-        lShepard2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato");
-        pMainEastNorth.add(lShepard2);
+        lShepherd1 = new JLabel("Primo pastore in posizione nel terreno numero: non posizionato");
+        pMainEastNorth.add(lShepherd1);
+        lShepherd2 = new JLabel("Secondo pastore in posizione nel terreno numero: non posizionato");
+        pMainEastNorth.add(lShepherd2);
 
         sheepDropDown.addActionListener(new StaticDropDownSelectionListener(this));
         sheepDropDown.setEnabled(false);
@@ -179,11 +179,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             pLabelStatus.add(lTerrainCards[i]);
         }
 
-        bMoveShepard = new JButton("Muovi Pastore");
-        bMoveShepard.addActionListener(new StaticActionListener(this));
-        bMoveShepard.setActionCommand(TypeAction.MOVE_SHEPARD.toString());
-        pActions.add(bMoveShepard);
-        bMoveShepard.setEnabled(false);
+        bMoveShepherd = new JButton("Muovi Pastore");
+        bMoveShepherd.addActionListener(new StaticActionListener(this));
+        bMoveShepherd.setActionCommand(TypeAction.MOVE_SHEPARD.toString());
+        pActions.add(bMoveShepherd);
+        bMoveShepherd.setEnabled(false);
 
         bMoveSheep = new JButton("Muovi Pecora");
         bMoveSheep.addActionListener(new StaticActionListener(this));
@@ -279,14 +279,14 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         setVisible(showGUI);
         pack();
 
-        Dimension size = bMoveShepard.getSize();
-        bMoveShepard.setMaximumSize(size);
-        bMoveShepard.setMinimumSize(size);
+        Dimension size = bMoveShepherd.getSize();
+        bMoveShepherd.setMaximumSize(size);
+        bMoveShepherd.setMinimumSize(size);
 
     }
 
     /**
-     * Metodo chiamato quando si vuole far iniziare il turno al giocatore
+     * Method chiamato quando si vuole far iniziare il turno al giocatore
      */
     public void clickAction() {
         lAction1.setText("E' il tuo Turno!");
@@ -294,12 +294,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva i bottoni azione del giocatore
+     * Method che attiva/disattiva i bottoni azione del giocatore
      *
      * @param val true si attivano, false si disattivano
      */
     public void activateActions(boolean val) {
-        bMoveShepard.setEnabled(val);
+        bMoveShepherd.setEnabled(val);
         bMoveSheep.setEnabled(val);
         bBuyCard.setEnabled(val);
         bJoinSheeps.setEnabled(val);
@@ -307,7 +307,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva i bottoni delle strade
+     * Method che attiva/disattiva i bottoni delle strade
      *
      * @param val true si attivano, false si disattivano
      */
@@ -320,7 +320,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva i bottoni dei terreni
+     * Method che attiva/disattiva i bottoni dei terreni
      *
      * @param val true si attivano, false si disattivano
      */
@@ -331,7 +331,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva i bottoni della tipologia di terreno
+     * Method che attiva/disattiva i bottoni della tipologia di terreno
      *
      * @param val true si attivano, false si disattivano
      */
@@ -347,7 +347,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva il menu a tendina con i le possibili Pecore
+     * Method che attiva/disattiva il menu a tendina con i le possibili Pecore
      * da selezionare
      *
      * @param val true si attivano, false si disattivano
@@ -392,7 +392,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva il menu a tendina
+     * Method che attiva/disattiva il menu a tendina
      *
      * @param val true si attivano, false si disattivano
      */
@@ -401,13 +401,13 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che attiva/disattiva il menu a tendina e calcola i Pastori che
+     * Method che attiva/disattiva il menu a tendina e calcola i Pastori che
      * devono figurarci
      *
      * @param val true si attivano, false si disattivano
      */
-    public void activateShepardSelection(boolean val) {
-        shepardsInDropDown.clear();
+    public void activateShepherdSelection(boolean val) {
+        shepherdsInDropDown.clear();
 
         int itemCount = sheepDropDown.getItemCount();
         itemCount = itemCount - 1;
@@ -417,18 +417,18 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
         boolean isFirstSelection = true;
 
-        for (ViewShepard ele : shepards) {
+        for (ViewShepherd ele : shepherds) {
             if (ele.getIsOwned()) {
-                shepardsInDropDown.add(ele);
+                shepherdsInDropDown.add(ele);
             }
         }
 
-        for (ViewShepard ele2 : shepardsInDropDown) {
+        for (ViewShepherd ele2 : shepherdsInDropDown) {
             String string = "Pastore con id " + ele2.getId();
             sheepDropDown.addItem(string);
 
             if (isFirstSelection) {
-                shepardSelected = ele2.getId();
+                shepherdSelected = ele2.getId();
                 isFirstSelection = false;
             }
         }
@@ -438,7 +438,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection che aggiorna le monete
+     * Method chiamato dalla connection che aggiorna le monete
      *
      * @param coins quale variazione
      * @param addCoins true se aggiunti, false se sottratti
@@ -454,7 +454,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection che cambia una carta
+     * Method chiamato dalla connection che cambia una carta
      *
      * @param typeOfTerrain tipologia terreno
      * @param isSold true se è venduto, false se è comprato
@@ -491,7 +491,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per muovere un animale(Ovino,BlackSHeep
+     * Method chiamato dalla connection per muovere un animale(Ovino,BlackSHeep
      * o Wolf)
      *
      * @param id id univoco animale
@@ -517,7 +517,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection che serve ad aggiungere un nuovo animale
+     * Method chiamato dalla connection che serve ad aggiungere un nuovo animale
      *
      * @param terrain dove viene aggiunto
      * @param animalType tipologia animale
@@ -537,7 +537,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per uccidere un dato animale
+     * Method chiamato dalla connection per uccidere un dato animale
      *
      * @param id id univoco dell'animale da uccidere
      */
@@ -548,7 +548,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per far crescere un ovino
+     * Method chiamato dalla connection per far crescere un ovino
      *
      * @param id id univoco animale
      * @param kind tipologia in cui è cresciuto
@@ -560,24 +560,24 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per aggiungere un nuovo Pastore
+     * Method chiamato dalla connection per aggiungere un nuovo Pastore
      *
      * @param id id del pastore
      * @param road dove viene piazzato inizialmente
      */
-    public void refreshAddShepard(int id, int road) {
-        ViewShepard newShep = new ViewShepard(id, road);
-        shepards.add(newShep);
-        if (id == tempIdShepard) {
+    public void refreshAddShepherd(int id, int road) {
+        ViewShepherd newShep = new ViewShepherd(id, road);
+        shepherds.add(newShep);
+        if (id == tempIdShepherd) {
 
             newShep.setIsOwned(true);
-            if (firstShepard) {
+            if (firstShepherd) {
                 newShep.setIsFirst(true);
-                lShepard1.setText("Primo pastore in posizione nel terreno numero: " + newShep.getPostition());
-                firstShepard = false;
+                lShepherd1.setText("Primo pastore in posizione nel terreno numero: " + newShep.getPostition());
+                firstShepherd = false;
             } else {
                 newShep.setIsFirst(false);
-                lShepard2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
+                lShepherd2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
             }
         }
         lAction2.setText("E' stato aggiunto un Pastore sulla strada " + road);
@@ -585,30 +585,30 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per muovere un pastore
+     * Method chiamato dalla connection per muovere un pastore
      *
      * @param id id univoco pastore
      * @param road verso dove si muove
      */
-    public void refreshMoveShepard(int id, int road) {
+    public void refreshMoveShepherd(int id, int road) {
 
-        ViewShepard shepard = idToViewShepard(id);
-        int pos = shepard.getPostition();
+        ViewShepherd shepherd = idToViewShepherd(id);
+        int pos = shepherd.getPostition();
         roadsWithFence[pos] = true;
         bRoad.get(pos).setText("Coperta da Cancello");
-        shepard.setPostition(road);
+        shepherd.setPostition(road);
         lAction2.setText("E' stato mosso un Pastore sulla strada " + road);
 
-        if (shepard.isIsFirst()) {
-            lShepard1.setText("Primo pastore in posizione nel terreno numero: " + shepard.getPostition());
+        if (shepherd.isIsFirst()) {
+            lShepherd1.setText("Primo pastore in posizione nel terreno numero: " + shepherd.getPostition());
         } else {
-            lShepard2.setText("Secondo pastore in posizione nel terreno numero: " + shepard.getPostition());
+            lShepherd2.setText("Secondo pastore in posizione nel terreno numero: " + shepherd.getPostition());
         }
 
     }
 
     /**
-     * Metodo chiamato dalla connection per proclamare vincitore
+     * Method chiamato dalla connection per proclamare vincitore
      *
      * @param isWinner true se è il vincitore
      */
@@ -621,7 +621,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato dalla connection per sollevare eccezione a schermo
+     * Method chiamato dalla connection per sollevare eccezione a schermo
      *
      * @param message stringa da stampare
      */
@@ -632,7 +632,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che converte un id in un animale
+     * Method che converte un id in un animale
      *
      * @param id dell'animale
      * @return animale
@@ -648,19 +648,19 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo che converte un id in uno shepherd
+     * Method che converte un id in uno shepherd
      *
      * @param id dello shepherd
-     * @return ViewShepard
+     * @return ViewShepherd
      */
-    private ViewShepard idToViewShepard(int id) {
-        ViewShepard shepard = null;
-        for (ViewShepard ele : shepards) {
+    private ViewShepherd idToViewShepherd(int id) {
+        ViewShepherd shepherd = null;
+        for (ViewShepherd ele : shepherds) {
             if (ele.getId() == id) {
-                shepard = ele;
+                shepherd = ele;
             }
         }
-        return shepard;
+        return shepherd;
     }
 
     /**
@@ -686,18 +686,18 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      *
      * @param id id of the shepherd
      */
-    public void placeShepard(int id) {
+    public void placeShepherd(int id) {
         lAction2.setText("Selezionare strada dove piazzare Pastore");
         state = GUIState.PLACESHEPARD;
-        if (tempIdShepard == -1) {
-            firstShepard = true;
+        if (tempIdShepherd == -1) {
+            firstShepherd = true;
         }
-        tempIdShepard = id;
+        tempIdShepherd = id;
         activateRoads(true);
     }
 
     /**
-     * Metodo chiamato per mandare alla connessione l'azione buyCard
+     * Method chiamato per mandare alla connessione l'azione buyCard
      *
      * @param terrainkind tipologia carta comprata
      */
@@ -706,18 +706,18 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato per mandare alla connessione il posizionamento di un
+     * Method chiamato per mandare alla connessione il posizionamento di un
      * pastore
      *
      * @param road id strada
      */
-    public void sendPlaceShepard(int road) {
-        connectionClient.placeShepard(road);
+    public void sendPlaceShepherd(int road) {
+        connectionClient.placeShepherd(road);
 
     }
 
     /**
-     * Metodo chiamato per mandare alla connessione l'azione MoveSheep
+     * Method chiamato per mandare alla connessione l'azione MoveSheep
      *
      * @param terrain dove muovere
      */
@@ -726,12 +726,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato per mandare alla connessione l'azione MoveShepherd
+     * Method chiamato per mandare alla connessione l'azione MoveShepherd
      *
      * @param roadTo dove muoversi
      */
-    public void sendMoveShepard(int roadTo) {
-        connectionClient.moveShepard(shepardSelected, roadTo);
+    public void sendMoveShepherd(int roadTo) {
+        connectionClient.moveShepherd(shepherdSelected, roadTo);
     }
 
     /**
@@ -753,7 +753,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Metodo chiamato per mandare alla connessione l'azione JoinSheeps
+     * Method chiamato per mandare alla connessione l'azione JoinSheeps
      *
      * @param terrain dove si accoppiano
      */
@@ -761,7 +761,12 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         connectionClient.joinSheep(terrain);
     }
 
-    public void sendKillSheep(int terrain) {
+    /**
+     * Method chiamato permandare alla connessione l'azione KillSheep
+     *
+     * @param sheep id della pecora da uccidere
+     */
+    public void sendKillSheep(int sheep) {
         if (sheepSelected != -1) {
             connectionClient.killSheep(sheepSelected);
         } else {
@@ -792,17 +797,17 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      *
      * @return id shep
      */
-    public int getTempIdShepard() {
-        return tempIdShepard;
+    public int getTempIdShepherd() {
+        return tempIdShepherd;
     }
 
     /**
      * setter id shepherd selezionato
      *
-     * @param tempIdShepard
+     * @param tempIdShepherd
      */
-    public void setTempIdShepard(int tempIdShepard) {
-        this.tempIdShepard = tempIdShepard;
+    public void setTempIdShepherd(int tempIdShepherd) {
+        this.tempIdShepherd = tempIdShepherd;
     }
 
     /**
@@ -869,14 +874,14 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Method colled by the connection to place a new shepard
+     * Method colled by the connection to place a new shepherd
      *
-     * @param idShepard id of shepard
+     * @param idShepherd id of shepherd
      * @param road id of road
      * @param isMine true if the owner is this gui
      */
-    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
-        refreshAddShepard(idShepard, road);
+    public void refreshAddShepherd(int idShepherd, int road, boolean isMine) {
+        refreshAddShepherd(idShepherd, road);
     }
 
     /**
@@ -916,25 +921,51 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     /**
      * Setter for the selected shepherd
      *
-     * @param shepardSelected id of sheph
+     * @param shepherdSelected id of sheph
      */
-    public void setShepardSelected(int shepardSelected) {
-        this.shepardSelected = shepardSelected;
+    public void setShepherdSelected(int shepherdSelected) {
+        this.shepherdSelected = shepherdSelected;
     }
 
+    /**
+     * Riceve il player aggiunto
+     *
+     * @param nickname Nickname del player
+     * @param idPlayer Id del player
+     */
     public void refreshAddPlayer(String nickname, int idPlayer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Riceve il player in attesa di riconnessione
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshWaitPlayer(int idPlayer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Riceve il player disconnesso/riconnesso
+     *
+     * @param idPlayer Id del player
+     * @param turnOff True se disconnesso, false se riconnesso
+     */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Riceve il player a cui tocca effettuare le azioni
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshTurnPlayer(int idPlayer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

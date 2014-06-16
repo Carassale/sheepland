@@ -13,11 +13,11 @@ public interface ConnectionRMI extends Remote {
     /**
      * Viene chiamato dal client, muove il pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      * @throws RemoteException
      */
-    void moveShepard(int idShepard, int idRoad) throws RemoteException;
+    void moveShepherd(int idShepherd, int idRoad) throws RemoteException;
 
     /**
      * Viene chiamato dal client, muove la pecora

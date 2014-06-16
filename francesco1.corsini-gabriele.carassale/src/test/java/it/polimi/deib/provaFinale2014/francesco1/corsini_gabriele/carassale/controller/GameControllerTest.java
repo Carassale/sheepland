@@ -92,14 +92,14 @@ public class GameControllerTest {
     }
 
     /**
-     * Test per il piazzamento degli Shepard
+     * Test per il piazzamento degli Shepherd
      */
     @Test
-    public void testPlaceShepards() {
-        assertTrue(gameController.getGameTable().getMap().getRoads().get(0).hasShepard());
-        assertTrue(gameController.getGameTable().getMap().getRoads().get(1).hasShepard());
-        assertTrue(gameController.getGameTable().getMap().getRoads().get(2).hasShepard());
-        assertTrue(gameController.getGameTable().getMap().getRoads().get(3).hasShepard());
-        assertFalse(gameController.getGameTable().getMap().getRoads().get(4).hasShepard());
+    public void testPlaceShepherds() {
+        assertTrue(gameController.getGameTable().getMap().getRoads().get(0).hasShepherd());
+        assertTrue(gameController.getGameTable().getMap().getRoads().get(1).hasShepherd());
+        assertTrue(gameController.getGameTable().getMap().getRoads().get(2).hasShepherd());
+        assertTrue(gameController.getGameTable().getMap().getRoads().get(3).hasShepherd());
+        assertFalse(gameController.getGameTable().getMap().getRoads().get(4).hasShepherd());
     }
 }

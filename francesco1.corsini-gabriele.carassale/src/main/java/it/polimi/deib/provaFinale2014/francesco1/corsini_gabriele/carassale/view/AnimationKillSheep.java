@@ -19,6 +19,13 @@ public class AnimationKillSheep extends JPanel implements Runnable {
     //stati per il disegno
     private int state;
 
+    /**
+     * Standard contructor
+     *
+     * @param pool
+     * @param sizex
+     * @param sizey
+     */
     public AnimationKillSheep(BufferedImageContainer pool, int sizex, int sizey) {
 
         drop = pool.getBloodDrop();
@@ -34,6 +41,9 @@ public class AnimationKillSheep extends JPanel implements Runnable {
 
     }
 
+    /**
+     * Run is called when the animation needs to be started
+     */
     public void run() {
         while (state < 8) {
             repaint();

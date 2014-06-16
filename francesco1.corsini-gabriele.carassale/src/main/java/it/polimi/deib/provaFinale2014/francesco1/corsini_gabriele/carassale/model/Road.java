@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Classe Strada, contiene i terreni adiacenti e le strade adiacenti,
- * rappresenta presenza di Shepards, Fences , il numero proprio e ha un id
+ * rappresenta presenza di Shepherds, Fences , il numero proprio e ha un id
  *
  * @author Francesco Corsini
  */
@@ -14,10 +14,10 @@ public class Road {
     private Terrain[] adjacentTerrain = new Terrain[2];
     private List<Road> adjacentRoad = new ArrayList<Road>();
     private boolean hasFence;
-    private boolean hasShepard;
+    private boolean hasShepherd;
     private int roadNumber;
     private int id;
-    private Shepard shepard;
+    private Shepherd shepherd;
 
     /**
      * inizializzo con il numero di strada. I territori confinanti saranno
@@ -30,7 +30,7 @@ public class Road {
         adjacentTerrain[0] = null;
         adjacentTerrain[1] = null;
         hasFence = false;
-        hasShepard = false;
+        hasShepherd = false;
     }
 
     /**
@@ -71,21 +71,21 @@ public class Road {
     }
 
     /**
-     * Method per vedere se la strada è occupata da uno Shepard
+     * Method per vedere se la strada è occupata da uno Shepherd
      *
-     * @return true se c'è shepard
+     * @return true se c'è shepherd
      */
-    public boolean hasShepard() {
-        return hasShepard;
+    public boolean hasShepherd() {
+        return hasShepherd;
     }
 
     /**
-     * Method per settare la presenza dello Shepard
+     * Method per settare la presenza dello Shepherd
      *
-     * @param val true se si vuole shepard
+     * @param val true se si vuole shepherd
      */
-    public void setHasShepard(boolean val) {
-        this.hasShepard = val;
+    public void setHasShepherd(boolean val) {
+        this.hasShepherd = val;
     }
 
     /**
@@ -155,18 +155,18 @@ public class Road {
     /**
      * Resituisce lo schepard situato sulla strada
      *
-     * @return Shepard
+     * @return Shepherd
      */
-    public Shepard getShepard() {
-        return shepard;
+    public Shepherd getShepherd() {
+        return shepherd;
     }
 
     /**
-     * Setta lo Shepard desiderato sulla strada
+     * Setta lo Shepherd desiderato sulla strada
      *
-     * @param shepard Shepard da settare
+     * @param shepherd Shepherd da settare
      */
-    public void setShepard(Shepard shepard) {
-        this.shepard = shepard;
+    public void setShepherd(Shepherd shepherd) {
+        this.shepherd = shepherd;
     }
 }

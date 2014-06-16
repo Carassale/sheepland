@@ -4,7 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepherd;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Terrain;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.TerrainCard;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class Player {
 
-    private List<Shepard> shepards;
+    private List<Shepherd> shepherds;
     private List<List<TerrainCard>> terrainCardsOwned;
     private int coins;
     private boolean isFirstPlayer;
@@ -45,7 +45,7 @@ public class Player {
         this.idPlayer = idPlayer;
         onLine = true;
 
-        shepards = new ArrayList<Shepard>();
+        shepherds = new ArrayList<Shepherd>();
         terrainCardsOwned = new ArrayList<List<TerrainCard>>();
 
         actionDone = new String[3];
@@ -104,8 +104,8 @@ public class Player {
      *
      * @return Arrey di pastori
      */
-    public List<Shepard> getShepards() {
-        return shepards;
+    public List<Shepherd> getShepherds() {
+        return shepherds;
     }
 
     /**
@@ -162,12 +162,12 @@ public class Player {
     }
 
     private boolean canBuy(String kind) {
-        if (!shepards.isEmpty()) {
-            for (Shepard shepard : shepards) {
-                if (shepard.getPosition().getAdjacentTerrain1().getTerrainType().equals(kind)) {
+        if (!shepherds.isEmpty()) {
+            for (Shepherd shepherd : shepherds) {
+                if (shepherd.getPosition().getAdjacentTerrain1().getTerrainType().equals(kind)) {
                     return true;
                 }
-                if (shepard.getPosition().getAdjacentTerrain2().getTerrainType().equals(kind)) {
+                if (shepherd.getPosition().getAdjacentTerrain2().getTerrainType().equals(kind)) {
                     return true;
                 }
             }
@@ -181,35 +181,40 @@ public class Player {
      * Method che muove un pastore da una strada ad un altra
      *
      * @param destination strada destinazione
-     * @param shepard pastore da muovere
+     * @param shepherd pastore da muovere
      * @param game gioco su cui si sta giocando
      * @throws CoinException lanciata nel caso soldi insufficenti
      * @throws MoveException lanciata nel caso mossa illegale
-     * @throws ShepardException lanciata nel caso non sia un pastore del player
+     * @throws ShepherdException lanciata nel caso non sia un pastore del player
      */
-    public void moveShepard(Road destination, Shepard shepard, GameTable game) throws CoinException, MoveException, ShepardException {
-        if (shepard.getOwner().getIdPlayer() == getIdPlayer()) {
-            boolean canMove = canMoveShepard(destination);
-            Road shepPos = shepard.getPosition();
+    public void moveShepherd(Road destination, Shepherd shepherd, GameTable game) throws CoinException, MoveException, ShepherdException {
+        if (shepherd.getOwner().getIdPlayer() == getIdPlayer()) {
+            boolean canMove = canMoveShepherd(destination);
+            Road shepPos = shepherd.getPosition();
 
             if (canMove) {
-                if (shepard.isExpensiveMove(destination)) {
-                    if (coins == 0) {
-                        throw new CoinException(Message.NO_MONEY.toString());
-                    } else {
-                        coins--;
-                    }
-                }
+                checkCoinMovement(shepherd, destination);
+
                 shepPos.setFence(true);
-                shepPos.setHasShepard(false);
-                shepard.setPosition(destination);
-                shepard.getPosition().setHasShepard(true);
+                shepPos.setHasShepherd(false);
+                shepherd.setPosition(destination);
+                shepherd.getPosition().setHasShepherd(true);
                 game.decreaseFenceNumber();
             } else {
                 throw new MoveException(Message.ROAD_OCCUPIED.toString());
             }
         } else {
-            throw new ShepardException(Message.NO_YOUR_SHEPARD.toString());
+            throw new ShepherdException(Message.NO_YOUR_SHEPARD.toString());
+        }
+    }
+
+    private void checkCoinMovement(Shepherd shepherd, Road destination) throws CoinException {
+        if (shepherd.isExpensiveMove(destination)) {
+            if (coins == 0) {
+                throw new CoinException(Message.NO_MONEY.toString());
+            } else {
+                coins--;
+            }
         }
     }
 
@@ -226,7 +231,7 @@ public class Player {
         Road shepPos;
 
         shepPos = moveSheepOnRoad(sheep.getPosition(), destination);
-        if (playerHasShepardOnRoad(shepPos)) {
+        if (playerHasShepherdOnRoad(shepPos)) {
             sheep.getPosition().getAnimals().remove(sheep);
             sheep.setPosition(destination);
             sheep.getPosition().getAnimals().add(sheep);
@@ -244,7 +249,7 @@ public class Player {
      */
     public void joinSheeps(Terrain terrain, GameTable game) throws MoveException {
         if (isSheepAndRam(terrain)) {
-            if (isShepardNear(terrain)) {
+            if (isShepherdNear(terrain)) {
                 //prende l'id dell'ultima pecora(che è quella con id più alto
                 int i = game.getSheeps().get(game.getSheeps().size() - 1).getId();
 
@@ -289,16 +294,16 @@ public class Player {
      */
     public void killAnimal(Sheep sheepToKill, GameTable game) throws CoinException, MoveException, WrongDiceNumberException {
 
-        int shepardNearNumber = countShepardNear(sheepToKill.getPosition());
+        int shepherdNearNumber = countShepherdNear(sheepToKill.getPosition());
         Terrain sheepPosition = sheepToKill.getPosition();
 
-        if (coins >= shepardNearNumber * 2) {
-            if (isShepardNear(sheepPosition)) {
+        if (coins >= shepherdNearNumber * 2) {
+            if (isShepherdNear(sheepPosition)) {
                 int random = game.getDice().getRandom();
-                if (randomNumberForShepard(sheepPosition, random)) {
+                if (randomNumberForShepherd(sheepPosition, random)) {
                     sheepPosition.deleteAnimal(sheepToKill);
                     game.getSheeps().remove(sheepToKill);
-                    int payment = payShepards(sheepPosition);
+                    int payment = payShepherds(sheepPosition);
                     coins = coins - payment;
                 } else {
                     throw new WrongDiceNumberException(Message.NO_CORRECT_DICE.toString() + random);
@@ -331,18 +336,18 @@ public class Player {
     }
 
     /**
-     * Method di servizio utilizzato da moveShepard che serve a vedere se la
+     * Method di servizio utilizzato da moveShepherd che serve a vedere se la
      * destinazione è valida
      *
      * @param destination
      * @param game
      * @return
      */
-    private boolean canMoveShepard(Road destination) {
+    private boolean canMoveShepherd(Road destination) {
         if (destination.hasFence()) {
             return false;
         } else {
-            return !destination.hasShepard();
+            return !destination.hasShepherd();
         }
     }
 
@@ -352,12 +357,12 @@ public class Player {
      *
      * @param terrainSheep terreno dove è la sheep
      * @param terrainDestination terreno dove deve essere mossa
-     * @return la strada in mezzo tra i terreni dove ci deve essere lo shepard
+     * @return la strada in mezzo tra i terreni dove ci deve essere lo shepherd
      * @throws MoveException viene lanciata se non c'è una strada tra i due
      * territori
      */
     private Road moveSheepOnRoad(Terrain terrainSheep, Terrain terrainDestination) throws MoveException {
-        boolean isShepard = false;
+        boolean isShepherd = false;
         Road shepPos = null;
 
         List<Road> roadsTerrainSheeps = terrainSheep.getAdjacentRoads();
@@ -367,12 +372,12 @@ public class Player {
             for (Road roadsTerrainDestination : roadsTerrainDestinations) {
                 if (roadsTerrainSheep == roadsTerrainDestination) {
                     shepPos = roadsTerrainDestination;
-                    isShepard = true;
+                    isShepherd = true;
                 }
             }
         }
 
-        if (!isShepard) {
+        if (!isShepherd) {
             throw new MoveException(Message.NO_ROAD_COMUNICANT.toString());
         }
 
@@ -387,16 +392,16 @@ public class Player {
      * @param road strada dove devono passare le pecore
      * @return true se c'è pastore del giocatore
      */
-    private boolean playerHasShepardOnRoad(Road road) {
-        boolean thereIsShepard = false;
+    private boolean playerHasShepherdOnRoad(Road road) {
+        boolean thereIsShepherd = false;
 
-        for (Shepard shepard : shepards) {
-            if (shepard.getPosition().getId() == road.getId()) {
-                thereIsShepard = true;
+        for (Shepherd shepherd : shepherds) {
+            if (shepherd.getPosition().getId() == road.getId()) {
+                thereIsShepherd = true;
             }
         }
 
-        return thereIsShepard;
+        return thereIsShepherd;
     }
 
     /**
@@ -431,18 +436,18 @@ public class Player {
      * @param terrain terreno su cui cercheremo
      * @return true se c'è pastore vicino
      */
-    private boolean isShepardNear(Terrain terrain) {
-        boolean thereIsShepard = false;
+    private boolean isShepherdNear(Terrain terrain) {
+        boolean thereIsShepherd = false;
 
         for (Road road : terrain.getAdjacentRoads()) {
-            for (Shepard shepard : shepards) {
-                if (shepard.getPosition() == road) {
-                    thereIsShepard = true;
+            for (Shepherd shepherd : shepherds) {
+                if (shepherd.getPosition() == road) {
+                    thereIsShepherd = true;
                 }
             }
         }
 
-        return thereIsShepard;
+        return thereIsShepherd;
     }
 
     /**
@@ -451,10 +456,10 @@ public class Player {
      * @param terrain dove contare
      * @return num pastori
      */
-    private int countShepardNear(Terrain terrain) {
+    private int countShepherdNear(Terrain terrain) {
         int number = 0;
         for (Road road : terrain.getAdjacentRoads()) {
-            if (road.hasShepard()) {
+            if (road.hasShepherd()) {
                 number++;
             }
         }
@@ -469,12 +474,12 @@ public class Player {
      * @param terrain terreno dove si trova la pecora/e in questione
      * @return true se dal dado esce il numero giusto
      */
-    private boolean randomNumberForShepard(Terrain terrain, int random) {
+    private boolean randomNumberForShepherd(Terrain terrain, int random) {
         boolean gotRightNumber = false;
 
         for (Road road : terrain.getAdjacentRoads()) {
-            for (Shepard shepard : shepards) {
-                if (shepard.getPosition() == road
+            for (Shepherd shepherd : shepherds) {
+                if (shepherd.getPosition() == road
                         && random == road.getRoadNumber()) {
                     gotRightNumber = true;
                 }
@@ -490,15 +495,15 @@ public class Player {
      * @param terrain
      * @return La cifra di coin pagati
      */
-    private int payShepards(Terrain terrain) {
+    private int payShepherds(Terrain terrain) {
         int totalCost = 0;
 
         for (Road road : terrain.getAdjacentRoads()) {
-            for (Shepard shepard : shepards) {
-                if (road.hasShepard()
-                        && shepard.getId() != road.getShepard().getId()) {
+            for (Shepherd shepherd : shepherds) {
+                if (road.hasShepherd()
+                        && shepherd.getId() != road.getShepherd().getId()) {
                     totalCost = totalCost + 2;
-                    shepard.getOwner().setCoins(shepard.getOwner().getCoins() + 2);
+                    shepherd.getOwner().setCoins(shepherd.getOwner().getCoins() + 2);
                 }
             }
         }
@@ -578,7 +583,7 @@ public class Player {
 
     /**
      * Nel caso in cui l'ultima azione non sia andata a buon fine viene chiamato
-     * questo metodo per rimuovere l'ultima azione effettuata
+     * questo method per rimuovere l'ultima azione effettuata
      */
     public void clearLastAction() {
         for (int i = 2; i >= 0; i--) {
@@ -600,15 +605,15 @@ public class Player {
      * @throws WrongDiceNumberException
      */
     public void killAnimal(Sheep sheepToKill, GameTable game, int num) throws CoinException, MoveException, WrongDiceNumberException {
-        int shepardNearNumber = countShepardNear(sheepToKill.getPosition());
+        int shepherdNearNumber = countShepherdNear(sheepToKill.getPosition());
         Terrain sheepPosition = sheepToKill.getPosition();
 
-        if (coins >= shepardNearNumber * 2) {
-            if (isShepardNear(sheepPosition)) {
-                if (randomNumberForShepard(sheepPosition, num)) {
+        if (coins >= shepherdNearNumber * 2) {
+            if (isShepherdNear(sheepPosition)) {
+                if (randomNumberForShepherd(sheepPosition, num)) {
                     sheepPosition.deleteAnimal(sheepToKill);
                     game.getSheeps().remove(sheepToKill);
-                    int payment = payShepards(sheepPosition);
+                    int payment = payShepherds(sheepPosition);
                     coins = coins - payment;
                 } else {
                     throw new WrongDiceNumberException(Message.NO_CORRECT_DICE.toString() + num);

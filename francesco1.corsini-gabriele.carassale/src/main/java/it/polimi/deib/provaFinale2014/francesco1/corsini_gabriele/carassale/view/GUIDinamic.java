@@ -68,7 +68,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final ImageIcon[] fieldCards = new ImageIcon[6];
     private int plain = 0, forest = 0, river = 0, desert = 0, mountain = 0, field = 0;
 
-    private final List<ViewShepard> shepards = new ArrayList<ViewShepard>();
+    private final List<ViewShepherd> shepherds = new ArrayList<ViewShepherd>();
 
     //contenitore di tutte le immagini
     private final BufferedImageContainer imagePool;
@@ -76,7 +76,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     //uso per attesa animazioni
     private boolean waitingForAddAnimal = false;
     //variabile temporanea usata per posizionare Pastori 
-    private int tempShepard = -1;
+    private int tempShepherd = -1;
 
     private List<ViewAnimal> animals = new ArrayList<ViewAnimal>();
 
@@ -88,7 +88,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private int wolfActive = 18, blackSheepActive = 18;
 
     //per eseguire il refresh giusto nel muovipastore
-    private int tempIdShepard;
+    private int tempIdShepherd;
     private int coins;
     private int fenceNumber;
 
@@ -393,7 +393,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     }
 
     /**
-     * Service method to create the 2 text labels(error and message)
+     * Service method to create the text labels
      */
     private void createTextLabel() {
         textLabel = new JLabel("");
@@ -478,7 +478,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Service method to create the border right
      */
     private void createBorder() {
-        ImageIcon fen = new ImageIcon(imagePool.getBorder_right());
+        ImageIcon fen = new ImageIcon(imagePool.getBorderRight());
         borderPicture = new JLabel(fen);
         layeredPane.add(borderPicture, 1);
         borderPicture.setSize(13, 705);
@@ -486,6 +486,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         borderPicture.setVisible(true);
     }
 
+    /**
+     * Service method to create the status icon of players
+     */
     private void createStatusPlayer() {
         ImageIcon fen = new ImageIcon(imagePool.getBackPlayer());
         ImageIcon ico = null;
@@ -608,6 +611,13 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         anim.getRunner().start();
     }
 
+    /**
+     * Method that starts the animation when a sheep is killed
+     *
+     * @param x x position of the button pressed
+     * @param y y position of the button pressed
+     * @param terrain where to close the submenu
+     */
     public void animationKillSheep(int x, int y, int terrain) {
         AnimationKillSheep anim = new AnimationKillSheep(imagePool, this.getWidth(), this.getHeight());
 
@@ -759,12 +769,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     /**
      * Method called from the connection to enable the player in placing the
-     * shepard
+     * shepherd
      *
-     * @param idShepard
+     * @param idShepherd
      */
-    public void placeShepard(int idShepard) {
-        tempShepard = idShepard;
+    public void placeShepherd(int idShepherd) {
+        tempShepherd = idShepherd;
         state = GUIDinamicState.PLACESHEPARD;
         updateText("Posizionare Pastore su Strada");
     }
@@ -951,13 +961,13 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * Method called from the connection when a new shepherd is added to the
      * game
      *
-     * @param idShepard id of the shepherd
+     * @param idShepherd id of the shepherd
      * @param road where to place
      * @param isMine if this player owns the shepherd
      */
-    public void refreshAddShepard(int idShepard, int road, boolean isMine) {
-        ViewShepard shep = new ViewShepard(idShepard, road);
-        roads[road].setShepard(idShepard, twoPlayer);
+    public void refreshAddShepherd(int idShepherd, int road, boolean isMine) {
+        ViewShepherd shep = new ViewShepherd(idShepherd, road);
+        roads[road].setShepherd(idShepherd, twoPlayer);
         if (isMine) {
             shep.setIsOwned(true);
             updateText("Posizionato");
@@ -965,23 +975,23 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             shep.setIsOwned(false);
             updateText("Un altro pastore è stato posizionato");
         }
-        tempShepard = -1;
-        shepards.add(shep);
+        tempShepherd = -1;
+        shepherds.add(shep);
         state = GUIDinamicState.WAITINGFORSERVER;
     }
 
     /**
      * Method called from the connection to move a shepherd
      *
-     * @param idShepard id of the shepherd
+     * @param idShepherd id of the shepherd
      * @param roadTo id where to move
      */
-    public void refreshMoveShepard(int idShepard, int roadTo) {
+    public void refreshMoveShepherd(int idShepherd, int roadTo) {
 
-        for (ViewShepard ele : shepards) {
-            if (ele.getId() == idShepard) {
+        for (ViewShepherd ele : shepherds) {
+            if (ele.getId() == idShepherd) {
                 roads[ele.getPostition()].setFence();
-                roads[roadTo].setShepard(idShepard, twoPlayer);
+                roads[roadTo].setShepherd(idShepherd, twoPlayer);
                 ele.setPostition(roadTo);
             }
         }
@@ -1075,9 +1085,9 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @param roadTo destination road
      */
-    public void sendMoveShepard(int roadTo) {
+    public void sendMoveShepherd(int roadTo) {
         state = GUIDinamicState.WAITINGFORSERVER;
-        connectionClient.moveShepard(tempIdShepard, roadTo);
+        connectionClient.moveShepherd(tempIdShepherd, roadTo);
         updateText("");
     }
 
@@ -1112,8 +1122,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @param road where to place
      */
-    public void sendPlaceShepard(int road) {
-        connectionClient.placeShepard(road);
+    public void sendPlaceShepherd(int road) {
+        connectionClient.placeShepherd(road);
         updateText("");
     }
 
@@ -1122,8 +1132,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @return the id of the shepherd
      */
-    public int getTempShepard() {
-        return tempShepard;
+    public int getTempShepherd() {
+        return tempShepherd;
     }
 
     /**
@@ -1131,8 +1141,8 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @return list of shepherds
      */
-    public List<ViewShepard> getShepards() {
-        return shepards;
+    public List<ViewShepherd> getShepherds() {
+        return shepherds;
     }
 
     /**
@@ -1158,17 +1168,17 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      *
      * @return id of the shepherd
      */
-    public int getTempIdShepard() {
-        return tempIdShepard;
+    public int getTempIdShepherd() {
+        return tempIdShepherd;
     }
 
     /**
      * Setter of the selected shepherd
      *
-     * @param tempIdShepard id of the shepherd
+     * @param tempIdShepherd id of the shepherd
      */
-    public void setTempIdShepard(int tempIdShepard) {
-        this.tempIdShepard = tempIdShepard;
+    public void setTempIdShepherd(int tempIdShepherd) {
+        this.tempIdShepherd = tempIdShepherd;
     }
 
     /**
@@ -1235,6 +1245,12 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     }
 
+    /**
+     * Riceve il player aggiunto
+     *
+     * @param nickname Nickname del player
+     * @param idPlayer Id del player
+     */
     public void refreshAddPlayer(String nickname, int idPlayer) {
         nicknamePlayer[idPlayer].setText(nickname);
         nicknamePlayer[idPlayer].setVisible(true);
@@ -1247,14 +1263,30 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         }
     }
 
+    /**
+     * Riceve il player in attesa di riconnessione
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshWaitPlayer(int idPlayer) {
         //TODO
     }
 
+    /**
+     * Riceve il player disconnesso/riconnesso
+     *
+     * @param idPlayer Id del player
+     * @param turnOff True se disconnesso, false se riconnesso
+     */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
         //TODO
     }
 
+    /**
+     * Riceve il player a cui tocca effettuare le azioni
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshTurnPlayer(int idPlayer) {
         ImageIcon fen = new ImageIcon(imagePool.getBackPlayer());
         for (int i = 0; i < 4; i++) {

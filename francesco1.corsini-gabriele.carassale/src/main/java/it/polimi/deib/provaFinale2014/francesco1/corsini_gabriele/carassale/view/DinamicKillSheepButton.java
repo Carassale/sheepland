@@ -72,7 +72,7 @@ public class DinamicKillSheepButton extends JPanel {
              * @param e event
              */
             public void mousePressed(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
 
             /**
@@ -81,7 +81,7 @@ public class DinamicKillSheepButton extends JPanel {
              * @param e event
              */
             public void mouseReleased(MouseEvent e) {
-                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo metodo
+                //è presente ma non utilizzato poichè non mi serve ma sto implementando un interfaccia che ha questo method
             }
 
             /**

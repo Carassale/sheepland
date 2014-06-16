@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Lelino
+ * @author Carassale Gabriele
  */
 public class StatusPlayerTest {
 

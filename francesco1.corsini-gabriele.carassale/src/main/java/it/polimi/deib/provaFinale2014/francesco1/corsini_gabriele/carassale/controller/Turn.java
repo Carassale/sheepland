@@ -106,7 +106,7 @@ public class Turn {
     }
 
     /**
-     * Metodo che fa crescere tutti gli agnelli di 1 turno e se ne trova uno
+     * Method che fa crescere tutti gli agnelli di 1 turno e se ne trova uno
      * abbastanza grande lo fa diventare pecora o montone
      */
     protected void growUpLambs() {

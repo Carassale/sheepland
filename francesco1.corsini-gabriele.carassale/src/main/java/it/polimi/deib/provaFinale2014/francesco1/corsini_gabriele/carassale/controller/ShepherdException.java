@@ -4,12 +4,12 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.con
  *
  * @author Gabriele Carassale
  */
-public class ShepardException extends Exception {
+public class ShepherdException extends Exception {
 
     /**
      * Solleva un eccezione
      */
-    public ShepardException() {
+    public ShepherdException() {
         super();
     }
 
@@ -18,7 +18,7 @@ public class ShepardException extends Exception {
      *
      * @param s Stringa da sollevare
      */
-    public ShepardException(String s) {
+    public ShepherdException(String s) {
         super(s);
     }
 

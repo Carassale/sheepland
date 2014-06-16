@@ -7,43 +7,43 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
  *
  * @author Francesco Corsini
  */
-public class Shepard {
+public class Shepherd {
 
     private Player owner;
     private Road position;
     private int id;
 
     /**
-     * inizializza lo shepard e lo posiziona sulla plancia
+     * inizializza lo shepherd e lo posiziona sulla plancia
      *
      * @param road posizione
      * @param player giocatore che possiede il pastore
-     * @param idShepard id del pastore(serve per serializzazione)
+     * @param idShepherd id del pastore(serve per serializzazione)
      */
-    public Shepard(Road road, Player player, int idShepard) {
+    public Shepherd(Road road, Player player, int idShepherd) {
         position = road;
-        position.setHasShepard(true);
-        position.setShepard(this);
+        position.setHasShepherd(true);
+        position.setShepherd(this);
         owner = player;
-        id = idShepard;
+        id = idShepherd;
     }
 
     /**
-     * inizializza lo shepard e lo posiziona sulla plancia(costruttore
+     * inizializza lo shepherd e lo posiziona sulla plancia(costruttore
      * utilizzato nei test)
      *
      * @param road posizione
      */
-    public Shepard(Road road) {
+    public Shepherd(Road road) {
         position = road;
-        position.setHasShepard(true);
-        position.setShepard(this);
+        position.setHasShepherd(true);
+        position.setShepherd(this);
     }
 
     /**
      * Method per prendere la posizione
      *
-     * @return posizione shepard
+     * @return posizione shepherd
      */
     public Road getPosition() {
         return position;
@@ -56,11 +56,11 @@ public class Shepard {
      * @param destination dove verrà messo
      */
     public void setPosition(Road destination) {
-        position.setHasShepard(false);
-        position.setShepard(null);
+        position.setHasShepherd(false);
+        position.setShepherd(null);
         position = destination;
-        position.setHasShepard(true);
-        position.setShepard(this);
+        position.setHasShepherd(true);
+        position.setShepherd(this);
     }
 
     /**
@@ -98,21 +98,21 @@ public class Shepard {
     }
 
     /**
-     * Preleva l'id dello Shepard
+     * Preleva l'id dello Shepherd
      *
-     * @return int ID dello Shepard
+     * @return int ID dello Shepherd
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Imposta un id allo Shepard
+     * Imposta un id allo Shepherd
      *
-     * @param idShepard Id da settare
+     * @param idShepherd Id da settare
      */
-    public void setId(int idShepard) {
-        id = idShepard;
+    public void setId(int idShepherd) {
+        id = idShepherd;
     }
 
 }

@@ -15,7 +15,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Lelino
+ * @author Carassale Gabriele
  */
 public class MapServerPlayerTest {
 

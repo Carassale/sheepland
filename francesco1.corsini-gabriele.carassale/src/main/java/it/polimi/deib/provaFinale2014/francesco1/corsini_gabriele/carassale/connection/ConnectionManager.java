@@ -4,7 +4,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cont
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.controller.Player;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepherd;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.server.MapServerPlayer;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
@@ -29,7 +29,7 @@ public abstract class ConnectionManager implements Runnable {
     GameController gameController;
     MapServerPlayer map;
     boolean isConnected;
-    int shepardToPlace = 0;
+    int shepherdToPlace = 0;
     boolean isFinishGame = false;
 
     private String thisGame;
@@ -81,7 +81,7 @@ public abstract class ConnectionManager implements Runnable {
     }
 
     /**
-     * Chiama il metodo isAllClientReady finchè non ritorna true, in seguito
+     * Chiama il method isAllClientReady finchè non ritorna true, in seguito
      * crea un CheckThreadSocket e fa proseguire il processo del gioco
      */
     public void waitOkFromClient() {
@@ -98,6 +98,9 @@ public abstract class ConnectionManager implements Runnable {
         checkThread = new CheckThread();
     }
 
+    /**
+     * Effettua per tutti i player connessi il refreshSingleAddPlayer
+     */
     public void refreshAddPlayer() {
         for (PlayerConnection playerConnection1 : playerConnections) {
             for (PlayerConnection playerConnection2 : playerConnections) {
@@ -106,15 +109,41 @@ public abstract class ConnectionManager implements Runnable {
         }
     }
 
+    /**
+     * Invia al client l'id e il nickname del player aggiunto
+     *
+     * @param player Player a cui inviare
+     * @param nickname Nickname del player aggiunto
+     * @param idPlayer Id del player aggiunto
+     */
     public void refreshSingleAddPlayer(PlayerConnection player, String nickname, int idPlayer) {
     }
 
+    /**
+     * Invia al client l'id del player in attesa,
+     *
+     * @param player Player a cui inviare
+     * @param idPlayer Id del player in attesa
+     */
     public void refreshSingleWaitPlayer(PlayerConnection player, int idPlayer) {
     }
 
+    /**
+     * Invia al client l'id del player disconnessco
+     *
+     * @param player Player a cui inviare
+     * @param idPlayer Id del player disconnesso/riconnesso
+     * @param turnOff True se è disconnesso, false se riconnesso
+     */
     public void refreshSingleTurnOffPlayer(PlayerConnection player, int idPlayer, boolean turnOff) {
     }
 
+    /**
+     * stampa un mesaggio a un player scelto
+     *
+     * @param playerConnection player a cui inviare il messaggio
+     * @param message Messaggio da inviare
+     */
     public void printMessage(PlayerConnection playerConnection, String message) {
     }
 
@@ -133,10 +162,10 @@ public abstract class ConnectionManager implements Runnable {
      * Inserito qui per creare un method guida, dice al client di posizionareve
      * posizionare due pastori
      *
-     * @param idShepard
+     * @param idShepherd
      * @return Road nella quale è stato posizionato il pastore
      */
-    public Road getPlacedShepard(int idShepard) {
+    public Road getPlacedShepherd(int idShepherd) {
         return null;
     }
 
@@ -156,10 +185,10 @@ public abstract class ConnectionManager implements Runnable {
     /**
      * Inserito qui per creare un method guida
      *
-     * @param idShepard
+     * @param idShepherd
      * @param idRoad
      */
-    public void refreshAddShepard(int idShepard, int idRoad) {
+    public void refreshAddShepherd(int idShepherd, int idRoad) {
 
     }
 
@@ -213,6 +242,13 @@ public abstract class ConnectionManager implements Runnable {
         refreshCoin(currentPlayer, coins, addCoin);
     }
 
+    /**
+     * Invia al player scelto le monete da aggiungere o rimuovere
+     *
+     * @param player
+     * @param coins
+     * @param addCoin
+     */
     public void refreshCoin(PlayerConnection player, int coins, boolean addCoin) {
     }
 
@@ -226,13 +262,20 @@ public abstract class ConnectionManager implements Runnable {
         refreshCard(currentPlayer, kind, isSold);
     }
 
+    /**
+     * Invia al player scelto il tipo di carta comprata/venduta
+     *
+     * @param player
+     * @param kind
+     * @param isSold
+     */
     public void refreshCard(PlayerConnection player, String kind, boolean isSold) {
     }
 
     /**
      * Refresh di tutto il game table nel caso un giocatore si sia ricollegato:
      * invia le carte e le monete possedute, la posizione di tutti i pastori,
-     * degli animali e delle fance
+     * degli animali e delle fence
      *
      * @param idPlayer
      */
@@ -268,16 +311,16 @@ public abstract class ConnectionManager implements Runnable {
         }
 
         reconnectRefreshAddAnimal(thisPlayer);
-        reconnectRefreshAddShepard(thisPlayer, idPlayer);
+        reconnectRefreshAddShepherd(thisPlayer, idPlayer);
         refreshCoin(thisPlayer, thisGamePlayer.getCoins(), true);
         reconnectRefreshCard(thisPlayer, thisGamePlayer);
         refreshAllFence(thisPlayer);
 
-        if (thisGamePlayer.getShepards().isEmpty()) {
-            shepardToPlace = 1;
+        if (thisGamePlayer.getShepherds().isEmpty()) {
+            shepherdToPlace = 1;
         }
-        if (playerConnections.size() == 2 && thisGamePlayer.getShepards().isEmpty()) {
-            shepardToPlace = 2;
+        if (playerConnections.size() == 2 && thisGamePlayer.getShepherds().isEmpty()) {
+            shepherdToPlace = 2;
         }
 
         for (PlayerConnection playerConnection : playerConnections) {
@@ -292,6 +335,12 @@ public abstract class ConnectionManager implements Runnable {
         }
     }
 
+    /**
+     * Invia tutti gli animali al player, viene usato nel caso della
+     * riconnessione
+     *
+     * @param player Player a cui inviare
+     */
     private void reconnectRefreshAddAnimal(PlayerConnection player) {
         String kind;
         for (Sheep sheep : gameController.getGameTable().getSheeps()) {
@@ -312,14 +361,27 @@ public abstract class ConnectionManager implements Runnable {
         singleRefreshAddAnimal(player, -1, gameController.getGameTable().getBlacksheep().getPosition().getID(), kind);
     }
 
-    private void reconnectRefreshAddShepard(PlayerConnection player, int idPlayer) {
+    /**
+     * Invia tutti i pastori al player, viene usato nel caso della riconnessione
+     *
+     * @param player Player a cui inviare
+     * @param idPlayer idPlayer per controllare se isMine
+     */
+    private void reconnectRefreshAddShepherd(PlayerConnection player, int idPlayer) {
         boolean isMine;
-        for (Shepard shepard : gameController.getGameTable().getShepards()) {
-            isMine = shepard.getOwner().getIdPlayer() == idPlayer;
-            singeRefreshAddShepard(player, shepard.getId(), shepard.getPosition().getId(), isMine);
+        for (Shepherd shepherd : gameController.getGameTable().getShepherds()) {
+            isMine = shepherd.getOwner().getIdPlayer() == idPlayer;
+            singeRefreshAddShepherd(player, shepherd.getId(), shepherd.getPosition().getId(), isMine);
         }
     }
 
+    /**
+     * Invia tutte le carte possedute dal player, viene usato nel caso della
+     * riconnessione
+     *
+     * @param player Player a cui inviare
+     * @param gamePlayer
+     */
     private void reconnectRefreshCard(PlayerConnection player, Player gamePlayer) {
         int i;
         for (i = 0; i < gamePlayer.getTerrainCardsOwned(TypeCard.DESERT.toString()).size(); i++) {
@@ -342,12 +404,33 @@ public abstract class ConnectionManager implements Runnable {
         }
     }
 
+    /**
+     * Invia al player l'animale aggiunto
+     *
+     * @param player
+     * @param idAnimal
+     * @param idTerrain
+     * @param kind
+     */
     public void singleRefreshAddAnimal(PlayerConnection player, int idAnimal, int idTerrain, String kind) {
     }
 
-    public void singeRefreshAddShepard(PlayerConnection player, int idShepard, int idRoad, boolean isMine) {
+    /**
+     * Invia al player il pastore aggiunto
+     *
+     * @param player
+     * @param idShepherd
+     * @param idRoad
+     * @param isMine
+     */
+    public void singeRefreshAddShepherd(PlayerConnection player, int idShepherd, int idRoad, boolean isMine) {
     }
 
+    /**
+     * Invia al player le fence aggiunte
+     *
+     * @param player
+     */
     public void refreshAllFence(PlayerConnection player) {
     }
 
@@ -358,12 +441,21 @@ public abstract class ConnectionManager implements Runnable {
 
     }
 
+    /**
+     * Per tutti i player effettua il refreshSingleTurnPlayer
+     */
     public void refreshTurnPlayer() {
         for (PlayerConnection playerConnection : playerConnections) {
             refreshSingleTurnPlayer(playerConnection, currentPlayer.getIdPlayer());
         }
     }
 
+    /**
+     * Invia al player scelto l'id del player a cui tocca giocare
+     *
+     * @param player
+     * @param idPlayer
+     */
     public void refreshSingleTurnPlayer(PlayerConnection player, int idPlayer) {
     }
 
@@ -417,8 +509,8 @@ public abstract class ConnectionManager implements Runnable {
 
     /**
      * Controlla se tutti i player sono collegati effettuando la chiamata al
-     * metodo isOnline del player, nel caso in cui siano tutti disconnessi
-     * effettua la chiamata al metodo turnOffGame per terminare il gioco
+     * method isOnline del player, nel caso in cui siano tutti disconnessi
+     * effettua la chiamata al method turnOffGame per terminare il gioco
      */
     public void checkAllStatus() {
         for (Player player : gameController.getPlayerPool().getPlayers()) {
@@ -466,7 +558,7 @@ public abstract class ConnectionManager implements Runnable {
 
     /**
      * Controlla se tutti i client sono pronti effettuando una chiamata al
-     * metodo isReadyClient
+     * method isReadyClient
      *
      * @return
      */
@@ -479,18 +571,25 @@ public abstract class ConnectionManager implements Runnable {
         return true;
     }
 
+    /**
+     * Controlla se il player passato come parametro è pronto a giocare, non
+     * implementato qui ma nelle classi che la estendono
+     *
+     * @param player
+     * @return
+     */
     public boolean isRadyClient(PlayerConnection player) {
         return false;
     }
 
     /**
      * Nel caso in cui il player riconnesso non ha ancora piazzato il pastore,
-     * viene chiamato questo metodo per permettere il posizionamento del pastore
+     * viene chiamato questo method per permettere il posizionamento del pastore
      * sulla mappa
      *
      * @param player
      */
-    public void placeShepard(PlayerConnection player) {
+    public void placeShepherd(PlayerConnection player) {
         Player playerGame = null;
         for (Player player1 : gameController.getPlayerPool().getPlayers()) {
             if (player1.getIdPlayer() == player.getIdPlayer()) {
@@ -499,39 +598,39 @@ public abstract class ConnectionManager implements Runnable {
             }
         }
 
-        int idShepard = gameController.getGameTable().getShepards().get(gameController.getGameTable().getShepards().size() - 1).getId();
-        while (shepardToPlace > 0) {
-            idShepard++;
+        int idShepherd = gameController.getGameTable().getShepherds().get(gameController.getGameTable().getShepherds().size() - 1).getId();
+        while (shepherdToPlace > 0) {
+            idShepherd++;
 
             //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
             Road roadChoosen = new Road(100);
-            boolean playerHasPlacedShepard;
+            boolean playerHasPlacedShepherd;
             boolean skip;
 
             do {
-                playerHasPlacedShepard = false;
+                playerHasPlacedShepherd = false;
                 skip = false;
 
-                roadChoosen = getPlacedShepard(idShepard);
+                roadChoosen = getPlacedShepherd(idShepherd);
                 if (roadChoosen != null) {
-                    if (!roadChoosen.hasShepard()) {
-                        playerHasPlacedShepard = true;
+                    if (!roadChoosen.hasShepherd()) {
+                        playerHasPlacedShepherd = true;
                     }
                 } else {
-                    playerHasPlacedShepard = true;
+                    playerHasPlacedShepherd = true;
                     skip = true;
                 }
-            } while (!playerHasPlacedShepard);
+            } while (!playerHasPlacedShepherd);
 
             if (!skip) {
-                Shepard shepard = new Shepard(roadChoosen, playerGame, idShepard);
-                playerGame.getShepards().add(shepard);
-                gameController.getGameTable().getShepards().add(shepard);
+                Shepherd shepherd = new Shepherd(roadChoosen, playerGame, idShepherd);
+                playerGame.getShepherds().add(shepherd);
+                gameController.getGameTable().getShepherds().add(shepherd);
 
-                refreshAddShepard(idShepard, roadChoosen.getId());
+                refreshAddShepherd(idShepherd, roadChoosen.getId());
             }
 
-            shepardToPlace--;
+            shepherdToPlace--;
         }
     }
 
@@ -574,7 +673,7 @@ public abstract class ConnectionManager implements Runnable {
         }
 
         /**
-         * Chiama per ogni player il metodo isStillConnected per controllare se
+         * Chiama per ogni player il method isStillConnected per controllare se
          * sono ancora connessi
          */
         private void checkStatus() {

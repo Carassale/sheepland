@@ -43,7 +43,7 @@ public class TurnTest {
 
     /**
      * Test che prova a muovere la BlackSheep e valuta se la pecora si è mossa
-     * veramente(se moveBlackSheep() ritorna true vuol dire che il metodo la
+     * veramente(se moveBlackSheep() ritorna true vuol dire che il method la
      * dovrebbe aver mossa, metre false il dado a fallito e la BlackSheep non si
      * muove). Questo è obbligato poichè il risultato della mossa di BlackSheep
      * è randomico a causa del lancio del dado

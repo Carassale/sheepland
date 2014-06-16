@@ -199,26 +199,26 @@ public class LineCommand implements TypeOfInteraction {
     /**
      * Visualizza a video il pastore aggiunto
      *
-     * @param idShepard Pastore da aggiungere
+     * @param idShepherd Pastore da aggiungere
      * @param idRoad Strada dove posizionare
      * @param isMine True se è il suo pastore
      */
-    public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) {
+    public void refreshAddShepherd(int idShepherd, int idRoad, boolean isMine) {
         String s = "";
         if (isMine) {
             s = ": è il tuo";
         }
-        print("Aggiunto pastore " + idShepard + " nella strada " + idRoad + s);
+        print("Aggiunto pastore " + idShepherd + " nella strada " + idRoad + s);
     }
 
     /**
      * Visualizza a video il movimento del pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      */
-    public void refreshMoveShepard(int idShepard, int idRoad) {
-        print("Mosso pastore " + idShepard + " nella strada  " + idRoad);
+    public void refreshMoveShepherd(int idShepherd, int idRoad) {
+        print("Mosso pastore " + idShepherd + " nella strada  " + idRoad);
     }
 
     /**
@@ -241,7 +241,7 @@ public class LineCommand implements TypeOfInteraction {
 
         switch (i) {
             case 1:
-                moveShepard();
+                moveShepherd();
                 break;
             case 2:
                 moveSheep();
@@ -264,15 +264,15 @@ public class LineCommand implements TypeOfInteraction {
     /**
      * Muove il pastore
      */
-    public void moveShepard() {
+    public void moveShepherd() {
         print("Quale pastore vuoi muovere?");
 
-        int idShepard = readInt();
+        int idShepherd = readInt();
 
         print("In quale strada?");
         int idRoad = readInt();
 
-        connectionClient.moveShepard(idShepard, idRoad);
+        connectionClient.moveShepherd(idShepherd, idRoad);
     }
 
     /**
@@ -368,13 +368,13 @@ public class LineCommand implements TypeOfInteraction {
     /**
      * Chiede a video di posizionare un pastore
      *
-     * @param idShepard Pastore da posizionare
+     * @param idShepherd Pastore da posizionare
      */
-    public void placeShepard(int idShepard) {
-        print("Seleziona una strada dove posizionare il pastore " + idShepard);
+    public void placeShepherd(int idShepherd) {
+        print("Seleziona una strada dove posizionare il pastore " + idShepherd);
         int idRoad = readInt();
 
-        connectionClient.placeShepard(idRoad);
+        connectionClient.placeShepherd(idRoad);
     }
 
     /**
@@ -408,16 +408,33 @@ public class LineCommand implements TypeOfInteraction {
         print("Gioco completato in posizione " + finalPosition + " con un punteggio di " + finalScore + ".");
     }
 
+    /**
+     * Riceve il player aggiunto
+     *
+     * @param nickname Nickname del player
+     * @param idPlayer Id del player
+     */
     public void refreshAddPlayer(String nickname, int idPlayer) {
         player.add(idPlayer, nickname);
         print("Il giocatore " + nickname + " si è unito alla partita.");
     }
 
+    /**
+     * Riceve il player in attesa di riconnessione
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshWaitPlayer(int idPlayer) {
         String s = player.get(idPlayer);
-        print("Il giocatore " + s + " si è scollegato, resta in attesa...");
+        print("Il  giocatore " + s + " si è scollegato, resta in attesa...");
     }
 
+    /**
+     * Riceve il player disconnesso/riconnesso
+     *
+     * @param idPlayer Id del player
+     * @param turnOff True se disconnesso, false se riconnesso
+     */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
         String s = player.get(idPlayer);
         if (turnOff) {
@@ -427,6 +444,11 @@ public class LineCommand implements TypeOfInteraction {
         }
     }
 
+    /**
+     * Riceve il player a cui tocca effettuare le azioni
+     *
+     * @param idPlayer Id del player
+     */
     public void refreshTurnPlayer(int idPlayer) {
         String s = player.get(idPlayer);
         print("È il turno di " + s);

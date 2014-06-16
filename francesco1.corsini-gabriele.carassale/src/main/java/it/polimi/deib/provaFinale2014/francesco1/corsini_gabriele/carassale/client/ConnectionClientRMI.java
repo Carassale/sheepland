@@ -29,7 +29,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     private static final int PORT = 3001;
 
     /**
-     * Questa variabile server solo per il method placeShepard, serve per
+     * Questa variabile server solo per il method placeShepherd, serve per
      * aspettare la scelta del clinet
      */
     private Integer tempRoad = null;
@@ -101,7 +101,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      *
      * @param idRoad Strada scelta
      */
-    public void placeShepard(int idRoad) {
+    public void placeShepherd(int idRoad) {
         synchronized (objectSyncronize) {
             tempRoad = idRoad;
             objectSyncronize.notifyAll();
@@ -112,12 +112,12 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * Viene invocato dal typeOfInteraction e inoltra la chiamata al server, in
      * questo caso il method è muovi il pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      */
-    public void moveShepard(int idShepard, int idRoad) {
+    public void moveShepherd(int idShepherd, int idRoad) {
         try {
-            connectionRMI.moveShepard(idShepard, idRoad);
+            connectionRMI.moveShepherd(idShepherd, idRoad);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
@@ -200,13 +200,13 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
      * questo caso il method è posiziona pastore
      *
-     * @param idShepard Pastore da posizionare
+     * @param idShepherd Pastore da posizionare
      * @return Strada scelta dal client
      * @throws RemoteException
      */
-    public int getPlaceShepard(int idShepard) throws RemoteException {
+    public int getPlaceShepherd(int idShepherd) throws RemoteException {
         tempRoad = null;
-        typeOfInteraction.placeShepard(idShepard);
+        typeOfInteraction.placeShepherd(idShepherd);
 
         synchronized (objectSyncronize) {
             while (tempRoad == null) {
@@ -273,25 +273,25 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
      * questo caso il method è refresh aggiungi pastore
      *
-     * @param idShepard Pastore da aggiungere
+     * @param idShepherd Pastore da aggiungere
      * @param idRoad Strada posizionamento
      * @param isMine
      * @throws RemoteException
      */
-    public void refreshAddShepard(int idShepard, int idRoad, boolean isMine) throws RemoteException {
-        typeOfInteraction.refreshAddShepard(idShepard, idRoad, isMine);
+    public void refreshAddShepherd(int idShepherd, int idRoad, boolean isMine) throws RemoteException {
+        typeOfInteraction.refreshAddShepherd(idShepherd, idRoad, isMine);
     }
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
      * questo caso il method è refresh muovi pastore
      *
-     * @param idShepard Pastore da muovere
+     * @param idShepherd Pastore da muovere
      * @param idRoad Strada destinazione
      * @throws RemoteException
      */
-    public void refreshMoveShepard(int idShepard, int idRoad) throws RemoteException {
-        typeOfInteraction.refreshMoveShepard(idShepard, idRoad);
+    public void refreshMoveShepherd(int idShepherd, int idRoad) throws RemoteException {
+        typeOfInteraction.refreshMoveShepherd(idShepherd, idRoad);
     }
 
     /**
@@ -320,9 +320,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
 
     /**
      * Viene invocato dal server inoltra la chiamata al typeOfInteraction, in
-     * questo caso il method è refresh fance
+     * questo caso il method è refresh fence
      *
-     * @param idRoad Strada dove posizionare la fance
+     * @param idRoad Strada dove posizionare la fence
      * @throws RemoteException
      */
     public void refreshAddFence(int idRoad) throws RemoteException {
@@ -384,6 +384,9 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         typeOfInteraction.errorMessage(message);
     }
 
+    /**
+     * Effettua l'unicast remote object e l'unbind
+     */
     private void turnOff() {
         try {
             UnicastRemoteObject.unexportObject(this, true);
@@ -398,18 +401,44 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
         }
     }
 
+    /**
+     * Riceve dal server e invia al type of interaction il player aggiunto
+     *
+     * @param nickname
+     * @param idPlayer
+     * @throws RemoteException
+     */
     public void refreshAddPlayer(String nickname, int idPlayer) throws RemoteException {
         typeOfInteraction.refreshAddPlayer(nickname, idPlayer);
     }
 
+    /**
+     * Riceve dal server e invia al type of interaction il player in attesa
+     *
+     * @param idPlayer
+     * @throws RemoteException
+     */
     public void refreshWaitPlayer(int idPlayer) throws RemoteException {
         typeOfInteraction.refreshWaitPlayer(idPlayer);
     }
 
+    /**
+     * Riceve dal server e invia al type of interaction il player disconnesso
+     *
+     * @param idPlayer
+     * @param turnOff
+     * @throws RemoteException
+     */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) throws RemoteException {
         typeOfInteraction.refreshTurnOffPlayer(idPlayer, turnOff);
     }
 
+    /**
+     * Riceve dal server e invia al type of interaction il current player
+     *
+     * @param idPlayer
+     * @throws RemoteException
+     */
     public void refreshTurnPlayer(int idPlayer) throws RemoteException {
         typeOfInteraction.refreshTurnPlayer(idPlayer);
     }

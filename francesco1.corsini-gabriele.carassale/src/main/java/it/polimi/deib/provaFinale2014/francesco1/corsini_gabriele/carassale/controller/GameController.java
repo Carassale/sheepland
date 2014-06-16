@@ -7,7 +7,7 @@ import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mode
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.GameTable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Road;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Sheep;
-import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepard;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Shepherd;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.model.Wolf;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.TypeAnimal;
@@ -43,7 +43,7 @@ public class GameController {
         this.connectionManager = null;
 
         inizializeGame(numberOfPlayers);
-        placeShepards();
+        placeShepherds();
     }
 
     /**
@@ -134,7 +134,7 @@ public class GameController {
 
     /**
      * Method che serve a creare la Plancia di gioco con tutti i suoi
-     * componenti(Mappa, Animali, Shepards, ecc...) e a distribuire le carte
+     * componenti(Mappa, Animali, Shepherds, ecc...) e a distribuire le carte
      * iniziali
      */
     private void inizializeGame(int numberOfPlayers) {
@@ -280,13 +280,13 @@ public class GameController {
      *
      * @param numPlayer
      */
-    private void placeShepards() {
+    private void placeShepherds() {
         int i = 0;
         do {
             Player currentPlayer = playerPool.getFirstPlayer();
-            Shepard shep = new Shepard(gameTable.getMap().getRoads().get(i), currentPlayer, i);
-            currentPlayer.getShepards().add(shep);
-            gameTable.getShepards().add(shep);
+            Shepherd shep = new Shepherd(gameTable.getMap().getRoads().get(i), currentPlayer, i);
+            currentPlayer.getShepherds().add(shep);
+            gameTable.getShepherds().add(shep);
             i++;
         } while (!(playerPool.nextPlayer()));
     }
@@ -297,48 +297,48 @@ public class GameController {
      *
      * @param isGameTwoPlayers True se il gioco a composto da solo due giocatori
      */
-    private void placeShepards(boolean isGameTwoPlayers) {
-        int idShepard = 0;
+    private void placeShepherds(boolean isGameTwoPlayers) {
+        int idShepherd = 0;
 
         //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
         Road roadChoosen = new Road(100);
         do {
             //questo fa che il ciclo for venga eseguito una sola volta
-            int shepardsPerPlayer = 1;
+            int shepherdsPerPlayer = 1;
 
             //in questo caso farà il ciclo for per 2 volte
             if (isGameTwoPlayers) {
-                shepardsPerPlayer = 0;
+                shepherdsPerPlayer = 0;
             }
 
-            for (; shepardsPerPlayer < 2; shepardsPerPlayer++) {
-                boolean playerHasPlacedShepard;
+            for (; shepherdsPerPlayer < 2; shepherdsPerPlayer++) {
+                boolean playerHasPlacedShepherd;
                 boolean skip;
                 Player currentPlayer = playerPool.getFirstPlayer();
 
                 do {
-                    playerHasPlacedShepard = false;
+                    playerHasPlacedShepherd = false;
                     skip = false;
 
-                    roadChoosen = connectionManager.getPlacedShepard(idShepard);
+                    roadChoosen = connectionManager.getPlacedShepherd(idShepherd);
                     if (roadChoosen != null) {
-                        if (!roadChoosen.hasShepard()) {
-                            playerHasPlacedShepard = true;
+                        if (!roadChoosen.hasShepherd()) {
+                            playerHasPlacedShepherd = true;
                         }
                     } else {
-                        playerHasPlacedShepard = true;
+                        playerHasPlacedShepherd = true;
                         skip = true;
                     }
-                } while (!playerHasPlacedShepard);
+                } while (!playerHasPlacedShepherd);
 
                 if (!skip) {
-                    Shepard shepard = new Shepard(roadChoosen, currentPlayer, idShepard);
-                    currentPlayer.getShepards().add(shepard);
-                    gameTable.getShepards().add(shepard);
+                    Shepherd shepherd = new Shepherd(roadChoosen, currentPlayer, idShepherd);
+                    currentPlayer.getShepherds().add(shepherd);
+                    gameTable.getShepherds().add(shepherd);
 
-                    connectionManager.refreshAddShepard(idShepard, roadChoosen.getId());
+                    connectionManager.refreshAddShepherd(idShepherd, roadChoosen.getId());
                 }
-                idShepard++;
+                idShepherd++;
             }
 
             connectionManager.nextPlayerConnections();
@@ -533,9 +533,9 @@ public class GameController {
         }
 
         if (numberOfPlayers > 2) {
-            placeShepards(false);
+            placeShepherds(false);
         } else {
-            placeShepards(true);
+            placeShepherds(true);
         }
         playGame();
         declareWinner();

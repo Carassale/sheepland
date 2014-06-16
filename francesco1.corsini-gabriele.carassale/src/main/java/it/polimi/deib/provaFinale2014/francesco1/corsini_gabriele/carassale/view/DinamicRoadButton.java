@@ -20,10 +20,11 @@ public class DinamicRoadButton extends JPanel {
     private final GUIDinamic gui;
     private BufferedImage icon;
     private final int road;
-    private int idShepard;
-    private boolean isShepard;
+    private int idShepherd;
+    private boolean isShepherd;
     private boolean isMouseOver = false;
     private final BufferedImageContainer imagePool;
+    private static final String CURSOR2 = "Custom cursor2";
     //principalmente usato per dei test
     private boolean hasFence;
 
@@ -40,7 +41,7 @@ public class DinamicRoadButton extends JPanel {
         this.imagePool = imagePool;
 
         hasFence = false;
-        isShepard = false;
+        isShepherd = false;
         icon = imagePool.getTransparent();
 
         this.setLayout(null);
@@ -86,22 +87,22 @@ public class DinamicRoadButton extends JPanel {
      * @param id is of the shepherd
      * @param twoPlayer
      */
-    public void setShepard(int id, boolean twoPlayer) {
+    public void setShepherd(int id, boolean twoPlayer) {
         int i = id;
         if (twoPlayer) {
             i = (int) i / 2;
         }
         if (i == 0) {
-            icon = imagePool.getRedShepard();
+            icon = imagePool.getRedShepherd();
         } else if (i == 1) {
-            icon = imagePool.getBlueShepard();
+            icon = imagePool.getBlueShepherd();
         } else if (i == 2) {
-            icon = imagePool.getYellowShepard();
+            icon = imagePool.getYellowShepherd();
         } else if (i == 3) {
-            icon = imagePool.getGreenShepard();
+            icon = imagePool.getGreenShepherd();
         }
-        isShepard = true;
-        idShepard = id;
+        isShepherd = true;
+        idShepherd = id;
         repaint();
     }
 
@@ -111,8 +112,8 @@ public class DinamicRoadButton extends JPanel {
     public void setFence() {
 
         icon = imagePool.getFence();
-        isShepard = false;
-        idShepard = -1;
+        isShepherd = false;
+        idShepherd = -1;
         hasFence = true;
         repaint();
 
@@ -123,17 +124,17 @@ public class DinamicRoadButton extends JPanel {
      *
      * @return true if there is a shepherd
      */
-    public boolean isIsShepard() {
-        return isShepard;
+    public boolean isIsShepherd() {
+        return isShepherd;
     }
 
     /**
      * Setter to set the presence of a shepherd
      *
-     * @param isShepard
+     * @param isShepherd
      */
-    public void setIsShepard(boolean isShepard) {
-        this.isShepard = isShepard;
+    public void setIsShepherd(boolean isShepherd) {
+        this.isShepherd = isShepherd;
     }
 
     /**
@@ -255,27 +256,27 @@ public class DinamicRoadButton extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (gui.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD) {
 
-                if (!isShepard) {
+                if (!isShepherd) {
                     gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
-                    gui.sendPlaceShepard(road);
+                    gui.sendPlaceShepherd(road);
                 } else {
                     gui.updateText("C'è un altro pastore su questa Strada! ");
                 }
 
             } else if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
-                if (isShepard) {
-                    for (ViewShepard ele : gui.getShepards()) {
+                if (isShepherd) {
+                    for (ViewShepherd ele : gui.getShepherds()) {
                         if (ele.getIsOwned() && ele.getPostition() == road) {
                             gui.updateText("Selezionare strada dove spostarlo");
                             gui.setGUIDinamicState(GUIDinamicState.MOVESHEPARDTO);
                             gui.setTempRoad(road);
-                            gui.setTempIdShepard(idShepard);
+                            gui.setTempIdShepherd(idShepherd);
                         }
                     }
                 }
             } else if (gui.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO && road != gui.getTempRoad()) {
-                if (!isShepard) {
-                    gui.sendMoveShepard(road);
+                if (!isShepherd) {
+                    gui.sendMoveShepherd(road);
                     gui.setGUIDinamicState(GUIDinamicState.WAITINGFORSERVER);
                 } else {
                     gui.updateText("C'è un altro pastore su questa Strada!");
@@ -298,7 +299,7 @@ public class DinamicRoadButton extends JPanel {
          * @param e event
          */
         public void mouseReleased(MouseEvent e) {
-            //Ã¨ presente ma non utilizzato poichÃ¨ non mi serve ma sto implementando un interfaccia che ha questo metodo
+            //Ã¨ presente ma non utilizzato poichÃ¨ non mi serve ma sto implementando un interfaccia che ha questo method
         }
 
         /**
@@ -308,8 +309,8 @@ public class DinamicRoadButton extends JPanel {
          */
         public void mouseEntered(MouseEvent e) {
             if (gui.getGUIDinamicState() == GUIDinamicState.WAITINGFORPLAYER) {
-                if (isShepard) {
-                    for (ViewShepard ele : gui.getShepards()) {
+                if (isShepherd) {
+                    for (ViewShepherd ele : gui.getShepherds()) {
                         if (ele.getIsOwned() && ele.getPostition() == road) {
                             isMouseOver = true;
                             changeSize();
@@ -323,7 +324,7 @@ public class DinamicRoadButton extends JPanel {
             }
             if (gui.getGUIDinamicState() == GUIDinamicState.PLACESHEPARD || gui.getGUIDinamicState() == GUIDinamicState.MOVESHEPARDTO) {
 
-                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor2(), new Point(0, 0), "Custom cursor2");
+                Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor2(), new Point(0, 0), CURSOR2);
                 gui.setCursor(cursor);
 
             }
@@ -335,14 +336,14 @@ public class DinamicRoadButton extends JPanel {
          * @param e event
          */
         public void mouseExited(MouseEvent e) {
-            if (isShepard) {
+            if (isShepherd) {
                 isMouseOver = false;
                 changeSize();
             } else {
                 changeOpacity(false);
             }
             repaint();
-            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor(), new Point(0, 0), "Custom cursor2");
+            Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(imagePool.getCursor(), new Point(0, 0), CURSOR2);
             gui.setCursor(cursor);
 
         }
