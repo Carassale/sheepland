@@ -20,7 +20,7 @@ public class BufferedImageContainer {
             lamb, heart, lambPlus1, heartbroken, sadFace, winner, splat,
             bloodDrop, joinSheeps1, joinSheeps2, moveSheep1, moveSheep2,
             killSheep1, killSheep2, cursor, cursor2, backCurrentPlayer, backPlayer,
-            redPlayer, bluPlayer, greenPlayer, yellowPlayer;
+            redPlayer, bluPlayer, greenPlayer, yellowPlayer, arrow;
 
     /**
      * Standard constructor
@@ -59,6 +59,7 @@ public class BufferedImageContainer {
             bluPlayer = ImageIO.read(new File(".\\src\\main\\resources\\bluPlayer.png"));
             greenPlayer = ImageIO.read(new File(".\\src\\main\\resources\\greenPlayer.png"));
             yellowPlayer = ImageIO.read(new File(".\\src\\main\\resources\\yellowPlayer.png"));
+            arrow = ImageIO.read(new File(".\\src\\main\\resources\\arrow.png"));
         } catch (IOException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
         }
@@ -357,4 +358,9 @@ public class BufferedImageContainer {
         return yellowPlayer;
     }
 
+    public BufferedImage getArrow() {
+        return arrow;
+    }
+
+    
 }
