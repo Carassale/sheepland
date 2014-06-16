@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +23,6 @@ public class LineCommand implements TypeOfInteraction {
 
     private BufferedReader inKeyboard;
     private PrintWriter outVideo;
-    private List<String> player;
 
     private ConnectionClient connectionClient;
 
@@ -36,7 +33,6 @@ public class LineCommand implements TypeOfInteraction {
      */
     public LineCommand(ConnectionClient connectionClient) {
         this.connectionClient = connectionClient;
-        player = new ArrayList<String>();
         inKeyboard = new BufferedReader(new InputStreamReader(System.in));
         outVideo = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)), true);
     }
@@ -415,7 +411,6 @@ public class LineCommand implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshAddPlayer(String nickname, int idPlayer) {
-        player.add(idPlayer, nickname);
         print("Il giocatore " + nickname + " si è unito alla partita.");
     }
 
@@ -425,8 +420,7 @@ public class LineCommand implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshWaitPlayer(int idPlayer) {
-        String s = player.get(idPlayer);
-        print("Il  giocatore " + s + " si è scollegato, resta in attesa...");
+        print("Il  giocatore " + idPlayer + " si è scollegato, resta in attesa...");
     }
 
     /**
@@ -436,11 +430,10 @@ public class LineCommand implements TypeOfInteraction {
      * @param turnOff True se disconnesso, false se riconnesso
      */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
-        String s = player.get(idPlayer);
         if (turnOff) {
-            print("Il giocatore " + s + " è uscito dalla partita.");
+            print("Il giocatore " + idPlayer + " è uscito dalla partita.");
         } else {
-            print("Il giocatore " + s + " è rientrato nella partita.");
+            print("Il giocatore " + idPlayer + " è rientrato nella partita.");
         }
     }
 
@@ -450,7 +443,6 @@ public class LineCommand implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshTurnPlayer(int idPlayer) {
-        String s = player.get(idPlayer);
-        print("È il turno di " + s);
+        print("È il turno del player " + idPlayer);
     }
 }
