@@ -121,7 +121,22 @@ public class MainClient {
         do {
             print("Inserisci il tuo nickname");
             nickname = read();
+            //nickname = generateRandomNickname();
         } while ("".equals(nickname));
+    }
+
+    private String generateRandomNickname() {
+        int r;
+        String str = "";
+        char c;
+        for (int i = 0; i < 10; i++) {
+            r = (int) (Math.random() * 26);
+            r += 97;
+            c = (char) r;
+            str += c;
+        }
+        print(str);
+        return str;
     }
 
     /**
