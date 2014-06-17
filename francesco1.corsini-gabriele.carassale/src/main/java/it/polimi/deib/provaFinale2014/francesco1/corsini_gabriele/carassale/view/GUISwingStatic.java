@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
@@ -933,8 +932,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshAddPlayer(String nickname, int idPlayer) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+        messageText("Aggiunto giocatore " + nickname + ", il suo id è " + idPlayer);
     }
 
     /**
@@ -943,8 +941,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshWaitPlayer(int idPlayer) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+        messageText("In attesa del player " + idPlayer);
     }
 
     /**
@@ -954,8 +951,11 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param turnOff True se disconnesso, false se riconnesso
      */
     public void refreshTurnOffPlayer(int idPlayer, boolean turnOff) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (turnOff) {
+            messageText("Il player " + idPlayer + " si è disconnesso");
+        } else {
+            messageText("Il  player " + idPlayer + " si è ricollegato");
+        }
     }
 
     /**
@@ -964,7 +964,6 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * @param idPlayer Id del player
      */
     public void refreshTurnPlayer(int idPlayer) {
-        //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet.");
+        messageText("È il turno del player " + idPlayer);
     }
 }

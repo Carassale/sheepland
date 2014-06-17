@@ -3,7 +3,6 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.mod
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
