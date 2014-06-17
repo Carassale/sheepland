@@ -135,7 +135,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
             pSounth = new GUIDinamicPanel("src\\main\\resources\\DefaultBoardRegionMapping.png");
             pMainEast.add(pSounth, BorderLayout.CENTER);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
 
         lAction1 = new JLabel("Non è il tuo turno");

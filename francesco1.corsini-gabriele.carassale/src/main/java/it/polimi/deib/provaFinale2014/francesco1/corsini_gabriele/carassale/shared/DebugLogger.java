@@ -1,5 +1,6 @@
 package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -10,12 +11,22 @@ import java.util.logging.Logger;
 public class DebugLogger {
 
     private static final boolean DEBUG = true;
-    private static final boolean PARENT_HANDLERS_ON = true;
+
+    private static Level type = DebugLogger.getLevel();
 
     /**
      * Nasconde il costruttore di default
      */
     private DebugLogger() {
+    }
+
+    /**
+     * Restituisce il livello da utilizzare
+     *
+     * @return
+     */
+    public static Level getLevel() {
+        return type;
     }
 
     /**
@@ -36,7 +47,8 @@ public class DebugLogger {
      * Nasconde il logger dalle stampe
      */
     public static void turnOffExceptionLog() {
-        Logger.getLogger(DebugLogger.class
-                .getName()).setUseParentHandlers(DebugLogger.PARENT_HANDLERS_ON);
+        Logger.getLogger(DebugLogger.class.getName()).setLevel(java.util.logging.Level.OFF);
+        type = Level.OFF;
+        //Logger.getLogger(DebugLogger.class.getName()).setUseParentHandlers(DebugLogger.PARENT_HANDLERS_ON);
     }
 }

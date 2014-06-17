@@ -65,7 +65,7 @@ public abstract class ConnectionManager implements Runnable {
         try {
             gameController.start(playerConnections.size());
         } catch (FinishGame ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -88,7 +88,7 @@ public abstract class ConnectionManager implements Runnable {
                 System.out.println(thisGame + ": In attesa di tutti i giocatori...");
                 Thread.sleep(2000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
         System.out.println(thisGame + ": Tutto pronto, il gioco ha inizio.");
@@ -302,7 +302,7 @@ public abstract class ConnectionManager implements Runnable {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
 
@@ -475,7 +475,7 @@ public abstract class ConnectionManager implements Runnable {
             try {
                 objectSyncronized.wait(ConnectionVariable.TIME_MAX);
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
 

@@ -61,7 +61,7 @@ public class BufferedImageContainer {
             yellowPlayer = ImageIO.read(new File(".\\src\\main\\resources\\yellowPlayer.png"));
             arrow = ImageIO.read(new File(".\\src\\main\\resources\\arrow.png"));
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -139,7 +139,7 @@ public class BufferedImageContainer {
             }
             return ImageIO.read(new File(".\\src\\main\\resources\\Recinti\\recinto_" + i + ".png"));
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
         return null;
     }

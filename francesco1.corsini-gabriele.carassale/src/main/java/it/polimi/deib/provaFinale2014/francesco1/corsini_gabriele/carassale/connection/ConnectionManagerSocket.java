@@ -94,7 +94,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
             }
             return actionDo;
         } catch (PlayerDisconnect ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             if (checkCurrentClientDisconnected()) {
                 //fa rifare la mossa
                 return false;
@@ -157,13 +157,13 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 return true;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (ShepherdException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             return false;
@@ -205,7 +205,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 return true;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             return false;
@@ -236,10 +236,10 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 return true;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (CardException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             return false;
@@ -278,7 +278,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 return true;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             return false;
@@ -317,13 +317,13 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 return true;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (WrongDiceNumberException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                 printCorrectAction();
                 return true;
             }
@@ -404,7 +404,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
                 //ricava l'oggetto e lo invia
                 return gameController.getGameTable().idToRoad(id);
             } catch (PlayerDisconnect ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
 
                 if (checkCurrentClientDisconnected()) {
                     repeat = true;
@@ -698,7 +698,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
         try {
             return Boolean.valueOf(playerConnection.getNextLine());
         } catch (PlayerDisconnect ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             return true;
         }
     }

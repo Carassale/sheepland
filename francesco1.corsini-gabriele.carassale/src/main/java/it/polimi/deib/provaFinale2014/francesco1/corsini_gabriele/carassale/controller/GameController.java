@@ -371,9 +371,9 @@ public class GameController {
                         alredyPicked[random] = true;
                         playerHasPicked = true;
                     } catch (CoinException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                     } catch (CardException ex) {
-                        Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                        Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                     }
 
                 }
@@ -474,7 +474,7 @@ public class GameController {
             wolf.move(road);
             return true;
         } catch (WrongDiceNumberException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             return false;
         }
     }

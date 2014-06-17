@@ -42,7 +42,7 @@ public class DinamicSheepButton extends JButton {
                 sheepImagesSmall[t] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\sheep_small_" + t + ".png"));
 
             } catch (IOException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
         this.setLayout(null);
@@ -65,7 +65,7 @@ public class DinamicSheepButton extends JButton {
                 icon = ImageIO.read(new File(".\\src\\main\\resources\\transparent.png"));
                 isInvisible = true;
             } catch (IOException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         } else {
             if (sheepNumber > 5) {

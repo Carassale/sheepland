@@ -78,7 +78,7 @@ public class ServerManagerSocket implements ServerManager {
 
             waitPlayer();
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -238,7 +238,7 @@ public class ServerManagerSocket implements ServerManager {
                     playerConnection = new ArrayList<PlayerConnection>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
 

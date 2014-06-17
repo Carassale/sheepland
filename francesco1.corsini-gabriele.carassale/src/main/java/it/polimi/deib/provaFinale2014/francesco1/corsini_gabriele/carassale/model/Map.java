@@ -33,7 +33,7 @@ public class Map {
                 roads.add(generateRoad(i));
             } catch (TerrainBoundariesExeption ex) {
             Logger.getLogger(DebugLogger.class.getName())
-                    .log(Level.SEVERE, "Errore nella creazione delle strade", ex);
+                    .log(DebugLogger.getLevel(), "Errore nella creazione delle strade", ex);
             }
         }
         for (int i = 0; i < 19; i++) {

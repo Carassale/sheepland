@@ -70,7 +70,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
 
             outVideo.println("RMI: Registry registrato, ora accetto richieste");
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -86,7 +86,7 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
             try {
                 games.add(new ConnectionManagerRMI(playerConnection, map));
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             outVideo.println("RMI: Gioco avviato, " + games.size());
             playerConnection = new ArrayList<PlayerConnection>();
@@ -240,9 +240,9 @@ public class ServerManagerRMI implements ServerManager, ServerRMI {
                     playerConnection = new ArrayList<PlayerConnection>();
                 }
             } catch (InterruptedException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
         }
 

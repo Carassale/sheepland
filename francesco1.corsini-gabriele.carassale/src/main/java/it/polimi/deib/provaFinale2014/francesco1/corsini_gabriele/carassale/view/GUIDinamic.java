@@ -172,7 +172,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         try {
             panel = new GUIDinamicPanel("src\\main\\resources\\Table.png");
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
         panel.setLocation(100, 0);
         Dimension dim2 = new Dimension(750, 700);

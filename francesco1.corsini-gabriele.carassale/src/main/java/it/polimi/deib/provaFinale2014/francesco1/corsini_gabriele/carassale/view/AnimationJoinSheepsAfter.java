@@ -60,7 +60,7 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
             }
             Thread.sleep(2500);
         } catch (Exception ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
         this.setVisible(false);
     }

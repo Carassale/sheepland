@@ -32,7 +32,7 @@ public class RoadTest {
             road.connectTerrainRoad(terrain0);
             road.connectTerrainRoad(terrain1);
         } catch (TerrainBoundariesExeption ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
 
     }

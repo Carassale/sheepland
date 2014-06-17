@@ -130,7 +130,7 @@ public class DinamicJoinSheepsButton extends JPanel {
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                 }
 
             }

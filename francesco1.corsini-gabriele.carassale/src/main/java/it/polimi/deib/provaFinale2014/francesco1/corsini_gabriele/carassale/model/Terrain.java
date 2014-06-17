@@ -62,7 +62,7 @@ public class Terrain {
             this.animals.remove(this.animals.indexOf(animal));
         } catch (ArrayIndexOutOfBoundsException e) {
             Logger.getLogger(DebugLogger.class.getName())
-                    .log(Level.SEVERE, "Errore eliminazione animale dal territorio(usato per spostare o uccidere animali", e);
+                    .log(DebugLogger.getLevel(), "Errore eliminazione animale dal territorio(usato per spostare o uccidere animali", e);
         }
     }
 

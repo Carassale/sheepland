@@ -91,7 +91,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 player.getClientRMI().wakeUp();
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -133,13 +133,13 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (ShepherdException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
@@ -178,7 +178,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
@@ -205,10 +205,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (CardException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
@@ -244,7 +244,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return;
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             }
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
@@ -278,14 +278,14 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return;
             } catch (CoinException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (MoveException ex) {
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             } catch (WrongDiceNumberException ex) {
                 printCorrectAction();
                 printErrorMessage(ex.getMessage());
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                 setCanDoAction(true);
                 return;
             }
@@ -311,7 +311,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 player.getClientRMI().messageText(Message.ACTION_OK.toString());
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -332,7 +332,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 player.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -353,7 +353,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 player.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -375,7 +375,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 player.getClientRMI().errorMessage(message);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -406,7 +406,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 //ricava l'oggetto e lo invia
                 return gameController.getGameTable().idToRoad(id);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
 
                 repeat = checkCurrentClientDisconnected();
             }
@@ -428,7 +428,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     playerConnection.getClientRMI().refreshMoveShepherd(idShepherd, idRoad);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
                 }
             }
         }
@@ -470,7 +470,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().refreshAddShepherd(idShepherd, idRoad, isMine);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -507,7 +507,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     playerConnection.getClientRMI().refreshMoveAnimal(idAnimal, idTerrain);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
                 }
             }
         }
@@ -528,7 +528,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -546,7 +546,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     playerConnection.getClientRMI().refreshKillAnimal(idAnimal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
                 }
             }
         }
@@ -567,7 +567,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     playerConnection.getClientRMI().refreshTransformAnimal(idAnimal, kindFinal);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
                 }
             }
         }
@@ -587,7 +587,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().refreshCard(kind, isSold);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -606,7 +606,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().refreshCoin(coins, addCoin);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -625,7 +625,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     playerConnection.getClientRMI().refreshAddFence(road.getId());
                 } catch (RemoteException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
                 }
             }
         }
@@ -655,7 +655,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -666,7 +666,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
             playerConnection.getClientRMI().refreshAddPlayer(nikcname, idPlayer);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -677,7 +677,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
             playerConnection.getClientRMI().refreshWaitPlayer(idPlayer);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -688,7 +688,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
             playerConnection.getClientRMI().refreshTurnOffPlayer(idPlayer, turnOff);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
     }
 
@@ -699,7 +699,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
             playerConnection.getClientRMI().refreshTurnPlayer(idPlayer);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
         }
 
     }
@@ -717,7 +717,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             playerConnection.getClientRMI().messageText(message);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
 
         }
     }
@@ -737,7 +737,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 return false;
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
         return true;
     }
@@ -752,7 +752,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 try {
                     objectSyncrinized.wait();
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                    Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
                 }
             }
         }
@@ -807,7 +807,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         try {
             thisPlayer.getClientRMI().setConnectionRMI(this);
         } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -846,7 +846,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             UnicastRemoteObject.unexportObject(this, true);
             turnOffGame();
         } catch (NoSuchObjectException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -877,7 +877,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             try {
                 playerConnection.getClientRMI().setConnectionRMI(this);
             } catch (RemoteException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), Message.DISCONNECTED.toString(), ex);
             }
         }
     }

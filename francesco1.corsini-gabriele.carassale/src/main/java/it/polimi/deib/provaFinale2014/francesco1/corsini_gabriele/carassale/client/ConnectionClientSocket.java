@@ -114,7 +114,7 @@ public class ConnectionClientSocket implements ConnectionClient {
                     gameFinish = true;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Si è spento il server.. bye bye", ex);
+                Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), "Si è spento il server.. bye bye", ex);
                 gameFinish = true;
             }
         }
@@ -140,7 +140,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveAnimal(idAnimal, idTerrain);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -155,7 +155,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -168,7 +168,7 @@ public class ConnectionClientSocket implements ConnectionClient {
             typeOfInteraction.refreshKillAnimal(idAnimal);
 
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -182,7 +182,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshTransformAnimal(idAnimal, kind);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -199,7 +199,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddShepherd(idShepherd, idRoad, isMine);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -212,7 +212,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddFence(idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -226,7 +226,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshMoveShepherd(idShepherd, idRoad);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -244,7 +244,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCard(kind, isSold);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -262,7 +262,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshCoin(coins, addCoin);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -276,7 +276,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshWinner(finalPosition, finalScore);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -380,7 +380,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshAddPlayer(nickname, idPlayer);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -390,7 +390,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshWaitPlayer(idPlayer);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -401,7 +401,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshTurnOffPlayer(idPlayer, turnOff);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 
@@ -411,7 +411,7 @@ public class ConnectionClientSocket implements ConnectionClient {
 
             typeOfInteraction.refreshTurnPlayer(idPlayer);
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
     }
 }

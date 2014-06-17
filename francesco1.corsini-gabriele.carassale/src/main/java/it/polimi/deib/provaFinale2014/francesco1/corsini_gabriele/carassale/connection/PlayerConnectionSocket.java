@@ -83,7 +83,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
         try {
             return inSocket.nextLine();
         } catch (NoSuchElementException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             throw new PlayerDisconnect(StatusMessage.PLAYER_DISCONNECTED.toString());
         }
     }
@@ -98,7 +98,7 @@ public class PlayerConnectionSocket extends PlayerConnection {
         try {
             return Integer.valueOf(inSocket.nextLine());
         } catch (NoSuchElementException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
             throw new PlayerDisconnect(StatusMessage.PLAYER_DISCONNECTED.toString());
         }
     }

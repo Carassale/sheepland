@@ -56,7 +56,7 @@ public class LineCommand implements TypeOfInteraction {
         try {
             s = inKeyboard.readLine();
         } catch (IOException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), ex.getMessage(), ex);
         }
         return s;
     }
@@ -86,7 +86,7 @@ public class LineCommand implements TypeOfInteraction {
         try {
             Integer.parseInt(str);
         } catch (NumberFormatException nfe) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, "Non è stato inserito un valore numerico", nfe);
+            Logger.getLogger(DebugLogger.class.getName()).log(DebugLogger.getLevel(), "Non è stato inserito un valore numerico", nfe);
             return false;
         }
         return true;
