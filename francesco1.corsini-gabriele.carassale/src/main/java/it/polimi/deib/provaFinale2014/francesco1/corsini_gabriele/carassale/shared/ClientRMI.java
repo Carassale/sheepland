@@ -31,9 +31,10 @@ public interface ClientRMI extends Remote {
      * Viene chiamato dal connectionManagerRMI, risveglia il client e chiede di
      * fare le azioni
      *
+     * @return 
      * @throws RemoteException
      */
-    void wakeUp() throws RemoteException;
+    String wakeUp() throws RemoteException;
 
     /**
      * Viene chiamato dal connectionManagerRMI, chiede di posizionare il pastore
@@ -181,13 +182,6 @@ public interface ClientRMI extends Remote {
      * @throws RemoteException
      */
     boolean isReady() throws RemoteException;
-
-    /**
-     * Controlloa se il client è ancora collegato
-     *
-     * @throws RemoteException
-     */
-    void isAlive() throws RemoteException;
 
     /**
      * Stampa un messaggio di errore

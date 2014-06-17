@@ -307,7 +307,9 @@ public abstract class ConnectionManager implements Runnable {
         }
 
         for (PlayerConnection playerConnection : playerConnections) {
-            refreshSingleAddPlayer(thisPlayer, playerConnection.getNickname(), playerConnection.getIdPlayer());
+            if (map.isOnLine(playerConnection.getNickname())) {
+                refreshSingleAddPlayer(thisPlayer, playerConnection.getNickname(), playerConnection.getIdPlayer());
+            }
             refreshSingleTurnOffPlayer(playerConnection, thisPlayer.getIdPlayer(), false);
         }
         refreshSingleTurnPlayer(thisPlayer, currentPlayer.getIdPlayer());

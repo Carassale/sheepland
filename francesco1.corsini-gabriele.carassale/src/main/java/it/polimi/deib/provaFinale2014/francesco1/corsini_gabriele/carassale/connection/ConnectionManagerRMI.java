@@ -34,7 +34,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private Object objectSyncrinized = new Object();
     private boolean canDoAction;
     private int actionDone;
-    private CheckThread checkThread;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -48,7 +47,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     public ConnectionManagerRMI(List<PlayerConnection> playerConnections, MapServerPlayer map) throws RemoteException {
         super(playerConnections, map);
         UnicastRemoteObject.exportObject(this, 0);
-        checkThread = new CheckThread();
     }
 
     /**
@@ -86,8 +84,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private void doAction() {
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             try {
                 player.getClientRMI().wakeUp();
             } catch (RemoteException ex) {
@@ -304,8 +304,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private void printCorrectAction() {
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             try {
                 player.getClientRMI().messageText(Message.ACTION_OK.toString());
             } catch (RemoteException ex) {
@@ -323,8 +325,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private void printUncorectAction() {
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             try {
                 player.getClientRMI().errorMessage(Message.ACTION_ERROR.toString());
             } catch (RemoteException ex) {
@@ -342,8 +346,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private void printImpossibleSelection() {
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             try {
                 player.getClientRMI().errorMessage(Message.IMPOSSIBLE_SELECTION.toString());
             } catch (RemoteException ex) {
@@ -362,8 +368,10 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private void printErrorMessage(String message) {
         PlayerConnectionRMI player = (PlayerConnectionRMI) currentPlayer;
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             try {
                 player.getClientRMI().errorMessage(message);
             } catch (RemoteException ex) {
@@ -389,6 +397,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
         boolean repeat;
         do {
+            repeat = false;
+
             try {
                 //dice al client di piazzare Shepherd
                 Integer id = player.getClientRMI().getPlaceShepherd(idShepherd);
@@ -419,8 +429,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                     playerConnection.getClientRMI().refreshMoveShepherd(idShepherd, idRoad);
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -463,8 +471,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshAddShepherd(idShepherd, idRoad, isMine);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -502,8 +508,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                     playerConnection.getClientRMI().refreshMoveAnimal(idAnimal, idTerrain);
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -525,8 +529,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshAddAnimal(idAnimal, idTerrain, kind);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -545,8 +547,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                     playerConnection.getClientRMI().refreshKillAnimal(idAnimal);
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -678,8 +678,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshWaitPlayer(idPlayer);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(player);
         }
     }
 
@@ -853,14 +851,13 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     }
 
     /**
-     * Pulische l'hash map, effettua l'unbind, setta la variabile isFinishGame a
-     * true, interrompe il thread parallelo
+     * Pulische l'hash map, effettua l'unbind e setta la variabile isFinishGame
+     * a true
      */
     @Override
     public void turnOffGame() {
         super.turnOffGame();
         unbind();
-        checkThread.interrupt();
     }
 
     @Override
@@ -883,47 +880,5 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
             }
         }
-    }
-
-    /**
-     * È un thread parallelo che controlla ogni 5 secondi se qualche client si è
-     * disconnesso
-     */
-    private class CheckThread extends Thread {
-
-        /**
-         * Crea l'oggetto
-         */
-        public CheckThread() {
-        }
-
-        /**
-         * Controlla finchè il gioco non è finito lo stato dei player
-         */
-        @Override
-        public void run() {
-            while (!isFinishGame) {
-                checkStatus();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                }
-            }
-        }
-
-        /**
-         * Chiama per ogni player il method isStillConnected per controllare se
-         * sono ancora connessi
-         */
-        private void checkStatus() {
-            for (PlayerConnection playerConnection : playerConnections) {
-                if (map.isOnLine(playerConnection.getNickname())
-                        && !playerConnection.isStillConnected()) {
-                    clientDisconnected(playerConnection);
-                }
-            }
-        }
-
     }
 }

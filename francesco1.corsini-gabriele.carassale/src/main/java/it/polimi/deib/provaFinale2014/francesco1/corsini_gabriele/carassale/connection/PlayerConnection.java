@@ -51,13 +51,4 @@ public abstract class PlayerConnection {
         return null;
     }
 
-    /**
-     * Serve a controlare se il plyaer è ancora connesso, non implementata qui
-     * ma nelle classi che la estendono
-     *
-     * @return True se è connesso
-     */
-    public boolean isStillConnected() {
-        return false;
-    }
 }

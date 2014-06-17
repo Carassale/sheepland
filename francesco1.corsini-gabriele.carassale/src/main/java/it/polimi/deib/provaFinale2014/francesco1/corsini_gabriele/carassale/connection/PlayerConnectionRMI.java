@@ -80,20 +80,4 @@ public class PlayerConnectionRMI extends PlayerConnection implements Serializabl
         this.nickname = nickname;
     }
 
-    /**
-     * Serve a controlare se il plyaer è ancora connesso
-     *
-     * @return True se è connesso
-     */
-    @Override
-    public boolean isStillConnected() {
-        try {
-            getClientRMI().isAlive();
-            return true;
-        } catch (RemoteException ex) {
-            Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-            return false;
-        }
-    }
-
 }

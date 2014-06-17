@@ -2,6 +2,7 @@ package it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.cli
 
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ClientRMI;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionRMI;
+import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.ConnectionVariable;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.DebugLogger;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.Message;
 import it.polimi.deib.provaFinale2014.francesco1.corsini_gabriele.carassale.shared.StatusMessage;
@@ -26,14 +27,13 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     private TypeOfInteraction typeOfInteraction;
     private boolean isReady = false;
 
-    private static final int PORT = 3001;
-
     /**
      * Questa variabile server solo per il method placeShepherd, serve per
      * aspettare la scelta del clinet
      */
     private Integer tempRoad = null;
     private Object objectSyncronize = new Object();
+    private boolean doAction = false;
 
     /**
      * È il collegamento allo stub del serve sul quale il client può eseguire
@@ -51,7 +51,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     public ConnectionClientRMI(String nickname) throws RemoteException {
         this.nickname = nickname;
         try {
-            Registry registry = LocateRegistry.getRegistry(PORT);
+            Registry registry = LocateRegistry.getRegistry(ConnectionVariable.PORT_RMI);
             registry.rebind(nickname, this);
 
         } catch (RemoteException ex) {
@@ -122,6 +122,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
         }
+
+        setActionDo(true);
     }
 
     /**
@@ -138,6 +140,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
         }
+
+        setActionDo(true);
     }
 
     /**
@@ -153,6 +157,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
         }
+
+        setActionDo(true);
     }
 
     /**
@@ -168,6 +174,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
         }
+
+        setActionDo(true);
     }
 
     /**
@@ -183,6 +191,8 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, StatusMessage.SERVER_OFF.toString(), ex);
             turnOff();
         }
+
+        setActionDo(true);
     }
 
     /**
@@ -192,8 +202,29 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
      *
      * @throws RemoteException
      */
-    public void wakeUp() throws RemoteException {
+    public String wakeUp() throws RemoteException {
+        doAction = false;
+
         typeOfInteraction.clickAction();
+
+        synchronized (objectSyncronize) {
+            while (!doAction) {
+                try {
+                    objectSyncronize.wait();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
+            }
+        }
+
+        return "Mossa selezionata";
+    }
+
+    private void setActionDo(boolean doAction) {
+        synchronized (objectSyncronize) {
+            this.doAction = doAction;
+            objectSyncronize.notifyAll();
+        }
     }
 
     /**
@@ -344,17 +375,6 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     }
 
     /**
-     * Questo method serve al server a sapere se il client è ancora collegato,
-     * non fa nulla perchè se il server non riesce a invocare il method ha già
-     * la conferma che è scollegato
-     *
-     * @throws java.rmi.RemoteException
-     */
-    public void isAlive() throws RemoteException {
-        //non fa nulla, serve al serve a sapere se è collegato
-    }
-
-    /**
      * Effettua l'unbind e spegne il client
      *
      * @throws RemoteException
@@ -390,7 +410,7 @@ public class ConnectionClientRMI extends UnicastRemoteObject implements Connecti
     private void turnOff() {
         try {
             UnicastRemoteObject.unexportObject(this, true);
-            Registry registry = LocateRegistry.getRegistry(PORT);
+            Registry registry = LocateRegistry.getRegistry(ConnectionVariable.PORT_RMI);
             registry.unbind(nickname);
         } catch (NoSuchObjectException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
