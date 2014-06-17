@@ -12,7 +12,7 @@ public class DebugLogger {
 
     private static final boolean DEBUG = true;
 
-    private static Level type = DebugLogger.getLevel();
+    private static Level type = Level.SEVERE;
 
     /**
      * Nasconde il costruttore di default
