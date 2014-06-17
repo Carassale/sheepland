@@ -29,7 +29,6 @@ public abstract class ConnectionManager implements Runnable {
     GameController gameController;
     MapServerPlayer map;
     boolean isConnected;
-    int shepherdToPlace = 0;
     boolean isFinishGame = false;
 
     private String thisGame;
@@ -320,10 +319,10 @@ public abstract class ConnectionManager implements Runnable {
         refreshAllFence(thisPlayer);
 
         if (thisGamePlayer.getShepherds().isEmpty()) {
-            shepherdToPlace = 1;
+            thisPlayer.setShepherdToPlace(1);
         }
         if (playerConnections.size() == 2 && thisGamePlayer.getShepherds().isEmpty()) {
-            shepherdToPlace = 2;
+            thisPlayer.setShepherdToPlace(2);
         }
 
         printMessage(thisPlayer, Message.RECONNECTED.toString());
@@ -596,7 +595,7 @@ public abstract class ConnectionManager implements Runnable {
         }
 
         int idShepherd = gameController.getGameTable().getShepherds().get(gameController.getGameTable().getShepherds().size() - 1).getId();
-        while (shepherdToPlace > 0) {
+        while (player.getShepherdToPlace() > 0) {
             idShepherd++;
 
             //onde evitare errore di compilazione perché sosteneva che nel do/while poteva non essere inizializzato
@@ -627,7 +626,7 @@ public abstract class ConnectionManager implements Runnable {
                 refreshAddShepherd(idShepherd, roadChoosen.getId());
             }
 
-            shepherdToPlace--;
+            player.setShepherdToPlace(player.getShepherdToPlace() - 1);
         }
     }
 

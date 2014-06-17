@@ -60,7 +60,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
      */
     @Override
     public void startAction() throws FinishGame {
-        if (shepherdToPlace > 0) {
+        if (currentPlayer.getShepherdToPlace() > 0) {
             placeShepherd(currentPlayer);
         }
 

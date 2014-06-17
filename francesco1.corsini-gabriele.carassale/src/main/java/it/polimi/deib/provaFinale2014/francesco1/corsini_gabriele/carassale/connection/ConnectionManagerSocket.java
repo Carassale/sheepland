@@ -49,7 +49,7 @@ public class ConnectionManagerSocket extends ConnectionManager {
      */
     @Override
     public void startAction() throws FinishGame {
-        if (shepherdToPlace > 0) {
+        if (currentPlayer.getShepherdToPlace() > 0) {
             placeShepherd(currentPlayer);
         }
 

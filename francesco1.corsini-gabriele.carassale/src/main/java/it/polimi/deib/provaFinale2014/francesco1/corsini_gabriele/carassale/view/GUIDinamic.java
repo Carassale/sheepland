@@ -425,7 +425,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
                 ele.setForeground(Color.WHITE);
             }
             layeredPane.add(ele, Integer.valueOf(10));
-            ele.setLocation(995, 150 + (i * 35));
+            ele.setLocation(995, 100 + (i * 40));
             ele.setSize(ele.getPreferredSize());
             ele.setVisible(true);
             sideLabels.add(ele);
@@ -763,6 +763,25 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             waitingForAddAnimal = false;
             animationJoinSheepSuccesfull(false);
         }
+        addMessageToList(message);
+        updateSideLabels();
+    }
+
+    private void addMessageToList(String str) {
+        String message = "";
+        int max = 40;
+
+        int i = 0;
+        for (; i <= str.length() - max; i += max) {
+            if (i + max <= str.length()) {
+                message += str.substring(i, i + max) + "<br />";
+            }
+        }
+        message += str.substring(i, str.length());
+
+        message = "<html>" + message + "</html>";
+
+        //se la lista messaggi è piena
         if (messages.size() == 7) {
             messages.remove(0);
             messages.add(message);
@@ -770,7 +789,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
             //altrimenti
             messages.add(message);
         }
-        updateSideLabels();
     }
 
     /**
@@ -1049,14 +1067,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      * @param message to be written
      */
     public void messageText(String message) {
-        //se la lista messaggi è piena
-        if (messages.size() == 7) {
-            messages.remove(0);
-            messages.add(message);
-        } else {
-            //altrimenti
-            messages.add(message);
-        }
+        addMessageToList(message);
         updateSideLabels();
     }
 
