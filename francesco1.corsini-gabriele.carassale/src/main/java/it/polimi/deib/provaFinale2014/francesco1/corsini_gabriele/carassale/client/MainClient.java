@@ -39,7 +39,6 @@ public class MainClient {
 
     ConnectionClient connectionClient;
 
-    private Socket socket;
     private BufferedReader inSocket;
     private PrintWriter outSocket;
     private BufferedReader inKeyboard;
@@ -121,22 +120,7 @@ public class MainClient {
         do {
             print("Inserisci il tuo nickname");
             nickname = read();
-            //nickname = generateRandomNickname();
         } while ("".equals(nickname));
-    }
-
-    private String generateRandomNickname() {
-        int r;
-        String str = "";
-        char c;
-        for (int i = 0; i < 10; i++) {
-            r = (int) (Math.random() * 26);
-            r += 97;
-            c = (char) r;
-            str += c;
-        }
-        print(str);
-        return str;
     }
 
     /**
@@ -206,7 +190,7 @@ public class MainClient {
      */
     private void tryConnectionSocket() throws FinishGame {
         //Il client tenta di connettersi tramite socket
-        socket = null;
+        Socket socket = null;
         try {
             socket = new Socket(ADDRESS, ConnectionVariable.PORT_SOCKET);
             outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);

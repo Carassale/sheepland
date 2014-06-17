@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 public class AnimationMoveSheep extends JPanel implements Runnable {
 
     private BufferedImage icon;
-    private BufferedImage[] image = new BufferedImage[2];
 
     /**
      * Standard contructor
@@ -26,6 +25,8 @@ public class AnimationMoveSheep extends JPanel implements Runnable {
      * @param cont which image was displaying when the animation was started
      */
     public AnimationMoveSheep(int cont) {
+        BufferedImage[] image = new BufferedImage[2];
+
         try {
             image[0] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_1.png"));
             image[1] = ImageIO.read(new File(".\\src\\main\\resources\\Pecore\\runningLeft_2.png"));

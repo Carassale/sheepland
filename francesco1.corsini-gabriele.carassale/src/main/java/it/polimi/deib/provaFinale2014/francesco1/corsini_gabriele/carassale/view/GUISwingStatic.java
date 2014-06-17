@@ -30,11 +30,10 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
 
     private GUIState state;
 
-    private JPanel pMainEast, pMainEastNorth, pMainWest, pMain, pNorth, pSounth,
+    private JPanel pMainEastNorth, pMainWest, pMain, pNorth, pSounth,
             pTerrain, pRoads, pActions, pTerrainType, pLabelAction, pLabelStatus;
     private JLabel lAction1, lAction2, lAction3, lCoins, lShepherd1, lShepherd2;
     private final JLabel[] lTerrainCards = new JLabel[6];
-    private JMenu file;
     private JButton bMoveShepherd, bMoveSheep, bBuyCard, bJoinSheeps, bKillSheep;
     private JButton bPlain, bForest, bRiver, bDesert, bMountain, bField;
     private final List<JButton> bTerrain = new ArrayList<JButton>();
@@ -86,14 +85,14 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         JMenuBar menubar = new JMenuBar();
         ImageIcon icon = new ImageIcon("exit.png");
 
-        file = new JMenu("File");
+        JMenu file = new JMenu("File");
         file.setMnemonic(KeyEvent.VK_F);
 
         JMenuItem eMenuFileItem = new JMenuItem("Exit", icon);
         eMenuFileItem.setMnemonic(KeyEvent.VK_E);
         eMenuFileItem.setToolTipText("Exit application");
 
-        pMainEast = new JPanel();
+        JPanel pMainEast = new JPanel();
         add(pMainEast, BorderLayout.EAST);
         pMainWest = new JPanel();
         add(pMainWest, BorderLayout.WEST);
@@ -289,7 +288,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
      * Method chiamato quando si vuole far iniziare il turno al giocatore
      */
     public void clickAction() {
-        lAction1.setText("E' il tuo Turno!");
+        lAction1.setText("È il tuo Turno!");
         activateActions(true);
     }
 
@@ -532,7 +531,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
                 || TypeAnimal.RAM.toString().equals(animalType)
                 || TypeAnimal.LAMB.toString().equals(animalType)) {
             animals.add(new ViewAnimal(i, terrain, animalType));
-            lAction2.setText("E' nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
+            lAction2.setText("È nata/o un nuovo " + animalType + " sul terreno numero " + terrain);
         }
     }
 
@@ -544,7 +543,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
     public void refreshKillAnimal(int id) {
         ViewAnimal sheepToKill = idToViewSheep(id);
         animals.remove(sheepToKill);
-        lAction2.setText("E' stato ucciso l'Animale numero " + id);
+        lAction2.setText("È stato ucciso l'Animale numero " + id);
     }
 
     /**
@@ -580,7 +579,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
                 lShepherd2.setText("Secondo pastore in posizione nel terreno numero: " + newShep.getPostition());
             }
         }
-        lAction2.setText("E' stato aggiunto un Pastore sulla strada " + road);
+        lAction2.setText("È stato aggiunto un Pastore sulla strada " + road);
 
     }
 
@@ -597,7 +596,7 @@ public class GUISwingStatic extends JFrame implements TypeOfInteraction {
         roadsWithFence[pos] = true;
         bRoad.get(pos).setText("Coperta da Cancello");
         shepherd.setPostition(road);
-        lAction2.setText("E' stato mosso un Pastore sulla strada " + road);
+        lAction2.setText("È stato mosso un Pastore sulla strada " + road);
 
         if (shepherd.isIsFirst()) {
             lShepherd1.setText("Primo pastore in posizione nel terreno numero: " + shepherd.getPostition());

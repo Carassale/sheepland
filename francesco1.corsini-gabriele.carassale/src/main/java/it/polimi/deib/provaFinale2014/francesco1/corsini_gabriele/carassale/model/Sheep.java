@@ -46,7 +46,7 @@ public class Sheep extends Animal {
     }
 
     /**
-     * Restituisce un genere casuale quando cresce. E' public poiché può anche
+     * Restituisce un genere casuale quando cresce. È public poiché può anche
      * crescere in mezzo alla partita(e quindi è chiamato dal Turn)
      *
      * @return Stringa con maschi o femmina

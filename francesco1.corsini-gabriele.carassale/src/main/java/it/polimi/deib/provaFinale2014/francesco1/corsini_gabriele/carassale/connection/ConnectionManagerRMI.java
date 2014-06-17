@@ -34,6 +34,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     private Object objectSyncrinized = new Object();
     private boolean canDoAction;
     private int actionDone;
+    private CheckThread checkThread;
 
     /**
      * Inizializza il Thread passandoli come parametro This (Runnable) e lo
@@ -47,6 +48,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     public ConnectionManagerRMI(List<PlayerConnection> playerConnections, MapServerPlayer map) throws RemoteException {
         super(playerConnections, map);
         UnicastRemoteObject.exportObject(this, 0);
+        checkThread = new CheckThread();
     }
 
     /**
@@ -142,8 +144,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
         } else {
-            setRepeatAction(true);
             printUncorectAction();
+            setRepeatAction(true);
         }
     }
 
@@ -163,6 +165,7 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
 
         if (s == null || t == null) {
             printImpossibleSelection();
+            setRepeatAction(true);
             return;
         }
 
@@ -180,8 +183,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
         } else {
-            setRepeatAction(true);
             printUncorectAction();
+            setRepeatAction(true);
         }
     }
 
@@ -210,8 +213,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
         } else {
-            setRepeatAction(true);
             printUncorectAction();
+            setRepeatAction(true);
         }
     }
 
@@ -246,8 +249,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
         } else {
-            setRepeatAction(true);
             printUncorectAction();
+            setRepeatAction(true);
         }
     }
 
@@ -289,8 +292,8 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             gameController.getPlayerPool().getFirstPlayer().clearLastAction();
             setRepeatAction(true);
         } else {
-            setRepeatAction(true);
             printUncorectAction();
+            setRepeatAction(true);
         }
     }
 
@@ -565,8 +568,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                     playerConnection.getClientRMI().refreshTransformAnimal(idAnimal, kindFinal);
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -587,8 +588,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshCard(kind, isSold);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -608,8 +607,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshCoin(coins, addCoin);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -629,8 +626,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                     playerConnection.getClientRMI().refreshAddFence(road.getId());
                 } catch (RemoteException ex) {
                     Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-                    clientDisconnected(playerConnection);
                 }
             }
         }
@@ -661,8 +656,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshWinner(player.getFinalPosition(), player.getFinalScore());
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -674,8 +667,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshAddPlayer(nikcname, idPlayer);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(player);
         }
     }
 
@@ -700,8 +691,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshTurnOffPlayer(idPlayer, turnOff);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(player);
         }
     }
 
@@ -713,8 +702,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
             playerConnection.getClientRMI().refreshTurnPlayer(idPlayer);
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
-
-            clientDisconnected(player);
         }
 
     }
@@ -734,7 +721,6 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         } catch (RemoteException ex) {
             Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
 
-            clientDisconnected(playerConnection);
         }
     }
 
@@ -843,6 +829,17 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
         }
     }
 
+    @Override
+    public boolean checkCurrentClientDisconnected() {
+        if (super.checkCurrentClientDisconnected()) {
+            return true;
+        } else {
+            isConnected = false;
+            setCanDoAction(true);
+            return false;
+        }
+    }
+
     /**
      * Effettua l'unicast
      */
@@ -856,13 +853,14 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
     }
 
     /**
-     * Pulische l'hash map, effettua l'unbind e setta la variabile isFinishGame
-     * a true
+     * Pulische l'hash map, effettua l'unbind, setta la variabile isFinishGame a
+     * true, interrompe il thread parallelo
      */
     @Override
     public void turnOffGame() {
         super.turnOffGame();
         unbind();
+        checkThread.interrupt();
     }
 
     @Override
@@ -885,5 +883,47 @@ public class ConnectionManagerRMI extends ConnectionManager implements Connectio
                 Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, Message.DISCONNECTED.toString(), ex);
             }
         }
+    }
+
+    /**
+     * È un thread parallelo che controlla ogni 5 secondi se qualche client si è
+     * disconnesso
+     */
+    private class CheckThread extends Thread {
+
+        /**
+         * Crea l'oggetto
+         */
+        public CheckThread() {
+        }
+
+        /**
+         * Controlla finchè il gioco non è finito lo stato dei player
+         */
+        @Override
+        public void run() {
+            while (!isFinishGame) {
+                checkStatus();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+                }
+            }
+        }
+
+        /**
+         * Chiama per ogni player il method isStillConnected per controllare se
+         * sono ancora connessi
+         */
+        private void checkStatus() {
+            for (PlayerConnection playerConnection : playerConnections) {
+                if (map.isOnLine(playerConnection.getNickname())
+                        && !playerConnection.isStillConnected()) {
+                    clientDisconnected(playerConnection);
+                }
+            }
+        }
+
     }
 }

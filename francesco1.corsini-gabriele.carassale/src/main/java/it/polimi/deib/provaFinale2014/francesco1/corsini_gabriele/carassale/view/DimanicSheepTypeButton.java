@@ -18,9 +18,7 @@ public class DimanicSheepTypeButton extends JPanel {
     private int terrain;
     private GUIDinamic gui;
     private final BufferedImage icon;
-    private final BufferedImageContainer imagePool;
     private final String type;
-    private boolean isVisible;
     private ViewAnimal selectedAnimal;
 
     /**
@@ -32,11 +30,11 @@ public class DimanicSheepTypeButton extends JPanel {
      * @param pool imagePool
      */
     public DimanicSheepTypeButton(GUIDinamic aThis, int terr, String t, BufferedImageContainer pool) {
+        BufferedImageContainer imagePool = pool;
+
         terrain = terr;
         gui = aThis;
-        imagePool = pool;
         type = t;
-        isVisible = false;
 
         if (TypeAnimal.WHITE_SHEEP.toString().equals(type)) {
             icon = imagePool.getWhiteSheep();
@@ -113,16 +111,12 @@ public class DimanicSheepTypeButton extends JPanel {
             if (TypeAnimal.WHITE_SHEEP.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.WHITE_SHEEP.toString())) {
                 selectedAnimal = ele;
                 gui.activateSheepType(terrain, true, TypeAnimal.WHITE_SHEEP.toString());
-                isVisible = true;
             } else if (TypeAnimal.LAMB.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.LAMB.toString())) {
                 selectedAnimal = ele;
                 gui.activateSheepType(terrain, true, TypeAnimal.LAMB.toString());
-                isVisible = true;
             } else if (TypeAnimal.RAM.toString().equals(type) && ele.getPosition() == terrain && ele.getType().equals(TypeAnimal.RAM.toString())) {
                 selectedAnimal = ele;
                 gui.activateSheepType(terrain, true, TypeAnimal.RAM.toString());
-                isVisible = true;
-
             }
         }
     }

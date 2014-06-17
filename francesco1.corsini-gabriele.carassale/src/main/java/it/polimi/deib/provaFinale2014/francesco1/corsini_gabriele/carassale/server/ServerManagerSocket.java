@@ -45,7 +45,6 @@ public class ServerManagerSocket implements ServerManager {
     private MapServerPlayer map;
 
     private Socket socket;
-    private BufferedReader inSocket;
 
     private String nickname;
 
@@ -150,7 +149,7 @@ public class ServerManagerSocket implements ServerManager {
     public void checkNickname() throws IOException {
         boolean doRepeat;
         do {
-            inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader inSocket = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter outSocket = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             nickname = inSocket.readLine();
 

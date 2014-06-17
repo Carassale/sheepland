@@ -19,10 +19,14 @@ public enum GUIState {
     PLACESHEPARD(9),
     MOVESHEPARDTO(10);
 
-    private int index;
+    private final int index;
 
     private GUIState(int index) {
         this.index = index;
+    }
+
+    public int getValue() {
+        return index;
     }
 
 }

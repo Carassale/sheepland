@@ -142,15 +142,4 @@ public class PlayerConnectionSocket extends PlayerConnection {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
-    /**
-     * Serve a controlare se il plyaer è ancora connesso
-     *
-     * @return True se è connesso
-     */
-    @Override
-    public boolean isStillConnected() {
-        outSocket.println("String prova");
-        return !outSocket.checkError();
-    }
 }

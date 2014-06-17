@@ -38,7 +38,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
 
     private GUIDinamicState state;
 
-    private GUIDinamicPanel panel;
     private final JButton[] cards = new JButton[6];
     private final DinamicSheepButton[] jbuttonSheeps = new DinamicSheepButton[19];
     private final DinamicKillSheepButton[] jbuttonKillSheep = new DinamicKillSheepButton[19];
@@ -52,7 +51,6 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     private final DinamicRoadButton[] roads = new DinamicRoadButton[42];
     private JLayeredPane layeredPane;
     private JLabel textLabel, coinNumber, coinPicture, fenceCounter, borderPicture, winner, sadFace;
-    private JTextArea istructionLabel;
     private JLabel[] backPlayer = new JLabel[4];
     private JLabel[] iconPlayer = new JLabel[4];
     private JLabel[] nicknamePlayer = new JLabel[4];
@@ -170,6 +168,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         JComponent newContentPane = layeredPane;
         newContentPane.setOpaque(true);
         setContentPane(newContentPane);
+        GUIDinamicPanel panel = null;
         try {
             panel = new GUIDinamicPanel("src\\main\\resources\\Table.png");
         } catch (IOException ex) {
@@ -405,7 +404,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         textLabel.setSize(textLabel.getPreferredSize());
         textLabel.setVisible(true);
 
-        istructionLabel = new JTextArea(Message.ISTRUCTION.toString());
+        JTextArea istructionLabel = new JTextArea(Message.ISTRUCTION.toString());
         istructionLabel.setFont(new Font(FONT_FANTASY, Font.PLAIN, 12));
         istructionLabel.setOpaque(true);
         istructionLabel.setForeground(Color.WHITE);
@@ -750,7 +749,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
      */
     public void clickAction() {
         state = GUIDinamicState.WAITINGFORPLAYER;
-        updateText("E' il tuo turno");
+        updateText("È il tuo turno");
     }
 
     /**
@@ -783,6 +782,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
     public void placeShepherd(int idShepherd) {
         tempShepherd = idShepherd;
         state = GUIDinamicState.PLACESHEPARD;
+        updateText("È il tuo turno");
         messageText("Posizionare Pastore su Strada");
     }
 
@@ -1294,7 +1294,7 @@ public class GUIDinamic extends JFrame implements TypeOfInteraction {
         backPlayer[idPlayer].setVisible(!turnOff);
         iconPlayer[idPlayer].setVisible(!turnOff);
         nicknamePlayer[idPlayer].setVisible(!turnOff);
-        
+
         selectionArrow[idPlayer].setVisible(false);
 
         if (turnOff) {

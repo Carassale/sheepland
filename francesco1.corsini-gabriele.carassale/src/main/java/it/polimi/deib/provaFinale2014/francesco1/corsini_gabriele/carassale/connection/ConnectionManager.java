@@ -33,7 +33,6 @@ public abstract class ConnectionManager implements Runnable {
     boolean isFinishGame = false;
 
     private String thisGame;
-    private CheckThread checkThread;
     private final Object objectSyncronized = new Object();
 
     /**
@@ -94,8 +93,6 @@ public abstract class ConnectionManager implements Runnable {
             }
         }
         System.out.println(thisGame + ": Tutto pronto, il gioco ha inizio.");
-
-        checkThread = new CheckThread();
     }
 
     /**
@@ -312,6 +309,7 @@ public abstract class ConnectionManager implements Runnable {
 
         for (PlayerConnection playerConnection : playerConnections) {
             refreshSingleAddPlayer(thisPlayer, playerConnection.getNickname(), playerConnection.getIdPlayer());
+            refreshSingleTurnOffPlayer(playerConnection, thisPlayer.getIdPlayer(), false);
         }
         refreshSingleTurnPlayer(thisPlayer, currentPlayer.getIdPlayer());
 
@@ -326,12 +324,6 @@ public abstract class ConnectionManager implements Runnable {
         }
         if (playerConnections.size() == 2 && thisGamePlayer.getShepherds().isEmpty()) {
             shepherdToPlace = 2;
-        }
-
-        for (PlayerConnection playerConnection : playerConnections) {
-            if (playerConnection.getIdPlayer() != thisPlayer.getIdPlayer()) {
-                refreshSingleTurnOffPlayer(playerConnection, thisPlayer.getIdPlayer(), false);
-            }
         }
 
         printMessage(thisPlayer, Message.RECONNECTED.toString());
@@ -557,7 +549,6 @@ public abstract class ConnectionManager implements Runnable {
      */
     public void turnOffGame() {
         cleanMap();
-        checkThread.interrupt();
         System.out.println(thisGame + ": Fine parita!");
         isFinishGame = true;
     }
@@ -650,45 +641,4 @@ public abstract class ConnectionManager implements Runnable {
         startThread();
     }
 
-    /**
-     * È un thread parallelo che controlla ogni 5 secondi se qualche client si è
-     * disconnesso
-     */
-    private class CheckThread extends Thread {
-
-        /**
-         * Crea l'oggetto, crea un thread passandoli this come parametro e fa la
-         * start
-         */
-        public CheckThread() {
-        }
-
-        /**
-         * Controlla finchè il gioco non è finito lo stato dei player
-         */
-        @Override
-        public void run() {
-            while (!isFinishGame) {
-                checkStatus();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(DebugLogger.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-                }
-            }
-        }
-
-        /**
-         * Chiama per ogni player il method isStillConnected per controllare se
-         * sono ancora connessi
-         */
-        private void checkStatus() {
-            for (PlayerConnection playerConnection : playerConnections) {
-                if (!playerConnection.isStillConnected()) {
-                    clientDisconnected(playerConnection);
-                }
-            }
-        }
-
-    }
 }

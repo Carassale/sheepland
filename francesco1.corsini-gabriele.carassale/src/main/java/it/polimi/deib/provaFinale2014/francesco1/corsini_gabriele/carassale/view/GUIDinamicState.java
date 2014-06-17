@@ -15,10 +15,14 @@ public enum GUIDinamicState {
     MOVESHEEP(5),
     INITIALIZATION(6);
 
-    private int index;
+    private final int index;
 
     private GUIDinamicState(int index) {
         this.index = index;
+    }
+
+    public int getValue() {
+        return index;
     }
 
 }

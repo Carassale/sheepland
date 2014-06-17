@@ -18,7 +18,6 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
 
     private Thread runner;
     private final boolean isSuccesfull;
-    private final BufferedImageContainer imagePool;
 
     /**
      * Constructor that already knows the outcome of the action already
@@ -28,9 +27,8 @@ public class AnimationJoinSheepsAfter extends JPanel implements Runnable {
      * @param image the Pool of the images
      */
     public AnimationJoinSheepsAfter(boolean isSuccesfull, BufferedImageContainer image) {
-
+        BufferedImageContainer imagePool = image;
         this.isSuccesfull = isSuccesfull;
-        imagePool = image;
 
         icon = imagePool.getHeart();
         icon2 = imagePool.getLambPlus1();

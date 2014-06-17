@@ -16,10 +16,9 @@ public final class ServerVariable {
 
     /**
      * È il tempo di attesa massimo che il thread SocketWaitingTimer aspetta
-     * prima di avviare forzatamente una partita 2min = 2*60*1000 = 120.000
-     * millisec
+     * prima di avviare forzatamente una partita 30*1000 = 30 secondi
      */
-    public static final int TIMEOUT = 10000;
+    public static final int TIMEOUT = 30000;
 
     /**
      * Nasconde il costruttor di base

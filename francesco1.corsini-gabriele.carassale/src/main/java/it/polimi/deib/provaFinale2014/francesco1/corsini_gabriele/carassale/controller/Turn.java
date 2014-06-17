@@ -80,7 +80,7 @@ public class Turn {
     }
 
     /**
-     * gestisce il movimento pecora nera. E' protected e non private poichè lo
+     * gestisce il movimento pecora nera. È protected e non private poichè lo
      * devo chiamare per far fare il test su di lui
      *
      * @return true se la BlackSheep è stata mossa
