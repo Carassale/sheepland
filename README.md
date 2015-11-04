@@ -1,3 +1,5 @@
+Progetto realizzato per il corso di Software Engineering al Politecnico di Milano.
+
 Progetto realizzato con IDE NetBeans
 
 Per eseguire:
